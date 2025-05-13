@@ -11,13 +11,25 @@
 /* ************************************************************************** */
 
 #include <readline/readline.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int	main(void)
 {
 	char	*line;
+	int		err_code;
 
-	line = readline("prompt >> ");
-	free(line);
+	//t_tree	my_tree;
+	err_code = 0;
+	while (err_code == 0)
+	{
+		line = readline("prompt >> ");
+		printf("line = %s\n", line);
+		//my_tree = parse_line(line);
+		//if my_tree != NULL
+		//	exec_line(my_tree);
+		free(line);
+	}
 	return (0);
 }

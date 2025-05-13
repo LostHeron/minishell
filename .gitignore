@@ -2,3 +2,8 @@
 minishell
 *.o
 .obj/
+file[1-9]
+log[1-9]
+file.bash
+log
+*.log
