@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/05/07 13:55:33 by jweber           ###   ########.fr        #
+#    Updated: 2025/05/13 18:14:12 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,14 @@ LIBFT_DIR := src/libft/
 
 LIBRARY := -lreadline -lft -L $(LIBFT_DIR) 
 
-INCLUDES := -I $(LIBFT_DIR)includes
+INCLUDES := -I $(LIBFT_DIR)includes -I includes/
+
+PARSING_DIR := src/parsing/
+PARSING_FILES := parsing.c \
+				 print_ast.c \
 
 C_FILES := minishell.c \
+		   $(addprefix $(PARSING_DIR),$(PARSING_FILES)) \
 
 OBJ_DIR := .obj/
 OBJ_FILES := $(addprefix $(OBJ_DIR), $(C_FILES:.c=.o))
@@ -43,10 +48,10 @@ git_update :
 $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBRARY)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJ_DIR):
+$(OBJ_DIR)$(PARSING_DIR):
 	mkdir -p $@
 
 clean:
