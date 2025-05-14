@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/05/14 16:49:44 by jweber           ###   ########.fr       */
+/*   Created: 2025/05/14 16:40:45 by jweber            #+#    #+#             */
+/*   Updated: 2025/05/14 18:04:27 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
+#include "ft_io.h"
 
-# define WHITE_SPACES "\t\n\v\f\r"
-
-typedef struct s_ast
+void	print_error(int err_code)
 {
-	char	*value;
-	void	*left;
-	void	*right;
-}	t_ast;
-
-# define ERROR_UNCLOSED_S_QUOTES 10
-# define ERROR_UNCLOSED_D_QUOTES 11
-# define ERROR_UNCLOSED_PARENTHESIS 12
-
-#endif
+	if (err_code == ERROR_UNCLOSED_S_QUOTES)
+		ft_printf_fd(2, "syntax error : unclose single quotes\n");
+	else if (err_code == ERROR_UNCLOSED_D_QUOTES)
+		ft_printf_fd(2, "syntax error : unclosed double quotes\n");
+	else if (err_code == ERROR_UNCLOSED_PARENTHESIS)
+		ft_printf_fd(2, "syntax error : unclose parenthesis quotes\n");
+}

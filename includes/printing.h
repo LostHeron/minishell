@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   printing.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/05/14 16:49:44 by jweber           ###   ########.fr       */
+/*   Created: 2025/05/14 16:39:58 by jweber            #+#    #+#             */
+/*   Updated: 2025/05/14 16:44:04 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PRINTING_H
+# define PRINTING_H
 
-# define WHITE_SPACES "\t\n\v\f\r"
+void	print_error(int	err_code);
 
-typedef struct s_ast
-{
-	char	*value;
-	void	*left;
-	void	*right;
-}	t_ast;
-
-# define ERROR_UNCLOSED_S_QUOTES 10
-# define ERROR_UNCLOSED_D_QUOTES 11
-# define ERROR_UNCLOSED_PARENTHESIS 12
-
-#endif
+#endif // !PRINTING_H

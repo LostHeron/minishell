@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   ft_strstr_args.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 17:43:05 by jweber            #+#    #+#             */
-/*   Updated: 2025/05/13 17:43:33 by jweber           ###   ########.fr       */
+/*   Created: 2025/05/14 15:28:36 by jweber            #+#    #+#             */
+/*   Updated: 2025/05/14 17:57:40 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
 
-int	parsing(char *line, t_ast *ast)
+char	*ft_strstr_args(char *line, char **args)
 {
-	(void) line;
-	(void) ast;
-	return (0);
+	(void)line;
+	(void)args;
+	return (NULL);
 }

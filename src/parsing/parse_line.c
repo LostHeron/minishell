@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/05/14 16:49:44 by jweber           ###   ########.fr       */
+/*   Created: 2025/05/13 17:43:05 by jweber            #+#    #+#             */
+/*   Updated: 2025/05/14 18:15:27 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "parsing.h"
+#include "minishell.h"
+#include <stdlib.h>
 
-# define WHITE_SPACES "\t\n\v\f\r"
-
-typedef struct s_ast
+int	parse_line(char *line, t_ast **p_ast)
 {
-	char	*value;
-	void	*left;
-	void	*right;
-}	t_ast;
+	char	**token;
+	int		err_code;
 
-# define ERROR_UNCLOSED_S_QUOTES 10
-# define ERROR_UNCLOSED_D_QUOTES 11
-# define ERROR_UNCLOSED_PARENTHESIS 12
-
-#endif
+	(void) line;
+	(void) p_ast;
+	err_code = 0;
+	token = ft_split_args(line, NULL, &err_code);
+	if (err_code != 0)
+		return (err_code);
+	return (0);
+}

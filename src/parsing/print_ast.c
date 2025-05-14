@@ -6,13 +6,13 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:53:06 by jweber            #+#    #+#             */
-/*   Updated: 2025/05/13 18:11:23 by jweber           ###   ########.fr       */
+/*   Updated: 2025/05/14 15:06:55 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_ast(t_ast ast)
+void	print_ast(t_ast *ast)
 {
 	(void) ast;
 	return ;
