@@ -7,3 +7,5 @@ log[1-9]
 file.bash
 log
 *.log
+*.bash
+*.sh
