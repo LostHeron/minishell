@@ -29,7 +29,8 @@ PARSING_DIR := src/parsing/
 PARSING_FILES := parse_line.c \
 				 print_ast.c \
 				 parsing_utils.c \
-				 ft_count_words_args.c \
+				 init_args.c \
+				 get_next_token.c \
 				 ft_split_args.c \
 				 ft_strstr_args.c \
 

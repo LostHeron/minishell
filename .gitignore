@@ -1,3 +1,5 @@
+.gdbinit
+.gdb*
 .obj*/
 *.json
 minishell

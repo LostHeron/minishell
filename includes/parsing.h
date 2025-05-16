@@ -14,17 +14,13 @@
 # define PARSING_H
 
 # include "minishell.h"
+# include "ft_vectors.h"
 
-int		parse_line(char *line, t_ast **p_ast);
-void	print_ast(t_ast *ast);
-char	**ft_split_args(char *line, char **args, int *p_err_code);
-int		ft_countwords_args(char *line, char **args, int *p_err_code);
-char	*ft_strstr_args(char *line, char **args);
-int		handle_single_quotes(char *line, int *p_i, \
-						int *p_word_i, int *p_err_code);
-int		handle_double_quotes(char *line, int *p_i, \
-						int *p_word_i, int *p_err_code);
-int		handle_parenthesis(char *line, int *p_i, \
-						int *p_word_i, int *p_err_code);
+int			parse_line(char *line, t_ast **p_ast);
+void		print_ast(t_ast *ast);
+t_vector	ft_split_args(char *line, char **args, int *p_err_code);
+char		*get_next_token(char **p_line, char **args, int *p_err_code);
+char		**init_args(int *p_err_code);
+size_t		ft_strstr_args(char *line, char **args);
 
 #endif

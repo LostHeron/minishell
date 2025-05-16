@@ -1,0 +1,99 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_token.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/16 09:19:57 by jweber            #+#    #+#             */
+/*   Updated: 2025/05/16 09:22:08 by jweber           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+#include "parsing.h"
+#include "ft_string.h"
+#include <stdio.h>
+
+static ssize_t	get_bloc_size(char *line, int *p_err_code);
+static ssize_t	get_end(char *line, char c);
+static ssize_t	get_word_size(char *line, char **args);
+
+char	*get_next_token(char **p_line, char **args, int *p_err_code)
+{
+	ssize_t	token_size;
+	char	*token;
+	ssize_t	len_strstr;
+
+	len_strstr = ft_strstr_args(*p_line, args);
+	if (ft_strchr("\"('", (*p_line)[0]) != NULL)
+		token_size = get_bloc_size(*p_line, p_err_code);
+	else if (len_strstr != 0)
+		token_size = len_strstr;
+	else
+		token_size = get_word_size(*p_line, args);
+	if (token_size < 0)
+	{
+		return (NULL);
+	}
+	token = ft_strndup(*p_line, token_size);
+	if (token == NULL)
+	{
+		*p_err_code = ERROR_MALLOC;
+		return (NULL);
+	}
+	*p_line += token_size;
+	return (token);
+}
+
+static ssize_t	get_word_size(char *line, char **args)
+{
+	size_t	i;
+
+	i = 0;
+	while (line[i] && ft_strchr(WHITE_SPACES, line[i]) == NULL \
+					&& ft_strstr_args(line + i, args) == 0 \
+					&& ft_strchr("\"('", line[i]) == NULL)
+		i++;
+	return (i);
+}
+
+static ssize_t	get_bloc_size(char *line, int *p_err_code)
+{
+	ssize_t	i;
+	char	type;
+
+	i = 0;
+	type = line[i];
+	if (line[i] == '\"')
+		i = get_end(line + 1, '\"');
+	else if (line[i] == '\'')
+		i = get_end(line + 1, '\'');
+	else
+		i = get_end(line + 1, ')');
+	if (i < 0)
+	{
+		if (type == '\"')
+			*p_err_code = ERROR_UNCLOSED_D_QUOTES;
+		else if (type == '\'')
+			*p_err_code = ERROR_UNCLOSED_S_QUOTES;
+		else
+			*p_err_code = ERROR_UNCLOSED_PARENTHESIS;
+		return (i);
+	}
+	else
+		return (i + 1);
+}
+
+static ssize_t	get_end(char *line, char c)
+{
+	ssize_t	i;
+
+	i = 0;
+	while (line[i] && line[i] != c)
+		i++;
+	if (line[i] == '\0')
+		return (-1);
+	else
+		return (i + 1);
+}
