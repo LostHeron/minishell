@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/05/14 17:54:39 by jweber           ###   ########.fr        #
+#    Updated: 2025/05/16 14:24:37 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,8 @@ PRINTING_FILES := print_error.c \
 
 
 PARSING_DIR := src/parsing/
-PARSING_FILES := parse_line.c \
+PARSING_FILES := lexer.c \
 				 print_ast.c \
-				 parsing_utils.c \
 				 init_args.c \
 				 get_next_token.c \
 				 ft_split_args.c \

@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:37:10 by jweber            #+#    #+#             */
-/*   Updated: 2025/05/14 18:07:01 by jweber           ###   ########.fr       */
+/*   Updated: 2025/05/16 14:23:51 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,24 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "minishell.h"
+#include "ft_vectors.h"
 #include "parsing.h"
 #include "printing.h"
+#include "ft_string.h"
 
 int	main(void)
 {
-	char	*line;
-	int		err_code;
-	int		ret;
-	t_ast	*ast;
+	char		*line;
+	int			err_code;
+	t_vector	tokens;
+	int			ret;
+	t_ast		*ast;
 
 	err_code = 0;
 	while (err_code == 0)
 	{
 		line = readline("prompt >> ");
-		ret = parse_line(line, &ast);
+		ret = lexer(line, &tokens);
 		if (ret != 0)
 		{
 			print_error(ret);
@@ -38,8 +41,14 @@ int	main(void)
 		{
 			printf("line = %s\n", line);
 		}
-		print_ast(ast);
 		free(line);
+		(void) ast;
+		//ret = get_ast(&tokens, &ast);
+		//print_ast(ast);
+		if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
+			err_code = 1;
+		ft_vector_free(&tokens);
 	}
+
 	return (0);
 }
