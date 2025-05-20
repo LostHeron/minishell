@@ -17,3 +17,5 @@ cat << yoyo > log1 & sleep 2 && echo youhou
 { (sleep 2 && exit 3); eheh=$?; } ; echo "ehehe = $eheh"
 
 { sleep 4 && echo "eheh = $eheh" ; } & { (sleep 2 && exit 3); eheh=$?; }
+
+cat << eof > file1 | cat << eoff > file2
