@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/05/07 13:55:33 by jweber           ###   ########.fr        #
+#    Updated: 2025/05/16 14:24:37 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,15 +19,36 @@ LIBFT_DIR := src/libft/
 
 LIBRARY := -lreadline -lft -L $(LIBFT_DIR) 
 
-INCLUDES := -I $(LIBFT_DIR)includes
+INCLUDES := -I $(LIBFT_DIR)includes -I includes/
+
+PRINTING_DIR := src/printing/
+PRINTING_FILES := print_error.c \
+
+
+PARSING_DIR := src/parsing/
+PARSING_FILES := lexer.c \
+				 print_ast.c \
+				 init_args.c \
+				 get_next_token.c \
+				 ft_split_args.c \
+				 ft_strstr_args.c \
+
+AST_DIR := src/ast/
+AST_FILES := ast.c \
+			 print_tree.c \
+			 tree_operations.c \
 
 C_FILES := minishell.c \
+		   $(addprefix $(PARSING_DIR),$(PARSING_FILES)) \
+		   $(addprefix $(PRINTING_DIR), $(PRINTING_FILES)) \
+		   $(addprefix $(AST_DIR), $(AST_FILES))\
 
 OBJ_DIR := .obj/
+OBJ_DIR_DEBUG = .obj_debug/
 OBJ_FILES := $(addprefix $(OBJ_DIR), $(C_FILES:.c=.o))
 D_FILES := $(OBJ_FILES:.c=.o)
 
-.PHONY : all clean fclean re
+.PHONY : all clean fclean re debug debug_clean debug_fclean debug_re
 
 all: makelibft $(NAME)
 
@@ -43,10 +64,16 @@ git_update :
 $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBRARY)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJ_DIR):
+$(OBJ_DIR)$(AST_DIR):
+	mkdir -p $@
+
+$(OBJ_DIR)$(PARSING_DIR):
+	mkdir -p $@
+
+$(OBJ_DIR)$(PRINTING_DIR):
 	mkdir -p $@
 
 clean:
@@ -61,3 +88,16 @@ fclean:
 re:
 	$(MAKE) fclean
 	$(MAKE) all
+
+debug:
+	rm -f $(NAME)
+	$(MAKE) CFLAGS="$(CFLAGS) -g3" OBJ_DIR="$(OBJ_DIR_DEBUG)" all
+
+debug_clean:
+	$(MAKE) CFLAGS="$(CFLAGS) -g3" OBJ_DIR="$(OBJ_DIR_DEBUG)" clean
+
+debug_fclean:
+	$(MAKE) CFLAGS="$(CFLAGS) -g3" OBJ_DIR="$(OBJ_DIR_DEBUG)" fclean
+
+debug_re:
+	$(MAKE) CFLAGS="$(CFLAGS) -g3" OBJ_DIR="$(OBJ_DIR_DEBUG)" re

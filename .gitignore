@@ -1,5 +1,6 @@
+.gdbinit
+.gdb*
 .obj*/
-.gdb_history
 *.json
 minishell
 *.o
@@ -11,3 +12,4 @@ log
 *.log
 *.bash
 *.sh
+.gdb_history
