@@ -15,12 +15,14 @@
 
 # define WHITE_SPACES " \t\n\v\f\r"
 
+/*
 typedef struct s_ast
 {
-	char	*value;
+	void	*value;
 	void	*left;
 	void	*right;
 }	t_ast;
+*/
 
 # define ERROR_MALLOC -3
 # define ERROR_UNCLOSED_S_QUOTES -10

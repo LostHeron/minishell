@@ -36,6 +36,7 @@ t_vector	ft_split_args(char *line, char **args, int *p_err_code)
 	t_vector	tokens;
 	char		*token_i;
 	int			ret;
+	char		*null_string;
 
 	ret = ft_vector_init(&tokens, 5, sizeof(char *), &my_free);
 	if (ret != 0)
@@ -58,6 +59,14 @@ t_vector	ft_split_args(char *line, char **args, int *p_err_code)
 			*p_err_code = ret;
 			return (tokens);
 		}
+	}
+	null_string = NULL;
+	ret = ft_vector_add_single(&tokens, &null_string);
+	if (ret != 0)
+	{
+		// DO STUFF AND RETURN !
+		*p_err_code = ret;
+		return (tokens);
 	}
 	if (token_i == NULL)
 	{

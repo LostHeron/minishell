@@ -17,8 +17,8 @@
 
 int	lexer(char *line, t_vector *p_tokens)
 {
-	char		**args;
-	int			err_code;
+	char	**args;
+	int		err_code;
 
 	err_code = 0;
 	args = init_args(&err_code);
@@ -29,7 +29,7 @@ int	lexer(char *line, t_vector *p_tokens)
 		return (err_code);
 	printf("before for loop\n");
 	printf("tokens.size = %zu\n", p_tokens->size);
-	for (size_t i = 0; i < p_tokens->size; i++)
+	for (size_t i = 0; ((char **)p_tokens->data)[i] != NULL; i++)
 	{
 		printf("-> '%s'\n", ((char **)p_tokens->data)[i]);
 	}

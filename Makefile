@@ -33,9 +33,15 @@ PARSING_FILES := lexer.c \
 				 ft_split_args.c \
 				 ft_strstr_args.c \
 
+AST_DIR := src/ast/
+AST_FILES := ast.c \
+			 print_tree.c \
+			 tree_operations.c \
+
 C_FILES := minishell.c \
 		   $(addprefix $(PARSING_DIR),$(PARSING_FILES)) \
 		   $(addprefix $(PRINTING_DIR), $(PRINTING_FILES)) \
+		   $(addprefix $(AST_DIR), $(AST_FILES))\
 
 OBJ_DIR := .obj/
 OBJ_DIR_DEBUG = .obj_debug/
@@ -58,8 +64,11 @@ git_update :
 $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBRARY)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR)
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJ_DIR)$(AST_DIR):
+	mkdir -p $@
 
 $(OBJ_DIR)$(PARSING_DIR):
 	mkdir -p $@

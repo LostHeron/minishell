@@ -17,7 +17,6 @@
 # include "ft_vectors.h"
 
 int			lexer(char *line, t_vector *p_tokens);
-void		print_ast(t_ast *ast);
 t_vector	ft_split_args(char *line, char **args, int *p_err_code);
 char		*get_next_token(char **p_line, char **args, int *p_err_code);
 char		**init_args(int *p_err_code);
