@@ -27,7 +27,6 @@ PRINTING_FILES := print_error.c \
 
 PARSING_DIR := src/parsing/
 PARSING_FILES := lexer.c \
-				 print_ast.c \
 				 init_args.c \
 				 get_next_token.c \
 				 ft_split_args.c \
