@@ -33,9 +33,9 @@ PARSING_FILES := lexer.c \
 				 ft_strstr_args.c \
 
 AST_DIR := src/ast/
-AST_FILES := ast.c \
-			 print_tree.c \
+AST_FILES := print_tree.c \
 			 tree_operations.c \
+			 free_everything.c \
 
 C_FILES := minishell.c \
 		   $(addprefix $(PARSING_DIR),$(PARSING_FILES)) \
