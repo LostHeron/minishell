@@ -134,7 +134,7 @@ t_ast	*create_tree(t_vector tokens, t_type max_prio, size_t *ind)
 	t_type	type;
 
 	type = get_type(tokens, *ind);
-	if (type == END_LINE)
+	if (type >= max_prio)
 		return (NULL);
 	root = create_leaf(type);
 	if (!root)
