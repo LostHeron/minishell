@@ -12,147 +12,97 @@
 
 #include <stdlib.h>
 #include "ast.h"
-#include <stdio.h>
+#include "ft_string.h"
 
-static t_type	get_type(char *s)
+static t_dir	get_dir(t_vector tokens, size_t ind)
 {
-	int	i;
-
-	if (!s)
-		return (END_SUBSHELL + 1);
-	i = 0;
-	if (s[i] == '(')
-		return (SUBSHELL);
-	if (s[i] == ')')
-		return (END_SUBSHELL);
-	if (s[i] == ';')
-		return (SEQUENCE);
-	if (s[i] == '|')
+	if (((char **)tokens.data)[ind][0] == '<')
 	{
-		if (!s[i + 1])
+		if (!(((char **)tokens.data)[ind][1]))
+			return (IN);
+		return (HEREDOC);
+	}
+	if (((char **)tokens.data)[ind][0] == '>')
+	{
+		if (!(((char **)tokens.data)[ind][1]))
+			return (OUT);
+		return (APPEND);
+	}
+	return (NOT_DIR);
+}
+
+static t_type	get_type(t_vector tokens, size_t ind)
+{
+	if (ind >= tokens.size)
+		return (END_LINE);
+	if (((char **)tokens.data)[ind][0] == '(')
+		return (SUBSHELL);
+	if (((char **)tokens.data)[ind][0] == ')')
+		return (END_SUBSHELL);
+	if (((char **)tokens.data)[ind][0] == ';')
+		return (SEQUENCE);
+	if (((char **)tokens.data)[ind][0] == '|')
+	{
+		if (!(((char **)tokens.data)[ind][1]))
 			return (PIPE);
 		return (OR);
 	}
-	if (s[i] == '&')
+	if (((char **)tokens.data)[ind][0] == '&')
 	{
-		if (!s[i + 1])
+		if (!(((char **)tokens.data)[ind][1]))
 			return (BACKGROUND);
 		return (AND);
 	}
 	return (COMMAND);
 }
 
-void	free_list(t_dirargs **dir_args)
+static int	fill_command(t_ast *root, t_vector tokens, size_t *ind)
 {
-	if (!(*dir_args))
-		return ;
-	if ((*dir_args)->next)
-		free_list(&(*dir_args)->next);
-	free((*dir_args));
-	*dir_args = NULL;
-}
-
-t_dirargs	*create_node(char *content, t_dir dir)
-{
-	t_dirargs	*redir;
-
-	redir = malloc(sizeof(t_dirargs));
-	if (!redir)
-		return (NULL);
-	redir->dir = dir;
-	redir->filename = content;
-	redir->next = NULL;
-	return (redir);
-}
-
-void	list_append(t_dirargs **list_args, t_dirargs *arg)
-{
-	t_dirargs	*list_i;
-
-	if (!(*list_args))
-	{
-		*list_args = arg;
-		return ;
-	}
-	list_i = *list_args;
-	while (list_i->next)
-		list_i = list_i->next;
-	list_i->next = arg;
-}
-
-int	fill_command(t_ast *root, char **av, int *ind)
-{
-	t_dirargs	*redir;
+	t_dirargs	redir;
 	t_type		type;
-	int			i;
 
-	type = get_type(av[*ind]);
-	i = 0;
-	while (av[*ind + i] && type == COMMAND)
+	type = get_type(tokens, *ind);
+	while (type == COMMAND)
 	{
-		if (av[*ind + i][0] == '<' || av[*ind + i][0] == '>')
-			i++;
-		i++;
-	}
-	root->arguments.com_args->content = malloc(sizeof(char *) * (i + 1));
-	if (!root->arguments.com_args->content)
-		return (1);
-	type = get_type(av[*ind]);
-	i = 0;
-	while (av[*ind] && type == COMMAND)
-	{
-		if (av[*ind][0] == '<')
+		redir.dir = get_dir(tokens, *ind);
+		if (redir.dir == NOT_DIR)
 		{
-			redir = create_node(av[*ind + 1], IN);
-			if (!redir)
+			redir.filename = ft_strdup(((char **)tokens.data)[*ind]);
+			if (!redir.filename)
 				return (1);
-			list_append(&root->arguments.com_args->dir_args, redir);
-			(*ind)++;
-		}
-		else if (av[*ind][0] == '>')
-		{
-			if (av[*ind][1])
-				redir = create_node(av[*ind + 1], APPEND);
-			else
-				redir = create_node(av[*ind + 1], OUT);
-			if (!redir)
+			if (ft_vector_add_single(&root->arguments.com_args.content, &redir.filename))
+			{
+				free(redir.filename);
 				return (1);
-			list_append(&root->arguments.com_args->dir_args, redir);
-			(*ind)++;
+			}
 		}
 		else
 		{
-			root->arguments.com_args->content[i] = av[*ind];
-			i++;
+			(*ind)++;
+			type = get_type(tokens, *ind);
+			if (type == COMMAND)
+			{
+				if (get_dir(tokens, *ind))
+					return (1);
+				redir.filename = ft_strdup(((char **)tokens.data)[*ind]);
+				if (!redir.filename)
+					return (1);
+				if (ft_vector_add_single(&root->arguments.com_args.dir_args, &redir))
+				{
+					free(redir.filename);
+					return (1);	
+				}
+			}
+			else
+				return (1);
 		}
 		(*ind)++;
-		type = get_type(av[*ind]);
+		type = get_type(tokens, *ind);
 	}
-	root->arguments.com_args->content[i] = NULL;
 	return (0);
 }
 
-void	free_tree(t_ast **root)
-{
-	if (!(*root))
-		return ;
-	if ((*root)->type == COMMAND)
-	{
-		free_list(&(*root)->arguments.com_args->dir_args);
-		free((*root)->arguments.com_args->content);
-		free((*root)->arguments.com_args);
-	}
-	else if ((*root)->type == SUBSHELL)
-		free_tree(&(*root)->arguments.sub_args);
-	else
-	{
-		free_tree(&(*root)->arguments.op_args.left);
-		free_tree(&(*root)->arguments.op_args.right);
-	}
-	free(*root);
-}
-
-t_ast	*create_leaf(t_type type)
+static t_ast	*create_leaf(t_type type)
 {
 	t_ast	*leaf;
 
@@ -162,33 +112,39 @@ t_ast	*create_leaf(t_type type)
 	leaf->type = type;
 	if (type == COMMAND)
 	{
-		leaf->arguments.com_args = malloc(sizeof(t_comargs));
-		if (!leaf->arguments.com_args)
+		if (ft_vector_init(&leaf->arguments.com_args.dir_args, 5, sizeof(t_dirargs), free_dirargs))
 		{
 			free(leaf);
 			return (NULL);
 		}
-		leaf->arguments.com_args->dir_args = NULL;
+		if (ft_vector_init(&leaf->arguments.com_args.content, 5, sizeof(char *), free_command_content))
+		{
+			ft_vector_free(&leaf->arguments.com_args.dir_args);
+			free(leaf);
+			return (NULL);
+		}
 	}
 	return (leaf);
 }
 
-t_ast	*create_tree(char **av, t_type max_prio, int *ind)
+t_ast	*create_tree(t_vector tokens, t_type max_prio, size_t *ind)
 {
 	t_ast	*root;
 	t_ast	*tmp;
 	t_type	type;
 
-	type = get_type(av[*ind]);
+	type = get_type(tokens, *ind);
+	if (type == END_LINE)
+		return (NULL);
 	root = create_leaf(type);
 	if (!root)
 		return (NULL);
-	while (av[*ind] && type < max_prio)
+	while (type < max_prio)
 	{
 		if (type == SUBSHELL)
 		{
 			(*ind)++;
-			root->arguments.sub_args = create_tree(&av[0], END_SUBSHELL, ind);
+			root->arguments.sub_args = create_tree(tokens, END_SUBSHELL, ind);
 			if (!root->arguments.sub_args)
 			{
 				free_tree(&root);
@@ -199,7 +155,7 @@ t_ast	*create_tree(char **av, t_type max_prio, int *ind)
 			(*ind)++;
 		else if (type == COMMAND)
 		{	
-			if (fill_command(root, &av[0], ind))
+			if (fill_command(root, tokens, ind))
 			{
 				free_tree(&root);
 				return (NULL);
@@ -216,14 +172,14 @@ t_ast	*create_tree(char **av, t_type max_prio, int *ind)
 			tmp->arguments.op_args.left = root;
 			root = tmp;
 			(*ind)++;
-			root->arguments.op_args.right = create_tree(&av[0], type, ind);
+			root->arguments.op_args.right = create_tree(tokens, type, ind);
 			if (!root->arguments.op_args.right)
 			{
 				free_tree(&root);
 				return (NULL);
 			}
 		}
-		type = get_type(av[*ind]);
+		type = get_type(tokens, *ind);
 	}
 	return (root);
 }

@@ -29,6 +29,7 @@ int	main(void)
 	t_vector	tokens;
 	int			ret;
 	t_ast		*ast;
+	size_t		i;
 
 	err_code = 0;
 	(void) ast;
@@ -47,13 +48,17 @@ int	main(void)
 			printf("line = %s\n", line);
 		}
 		free(line);
-		(void) ast;
 		//ret = get_ast(&tokens, &ast);
-		get_ast(tokens.data);
+		i = 0;
+		ast = create_tree(tokens, END_LINE, &i);
+		if (!ast)
+			return (1);
 		//print_ast(ast);
 		if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
 			err_code = 1;
 		ft_vector_free(&tokens);
+		print_tree(ast, 0);
+		free_tree(&ast);
 	}
 
 	return (0);

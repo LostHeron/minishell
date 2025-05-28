@@ -27,7 +27,9 @@ char	*print_type(t_type type)
 		return ("OR");
 	if (type == BACKGROUND)
 		return ("BACKGROUND");
-	return ("SEQUENCE");
+	if (type == SEQUENCE)
+		return ("SEQUENCE");
+	return ("OTHER");
 }
 
 char	*print_redir(t_dir dir)
@@ -36,16 +38,20 @@ char	*print_redir(t_dir dir)
 		return ("IN");
 	if (dir == OUT)
 		return ("OUT");
-	return ("APPEND");
+	if (dir == APPEND)
+		return ("APPEND");
+	if (dir == HEREDOC)
+		return ("HEREDOC");
+	return ("NOT_DIR");
 }
 
-void	print_tree(t_ast *root, int depth)
+void	print_tree(t_ast *root, size_t depth)
 {
-	t_dirargs	*list_i;
-	int			i;
+	size_t	i;
 
 	if (root == NULL)
 		return ;
+	i = 0;
 	if (root->type == COMMAND)
 	{
 		i = 0;
@@ -56,26 +62,21 @@ void	print_tree(t_ast *root, int depth)
 		}
 		printf("COMMAND : args = '");
 		i = 0;
-		while (root->arguments.com_args->content[i])
+		while (i < root->arguments.com_args.content.size)
 		{
-			printf("%s", root->arguments.com_args->content[i]);
-			if (root->arguments.com_args->content[i + 1])
+			printf("%s", ((char **)root->arguments.com_args.content.data)[i]);
+			if (i + 1 < root->arguments.com_args.content.size)
 				printf(" ");
 			i++;
 		}
 		printf("'");
-		if (root->arguments.com_args->dir_args)
+		i = 0;
+		while (i < root->arguments.com_args.dir_args.size)
 		{
-			list_i = root->arguments.com_args->dir_args;
-			i = 0;
-			while (list_i)
-			{
-				printf(" REDIR %d : %s %s", i + 1, print_redir(list_i->dir), list_i->filename);
-				if (list_i->next)
-					printf(" ");
-				list_i = list_i->next;
-				i++;
-			}
+			printf(" REDIR %lu : %s %s", i + 1, print_redir(((t_dirargs *)root->arguments.com_args.dir_args.data)[i].dir), ((t_dirargs *)root->arguments.com_args.dir_args.data)[i].filename);
+			if (i + 1 < root->arguments.com_args.dir_args.size)
+				printf(" ");
+			i++;
 		}
 		printf("\n");
 	}

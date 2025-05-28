@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-09 12:28:46 by cviel             #+#    #+#             */
-/*   Updated: 2025-05-09 12:28:46 by cviel            ###   ########.fr       */
+/*   Created: 2025-05-23 13:46:41 by cviel             #+#    #+#             */
+/*   Updated: 2025-05-23 13:46:41 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
+
+#include "ft_vectors.h"
 
 typedef enum e_type
 {
@@ -22,27 +24,29 @@ typedef enum e_type
 	OR,
 	BACKGROUND,
 	SEQUENCE,
-	END_SUBSHELL
+	END_SUBSHELL,
+	END_LINE
 }	t_type;
 
 typedef enum e_dir
 {
+	NOT_DIR,
 	IN,
 	OUT,
-	APPEND
+	APPEND,
+	HEREDOC
 }	t_dir;
 
 typedef struct s_dirargs
 {
-	t_dir				dir;
-	char				*filename;
-	struct s_dirargs	*next;
+	t_dir	dir;
+	char	*filename;
 }	t_dirargs;
 
 typedef struct s_comargs
 {
-	char		**content;
-	t_dirargs	*dir_args;
+	t_vector	content;
+	t_vector	dir_args;
 }	t_comargs;
 
 typedef struct s_opargs
@@ -53,7 +57,7 @@ typedef struct s_opargs
 
 typedef union u_args
 {
-	t_comargs		*com_args;
+	t_comargs		com_args;
 	t_opargs		op_args;
 	struct s_ast	*sub_args;
 }	t_args;
@@ -64,9 +68,11 @@ typedef struct s_ast
 	t_args	arguments;
 }	t_ast;
 
-t_ast	*create_tree(char **av, t_type max_prio, int *ind);
-void	print_tree(t_ast *root, int depth);
+
+void	free_dirargs(t_vector *dirargs_ptr);
+void	free_command_content(t_vector *content_ptr);
 void	free_tree(t_ast **root);
-int		get_ast(char **tokens);
+void	print_tree(t_ast *root, size_t depth);
+t_ast	*create_tree(t_vector tokens, t_type max_prio, size_t *ind);
 
 #endif
