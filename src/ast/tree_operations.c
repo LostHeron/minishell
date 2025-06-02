@@ -127,7 +127,7 @@ static t_ast	*create_leaf(t_type type)
 	return (leaf);
 }
 
-t_ast	*create_tree(t_vector tokens, t_type max_prio, size_t *ind)
+t_ast	*create_as(t_vector tokens, t_type max_prio, size_t *ind)
 {
 	t_ast	*root;
 	t_ast	*tmp;
@@ -144,7 +144,7 @@ t_ast	*create_tree(t_vector tokens, t_type max_prio, size_t *ind)
 		if (type == SUBSHELL)
 		{
 			(*ind)++;
-			root->arguments.sub_args = create_tree(tokens, END_SUBSHELL, ind);
+			root->arguments.sub_args = create_ast(tokens, END_SUBSHELL, ind);
 			if (!root->arguments.sub_args)
 			{
 				free_tree(&root);
@@ -172,7 +172,7 @@ t_ast	*create_tree(t_vector tokens, t_type max_prio, size_t *ind)
 			tmp->arguments.op_args.left = root;
 			root = tmp;
 			(*ind)++;
-			root->arguments.op_args.right = create_tree(tokens, type, ind);
+			root->arguments.op_args.right = create_ast(tokens, type, ind);
 			if (!root->arguments.op_args.right)
 			{
 				free_tree(&root);

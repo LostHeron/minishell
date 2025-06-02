@@ -73,6 +73,6 @@ void	free_dirargs(t_vector *dirargs_ptr);
 void	free_command_content(t_vector *content_ptr);
 void	free_tree(t_ast **root);
 void	print_tree(t_ast *root, size_t depth);
-t_ast	*create_tree(t_vector tokens, t_type max_prio, size_t *ind);
+t_ast	*create_ast(t_vector tokens, t_type max_prio, size_t *ind);
 
 #endif
