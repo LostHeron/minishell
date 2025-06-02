@@ -17,7 +17,7 @@
 void	free_dirargs(t_vector *dirargs_ptr)
 {
 	size_t	i;
-	
+
 	i = 0;
 	while (i < dirargs_ptr->size)
 	{
