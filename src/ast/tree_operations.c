@@ -172,7 +172,7 @@ t_ast	*create_ast(t_vector tokens, t_type max_prio, size_t *ind)
 			tmp->arguments.op_args.left = root;
 			root = tmp;
 			(*ind)++;
-			root->arguments.op_args.right = create_ast(tokens, type, ind);
+			root->arguments.op_args.right = create_ast(tokens, type + 1, ind);
 			if (!root->arguments.op_args.right)
 			{
 				free_tree(&root);
