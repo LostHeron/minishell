@@ -32,11 +32,12 @@ int	main(void)
 	size_t		i;
 
 	err_code = 0;
-	(void) ast;
 	while (err_code == 0)
 	{
 		//errno = 0;
 		line = readline("prompt >> ");
+		if (line == NULL)
+			exit (0);
 		//printf("errno = %i\n", errno);
 		ret = lexer(line, &tokens);
 		if (ret != 0)
@@ -48,9 +49,8 @@ int	main(void)
 			printf("line = %s\n", line);
 		}
 		free(line);
-		//ret = get_ast(&tokens, &ast);
 		i = 0;
-		ast = create_tree(tokens, END_LINE, &i);
+		ast = create_ast(tokens, END_LINE, &i);
 		if (!ast)
 			return (1);
 		//print_ast(ast);
