@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:37:10 by jweber            #+#    #+#             */
-/*   Updated: 2025/05/16 14:23:51 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:16:25 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "printing.h"
 #include "ft_string.h"
 #include "ast.h"
+#include "execution.h"
 #include <errno.h>
 
 int	main(void)
@@ -53,11 +54,11 @@ int	main(void)
 		ast = create_ast(tokens, END_LINE, &i);
 		if (!ast)
 			return (1);
-		//print_ast(ast);
 		if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
 			err_code = 1;
 		ft_vector_free(&tokens);
 		print_tree(ast, 0);
+		exec_command(ast);
 		free_tree(&ast);
 	}
 

@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/05/16 14:24:37 by jweber           ###   ########.fr        #
+#    Updated: 2025/06/02 16:18:28 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,10 +37,14 @@ AST_FILES := print_tree.c \
 			 tree_operations.c \
 			 free_everything.c \
 
+EXECUTION_DIR := src/execution/
+EXECUTION_FILES := exec_command.c \
+
 C_FILES := minishell.c \
 		   $(addprefix $(PARSING_DIR),$(PARSING_FILES)) \
 		   $(addprefix $(PRINTING_DIR), $(PRINTING_FILES)) \
 		   $(addprefix $(AST_DIR), $(AST_FILES))\
+		   $(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES))\
 
 OBJ_DIR := .obj/
 OBJ_DIR_DEBUG = .obj_debug/
@@ -63,7 +67,7 @@ git_update :
 $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBRARY)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR)
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJ_DIR)$(AST_DIR):
@@ -73,6 +77,9 @@ $(OBJ_DIR)$(PARSING_DIR):
 	mkdir -p $@
 
 $(OBJ_DIR)$(PRINTING_DIR):
+	mkdir -p $@
+
+$(OBJ_DIR)$(EXECUTION_DIR):
 	mkdir -p $@
 
 clean:

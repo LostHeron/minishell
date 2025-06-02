@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-16 15:03:09 by cviel             #+#    #+#             */
-/*   Updated: 2025-05-16 15:03:09 by cviel            ###   ########.fr       */
+/*   Updated: 2025/06/02 16:19:08 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static t_ast	*create_leaf(t_type type)
 	return (leaf);
 }
 
-t_ast	*create_as(t_vector tokens, t_type max_prio, size_t *ind)
+t_ast	*create_ast(t_vector tokens, t_type max_prio, size_t *ind)
 {
 	t_ast	*root;
 	t_ast	*tmp;
