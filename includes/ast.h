@@ -6,14 +6,14 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-23 13:46:41 by cviel             #+#    #+#             */
-/*   Updated: 2025-05-23 13:46:41 by cviel            ###   ########.fr       */
+/*   Updated: 2025/06/03 16:30:47 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 
-#include "ft_vectors.h"
+# include "ft_vectors.h"
 
 typedef enum e_type
 {
@@ -67,7 +67,6 @@ typedef struct s_ast
 	t_type	type;
 	t_args	arguments;
 }	t_ast;
-
 
 void	free_dirargs(t_vector *dirargs_ptr);
 void	free_command_content(t_vector *content_ptr);

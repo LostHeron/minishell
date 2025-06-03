@@ -16,6 +16,13 @@
 # include "ast.h"
 # include "minishell.h"
 
+enum	e_previous
+{
+	PREV_NONE,
+	PREV_RIGHT,
+	PREV_LEFT,
+};
+
 int		exec_command(t_ast *ast, t_minishell *p_mini);
 int		init_minishell(t_minishell *p_mini, char **env);
 int		init_env(t_minishell *p_mini, char **env);

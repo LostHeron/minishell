@@ -120,7 +120,6 @@ static void	add_node_lst(t_minishell *p_mini, t_list *new_node)
 				}
 				tmp = tmp->next;
 			}
-			new_node->next = tmp->next;
 			tmp->next = new_node;
 			return ;
 		}

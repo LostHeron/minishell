@@ -13,11 +13,15 @@
 #include "ft_lists_single.h"
 #include "ft_vectors.h"
 #include "minishell.h"
+#include <unistd.h>
 
 static void	my_free(t_list *lst);
 
 void	free_minishell(t_minishell *p_mini)
 {
+	close(p_mini->fd_stdin);
+	close(p_mini->fd_stdout);
+	close(p_mini->fd_stderr);
 	ft_vector_free(&p_mini->path);
 	my_free(p_mini->env);
 }

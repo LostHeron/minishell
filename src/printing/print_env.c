@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printing.h                                         :+:      :+:    :+:   */
+/*   print_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:39:58 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/03 16:30:36 by jweber           ###   ########.fr       */
+/*   Created: 2025/06/03 16:19:05 by jweber            #+#    #+#             */
+/*   Updated: 2025/06/03 16:33:20 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTING_H
-# define PRINTING_H
+#include <stdio.h>
+#include "ft_lists_single.h"
+#include "minishell.h"
 
-# include "minishell.h"
+void	print_env(t_minishell *p_mini)
+{
+	t_list	*tmp;
 
-void	print_error(int err_code);
-void	print_path(t_minishell *p_mini);
-void	print_env(t_minishell *p_mini);
-
-#endif // !PRINTING_H
+	printf("in print_env !\n");
+	fflush(stdout);
+	tmp = p_mini->env;
+	while (tmp != NULL)
+	{
+		printf("key = %s\n", ((t_env *)tmp->content)->key);
+		printf("value = %s\n", ((t_env *)tmp->content)->value);
+		printf("\n");
+		tmp = tmp->next;
+	}
+}

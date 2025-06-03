@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/06/02 16:18:28 by jweber           ###   ########.fr        #
+#    Updated: 2025/06/03 16:29:05 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ INCLUDES := -I $(LIBFT_DIR)includes -I includes/
 
 PRINTING_DIR := src/printing/
 PRINTING_FILES := print_error.c \
+				  print_env.c \
+				  print_path.c \
 
 
 PARSING_DIR := src/parsing/

@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printing.h                                         :+:      :+:    :+:   */
+/*   print_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:39:58 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/03 16:30:36 by jweber           ###   ########.fr       */
+/*   Created: 2025/06/03 16:27:24 by jweber            #+#    #+#             */
+/*   Updated: 2025/06/03 16:33:27 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTING_H
-# define PRINTING_H
+#include "minishell.h"
+#include <stdio.h>
 
-# include "minishell.h"
+void	print_path(t_minishell *p_mini)
+{
+	size_t	i;
 
-void	print_error(int err_code);
-void	print_path(t_minishell *p_mini);
-void	print_env(t_minishell *p_mini);
-
-#endif // !PRINTING_H
+	i = 0;
+	printf("in print_path!\n");
+	fflush(stdout);
+	while (i < p_mini->path.size)
+	{
+		printf("path[%zu] = %s\n", i, ((char **)p_mini->path.data)[i]);
+		i++;
+	}
+}

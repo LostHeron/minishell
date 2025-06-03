@@ -16,7 +16,7 @@
 #include "minishell.h"
 
 static int	add_path_to_path(t_minishell *p_mini, char *tmp);
-static void	my_free(t_vector *ptr_vec);
+static void	free_path(t_vector *ptr_vec);
 static int	add_slash_to_path(t_minishell *p_mini);
 
 int	init_path(t_minishell *p_mini)
@@ -24,8 +24,10 @@ int	init_path(t_minishell *p_mini)
 	int		ret;
 	t_list	*tmp;
 
+	if (p_mini->env == NULL)
+		return (0);
 	tmp = p_mini->env;
-	ret = ft_vector_init(&p_mini->path, 5, sizeof(char *), &my_free);
+	ret = ft_vector_init(&p_mini->path, 5, sizeof(char *), &free_path);
 	if (ret != 0)
 	{
 		// do stuff
@@ -114,7 +116,7 @@ static int	add_slash_to_path(t_minishell *p_mini)
 	return (0);
 }
 
-static void	my_free(t_vector *ptr_vec)
+static void	free_path(t_vector *ptr_vec)
 {
 	size_t	i;
 

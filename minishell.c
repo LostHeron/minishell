@@ -6,22 +6,24 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:37:10 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/02 17:29:15 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/03 16:31:42 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ast.h"
+#include "execution.h"
+#include "ft_string.h"
+#include "ft_vectors.h"
+#include "minishell.h"
+#include "parsing.h"
+#include "printing.h"
+#include <errno.h>
 #include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 #include <unistd.h>
-#include "minishell.h"
-#include "ft_vectors.h"
-#include "parsing.h"
 #include "printing.h"
-#include "ft_string.h"
-#include "ast.h"
-#include "execution.h"
-#include <errno.h>
 
 int	main(int argc, char **argv, char **env)
 {
@@ -36,13 +38,18 @@ int	main(int argc, char **argv, char **env)
 	err_code = 0;
 	(void) argc;
 	(void) argv;
-	init_minishell(&minishell, env);
+	ret = init_minishell(&minishell, env);
+	if (ret != 0)
+	{
+		// do stuff ?
+		//return ??
+	}
 	while (err_code == 0)
 	{
 		//errno = 0;
 		line = readline("prompt >> ");
 		if (line == NULL)
-			exit (0);
+			exit(0);//break ;
 		//printf("errno = %i\n", errno);
 		ret = lexer(line, &tokens);
 		if (ret != 0)
@@ -62,7 +69,10 @@ int	main(int argc, char **argv, char **env)
 			err_code = 1;
 		ft_vector_free(&tokens);
 		print_tree(ast, 0);
+		minishell.previous_side = PREV_NONE;
+		minishell.previous_type = 0; //NONE;
 		exec_command(ast, &minishell);
+		wait(NULL);
 		free_tree(&ast);
 	}
 	free_minishell(&minishell);
