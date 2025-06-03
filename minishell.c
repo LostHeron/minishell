@@ -31,6 +31,7 @@ int	main(int argc, char **argv, char **env)
 	int			err_code;
 	t_vector	tokens;
 	int			ret;
+	int			wait_id;
 	t_ast		*ast;
 	size_t		i;
 	t_minishell	minishell;
@@ -72,7 +73,9 @@ int	main(int argc, char **argv, char **env)
 		minishell.previous_side = PREV_NONE;
 		minishell.previous_type = 0; //NONE;
 		exec_command(ast, &minishell);
-		wait(NULL);
+		wait_id = wait(NULL);
+		while (wait_id != -1)
+			wait_id = wait(NULL);
 		free_tree(&ast);
 	}
 	free_minishell(&minishell);
