@@ -39,6 +39,11 @@ AST_FILES := print_tree.c \
 
 EXECUTION_DIR := src/execution/
 EXECUTION_FILES := exec_command.c \
+				   init_minishell.c \
+				   init_env.c \
+				   init_path.c \
+				   find_command.c \
+				   free_minishell.c \
 
 C_FILES := minishell.c \
 		   $(addprefix $(PARSING_DIR),$(PARSING_FILES)) \

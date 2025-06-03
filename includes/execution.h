@@ -13,8 +13,14 @@
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
-#include "ast.h"
+# include "ast.h"
+# include "minishell.h"
 
-int	exec_command(t_ast *ast);
+int		exec_command(t_ast *ast, t_minishell *p_mini);
+int		init_minishell(t_minishell *p_mini, char **env);
+int		init_env(t_minishell *p_mini, char **env);
+int		init_path(t_minishell *p_mini);
+int		find_command(char **p_cmd, t_vector path);
+void	free_minishell(t_minishell *p_mini);
 
 #endif

@@ -62,9 +62,9 @@ int	main(int argc, char **argv, char **env)
 			err_code = 1;
 		ft_vector_free(&tokens);
 		print_tree(ast, 0);
-		exec_command(ast, minishell);
+		exec_command(ast, &minishell);
 		free_tree(&ast);
 	}
-
+	free_minishell(&minishell);
 	return (0);
 }
