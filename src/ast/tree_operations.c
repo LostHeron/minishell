@@ -99,6 +99,8 @@ static int	fill_command(t_ast *root, t_vector tokens, size_t *ind)
 		(*ind)++;
 		type = get_type(tokens, *ind);
 	}
+	if (ft_vector_add_single(&root->arguments.com_args.content, NULL))
+		return (1);
 	return (0);
 }
 
