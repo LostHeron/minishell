@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include "ast.h"
 #include "ft_string.h"
+#include "ft_standard.h"
 
 static t_dir	get_dir(t_vector tokens, size_t ind)
 {
@@ -99,7 +100,8 @@ static int	fill_command(t_ast *root, t_vector tokens, size_t *ind)
 		(*ind)++;
 		type = get_type(tokens, *ind);
 	}
-	if (ft_vector_add_single(&root->arguments.com_args.content, NULL))
+	redir.filename = NULL;
+	if (ft_vector_add_single(&root->arguments.com_args.content, &redir.filename))
 		return (1);
 	return (0);
 }

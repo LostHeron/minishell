@@ -32,7 +32,7 @@ void	free_command_content(t_vector *content_ptr)
 	size_t	i;
 
 	i = 0;
-	while (i < content_ptr->size - 1)
+	while (i < content_ptr->size)
 	{
 		free(((char **)content_ptr->data)[i]);
 		i++;

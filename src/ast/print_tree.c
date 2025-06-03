@@ -62,10 +62,10 @@ void	print_tree(t_ast *root, size_t depth)
 		}
 		printf("COMMAND : args = '");
 		i = 0;
-		while (i < root->arguments.com_args.content.size)
+		while (i < root->arguments.com_args.content.size - 1)
 		{
 			printf("%s", ((char **)root->arguments.com_args.content.data)[i]);
-			if (i + 1 < root->arguments.com_args.content.size)
+			if (i + 1 < root->arguments.com_args.content.size - 1)
 				printf(" ");
 			i++;
 		}
