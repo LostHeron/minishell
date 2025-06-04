@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/06/03 16:29:05 by jweber           ###   ########.fr        #
+#    Updated: 2025/06/04 13:56:14 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,11 @@ AST_FILES := print_tree.c \
 			 free_everything.c \
 
 EXECUTION_DIR := src/execution/
-EXECUTION_FILES := exec_command.c \
+EXECUTION_FILES := exec_func.c \
+				   exec_pipe.c \
+				   exec_command.c \
+				   child_execution.c \
+				   change_fd_redir.c \
 				   init_minishell.c \
 				   init_env.c \
 				   init_path.c \

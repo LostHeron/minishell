@@ -1,47 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_command.c                                     :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 13:02:34 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/04 14:14:23 by jweber           ###   ########.fr       */
+/*   Created: 2025/06/04 12:58:00 by jweber            #+#    #+#             */
+/*   Updated: 2025/06/04 12:59:48 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
 #include "minishell.h"
+#include "execution.h"
+#include "ast.h"
 #include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
 #include <stdio.h>
 
-int	exec_command(t_ast *ast, t_minishell *p_mini)
+int	exec_pipe(t_ast *ast, t_minishell *p_mini)
 {
-	int		pid;
-	int		ret;
-
-	pid = fork();
-	if (pid == -1)
+	if (pipe(p_mini->fd) == -1)
 	{
-		// see later !
-		// return ??
+		// do stuff
+		// return?
 		;
 	}
-	if (pid == 0)
-	{
-		ret = child_execution(ast, p_mini);
-		if (ret != 0)
-		{
-			// do stuff;
-			// return (ret); ?
-		}
-	}
-	else
-	{
-		// in parent !
-		// do something here ??? je crois pas 
-	}
+	p_mini->previous_type = PIPE;
+	p_mini->previous_side = PREV_LEFT;
+	exec_func(ast->arguments.op_args.left, p_mini);
+	p_mini->previous_side = PREV_RIGHT;
+	exec_func(ast->arguments.op_args.right, p_mini);
+	if (close(p_mini->fd[0]) == -1)
+		perror(NULL);
+	if (close(p_mini->fd[1]) == -1)
+		perror(NULL);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:37:10 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/03 16:31:42 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/04 12:47:51 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **env)
 		print_tree(ast, 0);
 		minishell.previous_side = PREV_NONE;
 		minishell.previous_type = 0; //NONE;
-		exec_command(ast, &minishell);
+		exec_func(ast, &minishell);
 		wait_id = wait(NULL);
 		while (wait_id != -1)
 			wait_id = wait(NULL);

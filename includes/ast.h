@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-23 13:46:41 by cviel             #+#    #+#             */
-/*   Updated: 2025/06/03 16:30:47 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/04 14:09:23 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ typedef enum e_type
 
 typedef enum e_dir
 {
-	NOT_DIR,
 	IN,
 	OUT,
 	APPEND,
+	NOT_DIR,
 	HEREDOC
 }	t_dir;
 
