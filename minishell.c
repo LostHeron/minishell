@@ -72,7 +72,18 @@ int	main(int argc, char **argv, char **env)
 		print_tree(ast, 0);
 		minishell.previous_side = PREV_NONE;
 		minishell.previous_type = 0; //NONE;
+		if (pipe(minishell.fd1) == -1)
+		{
+			// do stuff
+			// return?
+			;
+		}
+		minishell.first_cmd = 1;
 		exec_func(ast, &minishell);
+		if (close(minishell.fd1[0]) == -1)
+			perror("(close(minishell.fd1[0])");
+		if (close(minishell.fd1[1]) == -1)
+			perror("(close(minishell.fd1[1])");
 		wait_id = wait(NULL);
 		while (wait_id != -1)
 			wait_id = wait(NULL);

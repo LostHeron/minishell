@@ -40,6 +40,10 @@ int	exec_func(t_ast *ast, t_minishell *p_mini)
 			// do stuff ?
 			// return ?
 		}
+		if (p_mini->first_cmd == 1)
+		{
+			p_mini->first_cmd = 0;
+		}
 	}
 	return (0);
 }

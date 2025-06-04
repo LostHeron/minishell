@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 13:14:11 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/04 13:56:28 by jweber           ###   ########.fr       */
+/*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
+/*   Updated: 2025/06/04 18:02:46 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,45 +33,6 @@ int	child_execution(t_ast *ast, t_minishell *p_mini)
 		// do stuff ?
 		// return ? 
 	}
-	/*
-	size_t	i;
-	int		fd;
-
-	i = 0;
-	while (i < ast->arguments.com_args.dir_args.size)
-	{
-		if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir == IN)
-		{
-			fd = open(\
-		((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].filename, \
-		O_RDONLY \
-			);
-			if (fd == -1)
-			{
-				// do stuff !
-			}
-			if (dup2(fd, 0) == -1)
-			{
-				// do stuff !
-			}
-			close(fd);
-		}
-		else if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir == OUT)
-		{
-			fd = open(((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].filename, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-			if (fd == -1)
-			{
-				// do stuff !
-			}
-			if (dup2(fd, 1) == -1)
-			{
-				// do stuff !
-			}
-			close(fd);
-		}
-		i++;
-	}
-	*/
 	if (((char **)ast->arguments.com_args.content.data)[0][0] == '/' || \
 	((char **)ast->arguments.com_args.content.data)[0][0] == '.')
 	{
@@ -95,14 +56,34 @@ int	child_execution(t_ast *ast, t_minishell *p_mini)
 static void	change_fd_pipe(t_minishell *p_mini)
 {
 	if (p_mini->previous_side == PREV_LEFT)
-		if (dup2(p_mini->fd[1], 1) == -1)
+	{
+		if (p_mini->first_cmd != 1)
+		{
+			if (dup2(p_mini->fd1[0], 0) == -1) // but must be executed only if not first cmd 
+				perror(NULL); // do stuff ?
+		}
+		if (dup2(p_mini->fd2[1], 1) == -1)
+			perror(NULL); // do stuff ?
+	}
+	if (p_mini->previous_side == PREV_RIGHT)
+		if (dup2(p_mini->fd1[0], 0) == -1)
 			; // do stuff ?
 	if (p_mini->previous_side == PREV_RIGHT)
-		if (dup2(p_mini->fd[0], 0) == -1)
-			; // do stuff ?
-	if (close(p_mini->fd[1]) == -1)
-		perror(NULL);
-	if (close(p_mini->fd[0]) == -1)
-		perror(NULL);
+	{
+		if (close(p_mini->fd1[0]) == -1)
+			perror("child right : close(p_mini->fd1[0]");
+		if (close(p_mini->fd1[1]) == -1)
+			perror("child right : close(p_mini->fd1[1]");
+	}
+	else
+	{
+		if (close(p_mini->fd1[0]) == -1)
+			perror("child left : close(p_mini->fd1[0]");
+		if (close(p_mini->fd1[1]) == -1)
+			perror("child left : close(p_mini->fd1[1]");
+		if (close(p_mini->fd2[0]) == -1)
+			perror("child right : close(p_mini->fd2[0]");
+		if (close(p_mini->fd2[1]) == -1)
+			perror("child right : close(p_mini->fd2[1]");
+	}
 }
-

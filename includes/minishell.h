@@ -25,7 +25,9 @@ typedef struct s_minishell
 	int			fd_stderr;
 	int			previous_side;
 	int			previous_type;
-	int			fd[2];
+	int			first_cmd;
+	int			fd1[2];
+	int			fd2[2];
 	t_list		*env;
 	t_vector	path;
 }			t_minishell;
