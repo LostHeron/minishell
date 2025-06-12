@@ -45,6 +45,7 @@ int	child_execution(t_ast *ast, t_minishell *p_mini)
 		if (ret != 0)
 		{
 			printf("%s: command not found\n", cmd);
+			// do some cleaning stuff or leaks !
 			exit(127);
 		}
 	}

@@ -18,6 +18,8 @@
 
 # include "ft_lists_single.h"
 
+# define PATH_NAME_MAX_LENGTH 4096
+
 typedef struct s_minishell
 {
 	int			fd_stdin;
@@ -30,6 +32,8 @@ typedef struct s_minishell
 	int			fd2[2];
 	t_list		*env;
 	t_vector	path;
+	char		*path_name;
+	size_t		*path_name_size;
 }			t_minishell;
 
 typedef struct s_env

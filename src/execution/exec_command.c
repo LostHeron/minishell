@@ -22,6 +22,10 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 	int		pid;
 	int		ret;
 
+	/*
+	if (p_mini->previous_type == PIPE)
+		change_fd_pipe(p_mini);
+	*/
 	pid = fork();
 	if (pid == -1)
 	{
