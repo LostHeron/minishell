@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/06/12 18:48:40 by jweber           ###   ########.fr        #
+#    Updated: 2025/06/16 17:37:38 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,46 +48,25 @@ EXECUTION_FILES := exec_func.c \
 				   init_minishell.c \
 				   init_env.c \
 				   init_path.c \
+				   init_builtins.c \
 				   find_command.c \
 				   free_minishell.c \
 
-
-CD_DIR := cd/
-CD_FILES := cd.c
-
-ECHO_DIR := echo/
-ECHO_FILES := echo.c
-
-ENV_DIR := env/
-ENV_FILES := env.c
-
-EXIT_DIR := exit/
-EXIT_FILES := exit.c
-
-EXPORT_DIR := export/
-EXPORT_FILES := export.c
-
-PWD_DIR := pwd/
-PWD_FILES := pwd.c
-
-UNSET_DIR := unset/
-UNSET_FILES := unset.c
-
-BUILTIN_DIR := src/builtin/
-BUILTIN_FILES := $(addprefix $(CD_DIR),$(CD_FILES)) \
-				 $(addprefix $(ECHO_DIR),$(ECHO_FILES)) \
-				 $(addprefix $(ENV_DIR),$(ENV_FILES)) \
-				 $(addprefix $(EXIT_DIR),$(EXIT_FILES)) \
-				 $(addprefix $(EXPORT_DIR),$(EXPORT_FILES)) \
-				 $(addprefix $(PWD_DIR),$(PWD_FILES)) \
-				 $(addprefix $(UNSET_DIR),$(UNSET_FILES)) \
+BUILTINS_DIR := src/builtins/
+BUILTINS_FILES := builtin_cd.c \
+				  builtin_echo.c \
+				  builtin_env.c \
+				  builtin_exit.c \
+				  builtin_export.c \
+				  builtin_pwd.c \
+				  builtin_unset.c \
 
 C_FILES := minishell.c \
 		   $(addprefix $(PARSING_DIR),$(PARSING_FILES)) \
 		   $(addprefix $(PRINTING_DIR), $(PRINTING_FILES)) \
 		   $(addprefix $(AST_DIR), $(AST_FILES)) \
 		   $(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES)) \
-		   $(addprefix $(BUILTIN_DIR), $(BUILTIN_FILES)) \
+		   $(addprefix $(BUILTINS_DIR), $(BUILTINS_FILES)) \
 
 OBJ_DIR := .obj/
 OBJ_DIR_DEBUG = .obj_debug/
@@ -110,41 +89,11 @@ git_update :
 $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBRARY)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) \
-					  $(OBJ_DIR)$(PRINTING_DIR) \
-					  $(OBJ_DIR)$(AST_DIR) \
-					  $(OBJ_DIR)$(EXECUTION_DIR) \
-					  $(OBJ_DIR)$(BUILTIN_DIR)$(CD_DIR) \
-					  $(OBJ_DIR)$(BUILTIN_DIR)$(ECHO_DIR) \
-					  $(OBJ_DIR)$(BUILTIN_DIR)$(ENV_DIR) \
-					  $(OBJ_DIR)$(BUILTIN_DIR)$(EXIT_DIR) \
-					  $(OBJ_DIR)$(BUILTIN_DIR)$(EXPORT_DIR) \
-					  $(OBJ_DIR)$(BUILTIN_DIR)$(PWD_DIR) \
-					  $(OBJ_DIR)$(BUILTIN_DIR)$(UNSET_DIR)
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-
-$(OBJ_DIR)$(BUILTIN_DIR)$(CD_DIR): 
+$(OBJ_DIR)$(BUILTINS_DIR):
 	mkdir -p $@
-
-$(OBJ_DIR)$(BUILTIN_DIR)$(ECHO_DIR): 
-	mkdir -p $@
-
-$(OBJ_DIR)$(BUILTIN_DIR)$(ENV_DIR): 
-	mkdir -p $@
-
-$(OBJ_DIR)$(BUILTIN_DIR)$(EXIT_DIR): 
-	mkdir -p $@
-
-$(OBJ_DIR)$(BUILTIN_DIR)$(EXPORT_DIR): 
-	mkdir -p $@
-
-$(OBJ_DIR)$(BUILTIN_DIR)$(PWD_DIR): 
-	mkdir -p $@
-
-$(OBJ_DIR)$(BUILTIN_DIR)$(UNSET_DIR):
-	mkdir -p $@
-
 
 $(OBJ_DIR)$(AST_DIR):
 	mkdir -p $@

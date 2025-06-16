@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 18:34:29 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/12 18:34:38 by jweber           ###   ########.fr       */
+/*   Created: 2025/06/12 18:35:36 by jweber            #+#    #+#             */
+/*   Updated: 2025/06/16 17:35:54 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	unset(void)
+#include "minishell.h"
+#include <stdio.h>
+
+int	builtin_echo(t_vector args, t_minishell *p_mini)
 {
+	size_t	i;
+
+	i = 1;
+	(void) p_mini;
+	while (i < args.size - 1)
+	{
+		printf("%s", ((char **)args.data)[i]);
+		if (i != args.size - 2)
+			printf(" ");
+		i++;
+	}
+	printf("\n");
 	return (0);
 }

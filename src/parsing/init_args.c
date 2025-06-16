@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:30:34 by jweber            #+#    #+#             */
-/*   Updated: 2025/05/16 10:31:34 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/16 12:50:43 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char	**init_args(int *p_err_code)
 	char	**args;
 
 	args = ft_malloc(9 * sizeof(char *));
-	args[8] = NULL;
 	if (args == NULL)
 	{
 		*p_err_code = ERROR_MALLOC;
 		return (NULL);
 	}
+	args[8] = NULL;
 	args[0] = "&&";
 	args[1] = "||";
 	args[2] = "<<";

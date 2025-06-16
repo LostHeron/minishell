@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 17:23:44 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/03 16:32:07 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/16 17:19:22 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	init_minishell(t_minishell *p_mini, char **env)
 		// free env
 		return (ret);
 	}
+	init_builtins(p_mini);
 	p_mini->fd_stdin = dup(STDIN_FILENO);
 	if (p_mini->fd_stdin == -1)
 		perror(NULL);
@@ -72,6 +73,5 @@ static int	init_path_name(t_minishell *p_mini)
 		return (ERROR_MALLOC);
 	p_mini->path_name_size = 0;
 	p_mini->path_name[0] = '\0';
-	
 	return (0);
 }
