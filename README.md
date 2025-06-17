@@ -19,3 +19,23 @@ cat << yoyo > log1 & sleep 2 && echo youhou
 { sleep 4 && echo "eheh = $eheh" ; } & { (sleep 2 && exit 3); eheh=$?; }
 
 cat << eof > file1 | cat << eoff > file2
+
+
+
+TODO:
+
+- builtins in pipe function !
+- builtins with redirection !
+- option "-n" of echo builtin !
+- expansion of variable !
+- implementation of '&&' '||' '|' '&' and ';'
+- implementation of subshell 
+- make pahtname a variable at start of shell, if $PWD is set, take its value, else call getcwd;
+- secure pathname length (if you call cd on a path that would be greater than PATH_NAME_MAX_LENGTH, then print error message)
+- handle signal :
+    - Ctrl C
+    - Ctrl \
+- Here-documents 
+- in env builtin, make "_" environment variable to be the last command executed !
+- a function to transform env chained list to a (char **) that can be passed to execve !
+- readline history and error while <C-C> when its looking for autocomplete

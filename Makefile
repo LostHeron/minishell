@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/06/16 17:37:38 by jweber           ###   ########.fr        #
+#    Updated: 2025/06/17 17:32:49 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ BUILTINS_FILES := builtin_cd.c \
 				  builtin_env.c \
 				  builtin_exit.c \
 				  builtin_export.c \
+				  builtin_export_with_args.c \
 				  builtin_pwd.c \
 				  builtin_unset.c \
 
