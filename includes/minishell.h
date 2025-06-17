@@ -38,8 +38,7 @@ typedef struct s_minishell
 	t_list		*env;
 	t_vector	path;
 	char		*builtins_name[NB_BUILTINS_HERE + 1];
-	int			(*builtins_func[NB_BUILTINS_HERE])(t_vector args, \
-											struct s_minishell *p_mini);
+	int			(*builtins_func[NB_BUILTINS_HERE])();
 	char		*path_name;
 	size_t		path_name_size;
 }			t_minishell;
