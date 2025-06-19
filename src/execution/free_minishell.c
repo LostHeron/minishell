@@ -24,6 +24,7 @@ void	free_minishell(t_minishell *p_mini)
 	close(p_mini->fd_stderr);
 	ft_vector_free(&p_mini->path);
 	my_free(p_mini->env);
+	free(p_mini->path_name);
 }
 
 static void	my_free(t_list *lst)

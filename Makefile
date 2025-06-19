@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/06/17 17:32:49 by jweber           ###   ########.fr        #
+#    Updated: 2025/06/19 18:00:02 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ EXECUTION_FILES := exec_func.c \
 
 BUILTINS_DIR := src/builtins/
 BUILTINS_FILES := builtin_cd.c \
+				  builtin_cd_get_path_len_name.c \
 				  builtin_echo.c \
 				  builtin_env.c \
 				  builtin_exit.c \

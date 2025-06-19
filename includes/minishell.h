@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/16 17:19:32 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/19 18:04:08 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define CMD_BUILTIN 3
 # define CMD_BINARY 2
 
-# define PATH_NAME_MAX_LENGTH 4096
+# define PATH_NAME_MAX_LENGTH 4095
 
 // error of define here should move something !
 // maybe allocate number of function later ?? who knows !
