@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:11:54 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/20 12:23:30 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:44:52 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_lists_single.h"
 #include "ft_string.h"
 #include "ft_io.h"
+#include "builtins.h"
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
@@ -48,7 +49,10 @@ int	builtin_cd_without_path_given(t_minishell *p_mini)
 		return (1);
 	}
 	ft_strlcpy(p_mini->path_name, path_name, PATH_NAME_MAX_LENGTH);
-	return (0);
+	path_name = ft_strjoin("PWD=", path_name);
+	ret = export_from_string(path_name, p_mini);
+	free(path_name);
+	return (ret);
 }
 
 static int	get_path_name(char **p_path_name, t_list *env)

@@ -6,11 +6,10 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:29:40 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/20 12:21:35 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:47:22 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_lists_single.h"
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "ft_io.h"
@@ -34,21 +33,17 @@ int	builtin_cd(t_vector args, t_minishell *p_mini)
 	}
 	else if (args.size == 2)
 	{
-		builtin_cd_without_path_given(p_mini);
-		return (0);
+		ret = builtin_cd_without_path_given(p_mini);
+		return (ret);
 	}
 	else if (args.size == 3)
 	{
 		ret = with_path_given(args, p_mini);
-		if (ret != 0)
-		{
-			return (ret);
-		}
 		return (ret);
 	}
 	else
 	{
-		ft_putstr_fd("args.size in builtin cd is wrong !\n", 2);
+		ft_putstr_fd("ERROR : args.size in builtin cd is wrong !\n", 2);
 		exit(1);
 	}
 }
@@ -87,9 +82,15 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 		return (1);
 	}
 	ft_strlcpy(p_mini->path_name, path_name, PATH_NAME_MAX_LENGTH);
-	free(path_name);
+	path_len = ft_strlen(place_to_go);
+	if (path_len != 1 && place_to_go[path_len - 1] == '/')
+		ft_strlcat(p_mini->path_name, "/", PATH_NAME_MAX_LENGTH);
 	free(place_to_go);
-	return (0);
+	free(path_name);
+	path_name = ft_strjoin("PWD=", p_mini->path_name);
+	ret = export_from_string(path_name, p_mini);
+	free(path_name);
+	return (ret);
 }
 
 static char	*new_place_to_go(char *place_to_go, char *old_path)
