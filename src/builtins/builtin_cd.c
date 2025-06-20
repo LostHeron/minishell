@@ -76,9 +76,14 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 	ret = chdir(path_name);
 	if (ret == -1)
 	{
-		free(place_to_go);
 		free(path_name);
-		perror("cd: ");
+		place_to_go = ft_strjoin_free_second("cd: ", place_to_go);
+		if (place_to_go == NULL)
+		{
+			return (ERROR_MALLOC);
+		}
+		perror(place_to_go);
+		free(place_to_go);
 		return (1);
 	}
 	ft_strlcpy(p_mini->path_name, path_name, PATH_NAME_MAX_LENGTH);

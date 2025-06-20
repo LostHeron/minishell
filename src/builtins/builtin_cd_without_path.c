@@ -26,6 +26,7 @@ int	builtin_cd_without_path_given(t_minishell *p_mini)
 {
 	int		ret;
 	char	*path_name;
+	char	*error_string;
 	size_t	path_len;
 
 	ret = get_path_name(&path_name, p_mini->env);
@@ -45,7 +46,13 @@ int	builtin_cd_without_path_given(t_minishell *p_mini)
 	ret = chdir(path_name);
 	if (ret == -1)
 	{
-		perror("cd: ");
+		error_string = ft_strjoin("cd: ", path_name);
+		if (error_string == NULL)
+		{
+			return (ERROR_MALLOC);
+		}
+		perror(error_string);
+		free(error_string);
 		return (1);
 	}
 	ft_strlcpy(p_mini->path_name, path_name, PATH_NAME_MAX_LENGTH);
