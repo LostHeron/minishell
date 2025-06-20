@@ -6,10 +6,11 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:29:40 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/19 18:02:54 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/20 12:21:35 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_lists_single.h"
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "ft_io.h"
@@ -33,7 +34,7 @@ int	builtin_cd(t_vector args, t_minishell *p_mini)
 	}
 	else if (args.size == 2)
 	{
-		ft_putstr_fd("empty cd not implemented yet\n", 2);
+		builtin_cd_without_path_given(p_mini);
 		return (0);
 	}
 	else if (args.size == 3)
@@ -41,16 +42,7 @@ int	builtin_cd(t_vector args, t_minishell *p_mini)
 		ret = with_path_given(args, p_mini);
 		if (ret != 0)
 		{
-			if (ret < 0)
-			{
-				// malloc error we should exit shell !
-				return (ret);
-			}
-			else
-			{
-				// just bad path given of something else, np !
-				return (ret);
-			}
+			return (ret);
 		}
 		return (ret);
 	}
@@ -80,7 +72,6 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 			return (ERROR_MALLOC);
 		}
 	}
-	printf("PLACE TO GO : %s\n", place_to_go);
 	ret = get_path_len_name(place_to_go, &path_len, &path_name);
 	if (ret != 0)
 	{

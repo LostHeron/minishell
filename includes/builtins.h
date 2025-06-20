@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:49:50 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/19 11:46:42 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/20 12:19:30 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 int	builtin_cd(t_vector	args, t_minishell *p_mini);
 int	get_path_len_name(char *place_to_go, size_t *p_path_len, \
 													char **p_path_name);
+int	builtin_cd_without_path_given(t_minishell *p_mini);
 int	builtin_echo(t_vector args, t_minishell *p_mini);
 int	builtin_env(t_vector args, t_minishell *p_mini);
 int	builtin_export(t_vector args, t_minishell *p_mini);
