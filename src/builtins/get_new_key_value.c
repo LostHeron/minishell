@@ -18,7 +18,7 @@ int	get_new_key_value(char *str, char **p_new_key, char **p_new_value)
 	char	*equal_position;
 
 	equal_position = ft_strchr(str, '=');
-	if (equal_position == NULL || equal_position[1] == '\0')
+	if (equal_position == NULL)
 	{
 		*p_new_key = ft_strdup(str);
 		if (*p_new_key == NULL)
