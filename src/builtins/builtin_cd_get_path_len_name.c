@@ -108,6 +108,8 @@ static size_t	get_path_len(t_list *list)
 
 	i = 0;
 	ret = 0;
+	if (list == NULL)
+		ret = 1;
 	while (list != NULL)
 	{
 		j = 0;
@@ -131,6 +133,8 @@ static char	*get_path_name(t_list *list, size_t	path_len)
 	if (ret == NULL)
 		return (NULL);
 	ret[0] = '\0';
+	if (list == NULL)
+		ft_strlcat(ret, "/", total_len);
 	while (list != NULL)
 	{
 		ft_strlcat(ret, "/", total_len);
