@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:37:10 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/04 12:47:51 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/23 18:49:43 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,14 @@ int	main(int argc, char **argv, char **env)
 		}
 		minishell.first_cmd = 1;
 		exec_func(ast, &minishell);
-		if (close(minishell.fd1[0]) == -1)
-			perror("(close(minishell.fd1[0])");
-		if (close(minishell.fd1[1]) == -1)
-			perror("(close(minishell.fd1[1])");
+		if (minishell.fd1[0] != -1)
+			if (close(minishell.fd1[0]) == -1)
+				perror("minishell.c : main : (close(minishell.fd1[0])");
+		minishell.fd1[0] = -1;
+		if (minishell.fd1[1] != -1)
+			if (close(minishell.fd1[1]) == -1)
+				perror("minishell.c : main : (close(minishell.fd1[1])");
+		minishell.fd1[1] = -1;
 		wait_id = wait(NULL);
 		while (wait_id != -1)
 			wait_id = wait(NULL);

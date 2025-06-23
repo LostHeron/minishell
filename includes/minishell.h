@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/19 18:04:08 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/23 11:00:54 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_minishell
 	int			fd_stdin;
 	int			fd_stdout;
 	int			fd_stderr;
+	int			last_child_id;
+	int			last_error_code;
 	int			previous_side;
 	int			previous_type;
 	int			first_cmd;
