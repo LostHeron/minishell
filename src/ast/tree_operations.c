@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-16 15:03:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/06/02 16:19:08 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/23 13:25:47 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	fill_command(t_ast *root, t_vector tokens, size_t *ind)
 			type = get_type(tokens, *ind);
 			if (type == COMMAND)
 			{
-				if (get_dir(tokens, *ind))
+				if (get_dir(tokens, *ind) != NOT_DIR)
 					return (1);
 				redir.filename = ft_strdup(((char **)tokens.data)[*ind]);
 				if (!redir.filename)

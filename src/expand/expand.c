@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-06-19 12:53:34 by cviel             #+#    #+#             */
-/*   Updated: 2025-06-19 12:53:34 by cviel            ###   ########.fr       */
+/*   Updated: 2025/06/23 18:31:15 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	expand(t_vector *p_args, t_minishell mini)
 {
 	int			ret;
 	t_vector	copy;
-	int			i;
+	size_t		i;
 
 	ft_vector_copy(&copy, p_args);
 	ret = ft_vector_init(p_args, copy.capacity, copy.data_size, copy.del);
@@ -43,7 +43,7 @@ int	expand(t_vector *p_args, t_minishell mini)
 
 void	free_exp(t_vector *word)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (i < word->size)

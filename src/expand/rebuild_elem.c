@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-06-23 14:06:07 by cviel             #+#    #+#             */
-/*   Updated: 2025-06-23 14:06:07 by cviel            ###   ########.fr       */
+/*   Updated: 2025/06/23 18:35:47 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	split_and_fill(t_vector *dest, t_exp exp);
 int	rebuild_elem(t_vector *dest, t_vector splitted)
 {
 	int		ret;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	while (i < splitted.size)

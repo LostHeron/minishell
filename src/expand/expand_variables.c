@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-06-23 13:02:57 by cviel             #+#    #+#             */
-/*   Updated: 2025-06-23 13:02:57 by cviel            ###   ########.fr       */
+/*   Updated: 2025/06/23 18:35:35 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	expand_here(t_exp *p_exp_part, int *p_ind, t_minishell mini);
 int	expand_variables(t_vector splitted, t_minishell mini)
 {
 	int	ret;
-	int	i;
+	size_t	i;
 	int	j;
 
 	i = 0;
@@ -42,6 +42,7 @@ int	expand_variables(t_vector splitted, t_minishell mini)
 		}
 		i++;
 	}
+	return (0);
 }
 
 static t_env	*get_env(char *str, int	ind, int len_key, t_minishell mini)
@@ -67,7 +68,7 @@ static int	replace_key_value(t_exp *p_exp_part, int *p_ind, int len_key, t_env *
 	if (p_env == NULL)
 		len_val = 0;
 	else
-		len_val = ft_strlen(p_env);
+		len_val = ft_strlen(p_env->value);
 	len_replace = ft_strlen(p_exp_part->content) - (len_key + 1) + len_val + 1;
 	replace = malloc(sizeof(char) * len_replace);
 	if (replace == NULL)
@@ -83,7 +84,6 @@ static int	replace_key_value(t_exp *p_exp_part, int *p_ind, int len_key, t_env *
 
 static int	expand_here(t_exp *p_exp_part, int *p_ind, t_minishell mini)
 {
-	int		ret;
 	t_env	*p_env;
 	int		len_key;
 	
