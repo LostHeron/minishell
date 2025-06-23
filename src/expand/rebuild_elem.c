@@ -1,0 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rebuild_elem.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025-06-23 14:06:07 by cviel             #+#    #+#             */
+/*   Updated: 2025-06-23 14:06:07 by cviel            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+#include "expand.h"
+#include "ft_vectors.h"
+#include "ft_standard.h"
+
+static int	split_and_fill(t_vector *dest, t_exp exp);
+
+int	rebuild_elem(t_vector *dest, t_vector splitted)
+{
+	int		ret;
+	int		i;
+
+	i = 0;
+	while (i < splitted.size)
+	{
+		if (((t_exp *)splitted.data)[i].quote == NONE)
+		{
+			ret = split_and_fill(dest, ((t_exp *)splitted.data)[i]);
+			if (ret != 0)
+				return (ret);
+		}
+		else
+		{
+			ret = ft_vector_add_single(dest, ((t_exp *)splitted.data)[i].content);
+			if (ret != 0)
+				return (ret);
+		}
+	}
+	return (0);
+}
+
+void	free_tab(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+static int	split_and_fill(t_vector *dest, t_exp exp)
+{
+	int		ret;
+	char	**arr;
+	int		i;
+
+	arr = ft_split(exp.content, WHITE_SPACES);
+	if (arr == NULL)
+		return (ERROR_MALLOC);
+	i = 0;
+	while (arr[i] != NULL)
+	{
+		ret = ft_vector_add_single(dest, arr[i]);
+		if (ret != 0)
+		{
+			free_tab(arr);
+			return (ret);
+		}
+		i++;
+	}
+	free_tab(arr);
+	return (0);
+}
