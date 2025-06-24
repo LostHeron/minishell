@@ -15,6 +15,8 @@
 #include "execution.h"
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <unistd.h>
+#include <stdio.h>
 
 int	exec_or(t_ast *ast, t_minishell *p_mini)
 {
@@ -33,13 +35,31 @@ int	exec_or(t_ast *ast, t_minishell *p_mini)
 	// here should wait,
 	// then retreive last command exit status
 	// call next only if last error code is 0
-	wait_id = wait(&child_ret);
+	if (pipe(p_mini->fd2) == -1)
 	{
-		if (wait_id == p_mini->last_child_id)
-			if (WIFEXITED(child_ret) != 0)
-				child_ret = WEXITSTATUS(child_ret);
+		perror("exec_and.c : pipe(p_mini->fd2)");
+		// return ??
 	}
-	if (child_ret != 0)
+	ret = swap_fds(p_mini);
+	if (ret != 0)
+	{
+		// do stuff ?
+		return (ret);
+	}
+	if (p_mini->last_child_id != 0)
+	{
+		wait_id = wait(&child_ret);
+		{
+			while (wait_id != -1)
+			{
+				if (wait_id == p_mini->last_child_id)
+					if (WIFEXITED(child_ret) != 0)
+						p_mini->last_error_code = WEXITSTATUS(child_ret);
+				wait_id = wait(&child_ret);
+			}
+		}
+	}
+	if (p_mini->last_error_code != 0)
 	{
 		p_mini->previous_side = PREV_RIGHT;
 		ret = exec_func(ast->arguments.op_args.right, p_mini);

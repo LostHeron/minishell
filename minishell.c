@@ -17,8 +17,8 @@
 #include "minishell.h"
 #include "parsing.h"
 #include "printing.h"
-#include <errno.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
@@ -51,6 +51,8 @@ int	main(int argc, char **argv, char **env)
 		line = readline("prompt >> ");
 		if (line == NULL)
 			exit(0);//break ;
+		if (line && *line)
+			add_history(line);
 		//printf("errno = %i\n", errno);
 		// !!!!!!!!!!!!!! MUST check for parenthesis !!
 		//ret = check_parenthesis(line);
@@ -65,36 +67,42 @@ int	main(int argc, char **argv, char **env)
 		}
 		free(line);
 		i = 0;
-		ast = create_ast(tokens, END_LINE, &i);
-		if (!ast)
-			return (1);
-		if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
-			err_code = 1;
-		ft_vector_free(&tokens);
-		print_tree(ast, 0);
-		minishell.previous_side = PREV_NONE;
-		minishell.previous_type = 0; //NONE;
-		if (pipe(minishell.fd1) == -1)
+		if (tokens.size > 0)
 		{
-			// do stuff
-			// return?
-			;
-		}
-		minishell.first_cmd = 1;
-		exec_func(ast, &minishell);
-		if (minishell.fd1[0] != -1)
-			if (close(minishell.fd1[0]) == -1)
-				perror("minishell.c : main : (close(minishell.fd1[0])");
-		minishell.fd1[0] = -1;
-		if (minishell.fd1[1] != -1)
-			if (close(minishell.fd1[1]) == -1)
-				perror("minishell.c : main : (close(minishell.fd1[1])");
-		minishell.fd1[1] = -1;
-		wait_id = wait(NULL);
-		while (wait_id != -1)
+			ast = create_ast(tokens, END_LINE, &i);
+			if (!ast)
+				return (1);
+			if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
+				err_code = 1;
+			ft_vector_free(&tokens);
+			print_tree(ast, 0);
+			minishell.previous_side = PREV_NONE;
+			minishell.previous_type = 0; //NONE;
+			if (pipe(minishell.fd1) == -1)
+			{
+				// do stuff
+				// return?
+				;
+			}
+			minishell.first_cmd = 1;
+			exec_func(ast, &minishell);
+			if (minishell.fd1[0] != -1)
+				if (close(minishell.fd1[0]) == -1)
+					perror("minishell.c : main : (close(minishell.fd1[0])");
+			minishell.fd1[0] = -1;
+			if (minishell.fd1[1] != -1)
+				if (close(minishell.fd1[1]) == -1)
+					perror("minishell.c : main : (close(minishell.fd1[1])");
+			minishell.fd1[1] = -1;
 			wait_id = wait(NULL);
-		free_tree(&ast);
+			while (wait_id != -1)
+				wait_id = wait(NULL);
+			free_tree(&ast);
+		}
+		else
+			ft_vector_free(&tokens);
 	}
 	free_minishell(&minishell);
+	rl_clear_history();
 	return (0);
 }

@@ -80,12 +80,13 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 			;
 		}
 		ret = call_builtins(p_mini, ast->arguments.com_args.content);
-		if (ret != 0)
+		if (ret < 0)
 		{
 			// do stuff ?
 			//return (ret) ?
 			;
 		}
+		p_mini->last_error_code = ret;
 		ret = restore_fds(p_mini);
 		if (ret != 0)
 		{
