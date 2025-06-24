@@ -17,13 +17,13 @@ char	**init_args(int *p_err_code)
 {
 	char	**args;
 
-	args = ft_malloc(9 * sizeof(char *));
+	args = ft_malloc(11 * sizeof(char *));
 	if (args == NULL)
 	{
 		*p_err_code = ERROR_MALLOC;
 		return (NULL);
 	}
-	args[8] = NULL;
+	args[10] = NULL;
 	args[0] = "&&";
 	args[1] = "||";
 	args[2] = "<<";
@@ -32,5 +32,7 @@ char	**init_args(int *p_err_code)
 	args[5] = "&";
 	args[6] = ">";
 	args[7] = "<";
+	args[8] = "(";
+	args[9] = ")";
 	return (args);
 }

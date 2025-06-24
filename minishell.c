@@ -52,6 +52,8 @@ int	main(int argc, char **argv, char **env)
 		if (line == NULL)
 			exit(0);//break ;
 		//printf("errno = %i\n", errno);
+		// !!!!!!!!!!!!!! MUST check for parenthesis !!
+		//ret = check_parenthesis(line);
 		ret = lexer(line, &tokens);
 		if (ret != 0)
 		{
