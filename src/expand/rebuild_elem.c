@@ -30,18 +30,15 @@ int	rebuild_elem(t_vector *dest, t_vector splitted)
 	while (i < splitted.size)
 	{
 		len_arg = find_len(splitted, i);
-		if (len_arg > 0)
+		new_arg = ft_calloc(len_arg + 1, sizeof(char));
+		if (new_arg == NULL)
+			return (ERROR_MALLOC);
+		fill_arg(new_arg, splitted, &i, len_arg + 1);
+		ret = ft_vector_add_single(dest, &new_arg);
+		if (ret != 0)
 		{
-			new_arg = ft_calloc(len_arg + 1, sizeof(char));
-			if (new_arg == NULL)
-				return (ERROR_MALLOC);
-			fill_arg(new_arg, splitted, &i, len_arg);
-			ret = ft_vector_add_single(dest, &new_arg);
-			if (ret != 0)
-			{
-				free(new_arg);
-				return (ret);
-			}
+			free(new_arg);
+			return (ret);
 		}
 	}
 	return (0);

@@ -43,23 +43,30 @@ int	split_elem(t_vector *splitted, char *src)
 
 static int	fill_exp(t_exp *p_exp_part, char *src, int *p_ind)
 {
+	int	ret;
+	
 	if (src[*p_ind] == '\'')
 	{
 		p_exp_part->quote = SINGLE;
 		(*p_ind)++;
-		return (fill_content(p_exp_part, src, p_ind, "'"));
+		ret = fill_content(p_exp_part, src, p_ind, "'");
+		if (src[*p_ind] == '\'')
+			(*p_ind)++;
 	}
 	else if (src[*p_ind] == '"')
 	{
 		p_exp_part->quote = DOUBLE;
 		(*p_ind)++;
-		return (fill_content(p_exp_part, src, p_ind, "\""));
+		ret = fill_content(p_exp_part, src, p_ind, "\"");
+		if (src[*p_ind] == '"')
+			(*p_ind)++;
 	}
 	else
 	{
 		p_exp_part->quote = NONE;
-		return (fill_content(p_exp_part, src, p_ind, "'\""));
+		ret = fill_content(p_exp_part, src, p_ind, "'\"");
 	}
+	return (ret);
 }
 
 static int	fill_content(t_exp *p_exp_part, char *src, int *p_ind, char *charset)
@@ -73,8 +80,6 @@ static int	fill_content(t_exp *p_exp_part, char *src, int *p_ind, char *charset)
 	if (p_exp_part->content == NULL)
 		return (ERROR_MALLOC);
 	*p_ind += i;
-	if (src[*p_ind])
-		(*p_ind)++;
 	return (0);
 }
 
