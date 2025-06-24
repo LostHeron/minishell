@@ -21,6 +21,7 @@ int	expand(t_vector *p_args, t_minishell mini)
 	int			ret;
 	t_vector	copy;
 	size_t		i;
+	char		*null;
 
 	ft_vector_copy(&copy, p_args);
 	ret = ft_vector_init(p_args, copy.capacity, copy.data_size, copy.del);
@@ -37,6 +38,8 @@ int	expand(t_vector *p_args, t_minishell mini)
 		}
 		i++;
 	}
+	null = NULL;
+	ft_vector_add_single(p_args, &null);
 	ft_vector_free(&copy);
 	return (0);
 }

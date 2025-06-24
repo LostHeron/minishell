@@ -29,8 +29,6 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 	int		cmd_type;
 	int		ret;
 
-
-	/*
 	ret = expand(&ast->arguments.com_args.content, *p_mini);
 	if (ret != 0)
 	{
@@ -38,7 +36,6 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 		// return (ret) ?
 		;
 	}
-	*/
 	cmd_type = get_cmd_type(p_mini->builtins_name, \
 						ast->arguments.com_args.content);
 	if (p_mini->previous_type == PIPE || cmd_type == CMD_BINARY)

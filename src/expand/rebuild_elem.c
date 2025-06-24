@@ -14,6 +14,7 @@
 #include "expand.h"
 #include "ft_vectors.h"
 #include "ft_standard.h"
+#include "ft_string.h"
 
 static int	split_and_fill(t_vector *dest, t_exp exp);
 
@@ -21,6 +22,7 @@ int	rebuild_elem(t_vector *dest, t_vector splitted)
 {
 	int		ret;
 	size_t	i;
+	char	*str_copy;
 
 	i = 0;
 	while (i < splitted.size)
@@ -33,10 +35,14 @@ int	rebuild_elem(t_vector *dest, t_vector splitted)
 		}
 		else
 		{
-			ret = ft_vector_add_single(dest, ((t_exp *)splitted.data)[i].content);
+			str_copy = ft_strdup(((t_exp *)splitted.data)[i].content);
+			if (str_copy == NULL)
+				return (ERROR_MALLOC);
+			ret = ft_vector_add_single(dest, &str_copy);
 			if (ret != 0)
 				return (ret);
 		}
+		i++;
 	}
 	return (0);
 }
@@ -66,7 +72,7 @@ static int	split_and_fill(t_vector *dest, t_exp exp)
 	i = 0;
 	while (arr[i] != NULL)
 	{
-		ret = ft_vector_add_single(dest, arr[i]);
+		ret = ft_vector_add_single(dest, arr + i);
 		if (ret != 0)
 		{
 			free_tab(arr);
@@ -74,6 +80,6 @@ static int	split_and_fill(t_vector *dest, t_exp exp)
 		}
 		i++;
 	}
-	free_tab(arr);
+	//free_tab(arr);
 	return (0);
 }

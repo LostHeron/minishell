@@ -13,6 +13,9 @@
 #ifndef EXPAND_H
 # define EXPAND_H
 
+# include "minishell.h"
+# include "ft_vectors.h"
+
 enum e_quote
 {
 	NONE = 0,
@@ -23,7 +26,7 @@ enum e_quote
 typedef struct s_exp
 {
 	enum e_quote	quote;
-	char 			*content;
+	char			*content;
 }	t_exp;
 
 int	expand(t_vector *p_args, t_minishell mini);

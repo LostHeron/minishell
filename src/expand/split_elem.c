@@ -16,6 +16,8 @@
 #include "ft_string.h"
 
 static int	fill_exp(t_exp *p_exp_part, char *src, int *p_ind);
+static int	fill_content(t_exp *p_exp_part, char *src, int *p_ind, char *charset);
+static int	is_charset(char c, char *set);
 
 int	split_elem(t_vector *splitted, char *src)
 {
@@ -39,35 +41,6 @@ int	split_elem(t_vector *splitted, char *src)
 	return (0);
 }
 
-static int	is_charset(char c, char *set)
-{
-	int	i;
-
-	i = 0;
-	while (set[i])
-	{
-		if (c == set[i])
-		return (1);
-		i++;
-	}
-	return (0);
-}
-
-static int	fill_content(t_exp *p_exp_part, char *src, int *p_ind, char *charset)
-{
-	int	i;
-	
-	i = 0;
-	while (is_charset(src[*p_ind + i], charset) == 0)
-	i++;
-	p_exp_part->content = ft_strndup(src + *p_ind, i);
-	if (p_exp_part->content == NULL)
-	return (ERROR_MALLOC);
-	if (src[*p_ind + i])
-	(*p_ind)++;
-	return (0);
-}
-
 static int	fill_exp(t_exp *p_exp_part, char *src, int *p_ind)
 {
 	if (src[*p_ind] == '\'')
@@ -85,6 +58,36 @@ static int	fill_exp(t_exp *p_exp_part, char *src, int *p_ind)
 	else
 	{
 		p_exp_part->quote = NONE;
-		return (fill_content(p_exp_part, src, p_ind, "'\"\0"));
+		return (fill_content(p_exp_part, src, p_ind, "'\""));
 	}
+}
+
+static int	fill_content(t_exp *p_exp_part, char *src, int *p_ind, char *charset)
+{
+	int	i;
+
+	i = 0;
+	while (src[*p_ind + i] && (is_charset(src[*p_ind + i], charset) == 0))
+		i++;
+	p_exp_part->content = ft_strndup(src + *p_ind, i);
+	if (p_exp_part->content == NULL)
+		return (ERROR_MALLOC);
+	*p_ind += i;
+	if (src[*p_ind])
+		(*p_ind)++;
+	return (0);
+}
+
+static int	is_charset(char c, char *set)
+{
+	int	i;
+
+	i = 0;
+	while (set[i])
+	{
+		if (c == set[i])
+			return (1);
+		i++;
+	}
+	return (0);
 }

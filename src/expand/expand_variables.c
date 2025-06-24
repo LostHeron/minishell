@@ -56,7 +56,7 @@ static t_env	*get_env(char *str, int	ind, int len_key, t_minishell mini)
 		lst_i = lst_i->next;
 	if (lst_i == NULL)
 		return (NULL);
-	return (((t_env *)lst_i->content));
+	return (lst_i->content);
 }
 
 static int	replace_key_value(t_exp *p_exp_part, int *p_ind, int len_key, t_env *p_env)
@@ -86,9 +86,9 @@ static int	expand_here(t_exp *p_exp_part, int *p_ind, t_minishell mini)
 {
 	t_env	*p_env;
 	int		len_key;
-	
+
 	if (ft_isalpha(p_exp_part->content[*p_ind + 1]) == 0 \
-		|| p_exp_part->content[*p_ind + 1] != '_' )
+		&& p_exp_part->content[*p_ind + 1] != '_' )
 		return (0);
 	len_key = 1;
 	while (ft_isalnum(p_exp_part->content[*p_ind + len_key + 1]) != 0 \
