@@ -47,7 +47,7 @@ int	rebuild_elem(t_vector *dest, t_vector splitted)
 	return (0);
 }
 
-void	free_tab(char **arr)
+static void	free_tab(char **arr)
 {
 	int	i;
 
@@ -80,6 +80,5 @@ static int	split_and_fill(t_vector *dest, t_exp exp)
 		}
 		i++;
 	}
-	//free_tab(arr);
 	return (0);
 }

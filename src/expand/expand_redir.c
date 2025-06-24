@@ -1,46 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-19 12:53:34 by cviel             #+#    #+#             */
-/*   Updated: 2025/06/23 18:31:15 by jweber           ###   ########.fr       */
+/*   Created: 2025-06-24 12:34:01 by cviel             #+#    #+#             */
+/*   Updated: 2025-06-24 12:34:01 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "ast.h"
 #include "expand.h"
 #include "ft_vectors.h"
+#include <stdio.h>
 
-static int	expand_elem(t_vector *dest, char *src, t_minishell mini);
+static int	expand_filename(t_vector *p_redir, int ind, char *src, t_minishell mini);
 
-int	expand(t_vector *p_args, t_minishell mini)
+int	expand_redir(t_vector *p_redir, t_minishell mini)
 {
 	int			ret;
-	t_vector	copy;
 	size_t		i;
-	char		*null;
 
-	ft_vector_copy(&copy, p_args);
-	ret = ft_vector_init(p_args, copy.capacity, copy.data_size, copy.del);
-	if (ret != 0)
-		return (ret);
 	i = 0;
-	while (i < copy.size - 1)
+	while (i < p_redir->size)
 	{
-		ret = expand_elem(p_args, ((char **)copy.data)[i], mini);
+		ret = expand_filename(p_redir, i, ((t_dirargs *)p_redir->data)[i].filename, mini);
 		if (ret != 0)
 		{
-			ft_vector_free(&copy);
+			ft_vector_free(p_redir);
 			return (ret);
 		}
 		i++;
 	}
-	null = NULL;
-	ft_vector_add_single(p_args, &null);
-	ft_vector_free(&copy);
 	return (0);
 }
 
@@ -57,7 +50,7 @@ static void	free_exp(t_vector *word)
 	free(word->data);
 }
 
-static int	expand_elem(t_vector *dest, char *src, t_minishell mini)
+static int	expand_filename(t_vector *dest, int ind, char *src, t_minishell mini)
 {
 	int			ret;
 	t_vector	splitted;
@@ -77,7 +70,7 @@ static int	expand_elem(t_vector *dest, char *src, t_minishell mini)
 		ft_vector_free(&splitted);
 		return (ret);
 	}
-	ret = rebuild_elem(dest, splitted);
+	ret = rebuild_filename(dest, ind, splitted);
 	ft_vector_free(&splitted);
 	return (ret);
 }

@@ -75,6 +75,8 @@ EXPAND_FILES := expand.c \
 				expand_variables.c \
 				rebuild_elem.c \
 				split_elem.c \
+				expand_redir.c \
+				rebuild_filename.c \
 
 C_FILES := minishell.c \
 		   $(addprefix $(PARSING_DIR),$(PARSING_FILES)) \

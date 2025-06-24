@@ -30,8 +30,10 @@ typedef struct s_exp
 }	t_exp;
 
 int	expand(t_vector *p_args, t_minishell mini);
+int	expand_redir(t_vector *p_redir, t_minishell mini);
 int	split_elem(t_vector *splitted, char *src);
 int	expand_variables(t_vector splitted, t_minishell mini);
 int	rebuild_elem(t_vector *dest, t_vector splitted);
+int	rebuild_filename(t_vector *dest, int ind, t_vector splitted);
 
 #endif

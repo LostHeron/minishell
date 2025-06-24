@@ -51,6 +51,7 @@ typedef struct s_env
 	char	*value;
 }			t_env;
 
+# define ERROR_FILENAME 1
 # define ERROR_MALLOC -3
 # define ERROR_UNCLOSED_S_QUOTES -10
 # define ERROR_UNCLOSED_D_QUOTES -11
