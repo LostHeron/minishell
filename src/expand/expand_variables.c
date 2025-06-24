@@ -29,6 +29,7 @@ int	expand_variables(t_vector splitted, t_minishell mini)
 	{
 		if (((t_exp *)splitted.data)[i].quote != SINGLE)
 		{
+			j = 0;
 			while (((t_exp *)splitted.data)[i].content[j])
 			{
 				if (((t_exp *)splitted.data)[i].content[j] == '$')
