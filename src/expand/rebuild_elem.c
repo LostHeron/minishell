@@ -32,10 +32,9 @@ int	rebuild_elem(t_vector *dest, t_vector splitted)
 		len_arg = find_len(splitted, i);
 		if (len_arg > 0)
 		{
-			new_arg = malloc(sizeof(char) * len_arg + 1);
+			new_arg = ft_calloc(len_arg + 1, sizeof(char));
 			if (new_arg == NULL)
 				return (ERROR_MALLOC);
-			new_arg[0] = '\0';
 			fill_arg(new_arg, splitted, &i, len_arg);
 			ret = ft_vector_add_single(dest, &new_arg);
 			if (ret != 0)
