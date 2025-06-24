@@ -76,7 +76,8 @@ static int	replace_key_value(t_exp *p_exp_part, int *p_ind, int len_key, t_env *
 		return (ERROR_MALLOC);
 	*replace = '\0';
 	ft_strncat(replace, p_exp_part->content, *p_ind);
-	ft_strlcat(replace, p_env->value, len_replace);
+	if (p_env != NULL)
+		ft_strlcat(replace, p_env->value, len_replace);
 	ft_strlcat(replace, p_exp_part->content + *p_ind + len_key + 1, len_replace);
 	free(p_exp_part->content);
 	p_exp_part->content = replace;

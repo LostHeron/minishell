@@ -94,11 +94,11 @@ static void	fill_arg(char *new_arg, t_vector splitted, size_t *p_ind, int len)
 				if (ft_strchr(WHITE_SPACES, ((t_exp *)splitted.data)[*p_ind].content[i]))
 				{
 					skip_charset(((t_exp *)splitted.data)[*p_ind].content, WHITE_SPACES, &i);
+					if (((t_exp *)splitted.data)[*p_ind].content[i] == '\0')
+						(*p_ind)++;
 					return ;
 				}
-				new_arg[len_copy] = ((t_exp *)splitted.data)[*p_ind].content[i];
-				len_copy++;
-				i++;
+				new_arg[len_copy++] = ((t_exp *)splitted.data)[*p_ind].content[i++];
 			}
 			i = 0;
 		}
