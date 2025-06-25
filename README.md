@@ -28,16 +28,16 @@ TODO:
 - 2) erreur syntax
 - 3) code erreur dernière fonction
 - builtins in pipe function !
-- builtins with redirection !
 - option "-n" of echo builtin !
-- implementation of '&&' '||' '&' and ';'
+- implementation of '&' and ';'
 - implementation of subshell 
 - make pahtname a variable at start of shell, if $PWD is set, take its value, else call getcwd;
 - secure pathname length (if you call cd on a path that would be greater than PATH_NAME_MAX_LENGTH, then print error message)
 - handle signal :
     - Ctrl C
     - Ctrl \
-- Here-documents 
+- Here-documents  -> MAX here doc count = 16 if more -> next command ! exit !
+- modify PATH when it is modified by unset !
 - in env builtin, make "_" environment variable to be the last command executed !
 - a function to transform env chained list to a (char **) that can be passed to execve !
 - readline history and error while <C-C> when its looking for autocomplete

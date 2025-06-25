@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/06/23 18:33:28 by jweber           ###   ########.fr        #
+#    Updated: 2025/06/25 16:22:01 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,12 @@ PRINTING_FILES := print_error.c \
 				  print_env.c \
 				  print_path.c \
 
+HANDLE_SIGNALS_DIR := src/handle_signals/
+HANDLE_SIGNALS_FILES := init_signals.c \
 
 PARSING_DIR := src/parsing/
-PARSING_FILES := lexer.c \
+PARSING_FILES := check_parenthesis.c \
+				 lexer.c \
 				 init_args.c \
 				 get_next_token.c \
 				 ft_split_args.c \
@@ -85,6 +88,7 @@ C_FILES := minishell.c \
 		   $(addprefix $(EXECUTION_DIR), $(EXECUTION_FILES)) \
 		   $(addprefix $(BUILTINS_DIR), $(BUILTINS_FILES)) \
 		   $(addprefix $(EXPAND_DIR), $(EXPAND_FILES)) \
+		   $(addprefix $(HANDLE_SIGNALS_DIR), $(HANDLE_SIGNALS_FILES)) \
 
 OBJ_DIR := .obj/
 OBJ_DIR_DEBUG = .obj_debug/
@@ -107,8 +111,11 @@ git_update :
 $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBRARY)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR)
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJ_DIR)$(HANDLE_SIGNALS_DIR):
+	mkdir -p $@
 
 $(OBJ_DIR)$(EXPAND_DIR):
 	mkdir -p $@

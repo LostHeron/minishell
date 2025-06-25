@@ -65,14 +65,26 @@ char	*get_next_token(char **p_line, char **args, int *p_err_code)
 		return (NULL);
 	}
 	*/
-	token = ft_strndup(*p_line, token_size);
-	if (token == NULL)
+	if (token_size > 0)
 	{
-		*p_err_code = ERROR_MALLOC;
+		token = ft_strndup(*p_line, token_size);
+		if (token == NULL)
+		{
+			*p_err_code = ERROR_MALLOC;
+			return (NULL);
+		}
+		*p_line += token_size;
+		return (token);
+	}
+	else if (token_size == 0)
+	{
 		return (NULL);
 	}
-	*p_line += token_size;
-	return (token);
+	else
+	{
+		ft_putstr_fd("get_next_token error : should not get to token_size < 0\n", 2);
+		exit(1);
+	}
 }
 
 /*

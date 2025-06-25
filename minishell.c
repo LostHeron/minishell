@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:37:10 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/23 18:49:43 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/25 16:47:43 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 #include "execution.h"
 #include "ft_string.h"
 #include "ft_vectors.h"
+#include "handle_signal.h"
 #include "minishell.h"
 #include "parsing.h"
 #include "printing.h"
-#include <readline/readline.h>
+#include "printing.h"
+#include "ft_io.h"
 #include <readline/history.h>
+#include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "printing.h"
 
 int	main(int argc, char **argv, char **env)
 {
@@ -45,6 +47,7 @@ int	main(int argc, char **argv, char **env)
 		// do stuff ?
 		//return ??
 	}
+	init_signals();
 	while (err_code == 0)
 	{
 		//errno = 0;
@@ -53,54 +56,86 @@ int	main(int argc, char **argv, char **env)
 			exit(0);//break ;
 		if (line && *line)
 			add_history(line);
-		//printf("errno = %i\n", errno);
-		// !!!!!!!!!!!!!! MUST check for parenthesis !!
-		//ret = check_parenthesis(line);
+		ret = check_parenthesis(line);
+		if (ret != 0)
+		{
+			free(line);
+			print_error(ret);
+			continue ;
+		}
 		ret = lexer(line, &tokens);
 		if (ret != 0)
 		{
-			print_error(ret);
+			if (ret > 0)
+			{
+				free(line);
+				print_error(ret);
+			}
+			else
+			{
+			}
 		}
 		else
 		{
 			printf("line = %s\n", line);
 		}
 		free(line);
-		i = 0;
-		if (tokens.size > 0)
+		// first check for syntax error !
+		// here or later should handle here document
+		/*
+		ret = check_error_syntax(tokens);
+		if (ret != 0)
 		{
-			ast = create_ast(tokens, END_LINE, &i);
-			if (!ast)
-				return (1);
-			if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
-				err_code = 1;
-			ft_vector_free(&tokens);
-			print_tree(ast, 0);
-			minishell.previous_side = PREV_NONE;
-			minishell.previous_type = 0; //NONE;
-			if (pipe(minishell.fd1) == -1)
+			if (ret > 0)
 			{
-				// do stuff
-				// return?
 				;
 			}
-			minishell.first_cmd = 1;
-			exec_func(ast, &minishell);
-			if (minishell.fd1[0] != -1)
-				if (close(minishell.fd1[0]) == -1)
-					perror("minishell.c : main : (close(minishell.fd1[0])");
-			minishell.fd1[0] = -1;
-			if (minishell.fd1[1] != -1)
-				if (close(minishell.fd1[1]) == -1)
-					perror("minishell.c : main : (close(minishell.fd1[1])");
-			minishell.fd1[1] = -1;
-			wait_id = wait(NULL);
-			while (wait_id != -1)
-				wait_id = wait(NULL);
-			free_tree(&ast);
+			else
+			{
+				;
+			}
 		}
-		else
+		*/
+		i = 0;
+		if (tokens.size <= 0)
+		{
+			ft_putstr_fd("token.size == 0 -> continue and wait next input !\n", 2);
 			ft_vector_free(&tokens);
+			continue ;
+		}
+		ast = create_ast(tokens, END_LINE, &i);
+		if (ast == NULL)
+		{
+			ft_putstr_fd("error synthax !\n", 2);
+			continue ;
+		}
+		print_tree(ast, 0);
+		if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
+			err_code = 1;
+		ft_vector_free(&tokens);
+		print_tree(ast, 0);
+		minishell.previous_side = PREV_NONE;
+		minishell.previous_type = 0; //NONE;
+		if (pipe(minishell.fd1) == -1)
+		{
+			// do stuff
+			// return?
+			;
+		}
+		minishell.first_cmd = 1;
+		exec_func(ast, &minishell);
+		if (minishell.fd1[0] != -1)
+			if (close(minishell.fd1[0]) == -1)
+				perror("minishell.c : main : (close(minishell.fd1[0])");
+		minishell.fd1[0] = -1;
+		if (minishell.fd1[1] != -1)
+			if (close(minishell.fd1[1]) == -1)
+				perror("minishell.c : main : (close(minishell.fd1[1])");
+		minishell.fd1[1] = -1;
+		wait_id = wait(NULL);
+		while (wait_id != -1)
+			wait_id = wait(NULL);
+		free_tree(&ast);
 	}
 	free_minishell(&minishell);
 	rl_clear_history();

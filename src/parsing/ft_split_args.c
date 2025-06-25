@@ -52,11 +52,14 @@ t_vector	ft_split_args(char *line, char **args, int *p_err_code)
 		{
 			return (tokens);
 		}
-		ret = ft_vector_add_single(&tokens, &token_i);
-		if (ret != 0)
+		if (token_i != NULL)
 		{
-			*p_err_code = ret;
-			return (tokens);
+			ret = ft_vector_add_single(&tokens, &token_i);
+			if (ret != 0)
+			{
+				*p_err_code = ret;
+				return (tokens);
+			}
 		}
 	}
 	if (token_i == NULL)

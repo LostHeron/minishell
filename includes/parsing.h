@@ -6,16 +6,16 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:04:27 by jweber            #+#    #+#             */
-/*   Updated: 2025/05/16 14:22:43 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/25 16:21:46 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "minishell.h"
 # include "ft_vectors.h"
 
+int			check_parenthesis(char *line);
 int			lexer(char *line, t_vector *p_tokens);
 t_vector	ft_split_args(char *line, char **args, int *p_err_code);
 char		*get_next_token(char **p_line, char **args, int *p_err_code);

@@ -1,24 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_error.c                                      :+:      :+:    :+:   */
+/*   check_parenthesis.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:40:45 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/25 16:26:34 by jweber           ###   ########.fr       */
+/*   Created: 2025/06/25 16:18:43 by jweber            #+#    #+#             */
+/*   Updated: 2025/06/25 16:26:03 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "ft_io.h"
+#include <stdlib.h>
 
-void	print_error(int err_code)
+int	check_parenthesis(char *line)
 {
-	if (err_code == ERROR_UNCLOSED_S_QUOTES)
-		ft_printf_fd(2, "syntax error : unclose single quotes\n");
-	else if (err_code == ERROR_UNCLOSED_D_QUOTES)
-		ft_printf_fd(2, "syntax error : unclosed double quotes\n");
-	else if (err_code == ERROR_UNCLOSED_PARENTHESIS)
-		ft_printf_fd(2, "syntax error : unmatching parenthesis \n");
+	size_t	i;
+	ssize_t	nb_parenthesis;
+
+	nb_parenthesis = 0;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '(')
+			nb_parenthesis++;
+		if (line[i] == ')')
+			nb_parenthesis--;
+		if (nb_parenthesis < 0)
+		{
+			return (ERROR_UNCLOSED_PARENTHESIS);
+		}
+		i++;
+	}
+	if (nb_parenthesis == 0)
+		return (0);
+	else
+		return (ERROR_UNCLOSED_PARENTHESIS);
 }

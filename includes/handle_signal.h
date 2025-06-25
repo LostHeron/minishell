@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_error.c                                      :+:      :+:    :+:   */
+/*   handle_signal.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:40:45 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/25 16:26:34 by jweber           ###   ########.fr       */
+/*   Created: 2025/06/24 19:10:44 by jweber            #+#    #+#             */
+/*   Updated: 2025/06/24 19:16:06 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "ft_io.h"
+#ifndef HANDLE_SIGNAL_H
+# define HANDLE_SIGNAL_H
 
-void	print_error(int err_code)
-{
-	if (err_code == ERROR_UNCLOSED_S_QUOTES)
-		ft_printf_fd(2, "syntax error : unclose single quotes\n");
-	else if (err_code == ERROR_UNCLOSED_D_QUOTES)
-		ft_printf_fd(2, "syntax error : unclosed double quotes\n");
-	else if (err_code == ERROR_UNCLOSED_PARENTHESIS)
-		ft_printf_fd(2, "syntax error : unmatching parenthesis \n");
-}
+void	init_signals(void);
+
+#endif 
