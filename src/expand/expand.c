@@ -13,6 +13,7 @@
 #include "minishell.h"
 #include "expand.h"
 #include "ft_vectors.h"
+#include <stdio.h>
 
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini);
 

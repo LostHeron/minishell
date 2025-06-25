@@ -15,95 +15,115 @@
 #include "ft_vectors.h"
 #include "ft_standard.h"
 #include "ft_string.h"
+#include <stdio.h>
 
-static int	find_len(t_vector splitted, size_t ind);
-static void	fill_arg(char *new_arg, t_vector splitted, size_t *p_ind, int len);
+static int	join_strings(char **first, char *second);
+static int	add_unquoted(t_vector *dest, char **string, char *unquoted);
 
 int	rebuild_elem(t_vector *dest, t_vector splitted)
 {
 	int		ret;
 	char	*new_arg;
-	int		len_arg;
 	size_t	i;
 
+	new_arg = NULL;
 	i = 0;
 	while (i < splitted.size)
 	{
-		len_arg = find_len(splitted, i);
-		new_arg = ft_calloc(len_arg + 1, sizeof(char));
-		if (new_arg == NULL)
-			return (ERROR_MALLOC);
-		fill_arg(new_arg, splitted, &i, len_arg + 1);
-		ret = ft_vector_add_single(dest, &new_arg);
+		if (((t_exp *)splitted.data)[i].quote == NONE)
+			ret = add_unquoted(dest, &new_arg, ((t_exp *)splitted.data)[i].content);
+		else
+			ret = join_strings(&new_arg, ((t_exp *)splitted.data)[i].content);
 		if (ret != 0)
 		{
 			free(new_arg);
 			return (ret);
 		}
+		i++;
+	}
+	if (new_arg != NULL)
+	{
+		ret = ft_vector_add_single(dest, &new_arg);
+		if (ret != 0)
+			free(new_arg);
+	}
+	return (ret);
+}
+
+static int	join_strings(char **first, char *second)
+{
+	if (*first == NULL)
+		*first = ft_strdup(second);
+	else
+		*first = ft_strjoin_free_first(*first, second);
+	if (*first == NULL)
+		return (ERROR_MALLOC);
+	return (0);
+}
+
+static int	add_tab(t_vector *dest, char **string, char **tab)
+{
+	int	ret;
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		ret = join_strings(string, tab[i]);
+		if (ret != 0)
+			return (ret);
+		if (tab[i + 1] != NULL)
+		{
+			ret = ft_vector_add_single(dest, string);
+			if (ret != 0)
+				return (ret);
+			*string = NULL;
+		}
+		i++;
 	}
 	return (0);
 }
 
-static void	skip_charset(char *s, char *charset, int *p_ind)
+static void	free_tab(char **arr)
 {
-	while (s[*p_ind] != '\0' && ft_strchr(charset, s[*p_ind]) != NULL)
-		(*p_ind)++;
+	int	i;
+
+	i = 0;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }
 
-static int	find_len(t_vector splitted, size_t ind)
+static int	add_unquoted(t_vector *dest, char **string, char *unquoted)
 {
-	int			len;
-	static int	i;
+	int		ret;
+	char	**unquoted_split;
 
-	len = 0;
-	while (ind < splitted.size)
+	if (*unquoted == '\0')
+		return (0);
+	if (ft_strchr(WHITE_SPACES, *unquoted) != NULL)
 	{
-		if (((t_exp *)splitted.data)[ind].quote == NONE)
-		{
-			while (((t_exp *)splitted.data)[ind].content[i])
-			{
-				if (ft_strchr(WHITE_SPACES, ((t_exp *)splitted.data)[ind].content[i]) != NULL)
-				{
-					skip_charset(((t_exp *)splitted.data)[ind].content, WHITE_SPACES, &i);
-					return (len);
-				}
-				len++;
-				i++;
-			}
-			i = 0;
-		}
-		else
-			len += ft_strlen(((t_exp *)splitted.data)[ind].content);
-		ind++;
+		ret = ft_vector_add_single(dest, string);
+		if (ret != 0)
+			return (ret);
+		*string = NULL;
 	}
-	return (len);
-}
-
-static void	fill_arg(char *new_arg, t_vector splitted, size_t *p_ind, int len)
-{
-	int			len_copy;
-	static int	i;
-
-	len_copy = 0;
-	while (*p_ind < splitted.size)
+	unquoted_split = ft_split(unquoted, WHITE_SPACES);
+	if (unquoted_split == NULL)
+		return (ERROR_MALLOC);
+	ret = add_tab(dest, string, unquoted_split);
+	free_tab(unquoted_split);
+	if (ret != 0)
+		return (ret);
+	if (ft_strchr(WHITE_SPACES, unquoted[ft_strlen(unquoted) - 1]) != NULL)
 	{
-		if (((t_exp *)splitted.data)[*p_ind].quote == NONE)
-		{
-			while (((t_exp *)splitted.data)[*p_ind].content[i])
-			{
-				if (ft_strchr(WHITE_SPACES, ((t_exp *)splitted.data)[*p_ind].content[i]))
-				{
-					skip_charset(((t_exp *)splitted.data)[*p_ind].content, WHITE_SPACES, &i);
-					if (((t_exp *)splitted.data)[*p_ind].content[i] == '\0')
-						(*p_ind)++;
-					return ;
-				}
-				new_arg[len_copy++] = ((t_exp *)splitted.data)[*p_ind].content[i++];
-			}
-			i = 0;
-		}
-		else
-			len_copy = ft_strlcat(new_arg, ((t_exp *)splitted.data)[*p_ind].content, len);
-		(*p_ind)++;
+		ret = ft_vector_add_single(dest, string);
+		if (ret != 0)
+			return (ret);
+		*string = NULL;
 	}
+	return (0);
 }
