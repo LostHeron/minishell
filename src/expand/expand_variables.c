@@ -17,7 +17,7 @@
 #include "ft_string.h"
 #include "ft_standard.h"
 
-static int	expand_here(t_exp *p_exp_part, int p_ind, t_minishell mini);
+static int	expand_here(t_exp *p_exp_part, int *p_ind, t_minishell mini);
 
 int	expand_variables(t_vector splitted, t_minishell mini)
 {
@@ -35,11 +35,12 @@ int	expand_variables(t_vector splitted, t_minishell mini)
 			{
 				if (((t_exp *)splitted.data)[i].content[j] == '$')
 				{
-					ret = expand_here(&((t_exp *)splitted.data)[i], j, mini);
+					ret = expand_here(&((t_exp *)splitted.data)[i], &j, mini);
 					if (ret != 0)
 						return (ret);
 				}
-				j++;
+				else
+					j++;
 			}
 		}
 		i++;
@@ -61,7 +62,7 @@ static t_env	*get_env(char *str, int	ind, int len_key, t_minishell mini)
 	return (lst_i->content);
 }
 
-static int	replace_key_value(t_exp *p_exp_part, int p_ind, int len_key, t_env *p_env)
+static int	replace_key_value(t_exp *p_exp_part, int *p_ind, int len_key, t_env *p_env)
 {
 	char	*replace;
 	int		len_replace;
@@ -76,16 +77,17 @@ static int	replace_key_value(t_exp *p_exp_part, int p_ind, int len_key, t_env *p
 	if (replace == NULL)
 		return (ERROR_MALLOC);
 	*replace = '\0';
-	ft_strncat(replace, p_exp_part->content, p_ind);
+	ft_strncat(replace, p_exp_part->content, *p_ind);
 	if (p_env != NULL)
 		ft_strlcat(replace, p_env->value, len_replace);
-	ft_strlcat(replace, p_exp_part->content + p_ind + len_key + 1, len_replace);
+	ft_strlcat(replace, p_exp_part->content + *p_ind + len_key + 1, len_replace);
 	free(p_exp_part->content);
 	p_exp_part->content = replace;
+	*p_ind += len_val;
 	return (0);
 }
 
-static int	replace_err_code(t_exp *p_exp_part, int p_ind, t_minishell mini)
+static int	replace_err_code(t_exp *p_exp_part, int *p_ind, t_minishell mini)
 {
 	char	*replace;
 	char	*err_code;
@@ -104,28 +106,32 @@ static int	replace_err_code(t_exp *p_exp_part, int p_ind, t_minishell mini)
 		return (ERROR_MALLOC);
 	}
 	*replace = '\0';
-	ft_strncat(replace, p_exp_part->content, p_ind);
+	ft_strncat(replace, p_exp_part->content, *p_ind);
 	ft_strlcat(replace, err_code, len_replace);
-	ft_strlcat(replace, p_exp_part->content + p_ind + 2, len_replace);
+	ft_strlcat(replace, p_exp_part->content + *p_ind + 2, len_replace);
 	free(p_exp_part->content);
 	p_exp_part->content = replace;
+	*p_ind += len_code;
 	return (0);	
 }
 
-static int	expand_here(t_exp *p_exp_part, int p_ind, t_minishell mini)
+static int	expand_here(t_exp *p_exp_part, int *p_ind, t_minishell mini)
 {
 	t_env	*p_env;
 	int		len_key;
 
-	if (p_exp_part->content[p_ind + 1] == '?')
+	if (p_exp_part->content[*p_ind + 1] == '?')
 		return (replace_err_code(p_exp_part, p_ind, mini));
-	if (ft_isalpha(p_exp_part->content[p_ind + 1]) == 0 \
-		&& p_exp_part->content[p_ind + 1] != '_' )
+	if (ft_isalpha(p_exp_part->content[*p_ind + 1]) == 0 \
+		&& p_exp_part->content[*p_ind + 1] != '_' )
+	{
+		(*p_ind)++;
 		return (0);
+	}
 	len_key = 1;
-	while (ft_isalnum(p_exp_part->content[p_ind + len_key + 1]) != 0 \
-			|| p_exp_part->content[p_ind + len_key + 1] == '_' )
+	while (ft_isalnum(p_exp_part->content[*p_ind + len_key + 1]) != 0 \
+			|| p_exp_part->content[*p_ind + len_key + 1] == '_' )
 		len_key++;
-	p_env = get_env(p_exp_part->content, p_ind + 1, len_key, mini);
+	p_env = get_env(p_exp_part->content, *p_ind + 1, len_key, mini);
 	return (replace_key_value(p_exp_part, p_ind, len_key, p_env));
 }
