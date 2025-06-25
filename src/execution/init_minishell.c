@@ -33,6 +33,7 @@ int	init_minishell(t_minishell *p_mini, char **env)
 {
 	int	ret;
 
+	p_mini->last_error_code = 0;
 	ret = init_env(p_mini, env);
 	if (ret != 0)
 	{
