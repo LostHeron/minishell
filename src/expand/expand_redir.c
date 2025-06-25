@@ -14,7 +14,6 @@
 #include "ast.h"
 #include "expand.h"
 #include "ft_vectors.h"
-#include <stdio.h>
 
 static int	expand_filename(t_vector *p_redir, int ind, char *src, t_minishell mini);
 

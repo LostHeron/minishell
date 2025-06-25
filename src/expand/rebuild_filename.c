@@ -15,7 +15,6 @@
 #include "expand.h"
 #include "ft_vectors.h"
 #include "ft_string.h"
-#include <stdio.h>
 
 static int	fill_new_name(char *new_name, t_vector splitted, int len);
 

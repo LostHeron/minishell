@@ -15,7 +15,6 @@
 #include "ft_vectors.h"
 #include "ft_standard.h"
 #include "ft_string.h"
-#include <stdio.h>
 
 static int	join_strings(char **first, char *second);
 static int	add_unquoted(t_vector *dest, char **string, char *unquoted);
@@ -104,7 +103,7 @@ static int	add_unquoted(t_vector *dest, char **string, char *unquoted)
 
 	if (*unquoted == '\0')
 		return (0);
-	if (ft_strchr(WHITE_SPACES, *unquoted) != NULL)
+	if (*string != NULL && ft_strchr(WHITE_SPACES, *unquoted) != NULL)
 	{
 		ret = ft_vector_add_single(dest, string);
 		if (ret != 0)
@@ -118,7 +117,7 @@ static int	add_unquoted(t_vector *dest, char **string, char *unquoted)
 	free_tab(unquoted_split);
 	if (ret != 0)
 		return (ret);
-	if (ft_strchr(WHITE_SPACES, unquoted[ft_strlen(unquoted) - 1]) != NULL)
+	if (*string != NULL && ft_strchr(WHITE_SPACES, unquoted[ft_strlen(unquoted) - 1]) != NULL)
 	{
 		ret = ft_vector_add_single(dest, string);
 		if (ret != 0)
