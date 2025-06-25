@@ -30,7 +30,8 @@ HANDLE_SIGNALS_DIR := src/handle_signals/
 HANDLE_SIGNALS_FILES := init_signals.c \
 
 PARSING_DIR := src/parsing/
-PARSING_FILES := check_parenthesis.c \
+PARSING_FILES := check_error_syntax.c \
+				 check_parenthesis.c \
 				 lexer.c \
 				 init_args.c \
 				 get_next_token.c \

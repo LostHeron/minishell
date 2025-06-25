@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **env)
 		//errno = 0;
 		line = readline("prompt >> ");
 		if (line == NULL)
-			exit(0);//break ;
+			exit(minishell.last_error_code);//break ;
 		if (line && *line)
 			add_history(line);
 		ret = check_parenthesis(line);
@@ -73,6 +73,8 @@ int	main(int argc, char **argv, char **env)
 			}
 			else
 			{
+				// do stuff ?
+				exit(1);
 			}
 		}
 		else
@@ -82,20 +84,12 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 		// first check for syntax error !
 		// here or later should handle here document
-		/*
 		ret = check_error_syntax(tokens);
 		if (ret != 0)
 		{
-			if (ret > 0)
-			{
-				;
-			}
-			else
-			{
-				;
-			}
+			ft_putstr_fd("error syntax in check_error_syntax !\n", 2);
+			continue ;
 		}
-		*/
 		i = 0;
 		if (tokens.size <= 0)
 		{

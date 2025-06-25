@@ -16,6 +16,7 @@
 # include "ft_vectors.h"
 
 int			check_parenthesis(char *line);
+int			check_error_syntax(t_vector tokens);
 int			lexer(char *line, t_vector *p_tokens);
 t_vector	ft_split_args(char *line, char **args, int *p_err_code);
 char		*get_next_token(char **p_line, char **args, int *p_err_code);
