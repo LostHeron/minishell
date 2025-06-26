@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 17:23:44 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/17 19:06:58 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:34:18 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-static int		init_path_name(t_minishell *p_mini);
+static int		init_cwd_name(t_minishell *p_mini);
 static t_env	*get_pwd_env(t_list *env);
 
 /* 
@@ -40,13 +40,14 @@ int	init_minishell(t_minishell *p_mini, char **env)
 		// do stuff ?
 		return (ret);
 	}
-	ret = init_path_name(p_mini);
+	ret = init_cwd_name(p_mini);
 	if (ret != 0)
 	{
 		// do stuff;
 		// free env
 		return (ERROR_MALLOC);
 	}
+	/*
 	ret = init_path(p_mini);
 	if (ret != 0)
 	{
@@ -55,6 +56,7 @@ int	init_minishell(t_minishell *p_mini, char **env)
 		// free env
 		return (ret);
 	}
+	*/
 	init_builtins(p_mini);
 	p_mini->fd_stdin = dup(STDIN_FILENO);
 	if (p_mini->fd_stdin == -1)
@@ -69,28 +71,26 @@ int	init_minishell(t_minishell *p_mini, char **env)
 	return (0);
 }
 
-static int	init_path_name(t_minishell *p_mini)
+static int	init_cwd_name(t_minishell *p_mini)
 {
 	char	*ret;
 	t_env	*pwd_env;
 
-	p_mini->path_name = ft_malloc((PATH_NAME_MAX_LENGTH + 1) * sizeof(char));
-	if (p_mini->path_name == NULL)
+	p_mini->cwd_name = ft_malloc((CWD_NAME_MAX_LENGTH + 1) * sizeof(char));
+	if (p_mini->cwd_name == NULL)
 		return (ERROR_MALLOC);
-	p_mini->path_name_size = 0;
 	pwd_env = get_pwd_env(p_mini->env);
 	if (pwd_env != NULL)
 	{
 		if (access(pwd_env->value, F_OK) == 0)
-			ft_strcpy(p_mini->path_name, pwd_env->value);
+			ft_strcpy(p_mini->cwd_name, pwd_env->value);
 		else
 		{
-			ret = getcwd(p_mini->path_name, PATH_NAME_MAX_LENGTH);
+			ret = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
 			if (ret == NULL)
 			{
 				// do stuff ?
-				p_mini->path_name[0] = '\0';
-				p_mini->path_name_size = 0;
+				p_mini->cwd_name[0] = '\0';
 				// or copy before function call and copy back after function call error ?
 				return (1);
 			}
@@ -99,19 +99,17 @@ static int	init_path_name(t_minishell *p_mini)
 	}
 	else
 	{
-		ret = getcwd(p_mini->path_name, PATH_NAME_MAX_LENGTH);
+		ret = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
 		if (ret == NULL)
 		{
 			// do stuff ?
-			p_mini->path_name[0] = '\0';
-			p_mini->path_name_size = 0;
+			p_mini->cwd_name[0] = '\0';
 			// or copy before function call and copy back after function call error ?
 			return (1);
 		}
 		// and set path to current working dir  ?
 	}
 	// and should add a verification of type $PWD inode == getcwd inode to see if we take from path or else where !
-	p_mini->path_name_size = ft_strlen(p_mini->path_name);
 	return (0);
 }
 

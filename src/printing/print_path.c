@@ -6,23 +6,35 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 16:27:24 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/03 16:33:27 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:30:07 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_vectors.h"
 #include "minishell.h"
+#include "execution.h"
 #include <stdio.h>
 
 void	print_path(t_minishell *p_mini)
 {
-	size_t	i;
+	size_t		i;
+	int			ret;
+	t_vector	path;
 
 	i = 0;
 	printf("in print_path!\n");
 	fflush(stdout);
-	while (i < p_mini->path.size)
+	ret = get_path(p_mini, &path);
+	if (ret != 0)
 	{
-		printf("path[%zu] = %s\n", i, ((char **)p_mini->path.data)[i]);
+		ft_vector_free(&path);
+		//exit (ERROR_MALLOC);
+		return ;
+	}
+	while (i < path.size)
+	{
+		printf("path[%zu] = %s\n", i, ((char **)path.data)[i]);
 		i++;
 	}
+	ft_vector_free(&path);
 }

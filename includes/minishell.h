@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/23 11:00:54 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:33:16 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define CMD_BUILTIN 3
 # define CMD_BINARY 2
 
-# define PATH_NAME_MAX_LENGTH 4095
+# define CWD_NAME_MAX_LENGTH 4095
 
 // error of define here should move something !
 // maybe allocate number of function later ?? who knows !
@@ -38,12 +38,10 @@ typedef struct s_minishell
 	int			fd1[2];
 	int			fd2[2];
 	t_list		*env;
-	t_vector	path;
 	char		*builtins_name[NB_BUILTINS_HERE + 1];
 	int			(*builtins_func[NB_BUILTINS_HERE])(t_vector args, \
 										  struct s_minishell *p_mini);
-	char		*path_name;
-	size_t		path_name_size;
+	char		*cwd_name;
 }			t_minishell;
 
 typedef struct s_env

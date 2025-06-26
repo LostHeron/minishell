@@ -6,10 +6,11 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 13:52:22 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:57:32 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_vectors.h"
 #include "minishell.h"
 #include "ast.h"
 #include "execution.h"
@@ -22,8 +23,9 @@ static void	change_fd_pipe(t_minishell *p_mini);
 
 int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
-	char	*cmd;
-	int		ret;
+	char		*cmd;
+	int			ret;
+	t_vector	path;
 
 	if (p_mini->previous_type == PIPE)
 		change_fd_pipe(p_mini);
@@ -32,6 +34,7 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	{
 		// do stuff ?
 		// return ? 
+		exit(1);
 	}
 	if (cmd_type == CMD_BUILTIN)
 	{
@@ -47,13 +50,29 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 		}
 		else
 		{
-			ret = find_command(ast->arguments.com_args.content.data, p_mini->path);
-			cmd = ((char **)ast->arguments.com_args.content.data)[0];
+			ret = get_path(p_mini, &path);
 			if (ret != 0)
 			{
-				printf("%s: command not found\n", cmd);
-				// do some cleaning stuff or leaks !
-				exit(127);
+				// do stuff !
+				//return (ret);
+				ft_vector_free(&path);
+				exit(ret);
+			}
+			ret = find_command(ast->arguments.com_args.content.data, path);
+			cmd = ((char **)ast->arguments.com_args.content.data)[0];
+			ft_vector_free(&path);
+			if (ret != 0)
+			{
+				// do stuff ?
+				//return (ret);
+				if (ret < 0)
+					exit(ret);
+				else
+				{
+					printf("%s: command not found\n", cmd);
+					// do some cleaning stuff or leaks !
+					exit(127);
+				}
 			}
 		}
 		execve(cmd, ast->arguments.com_args.content.data, NULL);

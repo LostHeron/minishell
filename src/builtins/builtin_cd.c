@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:29:40 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/20 15:47:22 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:25:41 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 		return (ERROR_MALLOC);
 	if (place_to_go[0] != '/')
 	{
-		place_to_go = new_place_to_go(place_to_go, p_mini->path_name);
+		place_to_go = new_place_to_go(place_to_go, p_mini->cwd_name);
 		if (place_to_go == NULL)
 		{
 			free(place_to_go);
@@ -86,13 +86,13 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 		free(place_to_go);
 		return (1);
 	}
-	ft_strlcpy(p_mini->path_name, path_name, PATH_NAME_MAX_LENGTH);
+	ft_strlcpy(p_mini->cwd_name, path_name, CWD_NAME_MAX_LENGTH);
 	path_len = ft_strlen(place_to_go);
 	if (path_len != 1 && place_to_go[path_len - 1] == '/')
-		ft_strlcat(p_mini->path_name, "/", PATH_NAME_MAX_LENGTH);
+		ft_strlcat(p_mini->cwd_name, "/", CWD_NAME_MAX_LENGTH);
 	free(place_to_go);
 	free(path_name);
-	path_name = ft_strjoin("PWD=", p_mini->path_name);
+	path_name = ft_strjoin("PWD=", p_mini->cwd_name);
 	ret = export_from_string(path_name, p_mini);
 	free(path_name);
 	return (ret);

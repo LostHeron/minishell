@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:17:15 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/19 17:59:48 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:26:00 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	get_path_len_name(char *place_to_go, size_t *p_path_len, \
 	if (ret != 0)
 		return (ret);
 	*p_path_len = get_path_len(list);
-	if (*p_path_len > PATH_NAME_MAX_LENGTH)
+	if (*p_path_len > CWD_NAME_MAX_LENGTH)
 	{
 		ft_split_free(elems);
 		ft_s_lstclear(&list, NULL);

@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/25 17:28:36 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:35:28 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int argc, char **argv, char **env)
 		// do stuff ?
 		//return ??
 	}
-	init_signals();
+	//init_signals();
 	while (err_code == 0)
 	{
 		//errno = 0;
@@ -107,7 +107,6 @@ int	main(int argc, char **argv, char **env)
 		if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
 			err_code = 1;
 		ft_vector_free(&tokens);
-		print_tree(ast, 0);
 		minishell.previous_side = PREV_NONE;
 		minishell.previous_type = 0; //NONE;
 		if (pipe(minishell.fd1) == -1)

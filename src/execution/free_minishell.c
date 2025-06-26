@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:47:21 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/03 13:49:26 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:24:44 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ void	free_minishell(t_minishell *p_mini)
 	close(p_mini->fd_stdin);
 	close(p_mini->fd_stdout);
 	close(p_mini->fd_stderr);
-	ft_vector_free(&p_mini->path);
 	my_free(p_mini->env);
-	free(p_mini->path_name);
+	free(p_mini->cwd_name);
 }
 
 static void	my_free(t_list *lst)

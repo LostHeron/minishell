@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:34:56 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 13:48:56 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:46:57 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,16 @@ static int	builtin_export_no_args(t_minishell *p_mini)
 	while (tmp != NULL)
 	{
 		if (((t_env *)tmp->content)->value != NULL)
+		{
 			printf("declare -x %s=\"%s\"\n", \
-			((t_env *)tmp->content)->key, \
-			((t_env *)tmp->content)->value);
+				((t_env *)tmp->content)->key, \
+				((t_env *)tmp->content)->value);
+		}
 		else
+		{
 			printf("declare -x %s\n", \
-			((t_env *)tmp->content)->key);
+				((t_env *)tmp->content)->key);
+		}
 		tmp = tmp->next;
 	}
 	return (0);

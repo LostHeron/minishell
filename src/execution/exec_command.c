@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:02:34 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 13:49:46 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:41:51 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 static int	get_cmd_type(char **builtins_name, t_vector cmd_args);
 static int	restore_fds(t_minishell *p_mini);
+static void	print_args(t_vector args);
 
 int	exec_command(t_ast *ast, t_minishell *p_mini)
 {
@@ -28,6 +29,8 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 	int		cmd_type;
 	int		ret;
 
+	printf("argument before expand : \n");
+	print_args(ast->arguments.com_args.content);
 	ret = expand(&ast->arguments.com_args.content, *p_mini);
 	if (ret != 0)
 	{
@@ -35,6 +38,8 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 		// return (ret) ?
 		;
 	}
+	printf("argument after expand : \n");
+	print_args(ast->arguments.com_args.content);
 	ret = expand_redir(&ast->arguments.com_args.dir_args, *p_mini);
 	if (ret != 0)
 	{
@@ -138,4 +143,17 @@ static int	restore_fds(t_minishell *p_mini)
 		return (1);
 	}
 	return (0);
+}
+
+static void	print_args(t_vector args)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < args.size)
+	{
+		printf("-> '%s'\n", ((char **)args.data)[i]);
+		i++;
+	}
+	return ;
 }

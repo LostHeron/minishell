@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:11:54 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/20 15:44:52 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 14:26:27 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	builtin_cd_without_path_given(t_minishell *p_mini)
 	path_len = ft_strlen(path_name);
 	if (path_name[path_len - 1] == '/')
 		path_len--;
-	if (path_len > PATH_NAME_MAX_LENGTH)
+	if (path_len > CWD_NAME_MAX_LENGTH)
 	{
 		ft_printf_fd(2, "%s\n", strerror(ENAMETOOLONG));
 		return (1);
@@ -55,7 +55,7 @@ int	builtin_cd_without_path_given(t_minishell *p_mini)
 		free(error_string);
 		return (1);
 	}
-	ft_strlcpy(p_mini->path_name, path_name, PATH_NAME_MAX_LENGTH);
+	ft_strlcpy(p_mini->cwd_name, path_name, CWD_NAME_MAX_LENGTH);
 	path_name = ft_strjoin("PWD=", path_name);
 	ret = export_from_string(path_name, p_mini);
 	free(path_name);
