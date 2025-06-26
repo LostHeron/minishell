@@ -38,6 +38,10 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 		// return (ret) ?
 		;
 	}
+	if (ast->arguments.com_args.content.size <= 1)
+	{
+		return (0);
+	}
 	printf("argument after expand : \n");
 	print_args(ast->arguments.com_args.content);
 	ret = expand_redir(&ast->arguments.com_args.dir_args, *p_mini);

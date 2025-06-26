@@ -27,18 +27,19 @@ TODO:
 - 1) expansion of variable et tokenization dans arbre! // bien avancé !
 - 2) erreur syntax // normalement on a un truc, a check
 - 3) code erreur dernière fonction
-- builtins in pipe function !
+- builtins in pipe function ! // should be working now !
 - option "-n" of echo builtin !
 - implementation of '&' and ';'
-- implementation of subshell 
-- make pahtname a variable at start of shell, if $PWD is set, take its value, else call getcwd;
-- secure pathname length (if you call cd on a path that would be greater than PATH_NAME_MAX_LENGTH, then print error message)
+- implementation of subshell
+- make cwd_name a variable at start of shell, if $PWD is set, take its value, else call getcwd; // working but should be upgraded 
+- secure pathname length (if you call cd on a path that would be greater than PATH_NAME_MAX_LENGTH, then print error message) // should be ok
+- Here-documents -> MAX here doc count = 16 if more -> next command ! exit !
 - handle signal :
     - Ctrl C
     - Ctrl \
-- Here-documents  -> MAX here doc count = 16 if more -> next command ! exit !
-- modify PATH when it is modified by unset !
+- modify PATH when it is modified by unset ! // should be OK !
 - in env builtin, make "_" environment variable to be the last command executed !
 - a function to transform env chained list to a (char **) that can be passed to execve !
-- readline history and error while <C-C> when its looking for autocomplete
+- readline history // done 
+- readline error while <C-C> when its looking for autocomplete
 - leaks
