@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/23 13:44:31 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 13:52:22 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 static void	change_fd_pipe(t_minishell *p_mini);
 
-int	child_execution(t_ast *ast, t_minishell *p_mini)
+int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
 	char	*cmd;
 	int		ret;
@@ -33,25 +33,33 @@ int	child_execution(t_ast *ast, t_minishell *p_mini)
 		// do stuff ?
 		// return ? 
 	}
-	if (((char **)ast->arguments.com_args.content.data)[0][0] == '/' || \
-	((char **)ast->arguments.com_args.content.data)[0][0] == '.')
+	if (cmd_type == CMD_BUILTIN)
 	{
-		cmd = ((char **)ast->arguments.com_args.content.data)[0];
+		ret = call_builtins(p_mini, ast->arguments.com_args.content);
+		exit (ret);
 	}
 	else
 	{
-		ret = find_command(ast->arguments.com_args.content.data, p_mini->path);
-		cmd = ((char **)ast->arguments.com_args.content.data)[0];
-		if (ret != 0)
+		if (((char **)ast->arguments.com_args.content.data)[0][0] == '/' || \
+		((char **)ast->arguments.com_args.content.data)[0][0] == '.')
 		{
-			printf("%s: command not found\n", cmd);
-			// do some cleaning stuff or leaks !
-			exit(127);
+			cmd = ((char **)ast->arguments.com_args.content.data)[0];
 		}
+		else
+		{
+			ret = find_command(ast->arguments.com_args.content.data, p_mini->path);
+			cmd = ((char **)ast->arguments.com_args.content.data)[0];
+			if (ret != 0)
+			{
+				printf("%s: command not found\n", cmd);
+				// do some cleaning stuff or leaks !
+				exit(127);
+			}
+		}
+		execve(cmd, ast->arguments.com_args.content.data, NULL);
+		perror(cmd);
+		exit(errno);
 	}
-	execve(cmd, ast->arguments.com_args.content.data, NULL);
-	perror(cmd);
-	exit(errno);
 }
 
 static void	change_fd_pipe(t_minishell *p_mini)

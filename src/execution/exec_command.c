@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:02:34 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 13:44:51 by jweber           ###   ########.fr       */
+/*   Updated: 2025/06/26 13:49:46 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 		}
 		if (pid == 0)
 		{
-			ret = child_execution(ast, p_mini);
+			ret = child_execution(ast, p_mini, cmd_type);
 			if (ret != 0)
 			{
 				// do stuff;
