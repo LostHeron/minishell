@@ -24,8 +24,8 @@ cat << eof > file1 | cat << eoff > file2
 
 TODO:
 
-- 1) expansion of variable et tokenization dans arbre!
-- 2) erreur syntax
+- 1) expansion of variable et tokenization dans arbre! // bien avancé !
+- 2) erreur syntax // normalement on a un truc, a check
 - 3) code erreur dernière fonction
 - builtins in pipe function !
 - option "-n" of echo builtin !
