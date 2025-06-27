@@ -78,6 +78,7 @@ BUILTINS_FILES := builtin_cd.c \
 EXPAND_DIR := src/expand/
 EXPAND_FILES := expand.c \
 				expand_variables.c \
+				replace.c \
 				rebuild_elem.c \
 				split_elem.c \
 				expand_redir.c \
