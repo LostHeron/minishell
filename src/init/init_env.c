@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 17:37:24 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/02 18:11:05 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/01 17:46:38 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ static int	without_equal_sign(t_env *new_env, char *env_i);
 /* In case of success :
 *	function should return the p_mini->env filled
 *  In case of failure :
-*	function should return a p_mini->env = NULL and 
+*	function should return a non null interger, 
+*	set p_mini->env to NULL and 
 *	have freed all memory it hade allocated
+*	to check
+*	 - new_env = ft_malloc(sizeof(t_env)); failure : TO DO
 */
 int	init_env(t_minishell *p_mini, char **env)
 {

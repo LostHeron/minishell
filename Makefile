@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/01 17:42:18 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/01 17:52:42 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,10 @@ INIT_FILES := init_minishell.c \
 			  init_env.c \
 			  init_builtins.c \
 
+FREEING_DIR := src/freeing/
+FREEING_FILES := free_minishell.c \
+				 free_env.c \
+
 EXECUTION_DIR := src/execution/
 EXECUTION_FILES := exec_func.c \
 				   exec_or.c \
@@ -63,7 +67,6 @@ EXECUTION_FILES := exec_func.c \
 				   close_here_doc_fds.c \
 				   swap_fds.c \
 				   find_command.c \
-				   free_minishell.c \
 
 BUILTINS_DIR := src/builtins/
 BUILTINS_FILES := builtin_cd.c \
@@ -97,6 +100,7 @@ C_FILES := minishell.c \
 		   $(addprefix $(EXPAND_DIR), $(EXPAND_FILES)) \
 		   $(addprefix $(HANDLE_SIGNALS_DIR), $(HANDLE_SIGNALS_FILES)) \
 		   $(addprefix $(INIT_DIR), $(INIT_FILES)) \
+		   $(addprefix $(FREEING_DIR), $(FREEING_FILES)) \
 
 OBJ_DIR := .obj/
 OBJ_DIR_DEBUG = .obj_debug/
@@ -119,8 +123,11 @@ git_update :
 $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBRARY)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR) $(OBJ_DIR)$(INIT_DIR)
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR) $(OBJ_DIR)$(INIT_DIR) $(OBJ_DIR)$(FREEING_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJ_DIR)$(FREEING_DIR):
+	mkdir -p $@
 
 $(OBJ_DIR)$(INIT_DIR):
 	mkdir -p $@
