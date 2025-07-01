@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/01 13:31:28 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/01 17:40:18 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ft_string.h"
 #include "ft_vectors.h"
 #include "handle_signal.h"
+#include "ft_init.h"
 #include "minishell.h"
 #include "parsing.h"
 #include "printing.h"

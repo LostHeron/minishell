@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/01 13:44:52 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/01 17:42:18 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,11 @@ AST_FILES := print_tree.c \
 			 tree_operations.c \
 			 free_everything.c \
 
+INIT_DIR := src/init/
+INIT_FILES := init_minishell.c \
+			  init_env.c \
+			  init_builtins.c \
+
 EXECUTION_DIR := src/execution/
 EXECUTION_FILES := exec_func.c \
 				   exec_or.c \
@@ -56,9 +61,6 @@ EXECUTION_FILES := exec_func.c \
 				   call_builtins.c \
 				   change_fd_redir.c \
 				   close_here_doc_fds.c \
-				   init_minishell.c \
-				   init_env.c \
-				   init_builtins.c \
 				   swap_fds.c \
 				   find_command.c \
 				   free_minishell.c \
@@ -94,6 +96,7 @@ C_FILES := minishell.c \
 		   $(addprefix $(BUILTINS_DIR), $(BUILTINS_FILES)) \
 		   $(addprefix $(EXPAND_DIR), $(EXPAND_FILES)) \
 		   $(addprefix $(HANDLE_SIGNALS_DIR), $(HANDLE_SIGNALS_FILES)) \
+		   $(addprefix $(INIT_DIR), $(INIT_FILES)) \
 
 OBJ_DIR := .obj/
 OBJ_DIR_DEBUG = .obj_debug/
@@ -116,8 +119,11 @@ git_update :
 $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBRARY)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR)
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR) $(OBJ_DIR)$(INIT_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJ_DIR)$(INIT_DIR):
+	mkdir -p $@
 
 $(OBJ_DIR)$(HANDLE_SIGNALS_DIR):
 	mkdir -p $@
