@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:13:46 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 14:19:04 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/01 14:40:59 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int		swap_fds(t_minishell *p_mini);
 int		child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type);
 int		call_builtins(t_minishell *p_mini, t_vector cmd_args);
 int		get_path(t_minishell *p_mini, t_vector *p_path);
-int		change_fd_redir(t_ast *ast);
+int		change_fd_redir(t_minishell *p_mini, t_ast *ast);
+int		close_here_doc_fds(t_minishell *p_mini);
 int		init_minishell(t_minishell *p_mini, char **env);
 void	init_builtins(t_minishell *p_mini);
 int		init_env(t_minishell *p_mini, char **env);

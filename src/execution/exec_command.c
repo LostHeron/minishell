@@ -6,10 +6,11 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:02:34 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 14:41:51 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/01 13:53:33 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ast.h"
 #include "execution.h"
 #include "ft_vectors.h"
 #include "minishell.h"
@@ -64,6 +65,12 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 		}
 		if (pid == 0)
 		{
+			if (close(p_mini->fd_stdin) < 0)
+				perror("close(p_mini->fd_stdin) at start of children\n");
+			if (close(p_mini->fd_stdout) < 0)
+				perror("close(p_mini->fd_stdout) at start of children\n");
+			if (close(p_mini->fd_stderr) < 0)
+				perror("close(p_mini->fd_stderr) at start of children\n");
 			ret = child_execution(ast, p_mini, cmd_type);
 			if (ret != 0)
 			{
@@ -75,12 +82,33 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 		{
 			// in parent !
 			// do something here ??? je crois pas 
+			// should close here docs fds !
+			size_t	k;
+			int		to_close;
+
+			k = 0;
+			printf("ast->arguments.com_args.dir_args.size = %zu\n", ast->arguments.com_args.dir_args.size);
+			while (k < ast->arguments.com_args.dir_args.size)
+			{
+				if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[k].dir == HEREDOC)
+				{
+					to_close = ((t_dirargs *)ast->arguments.com_args.dir_args.data)[k].filename[0];
+					if (close(p_mini->fds_here_doc[to_close]) < 0)
+					{
+						perror("close fds_here_doc in cmd not child\n");
+						// do other stuff ?
+						return (1);
+					}
+					p_mini->fds_here_doc[to_close] = -1;
+				}
+				k++;
+			}
 			p_mini->last_child_id = pid;
 		}
 	}
 	else
 	{
-		ret = change_fd_redir(ast);
+		ret = change_fd_redir(p_mini, ast);
 		if (ret != 0)
 		{
 			// do stuff ?

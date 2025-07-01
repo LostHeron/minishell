@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-23 13:46:41 by cviel             #+#    #+#             */
-/*   Updated: 2025/06/23 13:25:19 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/01 14:56:16 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ typedef enum e_dir
 	IN,
 	OUT,
 	APPEND,
-	NOT_DIR,
-	HEREDOC
+	HEREDOC,
+	NOT_DIR
 }	t_dir;
 
 typedef struct s_dirargs

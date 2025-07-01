@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 14:35:28 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/01 13:31:28 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC]);
+
 int	main(int argc, char **argv, char **env)
 {
 	char		*line;
@@ -46,6 +48,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		// do stuff ?
 		//return ??
+		return (1);
 	}
 	//init_signals();
 	while (err_code == 0)
@@ -97,6 +100,19 @@ int	main(int argc, char **argv, char **env)
 			ft_vector_free(&tokens);
 			continue ;
 		}
+		init_here_doc_fds(minishell.fds_here_doc);
+		ret = count_here_doc(tokens);
+		if (ret != 0)
+		{
+			ft_putstr_fd("maximum here-document count exceeded\n", 2);
+			continue ;
+		}
+		ret = get_here_doc(&minishell, &tokens);
+		if (ret != 0)
+		{
+			ft_putstr_fd("problem occured in function 'get_here_doc'\n", 2);
+			continue ;
+		}
 		ast = create_ast(tokens, END_LINE, &i);
 		if (ast == NULL)
 		{
@@ -133,4 +149,17 @@ int	main(int argc, char **argv, char **env)
 	free_minishell(&minishell);
 	rl_clear_history();
 	return (0);
+}
+
+static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC])
+{
+	size_t	i;
+
+	i = 0;
+	while (i < NB_MAX_HERE_DOC)
+	{
+		fds[i] = -1;
+		i++;
+	}
+	return ;
 }

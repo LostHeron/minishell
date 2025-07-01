@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/06/26 14:24:17 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/01 13:44:52 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ HANDLE_SIGNALS_FILES := init_signals.c \
 PARSING_DIR := src/parsing/
 PARSING_FILES := check_error_syntax.c \
 				 check_parenthesis.c \
+				 count_here_doc.c \
+				 get_here_doc.c \
 				 lexer.c \
 				 init_args.c \
 				 get_next_token.c \
@@ -53,6 +55,7 @@ EXECUTION_FILES := exec_func.c \
 				   get_path.c \
 				   call_builtins.c \
 				   change_fd_redir.c \
+				   close_here_doc_fds.c \
 				   init_minishell.c \
 				   init_env.c \
 				   init_builtins.c \
