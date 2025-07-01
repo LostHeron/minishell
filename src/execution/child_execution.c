@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 14:57:32 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/01 14:41:13 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,19 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 
 	if (p_mini->previous_type == PIPE)
 		change_fd_pipe(p_mini);
-	ret = change_fd_redir(ast);
+	else
+	{
+		if (close(p_mini->fd1[0]) == -1)
+			perror("child left : close(p_mini->fd1[0]");
+		if (close(p_mini->fd1[1]) == -1)
+			perror("child left : close(p_mini->fd1[1]");
+	}
+	ret = change_fd_redir(p_mini, ast);
 	if (ret != 0)
 	{
 		// do stuff ?
 		// return ? 
+		// should close all fds !
 		exit(1);
 	}
 	if (cmd_type == CMD_BUILTIN)
@@ -87,7 +95,7 @@ static void	change_fd_pipe(t_minishell *p_mini)
 	{
 		if (p_mini->first_cmd != 1)
 		{
-			if (dup2(p_mini->fd1[0], 0) == -1) // but must be executed only if not first cmd 
+			if (dup2(p_mini->fd1[0], 0) == -1)
 				perror(NULL); // do stuff ?
 		}
 		if (dup2(p_mini->fd2[1], 1) == -1)
@@ -96,6 +104,7 @@ static void	change_fd_pipe(t_minishell *p_mini)
 	if (p_mini->previous_side == PREV_RIGHT)
 		if (dup2(p_mini->fd1[0], 0) == -1)
 			; // do stuff ?
+	/*
 	if (p_mini->previous_side == PREV_RIGHT)
 	{
 		if (close(p_mini->fd1[0]) == -1)
@@ -114,4 +123,13 @@ static void	change_fd_pipe(t_minishell *p_mini)
 		if (close(p_mini->fd2[1]) == -1)
 			perror("child right : close(p_mini->fd2[1]");
 	}
+	*/
+	if (close(p_mini->fd1[0]) == -1)
+		perror("child left : close(p_mini->fd1[0]");
+	if (close(p_mini->fd1[1]) == -1)
+		perror("child left : close(p_mini->fd1[1]");
+	if (close(p_mini->fd2[0]) == -1)
+		perror("child right : close(p_mini->fd2[0]");
+	if (close(p_mini->fd2[1]) == -1)
+		perror("child right : close(p_mini->fd2[1]");
 }

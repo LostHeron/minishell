@@ -27,6 +27,8 @@ TODO:
 - 1) expansion of variable et tokenization dans arbre! // bien avancé !
 - 2) erreur syntax // normalement on a un truc, a check
 - 3) code erreur dernière fonction
+- 4) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2
+- 5) builtin exit
 - builtins in pipe function ! // should be working now !
 - option "-n" of echo builtin !
 - implementation of '&' and ';'
@@ -34,6 +36,10 @@ TODO:
 - make cwd_name a variable at start of shell, if $PWD is set, take its value, else call getcwd; // working but should be upgraded 
 - secure pathname length (if you call cd on a path that would be greater than PATH_NAME_MAX_LENGTH, then print error message) // should be ok
 - Here-documents -> MAX here doc count = 16 if more -> next command ! exit !
+    - base marche
+    - manque de generer un nom de fichier assez random dans /tmp/minishel.<5-7 lettres randoms>
+    - check que le nom de fichier générés n'existe pas déjà sinon en générer un nouveau !
+    - mieux gérer quand expand et quand ne pas expand !
 - handle signal :
     - Ctrl C
     - Ctrl \
