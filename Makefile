@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/01 17:52:42 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/01 18:08:16 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,9 @@ AST_FILES := print_tree.c \
 INIT_DIR := src/init/
 INIT_FILES := init_minishell.c \
 			  init_env.c \
+			  add_node_lst.c \
 			  init_builtins.c \
+			  init_cwd_name.c \
 
 FREEING_DIR := src/freeing/
 FREEING_FILES := free_minishell.c \

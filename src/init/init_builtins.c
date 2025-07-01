@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 12:49:02 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/16 17:37:19 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/01 18:12:20 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,6 @@ void	init_builtins(t_minishell *p_mini)
 
 static void	init_builtins_name(t_minishell *p_mini)
 {
-	/*
-	p_mini->builtins_name = ft_malloc((BUILTINS_NB + 1) * sizeof(char *));
-	if (p_mini->builtins_name == NULL)
-		return (ERROR_MALLOC);
-	*/
 	p_mini->builtins_name[BUILTINS_CD] = "cd";
 	p_mini->builtins_name[BUILTINS_ECHO] = "echo";
 	p_mini->builtins_name[BUILTINS_ENV] = "env";

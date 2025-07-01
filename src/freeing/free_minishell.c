@@ -23,4 +23,3 @@ void	free_minishell(t_minishell *p_mini)
 	free_env(p_mini->env);
 	free(p_mini->cwd_name);
 }
-

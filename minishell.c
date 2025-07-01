@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/01 17:40:18 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/01 18:14:43 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ int	main(int argc, char **argv, char **env)
 	ret = init_minishell(&minishell, env);
 	if (ret != 0)
 	{
-		// do stuff ?
-		//return ??
+		ft_putstr_fd("starting initialisation failure, aborting\n", 2);
 		return (1);
 	}
 	//init_signals();
