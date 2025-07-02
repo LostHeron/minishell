@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/01 13:44:52 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/02 16:34:56 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,10 @@ HANDLE_SIGNALS_DIR := src/handle_signals/
 HANDLE_SIGNALS_FILES := init_signals.c \
 
 PARSING_DIR := src/parsing/
-PARSING_FILES := check_error_syntax.c \
+PARSING_FILES := tokenize.c \
+				 check_error_syntax.c \
 				 check_parenthesis.c \
+				 prepare_here_docs.c \
 				 count_here_doc.c \
 				 get_here_doc.c \
 				 lexer.c \
@@ -45,6 +47,17 @@ AST_FILES := print_tree.c \
 			 tree_operations.c \
 			 free_everything.c \
 
+INIT_DIR := src/init/
+INIT_FILES := init_minishell.c \
+			  init_env.c \
+			  add_node_lst.c \
+			  init_builtins.c \
+			  init_cwd_name.c \
+
+FREEING_DIR := src/freeing/
+FREEING_FILES := free_minishell.c \
+				 free_env.c \
+
 EXECUTION_DIR := src/execution/
 EXECUTION_FILES := exec_func.c \
 				   exec_or.c \
@@ -52,16 +65,13 @@ EXECUTION_FILES := exec_func.c \
 				   exec_pipe.c \
 				   exec_command.c \
 				   child_execution.c \
+				   wait_children.c \
 				   get_path.c \
 				   call_builtins.c \
 				   change_fd_redir.c \
 				   close_here_doc_fds.c \
-				   init_minishell.c \
-				   init_env.c \
-				   init_builtins.c \
 				   swap_fds.c \
 				   find_command.c \
-				   free_minishell.c \
 
 BUILTINS_DIR := src/builtins/
 BUILTINS_FILES := builtin_cd.c \
@@ -95,11 +105,13 @@ C_FILES := minishell.c \
 		   $(addprefix $(BUILTINS_DIR), $(BUILTINS_FILES)) \
 		   $(addprefix $(EXPAND_DIR), $(EXPAND_FILES)) \
 		   $(addprefix $(HANDLE_SIGNALS_DIR), $(HANDLE_SIGNALS_FILES)) \
+		   $(addprefix $(INIT_DIR), $(INIT_FILES)) \
+		   $(addprefix $(FREEING_DIR), $(FREEING_FILES)) \
 
 OBJ_DIR := .obj/
 OBJ_DIR_DEBUG = .obj_debug/
 OBJ_FILES := $(addprefix $(OBJ_DIR), $(C_FILES:.c=.o))
-D_FILES := $(OBJ_FILES:.c=.o)
+D_FILES := $(OBJ_FILES:.o=.d)
 
 .PHONY : all clean fclean re debug debug_clean debug_fclean debug_re
 
@@ -117,8 +129,16 @@ git_update :
 $(NAME): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIBRARY)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR)
+-include $(D_FILES)
+
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR) $(OBJ_DIR)$(INIT_DIR) $(OBJ_DIR)$(FREEING_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJ_DIR)$(FREEING_DIR):
+	mkdir -p $@
+
+$(OBJ_DIR)$(INIT_DIR):
+	mkdir -p $@
 
 $(OBJ_DIR)$(HANDLE_SIGNALS_DIR):
 	mkdir -p $@

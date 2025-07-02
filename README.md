@@ -30,6 +30,8 @@ TODO:
 - 4) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2
 - 5) builtin exit
 - builtins in pipe function ! // should be working now !
+- cd which reset PWD environment variable only in case of PWD existing !
+- 
 - option "-n" of echo builtin !
 - implementation of '&' and ';'
 - implementation of subshell

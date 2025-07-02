@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/01 14:41:13 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/02 15:30:14 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 			}
 		}
 		execve(cmd, ast->arguments.com_args.content.data, NULL);
+		if (errno == EACCES)
+			exit(126);
 		perror(cmd);
 		exit(errno);
 	}
@@ -104,7 +106,6 @@ static void	change_fd_pipe(t_minishell *p_mini)
 	if (p_mini->previous_side == PREV_RIGHT)
 		if (dup2(p_mini->fd1[0], 0) == -1)
 			; // do stuff ?
-	/*
 	if (p_mini->previous_side == PREV_RIGHT)
 	{
 		if (close(p_mini->fd1[0]) == -1)
@@ -123,7 +124,7 @@ static void	change_fd_pipe(t_minishell *p_mini)
 		if (close(p_mini->fd2[1]) == -1)
 			perror("child right : close(p_mini->fd2[1]");
 	}
-	*/
+	/*
 	if (close(p_mini->fd1[0]) == -1)
 		perror("child left : close(p_mini->fd1[0]");
 	if (close(p_mini->fd1[1]) == -1)
@@ -132,4 +133,5 @@ static void	change_fd_pipe(t_minishell *p_mini)
 		perror("child right : close(p_mini->fd2[0]");
 	if (close(p_mini->fd2[1]) == -1)
 		perror("child right : close(p_mini->fd2[1]");
+	*/
 }

@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:51:26 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/23 18:55:19 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/02 15:33:18 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@
 int	exec_and(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;
+	/*
 	int	wait_id;
 	int	child_ret;
+	*/
 
 	p_mini->previous_type = AND;
 	p_mini->previous_side = PREV_LEFT;
@@ -46,6 +48,13 @@ int	exec_and(t_ast *ast, t_minishell *p_mini)
 		// do stuff ?
 		return (ret);
 	}
+	ret = wait_children(p_mini);
+	if (ret != 0)
+	{
+		// should exit program !
+		// find a nice way !
+	}
+	/*
 	if (p_mini->last_child_id != 0)
 	{
 		wait_id = wait(&child_ret);
@@ -59,6 +68,7 @@ int	exec_and(t_ast *ast, t_minishell *p_mini)
 			}
 		}
 	}
+	*/
 	if (p_mini->last_error_code == 0)
 	{
 		p_mini->previous_side = PREV_RIGHT;

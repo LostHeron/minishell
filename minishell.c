@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/01 13:31:28 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/02 16:48:23 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ft_string.h"
 #include "ft_vectors.h"
 #include "handle_signal.h"
+#include "ft_init.h"
 #include "minishell.h"
 #include "parsing.h"
 #include "printing.h"
@@ -27,17 +28,15 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC]);
+static int	start_minishell(t_minishell *p_mini, int *p_err_code);
+static int	ast_ize(t_ast **p_ast, t_vector *p_tokens);
+static int	run_exec(t_minishell *p_mini, t_ast **p_ast);
+static void	close_fd1(t_minishell *p_mini);
 
 int	main(int argc, char **argv, char **env)
 {
-	char		*line;
 	int			err_code;
-	t_vector	tokens;
 	int			ret;
-	int			wait_id;
-	t_ast		*ast;
-	size_t		i;
 	t_minishell	minishell;
 
 	err_code = 0;
@@ -46,120 +45,113 @@ int	main(int argc, char **argv, char **env)
 	ret = init_minishell(&minishell, env);
 	if (ret != 0)
 	{
-		// do stuff ?
-		//return ??
+		ft_putstr_fd("starting initialisation failure, aborting\n", 2);
 		return (1);
 	}
 	//init_signals();
 	while (err_code == 0)
 	{
-		//errno = 0;
-		line = readline("prompt >> ");
-		if (line == NULL)
-			exit(minishell.last_error_code);//break ;
-		if (line && *line)
-			add_history(line);
-		ret = check_parenthesis(line);
+		ret = start_minishell(&minishell, &err_code);
 		if (ret != 0)
 		{
-			free(line);
-			print_error(ret);
-			continue ;
-		}
-		ret = lexer(line, &tokens);
-		if (ret != 0)
-		{
-			if (ret > 0)
-			{
-				free(line);
-				print_error(ret);
-			}
+			if (ret < 0)
+				err_code = 1;
 			else
 			{
-				// do stuff ?
-				exit(1);
+				// continue program but display error message ?
+				// I think do nothing if error code is not negativ !
+				// return ?
+				;
 			}
 		}
-		else
-		{
-			printf("line = %s\n", line);
-		}
-		free(line);
-		// first check for syntax error !
-		// here or later should handle here document
-		ret = check_error_syntax(tokens);
-		if (ret != 0)
-		{
-			ft_putstr_fd("error syntax in check_error_syntax !\n", 2);
-			continue ;
-		}
-		i = 0;
-		if (tokens.size <= 0)
-		{
-			ft_putstr_fd("token.size == 0 -> continue and wait next input !\n", 2);
-			ft_vector_free(&tokens);
-			continue ;
-		}
-		init_here_doc_fds(minishell.fds_here_doc);
-		ret = count_here_doc(tokens);
-		if (ret != 0)
-		{
-			ft_putstr_fd("maximum here-document count exceeded\n", 2);
-			continue ;
-		}
-		ret = get_here_doc(&minishell, &tokens);
-		if (ret != 0)
-		{
-			ft_putstr_fd("problem occured in function 'get_here_doc'\n", 2);
-			continue ;
-		}
-		ast = create_ast(tokens, END_LINE, &i);
-		if (ast == NULL)
-		{
-			ft_putstr_fd("error synthax !\n", 2);
-			continue ;
-		}
-		print_tree(ast, 0);
-		if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
-			err_code = 1;
-		ft_vector_free(&tokens);
-		minishell.previous_side = PREV_NONE;
-		minishell.previous_type = 0; //NONE;
-		if (pipe(minishell.fd1) == -1)
-		{
-			// do stuff
-			// return?
-			;
-		}
-		minishell.first_cmd = 1;
-		exec_func(ast, &minishell);
-		if (minishell.fd1[0] != -1)
-			if (close(minishell.fd1[0]) == -1)
-				perror("minishell.c : main : (close(minishell.fd1[0])");
-		minishell.fd1[0] = -1;
-		if (minishell.fd1[1] != -1)
-			if (close(minishell.fd1[1]) == -1)
-				perror("minishell.c : main : (close(minishell.fd1[1])");
-		minishell.fd1[1] = -1;
-		wait_id = wait(NULL);
-		while (wait_id != -1)
-			wait_id = wait(NULL);
-		free_tree(&ast);
 	}
 	free_minishell(&minishell);
 	rl_clear_history();
+	return (minishell.last_error_code);
+}
+
+static int	start_minishell(t_minishell *p_mini, int *p_err_code)
+{
+	int			ret;
+	t_vector	tokens;
+	t_ast		*ast;
+
+	ret = tokenize(p_mini, &tokens, p_err_code);
+	if (ret != 0)
+	{
+		// do stuff !
+		return (ret);
+	}
+	if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
+	{
+		*p_err_code = 1;
+		return (0);
+	}
+	ret = ast_ize(&ast, &tokens);
+	if (ret != 0)
+	{
+		// do stuff 
+		// return ?
+	}
+	ret = run_exec(p_mini, &ast);
+	if (ret != 0)
+	{
+		// do stuff
+		// return ?
+	}
 	return (0);
 }
 
-static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC])
+static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 {
-	size_t	i;
+	size_t	i;	
 
 	i = 0;
-	while (i < NB_MAX_HERE_DOC)
+	*p_ast = create_ast(*p_tokens, END_LINE, &i);
+	if (*p_ast == NULL)
 	{
-		fds[i] = -1;
-		i++;
+		ft_putstr_fd("error synthax in ast !\n", 2);
+		return (1);
 	}
-	return ;
+	print_tree(*p_ast, 0);
+	ft_vector_free(p_tokens);
+	return (0);
+}
+
+static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
+{
+	int	ret;
+
+	p_mini->previous_side = PREV_NONE;
+	p_mini->previous_type = 0;
+	if (pipe(p_mini->fd1) == -1)
+	{
+		perror("fn : run_exec : pipe(p_mini->fd1)");
+		// do stuff
+		// return?
+		return (1);
+	}
+	p_mini->first_cmd = 1;
+	exec_func(*p_ast, p_mini);
+	close_fd1(p_mini);
+	ret = wait_children(p_mini);
+	if (ret != 0)
+	{
+		// must exit program cuz should not happens in normal behaviour
+		// so exit but nice way !
+	}
+	free_tree(p_ast);
+	return (0);
+}
+
+static void	close_fd1(t_minishell *p_mini)
+{
+	if (p_mini->fd1[0] != -1)
+		if (close(p_mini->fd1[0]) == -1)
+			perror("minishell.c : main : (close(minishell.fd1[0])");
+	p_mini->fd1[0] = -1;
+	if (p_mini->fd1[1] != -1)
+		if (close(p_mini->fd1[1]) == -1)
+			perror("minishell.c : main : (close(minishell.fd1[1])");
+	p_mini->fd1[1] = -1;
 }
