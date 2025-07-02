@@ -54,6 +54,7 @@ typedef struct s_env
 # define ERROR_MALLOC -3
 # define ERROR_WRITE -4
 # define ERROR_READ -5
+# define ERROR_DUP -6
 # define ERROR_UNCLOSED_S_QUOTES -10
 # define ERROR_UNCLOSED_D_QUOTES -11
 # define ERROR_UNCLOSED_PARENTHESIS -12

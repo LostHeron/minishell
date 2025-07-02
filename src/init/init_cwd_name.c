@@ -14,12 +14,23 @@
 #include "ft_standard.h"
 #include "ft_string.h"
 #include <unistd.h>
+#include <stdio.h>
 
+static int		case_pwd_env_not_null(t_minishell *p_mini, t_env *pwd_env);
 static t_env	*get_pwd_env(t_list *env);
+static int		case_value_not_null(t_minishell *p_mini, char *value);
 
+/* this function should malloc p_mini->cwd_name
+ * to the size of CWD_NAME_MAX_LENGTH
+ * in case of memory allocation fail : 
+ *	return ERROR_MALLOC
+ * in case of success :
+ *	return the string p_mini->cwd_name should be filled
+ *	with the correct current working directory of the shell
+*/
 int	init_cwd_name(t_minishell *p_mini)
 {
-	char	*ret;
+	char	*ret_getcwd;
 	t_env	*pwd_env;
 
 	p_mini->cwd_name = ft_malloc((CWD_NAME_MAX_LENGTH + 1) * sizeof(char));
@@ -28,40 +39,17 @@ int	init_cwd_name(t_minishell *p_mini)
 	pwd_env = get_pwd_env(p_mini->env);
 	if (pwd_env != NULL)
 	{
-		if (pwd_env->value != NULL)
-		{
-			if (access(pwd_env->value, X_OK | F_OK) == 0)
-			{
-				// should check if lstat // fstat of this file is the same
-				ft_strcpy(p_mini->cwd_name, pwd_env->value);
-			}
-			else
-			{
-				ret = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
-				if (ret == NULL)
-				{
-					// do stuff ?
-					p_mini->cwd_name[0] = '\0';
-					// or copy before function call and copy back after function call error ?
-					return (1);
-				}
-				// and set path to current working dir ?
-			}
-		}
+		return (case_pwd_env_not_null(p_mini, pwd_env));
 	}
 	else
 	{
-		ret = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
-		if (ret == NULL)
+		ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
+		if (ret_getcwd == NULL)
 		{
-			// do stuff ?
-			p_mini->cwd_name[0] = '\0';
-			// or copy before function call and copy back after function call error ?
+			perror("fn : initi_cwd_name : getcwd :");
 			return (1);
 		}
-		// and set path to current working dir  ?
 	}
-	// and should add a verification of type $PWD inode == getcwd inode to see if we take from path or else where !
 	return (0);
 }
 
@@ -76,4 +64,45 @@ static t_env	*get_pwd_env(t_list *env)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+static int	case_pwd_env_not_null(t_minishell *p_mini, t_env *pwd_env)
+{
+	char	*ret_getcwd;
+
+	if (pwd_env->value != NULL)
+	{
+		return (case_value_not_null(p_mini, pwd_env->value));
+	}
+	else
+	{
+		ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
+		if (ret_getcwd == NULL)
+		{
+			perror("fn : initi_cwd_name : getcwd :");
+			return (1);
+		}
+	}
+	return (0);
+}
+
+static int	case_value_not_null(t_minishell *p_mini, char *value)
+{
+	char	*ret;
+
+	if (access(value, X_OK | F_OK) == 0)
+	{
+		// should check if lstat // fstat of this file is the same as the file returned by getcwd;
+		ft_strcpy(p_mini->cwd_name, value);
+	}
+	else
+	{
+		ret = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
+		if (ret == NULL)
+		{
+			perror("fn : initi_cwd_name : getcwd :");
+			return (1);
+		}
+	}
+	return (0);
 }

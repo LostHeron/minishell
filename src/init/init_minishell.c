@@ -26,9 +26,9 @@
  *	- in case of success, it must return 0, and 
  *	have allocated everything correctly !
  *	TO CHECK :
- *		- failure of init_env ; TO DO
- *		- failure of init_cwd_name ; TO DO
- *		- 
+ *		- failure of init_env ; TO DO (coded)
+ *		- failure of init_cwd_name ; TO DO (coded)
+ *		- failue of dup(STDIN_FILENO); TO DO  (coded)
 */
 int	init_minishell(t_minishell *p_mini, char **env)
 {
@@ -42,12 +42,17 @@ int	init_minishell(t_minishell *p_mini, char **env)
 	if (ret != 0)
 	{
 		free_env(p_mini->env);
-		return (ERROR_MALLOC);
+		return (ret);
 	}
 	init_builtins(p_mini);
 	p_mini->fd_tty_copy = dup(STDIN_FILENO);
-	if (p_mini->fd_tty_copy == -1)
+	if (p_mini->fd_tty_copy < 0)
+	{
 		perror(NULL);
+		free_env(p_mini->env);
+		free(p_mini->cwd_name);
+		return (ERROR_DUP);
+	}
 	print_path(p_mini);
 	return (0);
 }

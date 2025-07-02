@@ -18,8 +18,6 @@
 #include "ft_init.h"
 #include "minishell.h"
 #include "parsing.h"
-#include "printing.h"
-#include "printing.h"
 #include "ft_io.h"
 #include <readline/history.h>
 #include <readline/readline.h>
