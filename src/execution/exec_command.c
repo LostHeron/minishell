@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:02:34 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/01 13:53:33 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/02 15:41:26 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,8 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 		}
 		if (pid == 0)
 		{
-			if (close(p_mini->fd_stdin) < 0)
+			if (close(p_mini->fd_tty_copy) < 0)
 				perror("close(p_mini->fd_stdin) at start of children\n");
-			if (close(p_mini->fd_stdout) < 0)
-				perror("close(p_mini->fd_stdout) at start of children\n");
-			if (close(p_mini->fd_stderr) < 0)
-				perror("close(p_mini->fd_stderr) at start of children\n");
 			ret = child_execution(ast, p_mini, cmd_type);
 			if (ret != 0)
 			{
@@ -159,17 +155,17 @@ static int	get_cmd_type(char **builtins_name, t_vector cmd_args)
 
 static int	restore_fds(t_minishell *p_mini)
 {
-	if (dup2(p_mini->fd_stderr, 2) < 0)
+	if (dup2(p_mini->fd_tty_copy, 2) < 0)
 	{
 		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
 		return (1);
 	}
-	if (dup2(p_mini->fd_stdout, 1) < 0)
+	if (dup2(p_mini->fd_tty_copy, 1) < 0)
 	{
 		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
 		return (1);
 	}
-	if (dup2(p_mini->fd_stdin, 0) < 0)
+	if (dup2(p_mini->fd_tty_copy, 0) < 0)
 	{
 		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/02 15:28:25 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/02 16:26:13 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC]);
 static int	start_minishell(t_minishell *p_mini, int *p_err_code);
-static int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code);
 static int	ast_ize(t_ast **p_ast, t_vector *p_tokens);
 static int	run_exec(t_minishell *p_mini, t_ast **p_ast);
 
@@ -56,13 +54,11 @@ int	main(int argc, char **argv, char **env)
 		if (ret != 0)
 		{
 			if (ret < 0)
-			{
-				// should exit program properly !
-				;
-			}
+				err_code = 1;
 			else
 			{
 				// continue program but display error message ?
+				// I think do nothing if error code is not negativ !
 				// return ?
 				;
 			}
@@ -83,7 +79,7 @@ static int	start_minishell(t_minishell *p_mini, int *p_err_code)
 	if (ret != 0)
 	{
 		// do stuff !
-		// return ?
+		return (ret);
 	}
 	if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
 	{
@@ -105,6 +101,7 @@ static int	start_minishell(t_minishell *p_mini, int *p_err_code)
 	return (0);
 }
 
+/*
 static int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code)
 {
 	char	*line;
@@ -114,7 +111,7 @@ static int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code)
 	if (line == NULL)
 	{
 		*p_err_code = 1;
-		return (0);
+		return (1);
 	}
 	if (line && *line)
 		add_history(line);
@@ -123,7 +120,7 @@ static int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code)
 	{
 		free(line);
 		print_error(ret);
-		return (0);
+		return (1);
 	}
 	ret = lexer(line, p_tokens);
 	if (ret != 0)
@@ -133,7 +130,7 @@ static int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code)
 			free(line);
 			print_error(ret);
 			p_mini->last_error_code = 2;
-			return (0);
+			return (1);
 		}
 		else
 		{
@@ -170,6 +167,7 @@ static int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code)
 	}
 	return (0);
 }
+*/
 
 static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 {
@@ -189,7 +187,6 @@ static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 
 static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 {
-	//int	wait_id;
 	int	ret;
 
 	p_mini->previous_side = PREV_NONE;
@@ -216,34 +213,6 @@ static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 		// must exit program cuz should not happens in normal behaviour
 		// so exit but nice way !
 	}
-	/*
-	if (p_mini->last_child_id != 0)
-	{
-		wait_id = wait(&ret);
-		{
-			while (wait_id != -1)
-			{
-				if (wait_id == p_mini->last_child_id)
-					if (WIFEXITED(ret) != 0)
-						p_mini->last_error_code = WEXITSTATUS(ret);
-				wait_id = wait(&ret);
-			}
-		}
-	}
-	*/
 	free_tree(p_ast);
 	return (0);
-}
-
-static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC])
-{
-	size_t	i;
-
-	i = 0;
-	while (i < NB_MAX_HERE_DOC)
-	{
-		fds[i] = -1;
-		i++;
-	}
-	return ;
 }

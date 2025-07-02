@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 17:23:44 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/01 18:46:37 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/02 15:37:47 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,8 @@ int	init_minishell(t_minishell *p_mini, char **env)
 		return (ERROR_MALLOC);
 	}
 	init_builtins(p_mini);
-	p_mini->fd_stdin = dup(STDIN_FILENO);
-	if (p_mini->fd_stdin == -1)
-		perror(NULL);
-	p_mini->fd_stdout = dup(STDOUT_FILENO);
-	if (p_mini->fd_stdout == -1)
-		perror(NULL);
-	p_mini->fd_stderr = dup(STDERR_FILENO);
-	if (p_mini->fd_stderr == -1)
+	p_mini->fd_tty_copy = dup(STDIN_FILENO);
+	if (p_mini->fd_tty_copy == -1)
 		perror(NULL);
 	print_path(p_mini);
 	return (0);
