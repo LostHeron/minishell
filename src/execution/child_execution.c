@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/01 14:41:13 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/02 15:30:14 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 			}
 		}
 		execve(cmd, ast->arguments.com_args.content.data, NULL);
+		if (errno == EACCES)
+			exit(126);
 		perror(cmd);
 		exit(errno);
 	}

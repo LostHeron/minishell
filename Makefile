@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/01 18:08:16 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/02 15:26:47 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,7 @@ EXECUTION_FILES := exec_func.c \
 				   exec_pipe.c \
 				   exec_command.c \
 				   child_execution.c \
+				   wait_children.c \
 				   get_path.c \
 				   call_builtins.c \
 				   change_fd_redir.c \

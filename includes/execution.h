@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:13:46 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/01 14:40:59 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/02 15:25:51 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		exec_pipe(t_ast *ast, t_minishell *p_mini);
 int		exec_command(t_ast *ast, t_minishell *p_mini);
 int		swap_fds(t_minishell *p_mini);
 int		child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type);
+int		wait_children(t_minishell *p_mini);
 int		call_builtins(t_minishell *p_mini, t_vector cmd_args);
 int		get_path(t_minishell *p_mini, t_vector *p_path);
 int		change_fd_redir(t_minishell *p_mini, t_ast *ast);
