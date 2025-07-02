@@ -29,6 +29,7 @@ TODO:
 - 3) code erreur dernière fonction
 - 4) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2
 - 5) builtin exit
+- 6) correct initialisation of p_mini->cwd (for PWD)
 - builtins in pipe function ! // should be working now !
 - cd which reset PWD environment variable only in case of PWD existing !
 - 
