@@ -53,10 +53,13 @@ int	main(int argc, char **argv, char **env)
 	//init_signals();
 	while (err_code == 0)
 	{
-		//errno = 0;
 		line = readline("prompt >> ");
 		if (line == NULL)
-			exit(minishell.last_error_code);//break ;
+		{
+			//exit(minishell.last_error_code);//break ;
+			err_code = 1;
+			continue;
+		}
 		if (line && *line)
 			add_history(line);
 		ret = check_parenthesis(line);
@@ -141,14 +144,29 @@ int	main(int argc, char **argv, char **env)
 			if (close(minishell.fd1[1]) == -1)
 				perror("minishell.c : main : (close(minishell.fd1[1])");
 		minishell.fd1[1] = -1;
+		/*
 		wait_id = wait(NULL);
 		while (wait_id != -1)
 			wait_id = wait(NULL);
+		*/
+		if (minishell.last_child_id != 0)
+		{
+			wait_id = wait(&ret);
+			{
+				while (wait_id != -1)
+				{
+					if (wait_id == minishell.last_child_id)
+						if (WIFEXITED(ret) != 0)
+							minishell.last_error_code = WEXITSTATUS(ret);
+					wait_id = wait(&ret);
+				}
+			}
+		}
 		free_tree(&ast);
 	}
 	free_minishell(&minishell);
 	rl_clear_history();
-	return (0);
+	return (minishell.last_error_code);
 }
 
 static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC])

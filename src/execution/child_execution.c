@@ -104,7 +104,6 @@ static void	change_fd_pipe(t_minishell *p_mini)
 	if (p_mini->previous_side == PREV_RIGHT)
 		if (dup2(p_mini->fd1[0], 0) == -1)
 			; // do stuff ?
-	/*
 	if (p_mini->previous_side == PREV_RIGHT)
 	{
 		if (close(p_mini->fd1[0]) == -1)
@@ -123,7 +122,7 @@ static void	change_fd_pipe(t_minishell *p_mini)
 		if (close(p_mini->fd2[1]) == -1)
 			perror("child right : close(p_mini->fd2[1]");
 	}
-	*/
+	/*
 	if (close(p_mini->fd1[0]) == -1)
 		perror("child left : close(p_mini->fd1[0]");
 	if (close(p_mini->fd1[1]) == -1)
@@ -132,4 +131,5 @@ static void	change_fd_pipe(t_minishell *p_mini)
 		perror("child right : close(p_mini->fd2[0]");
 	if (close(p_mini->fd2[1]) == -1)
 		perror("child right : close(p_mini->fd2[1]");
+	*/
 }
