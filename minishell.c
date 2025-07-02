@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/02 16:26:13 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/02 16:48:23 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 static int	start_minishell(t_minishell *p_mini, int *p_err_code);
 static int	ast_ize(t_ast **p_ast, t_vector *p_tokens);
 static int	run_exec(t_minishell *p_mini, t_ast **p_ast);
+static void	close_fd1(t_minishell *p_mini);
 
 int	main(int argc, char **argv, char **env)
 {
@@ -101,74 +102,6 @@ static int	start_minishell(t_minishell *p_mini, int *p_err_code)
 	return (0);
 }
 
-/*
-static int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code)
-{
-	char	*line;
-	int		ret;
-
-	line = readline("prompt >> ");
-	if (line == NULL)
-	{
-		*p_err_code = 1;
-		return (1);
-	}
-	if (line && *line)
-		add_history(line);
-	ret = check_parenthesis(line);
-	if (ret != 0)
-	{
-		free(line);
-		print_error(ret);
-		return (1);
-	}
-	ret = lexer(line, p_tokens);
-	if (ret != 0)
-	{
-		if (ret > 0)
-		{
-			free(line);
-			print_error(ret);
-			p_mini->last_error_code = 2;
-			return (1);
-		}
-		else
-		{
-			// do stuff ?
-			return (ret);
-		}
-	}
-	free(line);
-	ret = check_error_syntax(*p_tokens);
-	if (ret != 0)
-	{
-		ft_putstr_fd("error syntax in check_error_syntax !\n", 2);
-		return (0);
-	}
-	if (p_tokens->size <= 0)
-	{
-		ft_putstr_fd("token.size == 0 -> continue and wait next input !\n", 2);
-		ft_vector_free(p_tokens);
-		return (0);
-	}
-	init_here_doc_fds(p_mini->fds_here_doc);
-	ret = count_here_doc(*p_tokens);
-	if (ret != 0)
-	{
-		ft_putstr_fd("maximum here-document count exceeded\n", 2);
-		p_mini->last_error_code = 2;
-		return (0);
-	}
-	ret = get_here_doc(p_mini, p_tokens);
-	if (ret != 0)
-	{
-		ft_putstr_fd("problem occured in function 'get_here_doc'\n", 2);
-		return (0);
-	}
-	return (0);
-}
-*/
-
 static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 {
 	size_t	i;	
@@ -193,20 +126,14 @@ static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 	p_mini->previous_type = 0;
 	if (pipe(p_mini->fd1) == -1)
 	{
+		perror("fn : run_exec : pipe(p_mini->fd1)");
 		// do stuff
 		// return?
 		return (1);
 	}
 	p_mini->first_cmd = 1;
 	exec_func(*p_ast, p_mini);
-	if (p_mini->fd1[0] != -1)
-		if (close(p_mini->fd1[0]) == -1)
-			perror("minishell.c : main : (close(minishell.fd1[0])");
-	p_mini->fd1[0] = -1;
-	if (p_mini->fd1[1] != -1)
-		if (close(p_mini->fd1[1]) == -1)
-			perror("minishell.c : main : (close(minishell.fd1[1])");
-	p_mini->fd1[1] = -1;
+	close_fd1(p_mini);
 	ret = wait_children(p_mini);
 	if (ret != 0)
 	{
@@ -215,4 +142,16 @@ static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 	}
 	free_tree(p_ast);
 	return (0);
+}
+
+static void	close_fd1(t_minishell *p_mini)
+{
+	if (p_mini->fd1[0] != -1)
+		if (close(p_mini->fd1[0]) == -1)
+			perror("minishell.c : main : (close(minishell.fd1[0])");
+	p_mini->fd1[0] = -1;
+	if (p_mini->fd1[1] != -1)
+		if (close(p_mini->fd1[1]) == -1)
+			perror("minishell.c : main : (close(minishell.fd1[1])");
+	p_mini->fd1[1] = -1;
 }
