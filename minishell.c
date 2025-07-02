@@ -31,6 +31,7 @@
 static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC]);
 static int	start_minishell(t_minishell *p_mini, int *p_err_code);
 static int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code);
+static int	ast_ize(t_ast **p_ast, t_vector *p_tokens);
 
 int	main(int argc, char **argv, char **env)
 {
@@ -77,13 +78,25 @@ static int	start_minishell(t_minishell *p_mini, int *p_err_code)
 	t_vector	tokens;
 	t_ast		*ast;
 	int			wait_id;
-	size_t		i;
 
 	ret = tokenize(p_mini, &tokens, p_err_code);
 	if (ret != 0)
 	{
 		// do stuff !
+		// return ?
 	}
+	if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
+	{
+		*p_err_code = 1;
+		return (0);
+	}
+	ret = ast_ize(&ast, &tokens);
+	if (ret != 0)
+	{
+		// do stuff 
+		// return ?
+	}
+	/*
 	i = 0;
 	ast = create_ast(tokens, END_LINE, &i);
 	if (ast == NULL)
@@ -92,9 +105,8 @@ static int	start_minishell(t_minishell *p_mini, int *p_err_code)
 		return (0);
 	}
 	print_tree(ast, 0);
-	if (ft_strcmp(((char **)tokens.data)[0], "exit") == 0)
-		*p_err_code = 1;
 	ft_vector_free(&tokens);
+	*/
 	p_mini->previous_side = PREV_NONE;
 	p_mini->previous_type = 0;
 	if (pipe(p_mini->fd1) == -1)
@@ -193,6 +205,22 @@ static int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code)
 		ft_putstr_fd("problem occured in function 'get_here_doc'\n", 2);
 		return (0);
 	}
+	return (0);
+}
+
+static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
+{
+	size_t	i;	
+
+	i = 0;
+	*p_ast = create_ast(*p_tokens, END_LINE, &i);
+	if (*p_ast == NULL)
+	{
+		ft_putstr_fd("error synthax in ast !\n", 2);
+		return (1);
+	}
+	print_tree(*p_ast, 0);
+	ft_vector_free(p_tokens);
 	return (0);
 }
 
