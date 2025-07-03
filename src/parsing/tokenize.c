@@ -19,15 +19,14 @@
 #include <readline/history.h>
 
 static int	check_errors(t_minishell *p_mini, t_vector *p_tokens);
-static int	line_to_tokens(t_minishell *p_mini, \
-							t_vector *p_tokens, int	*p_err_code);
+static int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens);
 static int	get_tokens(t_minishell *p_mini, t_vector *p_tokens, char **p_line);
 
-int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code)
+int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 {
 	int		ret;
 
-	ret = line_to_tokens(p_mini, p_tokens, p_err_code);
+	ret = line_to_tokens(p_mini, p_tokens);
 	if (ret != 0)
 	{
 		// do other stuff ?
@@ -42,8 +41,7 @@ int	tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code)
 	return (0);
 }
 
-static int	line_to_tokens(t_minishell *p_mini, \
-							t_vector *p_tokens, int	*p_err_code)
+static int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 {
 	char	*line;
 	int		ret;
@@ -51,7 +49,7 @@ static int	line_to_tokens(t_minishell *p_mini, \
 	line = readline("prompt >> ");
 	if (line == NULL)
 	{
-		*p_err_code = 1;
+		p_mini->should_exit = TRUE;
 		return (1);
 	}
 	if (line && *line)

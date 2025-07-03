@@ -18,6 +18,8 @@
 # define WHITE_SPACES " \t\n\v\f\r"
 # define CMD_BUILTIN 3
 # define CMD_BINARY 2
+# define TRUE 1
+# define FALSE 0
 
 # define CWD_NAME_MAX_LENGTH 4095
 
@@ -28,6 +30,7 @@
 
 typedef struct s_minishell
 {
+	int			should_exit;
 	int			fd_tty_copy;
 	int			last_child_id;
 	int			last_error_code;

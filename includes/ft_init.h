@@ -19,6 +19,6 @@ int		init_minishell(t_minishell *p_mini, char **env);
 int		init_env(t_minishell *p_mini, char **env);
 void	init_builtins(t_minishell *p_mini);
 int		init_cwd_name(t_minishell *p_mini);
-int		cwd_and_pwd_env_match(char *value);
+int		case_value_not_null(t_minishell *p_mini, char *value);
 
 #endif

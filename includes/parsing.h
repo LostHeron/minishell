@@ -16,7 +16,7 @@
 # include "ft_vectors.h"
 # include "minishell.h"
 
-int			tokenize(t_minishell *p_mini, t_vector *p_tokens, int *p_err_code);
+int			tokenize(t_minishell *p_mini, t_vector *p_tokens);
 int			prepare_here_doc(t_minishell *p_mini, t_vector *p_tokens);
 int			check_parenthesis(char *line);
 int			check_error_syntax(t_vector tokens);

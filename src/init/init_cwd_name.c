@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:28:23 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/03 14:35:19 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/03 14:50:58 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@
 #include <stdio.h>
 
 static int		case_pwd_env_not_null(t_minishell *p_mini, t_env *pwd_env);
+static int		case_pwd_env_null(t_minishell *p_mini);
 static t_env	*get_pwd_env(t_list *env);
-static int		case_value_not_null(t_minishell *p_mini, char *value);
-static int		case_value_is_valid_file(t_minishell *p_mini, char *value);
 
 /* this function should malloc p_mini->cwd_name
  * to the size of CWD_NAME_MAX_LENGTH
@@ -32,8 +31,8 @@ static int		case_value_is_valid_file(t_minishell *p_mini, char *value);
 */
 int	init_cwd_name(t_minishell *p_mini)
 {
-	char	*ret_getcwd;
 	t_env	*pwd_env;
+	int		ret;
 
 	p_mini->cwd_name = ft_malloc((CWD_NAME_MAX_LENGTH + 1) * sizeof(char));
 	if (p_mini->cwd_name == NULL)
@@ -41,18 +40,18 @@ int	init_cwd_name(t_minishell *p_mini)
 	pwd_env = get_pwd_env(p_mini->env);
 	if (pwd_env != NULL)
 	{
-		return (case_pwd_env_not_null(p_mini, pwd_env));
+		ret = case_pwd_env_not_null(p_mini, pwd_env);
+		if (ret != 0)
+			free(p_mini->cwd_name);
+		return (ret);
 	}
 	else
 	{
-		ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
-		if (ret_getcwd == NULL)
-		{
-			perror("fn : initi_cwd_name : getcwd :");
-			return (1);
-		}
+		ret = case_pwd_env_null(p_mini);
+		if (ret != 0)
+			free(p_mini->cwd_name);
+		return (ret);
 	}
-	return (0);
 }
 
 static t_env	*get_pwd_env(t_list *env)
@@ -88,55 +87,15 @@ static int	case_pwd_env_not_null(t_minishell *p_mini, t_env *pwd_env)
 	return (0);
 }
 
-static int	case_value_not_null(t_minishell *p_mini, char *value)
+static int	case_pwd_env_null(t_minishell *p_mini)
 {
-	int		ret;
 	char	*ret_getcwd;
 
-	if (access(value, F_OK) == 0)
+	ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
+	if (ret_getcwd == NULL)
 	{
-		ret = case_value_is_valid_file(p_mini, value);
-		if (ret != 0)
-		{
-			return (ret);
-		}
-	}
-	else
-	{
-		ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
-		if (ret_getcwd == NULL)
-		{
-			perror("fn : initi_cwd_name : getcwd :");
-			return (1);
-		}
+		perror("fn : case_pwd_env_null : getcwd");
+		return (1);
 	}
 	return (0);
-}
-
-static int	case_value_is_valid_file(t_minishell *p_mini, char *value)
-{
-	int		ret;
-	char	*ret_getcwd;
-
-	ret = cwd_and_pwd_env_match(value);
-	if (ret != 0)
-	{
-		if (ret > 0)
-		{
-			ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
-			if (ret_getcwd == NULL)
-			{
-				perror("fn : initi_cwd_name : getcwd :");
-				return (1);
-			}
-			return (0);
-		}
-		else
-			return (1);
-	}
-	else
-	{
-		ft_strcpy(p_mini->cwd_name, value);
-		return (0);
-	}
 }
