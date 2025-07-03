@@ -121,10 +121,8 @@ static ssize_t	get_bloc_size(char *line, int *p_err_code)
 	{
 		if (type == '\"')
 			*p_err_code = ERROR_UNCLOSED_D_QUOTES;
-		else if (type == '\'')
-			*p_err_code = ERROR_UNCLOSED_S_QUOTES;
 		else
-			*p_err_code = ERROR_UNCLOSED_PARENTHESIS;
+			*p_err_code = ERROR_UNCLOSED_S_QUOTES;
 		return (i);
 	}
 	else

@@ -19,6 +19,6 @@ void	print_error(int err_code)
 		ft_printf_fd(2, "syntax error : unclose single quotes\n");
 	else if (err_code == ERROR_UNCLOSED_D_QUOTES)
 		ft_printf_fd(2, "syntax error : unclosed double quotes\n");
-	else if (err_code == ERROR_UNCLOSED_PARENTHESIS)
+	else if (err_code == ERROR_UNMATCHING_PARENTHESIS)
 		ft_printf_fd(2, "syntax error : unmatching parenthesis \n");
 }

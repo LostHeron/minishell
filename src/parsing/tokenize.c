@@ -86,6 +86,7 @@ static int	get_tokens(t_minishell *p_mini, t_vector *p_tokens, char **p_line)
 		else
 		{
 			// do stuff ?
+			free(*p_line);
 			return (ret);
 		}
 	}

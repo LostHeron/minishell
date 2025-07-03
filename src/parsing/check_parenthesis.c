@@ -28,12 +28,12 @@ int	check_parenthesis(char *line)
 			nb_parenthesis--;
 		if (nb_parenthesis < 0)
 		{
-			return (ERROR_UNCLOSED_PARENTHESIS);
+			return (ERROR_UNMATCHING_PARENTHESIS);
 		}
 		i++;
 	}
 	if (nb_parenthesis == 0)
 		return (0);
 	else
-		return (ERROR_UNCLOSED_PARENTHESIS);
+		return (ERROR_UNMATCHING_PARENTHESIS);
 }

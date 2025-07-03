@@ -12,7 +12,6 @@
 
 #include "ast.h"
 #include "execution.h"
-#include "ft_string.h"
 #include "ft_vectors.h"
 #include "handle_signal.h"
 #include "ft_init.h"
