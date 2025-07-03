@@ -26,10 +26,11 @@ TODO:
 
 - 1) expansion of variable et tokenization dans arbre! // bien avancé !
 - 2) erreur syntax // normalement on a un truc, a check
-- 3) code erreur dernière fonction
+- 3) code erreur dernière fonction // logiquement c'est pas trop mal , mais a vérifier
 - 4) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2
-- 5) builtin exit
-- 6) correct initialisation of p_mini->cwd (for PWD)
+- 5) builtin exit // FAIT !
+- 6) correct initialisation of p_mini->cwd (for PWD) // FAIT !
+- 7) modifier args for token which shoudl not be init each time (optionel mais cool si fait)
 - builtins in pipe function ! // should be working now !
 - cd which reset PWD environment variable only in case of PWD existing !
 - 
