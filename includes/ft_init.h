@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:39:05 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/01 18:46:19 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/03 14:35:02 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ int		init_minishell(t_minishell *p_mini, char **env);
 int		init_env(t_minishell *p_mini, char **env);
 void	init_builtins(t_minishell *p_mini);
 int		init_cwd_name(t_minishell *p_mini);
+int		cwd_and_pwd_env_match(char *value);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/02 16:34:56 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/03 14:36:56 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ INIT_FILES := init_minishell.c \
 			  add_node_lst.c \
 			  init_builtins.c \
 			  init_cwd_name.c \
+			  cwd_and_pwd_env_match.c \
 
 FREEING_DIR := src/freeing/
 FREEING_FILES := free_minishell.c \

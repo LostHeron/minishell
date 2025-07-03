@@ -6,19 +6,21 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:28:23 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/01 18:56:32 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/03 14:35:19 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_standard.h"
 #include "ft_string.h"
+#include "ft_init.h"
 #include <unistd.h>
 #include <stdio.h>
 
 static int		case_pwd_env_not_null(t_minishell *p_mini, t_env *pwd_env);
 static t_env	*get_pwd_env(t_list *env);
 static int		case_value_not_null(t_minishell *p_mini, char *value);
+static int		case_value_is_valid_file(t_minishell *p_mini, char *value);
 
 /* this function should malloc p_mini->cwd_name
  * to the size of CWD_NAME_MAX_LENGTH
@@ -88,21 +90,53 @@ static int	case_pwd_env_not_null(t_minishell *p_mini, t_env *pwd_env)
 
 static int	case_value_not_null(t_minishell *p_mini, char *value)
 {
-	char	*ret;
+	int		ret;
+	char	*ret_getcwd;
 
-	if (access(value, X_OK | F_OK) == 0)
+	if (access(value, F_OK) == 0)
 	{
-		// should check if lstat // fstat of this file is the same as the file returned by getcwd;
-		ft_strcpy(p_mini->cwd_name, value);
+		ret = case_value_is_valid_file(p_mini, value);
+		if (ret != 0)
+		{
+			return (ret);
+		}
 	}
 	else
 	{
-		ret = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
-		if (ret == NULL)
+		ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
+		if (ret_getcwd == NULL)
 		{
 			perror("fn : initi_cwd_name : getcwd :");
 			return (1);
 		}
 	}
 	return (0);
+}
+
+static int	case_value_is_valid_file(t_minishell *p_mini, char *value)
+{
+	int		ret;
+	char	*ret_getcwd;
+
+	ret = cwd_and_pwd_env_match(value);
+	if (ret != 0)
+	{
+		if (ret > 0)
+		{
+			ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
+			if (ret_getcwd == NULL)
+			{
+				perror("fn : initi_cwd_name : getcwd :");
+				return (1);
+			}
+			return (0);
+		}
+		else
+			return (1);
+	}
+	else
+	{
+		ft_strcpy(p_mini->cwd_name, value);
+		return (0);
+	}
 }
