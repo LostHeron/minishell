@@ -15,7 +15,7 @@
 
 # include "ft_vectors.h"
 
-# define NB_T_TYPE 9
+# define NB_T_TYPE 7
 
 typedef enum e_type
 {

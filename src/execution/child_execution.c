@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/02 15:30:14 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/04 18:38:40 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	int			ret;
 	t_vector	path;
 
+	if (close(p_mini->fd_tty_copy) < 0)
+		perror("close(p_mini->fd_stdin) at start of children\n");
 	if (p_mini->previous_type == PIPE)
 		change_fd_pipe(p_mini);
 	else
@@ -42,7 +44,7 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 		// do stuff ?
 		// return ? 
 		// should close all fds !
-		exit(1);
+		//exit(1);
 	}
 	if (cmd_type == CMD_BUILTIN)
 	{
@@ -124,14 +126,4 @@ static void	change_fd_pipe(t_minishell *p_mini)
 		if (close(p_mini->fd2[1]) == -1)
 			perror("child right : close(p_mini->fd2[1]");
 	}
-	/*
-	if (close(p_mini->fd1[0]) == -1)
-		perror("child left : close(p_mini->fd1[0]");
-	if (close(p_mini->fd1[1]) == -1)
-		perror("child left : close(p_mini->fd1[1]");
-	if (close(p_mini->fd2[0]) == -1)
-		perror("child right : close(p_mini->fd2[0]");
-	if (close(p_mini->fd2[1]) == -1)
-		perror("child right : close(p_mini->fd2[1]");
-	*/
 }

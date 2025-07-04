@@ -35,44 +35,33 @@ int	change_fd_redir(t_minishell *p_mini, t_ast *ast)
 	{
 		if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir == IN)
 		{
-			ret = redir_in(ast, i); 
+			ret = redir_in(ast, i);
 			if (ret != 0)
-			{
-				// do stuff ?
-				// return ? 
-				// ;
-			}
+				return (1);
 		}
 		else if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir == OUT)
 		{
-			ret = redir_out(ast, i); 
+			ret = redir_out(ast, i);
 			if (ret != 0)
-			{
-				// do stuff ?
-				// return ? 
-				// ;
-			}
+				return (1);
 		}
 		else if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir == APPEND)
 		{
-			ret = redir_append(ast, i); 
+			ret = redir_append(ast, i);
 			if (ret != 0)
-			{
-				// do stuff ?
-				// return ? 
-				// ;
-			}
+				return (1);
 		}
 		else if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir == HEREDOC)
 		{
 			ret = redir_here_doc(p_mini, ast, i);
+			if (ret != 0)
+				return (1);
 		}
 		i++;
 	}
-	ret = close_here_doc_fds(p_mini);
+	ret = close_here_doc_fds(p_mini); // not sure about this function !
 	if (ret != 0)
 	{
-		// do stuff ?
 		return (1);
 	}
 	return (0);
