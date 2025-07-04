@@ -20,7 +20,9 @@
 int	exec_func(t_ast *ast, t_minishell *p_mini)
 {
 	int		ret;
+	//int		(*exec_func[NB_T_TYPE])(t_ast *ast, t_minishell *p_mini);
 
+	//init_exec_func(exec_func);
 	if (ast->type == PIPE)
 	{
 		ret = exec_pipe(ast, p_mini);

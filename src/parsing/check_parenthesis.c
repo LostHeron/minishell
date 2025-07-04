@@ -23,7 +23,11 @@ int	check_parenthesis(char *line)
 	while (line[i])
 	{
 		if (line[i] == '(')
+		{
 			nb_parenthesis++;
+			if (line[i + 1] == ')')
+				return (ERROR_EMPTY_PARENTHESIS);
+		}
 		if (line[i] == ')')
 			nb_parenthesis--;
 		if (nb_parenthesis < 0)

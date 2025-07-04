@@ -15,6 +15,8 @@
 
 # include "ft_vectors.h"
 
+# define NB_T_TYPE 9
+
 typedef enum e_type
 {
 	SUBSHELL,

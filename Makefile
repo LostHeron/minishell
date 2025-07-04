@@ -35,6 +35,10 @@ PARSING_FILES := tokenize.c \
 				 check_errors.c \
 				 check_error_syntax.c \
 				 check_parenthesis.c \
+				 check_after.c \
+				 check_after_redir.c \
+				 check_before.c \
+				 check_before_after.c \
 				 prepare_here_docs.c \
 				 count_here_doc.c \
 				 get_here_doc.c \

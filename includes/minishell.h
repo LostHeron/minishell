@@ -53,7 +53,6 @@ typedef struct s_env
 	char	*value;
 }			t_env;
 
-# define ERROR_FILENAME 1
 # define ERROR_MALLOC -3
 # define ERROR_WRITE -4
 # define ERROR_READ -5
@@ -61,5 +60,7 @@ typedef struct s_env
 # define ERROR_UNCLOSED_S_QUOTES 10
 # define ERROR_UNCLOSED_D_QUOTES 11
 # define ERROR_UNMATCHING_PARENTHESIS 12
+# define ERROR_EMPTY_PARENTHESIS 13
+# define ERROR_FILENAME 14
 
 #endif
