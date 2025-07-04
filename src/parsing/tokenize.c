@@ -20,7 +20,7 @@
 
 static int	check_errors(t_minishell *p_mini, t_vector *p_tokens);
 static int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens);
-static int	get_tokens(t_minishell *p_mini, t_vector *p_tokens, char **p_line);
+static int	get_tokens(t_minishell *p_mini, t_vector *p_tokens, char *line);
 
 int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 {
@@ -61,7 +61,7 @@ static int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 		print_error(ret);
 		return (1);
 	}
-	ret = get_tokens(p_mini, p_tokens, &line);
+	ret = get_tokens(p_mini, p_tokens, line);
 	if (ret != 0)
 	{
 		return (ret);
@@ -69,28 +69,28 @@ static int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	return (0);
 }
 
-static int	get_tokens(t_minishell *p_mini, t_vector *p_tokens, char **p_line)
+static int	get_tokens(t_minishell *p_mini, t_vector *p_tokens, char *line)
 {
 	int	ret;
 
-	ret = lexer(*p_line, p_tokens);
+	ret = lexer(line, p_tokens);
 	if (ret != 0)
 	{
 		if (ret > 0)
 		{
-			free(*p_line);
+			free(line);
 			print_error(ret);
 			p_mini->last_error_code = 2;
-			return (1);
+			return (ret);
 		}
 		else
 		{
 			// do stuff ?
-			free(*p_line);
+			free(line);
 			return (ret);
 		}
 	}
-	free(*p_line);
+	free(line);
 	return (0);
 }
 

@@ -13,26 +13,16 @@
 #include "ft_vectors.h"
 #include "parsing.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 int	lexer(char *line, t_vector *p_tokens)
 {
 	char	**args;
-	int		err_code;
+	int		ret;
 
-	err_code = 0;
-	args = init_args(&err_code);
-	if (err_code != 0)
-		return (err_code);
-	*p_tokens = ft_split_args(line, args, &err_code);
-	if (err_code != 0)
-		return (err_code);
-	printf("before for loop\n");
-	printf("tokens.size = %zu\n", p_tokens->size);
-	for (size_t i = 0; i < p_tokens->size; i++)
-	{
-		printf("-> '%s'\n", ((char **)p_tokens->data)[i]);
-	}
+	ret = init_args(&args);
+	if (ret != 0)
+		return (ret);
+	ret = ft_split_args(p_tokens, line, args);
 	free(args);
-	return (0);
+	return (ret);
 }

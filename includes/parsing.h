@@ -23,9 +23,9 @@ int			check_error_syntax(t_vector tokens);
 int			count_here_doc(t_vector tokens);
 int			get_here_doc(t_minishell *p_mini, t_vector *p_tokens);
 int			lexer(char *line, t_vector *p_tokens);
-t_vector	ft_split_args(char *line, char **args, int *p_err_code);
-char		*get_next_token(char **p_line, char **args, int *p_err_code);
-char		**init_args(int *p_err_code);
+int			ft_split_args(t_vector *p_tokens, char *line, char **args);
+int			get_next_token(char **p_token_i, char **p_line, char **args);
+int			init_args(char ***p_args);
 size_t		ft_strstr_args(char *line, char **args);
 
 #endif
