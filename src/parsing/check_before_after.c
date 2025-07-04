@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize.c                                         :+:      :+:    :+:   */
+/*   check_before_after.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 16:24:04 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:03:30 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/04 16:24:51 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/04 16:25:57 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
 
-int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
+int	check_before_after(t_vector tokens, size_t i)
 {
-	int		ret;
-
-	ret = line_to_tokens(p_mini, p_tokens);
-	if (ret != 0)
-	{
-		return (ret);
-	}
-	ret = check_errors(p_mini, p_tokens);
-	if (ret != 0)
-	{
-		ft_vector_free(p_tokens);
-		return (ret);
-	}
+	if (check_before(tokens, i) != 0)
+		return (1);
+	if (check_after(tokens, i) != 0)
+		return (1);
 	return (0);
 }

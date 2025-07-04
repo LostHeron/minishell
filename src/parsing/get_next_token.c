@@ -38,15 +38,11 @@ int	get_next_token(char **p_token_i, char **p_line, char **args)
 	{
 		ret = case_not_an_args(&token_size, p_line, args);
 		if (ret != 0)
-		{
 			return (ret);
-		}
 	}
 	ret = dup_new_token(p_token_i, p_line, token_size);
 	if (ret != 0)
-	{
 		return (ret);
-	}
 	return (0);
 }
 

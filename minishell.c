@@ -74,20 +74,17 @@ static int	start_minishell(t_minishell *p_mini)
 	ret = tokenize(p_mini, &tokens);
 	if (ret != 0)
 	{
-		// do stuff !
 		return (ret);
 	}
 	ret = ast_ize(&ast, &tokens);
 	if (ret != 0)
 	{
-		// do stuff 
-		// return ?
+		return (ret);
 	}
 	ret = run_exec(p_mini, &ast);
 	if (ret != 0)
 	{
-		// do stuff
-		// return ?
+		return (ret);
 	}
 	return (0);
 }
@@ -98,13 +95,12 @@ static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 
 	i = 0;
 	*p_ast = create_ast(*p_tokens, END_LINE, &i);
+	ft_vector_free(p_tokens);
 	if (*p_ast == NULL)
 	{
 		ft_putstr_fd("error synthax in ast !\n", 2);
 		return (1);
 	}
-	print_tree(*p_ast, 0);
-	ft_vector_free(p_tokens);
 	return (0);
 }
 
@@ -113,16 +109,20 @@ static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 	int	ret;
 
 	p_mini->previous_side = PREV_NONE;
-	p_mini->previous_type = 0;
+	p_mini->previous_type = -1;
 	if (pipe(p_mini->fd1) == -1)
 	{
 		perror("fn : run_exec : pipe(p_mini->fd1)");
-		// do stuff
-		// return?
+		free_tree(p_ast);
 		return (1);
 	}
 	p_mini->first_cmd = 1;
-	exec_func(*p_ast, p_mini);
+	ret = exec_func(*p_ast, p_mini);
+	if (ret != 0)
+	{
+		// do stuff ?
+		// return ?
+	}
 	close_fd1(p_mini);
 	ret = wait_children(p_mini);
 	if (ret != 0)

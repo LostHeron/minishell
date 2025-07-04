@@ -40,12 +40,9 @@ int	ft_split_args(t_vector *p_tokens, char *line, char **args)
 		ret = extract_tokens(p_tokens, &token_i, &line, args);
 		if (ret != 0)
 		{
+			ft_vector_free(p_tokens);
 			return (ret);
 		}
-	}
-	if (token_i == NULL)
-	{
-		return (0);
 	}
 	return (0);
 }
@@ -59,16 +56,13 @@ static int	extract_tokens(t_vector *p_tokens, char **p_token_i, \
 		(*p_line)++;
 	ret = get_next_token(p_token_i, p_line, args);
 	if (ret != 0)
-	{
-		ft_vector_free(p_tokens);
 		return (ret);
-	}
 	if (*p_token_i != NULL)
 	{
 		ret = ft_vector_add_single(p_tokens, p_token_i);
 		if (ret != 0)
 		{
-			ft_vector_free(p_tokens);
+			free(*p_token_i);
 			return (ret);
 		}
 	}
