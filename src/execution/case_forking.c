@@ -1,35 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_here_doc_fds.c                               :+:      :+:    :+:   */
+/*   case_forking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 13:22:21 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 19:01:50 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/04 18:43:13 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/04 18:47:30 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ast.h"
 #include "minishell.h"
+#include "execution.h"
 #include <unistd.h>
 #include <stdio.h>
 
-int	close_here_doc_fds(t_minishell *p_mini)
+int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
-	size_t	fd_i;
+	int	pid;
+	int	ret;
 
-	fd_i = 0;
-	while (fd_i < NB_MAX_HERE_DOC)
+	pid = fork();
+	if (pid == -1)
 	{
-		if (p_mini->fds_here_doc[fd_i] > 0)
-		{
-			if (close(p_mini->fds_here_doc[fd_i]) < 0)
-			{
-				perror(\
-		"in redir_here_doc : close(p_mini->fds_here_doc[fd_to_chose])\n");
-			}
-		}
-		fd_i++;
+		perror("fn: ... : fork");
+		return (ERROR_FORK);
 	}
-	return (0);
+	if (pid == 0)
+	{
+		p_mini->should_exit = TRUE;
+		ret = child_execution(ast, p_mini, cmd_type);
+		return (ret);
+	}
+	else
+	{
+		parent_execution(ast, p_mini, pid);
+		return (0);
+	}
 }

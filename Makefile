@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/04 16:02:00 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/04 18:49:07 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,10 @@ EXECUTION_FILES := exec_func.c \
 				   exec_pipe.c \
 				   exec_command.c \
 				   child_execution.c \
+				   parent_execution.c \
+				   case_forking.c \
+				   case_no_forking.c \
+				   restore_fds.c \
 				   wait_children.c \
 				   get_path.c \
 				   call_builtins.c \

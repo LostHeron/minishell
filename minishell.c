@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 18:40:31 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/04 18:57:12 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ft_vectors.h"
 #include "handle_signal.h"
 #include "ft_init.h"
+#include "ft_string.h"
 #include "minishell.h"
 #include "parsing.h"
 #include "ft_io.h"
@@ -142,6 +143,6 @@ static void	close_fd1(t_minishell *p_mini)
 	p_mini->fd1[0] = -1;
 	if (p_mini->fd1[1] != -1)
 		if (close(p_mini->fd1[1]) == -1)
-			perror("minishell.c : main : (close(minishell.fd1[1])");
+			perror("minishell.c : main : (close(minishell.fd2[0])");
 	p_mini->fd1[1] = -1;
 }

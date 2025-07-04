@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/02 15:37:29 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/04 19:02:28 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_env
 # define ERROR_WRITE -4
 # define ERROR_READ -5
 # define ERROR_DUP -6
+# define ERROR_OPEN 7
 # define ERROR_DUP2 8
 # define ERROR_FORK 9
 # define ERROR_UNCLOSED_S_QUOTES 10

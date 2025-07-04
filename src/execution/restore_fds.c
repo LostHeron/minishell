@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_here_doc_fds.c                               :+:      :+:    :+:   */
+/*   restore_fds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 13:22:21 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 19:01:50 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/04 18:46:05 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/04 18:48:37 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int	close_here_doc_fds(t_minishell *p_mini)
+int	restore_fds(t_minishell *p_mini)
 {
-	size_t	fd_i;
-
-	fd_i = 0;
-	while (fd_i < NB_MAX_HERE_DOC)
+	if (dup2(p_mini->fd_tty_copy, 2) < 0)
 	{
-		if (p_mini->fds_here_doc[fd_i] > 0)
-		{
-			if (close(p_mini->fds_here_doc[fd_i]) < 0)
-			{
-				perror(\
-		"in redir_here_doc : close(p_mini->fds_here_doc[fd_to_chose])\n");
-			}
-		}
-		fd_i++;
+		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
+		return (ERROR_DUP2);
+	}
+	if (dup2(p_mini->fd_tty_copy, 1) < 0)
+	{
+		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
+		return (ERROR_DUP2);
+	}
+	if (dup2(p_mini->fd_tty_copy, 0) < 0)
+	{
+		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
+		return (ERROR_DUP2);
 	}
 	return (0);
 }

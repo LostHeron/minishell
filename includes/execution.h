@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:13:46 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/02 15:25:51 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/04 18:47:06 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ enum	e_previous
 	PREV_LEFT,
 };
 
+int		restore_fds(t_minishell *p_mini);
+void	parent_execution(t_ast *ast, t_minishell *p_mini, int pid);
+int		case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type);
+int		case_no_forking(t_ast *ast, t_minishell *p_mini);
 int		exec_func(t_ast *ast, t_minishell *p_mini);
 int		exec_and(t_ast *ast, t_minishell *p_mini);
 int		exec_or(t_ast *ast, t_minishell *p_mini);
