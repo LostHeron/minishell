@@ -53,6 +53,7 @@ OLD stuff just in case for check :
 - 4) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2
 - 5) builtin exit // FAIT !
 - 6) correct initialisation of p_mini->cwd (for PWD) // FAIT !
+- 7) Change parenthesis synthax check (do it on tokens instead, cuz this line echo ")(" would be treated as 'unmatching parenthesis'
 - make cwd_name a variable at start of shell, if $PWD is set, take its value, else call getcwd; // working but should be upgraded 
 - builtins in pipe function ! // should be working now !
 - secure pathname length (if you call cd on a path that would be greater than PATH_NAME_MAX_LENGTH, then print error message) // should be ok
