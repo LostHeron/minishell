@@ -24,20 +24,13 @@ cat << eof > file1 | cat << eoff > file2
 
 TODO:
 
-- 1) expansion of variable et tokenization dans arbre! // bien avancé !
-- 2) erreur syntax // normalement on a un truc, a check
-- 3) code erreur dernière fonction
-- 4) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2
-- 5) builtin exit
-- 6) correct initialisation of p_mini->cwd (for PWD)
-- builtins in pipe function ! // should be working now !
+- 1) expand des '*'
+- 2) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2
+- 3) expand dans les Here-doc mieux gérer quand oui et non 
 - cd which reset PWD environment variable only in case of PWD existing !
-- 
 - option "-n" of echo builtin !
 - implementation of '&' and ';'
 - implementation of subshell
-- make cwd_name a variable at start of shell, if $PWD is set, take its value, else call getcwd; // working but should be upgraded 
-- secure pathname length (if you call cd on a path that would be greater than PATH_NAME_MAX_LENGTH, then print error message) // should be ok
 - Here-documents -> MAX here doc count = 16 if more -> next command ! exit !
     - base marche
     - manque de generer un nom de fichier assez random dans /tmp/minishel.<5-7 lettres randoms>
@@ -47,8 +40,26 @@ TODO:
     - Ctrl C
     - Ctrl \
 - modify PATH when it is modified by unset ! // should be OK !
-- in env builtin, make "_" environment variable to be the last command executed !
+- in env builtin, make "_" environment variable to be the last command executed ! // or just remove this environment variable
 - a function to transform env chained list to a (char **) that can be passed to execve !
-- readline history // done 
-- readline error while <C-C> when its looking for autocomplete
+- readline signal SIGINT interrupt (with something like readline hook smth)
 - leaks
+
+OLD stuff just in case for check : 
+
+- 1) expansion of variable et tokenization dans arbre! // bien avancé !
+- 2) erreur syntax // normalement on a un truc, a check
+- 3) code erreur dernière fonction // logiquement c'est pas trop mal , mais a vérifier
+- 5) Change parenthesis synthax check (do it on tokens instead, cuz this line echo ")(" would be treated as 'unmatching parenthesis'// Done
+- 4) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2
+- 5) builtin exit // FAIT !
+- 6) correct initialisation of p_mini->cwd (for PWD) // FAIT !
+- make cwd_name a variable at start of shell, if $PWD is set, take its value, else call getcwd; // working but should be upgraded 
+- builtins in pipe function ! // should be working now !
+- secure pathname length (if you call cd on a path that would be greater than PATH_NAME_MAX_LENGTH, then print error message) // should be ok
+- readline history // done 
+
+flemme :
+
+
+- 7) modifier args for token which shoudl not be init each time (optionel mais cool si fait)

@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize.c                                         :+:      :+:    :+:   */
+/*   here_doc_delimited_by_end_of_file.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 16:24:04 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:03:30 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/14 13:40:58 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/14 14:50:18 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
+#include "ft_io.h"
 #include "minishell.h"
-#include "ft_vectors.h"
-#include "parsing.h"
 
-int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
+int	here_doc_delimited_by_end_of_file(char *delimiter)
 {
-	int		ret;
+	char	*str;
 
-	ret = line_to_tokens(p_mini, p_tokens);
-	if (ret != 0)
-	{
-		return (ret);
-	}
-	ret = check_errors(p_mini, p_tokens);
-	if (ret != 0)
-	{
-		ft_vector_free(p_tokens);
-		return (ret);
-	}
+	str = ft_strjoin(\
+	"warning: here-document delimited by end-of-file (wanted `", delimiter);
+	if (str == NULL)
+		return (ERROR_MALLOC);
+	str = ft_strjoin_free_first(str, "')\n");
+	if (str == NULL)
+		return (ERROR_MALLOC);
+	ft_putstr_fd(str, 2);
+	free(str);
 	return (0);
 }

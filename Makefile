@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/02 16:34:56 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/14 16:57:45 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,11 +31,26 @@ HANDLE_SIGNALS_FILES := init_signals.c \
 
 PARSING_DIR := src/parsing/
 PARSING_FILES := tokenize.c \
+				 line_to_tokens.c \
+				 check_errors.c \
 				 check_error_syntax.c \
 				 check_parenthesis.c \
+				 check_after.c \
+				 check_after_redir.c \
+				 check_before.c \
+				 check_before_after.c \
 				 prepare_here_docs.c \
 				 count_here_doc.c \
+				 generate_hd_filename.c \
 				 get_here_doc.c \
+				 write_to_here_doc.c \
+				 get_key.c \
+				 get_value.c \
+				 get_real_delimiter.c \
+				 here_doc_delimited_by_end_of_file.c \
+				 here_doc_transform.c \
+				 fill_file_expand.c \
+				 fill_file_no_expand.c \
 				 lexer.c \
 				 init_args.c \
 				 get_next_token.c \
@@ -53,6 +68,7 @@ INIT_FILES := init_minishell.c \
 			  add_node_lst.c \
 			  init_builtins.c \
 			  init_cwd_name.c \
+			  cwd_and_pwd_env_match.c \
 
 FREEING_DIR := src/freeing/
 FREEING_FILES := free_minishell.c \
@@ -65,6 +81,10 @@ EXECUTION_FILES := exec_func.c \
 				   exec_pipe.c \
 				   exec_command.c \
 				   child_execution.c \
+				   parent_execution.c \
+				   case_forking.c \
+				   case_no_forking.c \
+				   restore_fds.c \
 				   wait_children.c \
 				   get_path.c \
 				   call_builtins.c \

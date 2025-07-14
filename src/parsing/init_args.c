@@ -13,26 +13,23 @@
 #include "minishell.h"
 #include "ft_standard.h"
 
-char	**init_args(int *p_err_code)
+int	init_args(char ***p_args)
 {
-	char	**args;
-
-	args = ft_malloc(11 * sizeof(char *));
-	if (args == NULL)
+	*p_args = ft_malloc(11 * sizeof(char *));
+	if (*p_args == NULL)
 	{
-		*p_err_code = ERROR_MALLOC;
-		return (NULL);
+		return (ERROR_MALLOC);
 	}
-	args[10] = NULL;
-	args[0] = "&&";
-	args[1] = "||";
-	args[2] = "<<";
-	args[3] = ">>";
-	args[4] = "|";
-	args[5] = "&";
-	args[6] = ">";
-	args[7] = "<";
-	args[8] = "(";
-	args[9] = ")";
-	return (args);
+	(*p_args)[10] = NULL;
+	(*p_args)[0] = "&&";
+	(*p_args)[1] = "||";
+	(*p_args)[2] = "<<";
+	(*p_args)[3] = ">>";
+	(*p_args)[4] = "|";
+	(*p_args)[5] = "&";
+	(*p_args)[6] = ">";
+	(*p_args)[7] = "<";
+	(*p_args)[8] = "(";
+	(*p_args)[9] = ")";
+	return (0);
 }

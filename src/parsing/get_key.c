@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize.c                                         :+:      :+:    :+:   */
+/*   get_key.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 16:24:04 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:03:30 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/14 13:39:57 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/14 13:46:33 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "ft_vectors.h"
-#include "parsing.h"
+#include "ft_char.h"
+#include "ft_string.h"
 
-int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
+char	*get_key(char *line)
 {
-	int		ret;
+	size_t	i;
+	char	*res;
 
-	ret = line_to_tokens(p_mini, p_tokens);
-	if (ret != 0)
+	i = 0;
+	while (line[i] && ft_isalnum(line[i]) != 0)
 	{
-		return (ret);
+		i++;
 	}
-	ret = check_errors(p_mini, p_tokens);
-	if (ret != 0)
-	{
-		ft_vector_free(p_tokens);
-		return (ret);
-	}
-	return (0);
+	res = ft_strndup(line, i);
+	return (res);
 }

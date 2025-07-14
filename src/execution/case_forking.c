@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize.c                                         :+:      :+:    :+:   */
+/*   case_forking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 16:24:04 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:03:30 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/04 18:43:13 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/04 18:47:30 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ast.h"
 #include "minishell.h"
-#include "ft_vectors.h"
-#include "parsing.h"
+#include "execution.h"
+#include <unistd.h>
+#include <stdio.h>
 
-int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
+int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
-	int		ret;
+	int	pid;
+	int	ret;
 
-	ret = line_to_tokens(p_mini, p_tokens);
-	if (ret != 0)
+	pid = fork();
+	if (pid == -1)
 	{
+		perror("fn: ... : fork");
+		return (ERROR_FORK);
+	}
+	if (pid == 0)
+	{
+		p_mini->should_exit = TRUE;
+		ret = child_execution(ast, p_mini, cmd_type);
 		return (ret);
 	}
-	ret = check_errors(p_mini, p_tokens);
-	if (ret != 0)
+	else
 	{
-		ft_vector_free(p_tokens);
-		return (ret);
+		parent_execution(ast, p_mini, pid);
+		return (0);
 	}
-	return (0);
 }

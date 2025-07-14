@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 17:23:44 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/02 15:37:47 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/03 14:41:58 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ int	init_minishell(t_minishell *p_mini, char **env)
 		free(p_mini->cwd_name);
 		return (ERROR_DUP);
 	}
-	print_path(p_mini);
+	print_path(p_mini); // to be deleted
 	return (0);
 }

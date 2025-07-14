@@ -17,114 +17,101 @@
 #include <stdio.h>
 #include <sys/types.h>
 
+static int		case_not_an_args(ssize_t *p_token_size, \
+									char **p_line, char **args);
+static int		dup_new_token(char **p_token_i, char **p_line, \
+									size_t token_size);
 static ssize_t	get_bloc_size(char *line, int *p_err_code);
 static ssize_t	get_end(char *line, char c);
-//static ssize_t	get_word_size(char *line, char **args);
 
-char	*get_next_token(char **p_line, char **args, int *p_err_code)
+int	get_next_token(char **p_token_i, char **p_line, char **args)
 {
 	ssize_t	token_size;
-	char	*token;
 	ssize_t	len_strstr;
-	ssize_t	quote_size;
+	int		ret;
 
+	*p_token_i = NULL;
 	len_strstr = ft_strstr_args(*p_line, args);
 	if (len_strstr != 0)
 		token_size = len_strstr;
 	else
 	{
-		token_size = 0;
-		while ((*p_line)[token_size] != '\0' && \
-					ft_strchr(WHITE_SPACES, (*p_line)[token_size]) == NULL && \
-					ft_strstr_args((*p_line) + token_size, args) == 0)
-		{
-			if (ft_strchr("\"'", (*p_line)[token_size]) != NULL)
-			{
-				quote_size = get_bloc_size((*p_line) + token_size, p_err_code);
-				if (quote_size < 0)
-				{
-					return (NULL);
-				}
-				token_size += quote_size;
-			}
-			else
-				token_size++;
-		}
+		ret = case_not_an_args(&token_size, p_line, args);
+		if (ret != 0)
+			return (ret);
 	}
-	/*
-	if (ft_strchr("\"('", (*p_line)[0]) != NULL)
-		token_size = get_bloc_size(*p_line, p_err_code);
-	else if (len_strstr != 0)
-		token_size = len_strstr;
-	else
-		token_size = get_word_size(*p_line, args);
-	*/
-	/*
-	if (token_size < 0)
+	ret = dup_new_token(p_token_i, p_line, token_size);
+	if (ret != 0)
+		return (ret);
+	return (0);
+}
+
+static int	case_not_an_args(ssize_t *p_token_size, \
+									char **p_line, char **args)
+{
+	ssize_t	quote_size;
+	int		err_code;
+
+	(*p_token_size) = 0;
+	while ((*p_line)[(*p_token_size)] != '\0' && \
+				ft_strchr(WHITE_SPACES, (*p_line)[(*p_token_size)]) == NULL && \
+				ft_strstr_args((*p_line) + (*p_token_size), args) == 0)
 	{
-		return (NULL);
+		if (ft_strchr("\"'", (*p_line)[(*p_token_size)]) != NULL)
+		{
+			quote_size = get_bloc_size((*p_line) + (*p_token_size), &err_code);
+			if (err_code != 0)
+			{
+				return (err_code);
+			}
+			(*p_token_size) += quote_size;
+		}
+		else
+			(*p_token_size)++;
 	}
-	*/
+	return (0);
+}
+
+static int	dup_new_token(char **p_token_i, char **p_line, size_t token_size)
+{
 	if (token_size > 0)
 	{
-		token = ft_strndup(*p_line, token_size);
-		if (token == NULL)
+		*p_token_i = ft_strndup(*p_line, token_size);
+		if (*p_token_i == NULL)
 		{
-			*p_err_code = ERROR_MALLOC;
-			return (NULL);
+			return (ERROR_MALLOC);
 		}
 		*p_line += token_size;
-		return (token);
+		return (0);
 	}
 	else if (token_size == 0)
-	{
-		return (NULL);
-	}
+		return (0);
 	else
 	{
-		ft_putstr_fd("get_next_token error : should not get to token_size < 0\n", 2);
-		exit(1);
+		ft_putstr_fd("get_next_token error : \
+						should not get to token_size < 0\n", 2);
+		return (-1);
 	}
 }
-
-/*
-static ssize_t	get_word_size(char *line, char **args)
-{
-	size_t	i;
-
-	i = 0;
-	while (line[i] && ft_strchr(WHITE_SPACES, line[i]) == NULL \
-					&& ft_strstr_args(line + i, args) == 0 \
-					&& ft_strchr("\"('", line[i]) == NULL)
-		i++;
-	return (i);
-}
-*/
 
 static ssize_t	get_bloc_size(char *line, int *p_err_code)
 {
 	ssize_t	i;
 	char	type;
 
+	*p_err_code = 0;
 	i = 0;
 	type = line[i];
 	if (line[i] == '\"')
 		i = get_end(line + 1, '\"');
 	else if (line[i] == '\'')
 		i = get_end(line + 1, '\'');
-	else
-	{
-		ft_putstr_fd("ERROR in function 'get_bloc_size', \
-						should never get here !\n", 2);
-	}
 	if (i < 0)
 	{
 		if (type == '\"')
 			*p_err_code = ERROR_UNCLOSED_D_QUOTES;
-		else if (type == '\'')
-			*p_err_code = ERROR_UNCLOSED_S_QUOTES;
 		else
-			*p_err_code = ERROR_UNCLOSED_PARENTHESIS;
+			*p_err_code = ERROR_UNCLOSED_S_QUOTES;
 		return (i);
 	}
 	else

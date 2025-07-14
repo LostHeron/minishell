@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize.c                                         :+:      :+:    :+:   */
+/*   restore_fds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 16:24:04 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:03:30 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/04 18:46:05 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/04 18:48:37 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "ft_vectors.h"
-#include "parsing.h"
+#include <unistd.h>
+#include <stdio.h>
 
-int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
+int	restore_fds(t_minishell *p_mini)
 {
-	int		ret;
-
-	ret = line_to_tokens(p_mini, p_tokens);
-	if (ret != 0)
+	if (dup2(p_mini->fd_tty_copy, 2) < 0)
 	{
-		return (ret);
+		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
+		return (ERROR_DUP2);
 	}
-	ret = check_errors(p_mini, p_tokens);
-	if (ret != 0)
+	if (dup2(p_mini->fd_tty_copy, 1) < 0)
 	{
-		ft_vector_free(p_tokens);
-		return (ret);
+		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
+		return (ERROR_DUP2);
+	}
+	if (dup2(p_mini->fd_tty_copy, 0) < 0)
+	{
+		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
+		return (ERROR_DUP2);
 	}
 	return (0);
 }

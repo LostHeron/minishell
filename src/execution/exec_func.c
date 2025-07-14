@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/02 16:12:52 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/23 13:09:40 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/04 18:27:28 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/04 19:14:11 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,47 +17,20 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast, \
+														t_minishell *p_mini));
+
 int	exec_func(t_ast *ast, t_minishell *p_mini)
 {
 	int		ret;
+	int		(*exec_table[NB_T_TYPE])(t_ast *ast, t_minishell *p_mini);
 
-	if (ast->type == PIPE)
+	init_exec_table(exec_table);
+	if (0 <= ast->type && ast->type <= 7)
 	{
-		ret = exec_pipe(ast, p_mini);
+		ret = exec_table[ast->type](ast, p_mini);
 		if (ret != 0)
 		{
-			// do stuff
-			// return ?
-		}
-		return (0);
-	}
-	else if (ast->type == COMMAND)
-	{
-		ret = exec_command(ast, p_mini);
-		if (ret != 0)
-		{
-			// do stuff ?
-			// return ?
-		}
-		if (p_mini->first_cmd == 1)
-		{
-			p_mini->first_cmd = 0;
-		}
-	}
-	else if (ast->type == AND)
-	{
-		ret = exec_and(ast, p_mini);
-		if (ret != 0)
-		{
-			// do stuff ?
-			return (ret);
-		}
-	}
-	else if (ast->type == OR)
-	{
-		ret = exec_or(ast, p_mini);
-		{
-			// do stuff ?
 			return (ret);
 		}
 	}
@@ -65,7 +38,22 @@ int	exec_func(t_ast *ast, t_minishell *p_mini)
 	{
 		ft_putstr_fd("ERROR : ast-type not defined !\n", 2);
 		ft_putstr_fd("EXITING program !\n", 2);
-		exit(1);
+		p_mini->should_exit = TRUE;
+		p_mini->last_error_code = 1;
+		return (1);
 	}
 	return (0);
+}
+
+static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast, \
+														t_minishell *p_mini))
+{
+	exec_table[OR] = &exec_or;
+	exec_table[AND] = &exec_and;
+	exec_table[COMMAND] = &exec_command;
+	exec_table[PIPE] = &exec_pipe;
+	//exec_func[BACKGROUND] = &exec_background;
+	//exec_func[SEQUENCE] = &exec_sequence;
+	//exec_func[SUBSHELL] = &exec_subshell;
+	return ;
 }

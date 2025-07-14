@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize.c                                         :+:      :+:    :+:   */
+/*   get_value.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 16:24:04 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:03:30 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/14 13:40:25 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/14 13:40:39 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
 #include "minishell.h"
-#include "ft_vectors.h"
-#include "parsing.h"
 
-int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
+char	*get_value(t_list *env, char *key)
 {
-	int		ret;
-
-	ret = line_to_tokens(p_mini, p_tokens);
-	if (ret != 0)
+	if (env == NULL)
+		return (NULL);
+	while (env != NULL)
 	{
-		return (ret);
+		if (ft_strcmp(((t_env *)env->content)->key, key) == 0)
+			return (((t_env *)env->content)->value);
+		env = env->next;
 	}
-	ret = check_errors(p_mini, p_tokens);
-	if (ret != 0)
-	{
-		ft_vector_free(p_tokens);
-		return (ret);
-	}
-	return (0);
+	return (NULL);
 }
