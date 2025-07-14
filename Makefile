@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/14 14:33:33 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/14 16:57:45 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ PARSING_FILES := tokenize.c \
 				 count_here_doc.c \
 				 generate_hd_filename.c \
 				 get_here_doc.c \
+				 write_to_here_doc.c \
 				 get_key.c \
 				 get_value.c \
 				 get_real_delimiter.c \
