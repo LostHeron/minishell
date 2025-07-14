@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/04 18:49:07 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/14 14:33:33 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,15 @@ PARSING_FILES := tokenize.c \
 				 check_before_after.c \
 				 prepare_here_docs.c \
 				 count_here_doc.c \
+				 generate_hd_filename.c \
 				 get_here_doc.c \
+				 get_key.c \
+				 get_value.c \
+				 get_real_delimiter.c \
+				 here_doc_delimited_by_end_of_file.c \
+				 here_doc_transform.c \
+				 fill_file_expand.c \
+				 fill_file_no_expand.c \
 				 lexer.c \
 				 init_args.c \
 				 get_next_token.c \

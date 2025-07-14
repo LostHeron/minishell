@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:45:10 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 18:59:26 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/14 14:47:20 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	case_no_forking(t_ast *ast, t_minishell *p_mini)
 	if (ret != 0)
 		return (ret);
 	ret_builtin = call_builtins(p_mini, ast->arguments.com_args.content);
-	p_mini->last_error_code = ret;
+	p_mini->last_error_code = ret_builtin;
 	ret = restore_fds(p_mini);
 	if (ret != 0)
 	{
