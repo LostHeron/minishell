@@ -14,7 +14,7 @@
 #include "ft_standard.h"
 #include "ft_string.h"
 #include "ft_io.h"
-#include <stdint.h>
+#include <limits.h>
 #include <unistd.h>
 
 static int	change_name(char **p_filename, size_t *p_nb);
@@ -45,7 +45,7 @@ static int	change_name(char **p_filename, size_t *p_nb)
 	char	*nb_str;
 
 	free(*p_filename);
-	if (*p_nb == SIZE_MAX)
+	if (*p_nb == INT_MAX)
 	{
 		ft_printf_fd(2, \
 	"too much filename beginning with \"/tmp/minishell_tmp_file_nb_\"\n");

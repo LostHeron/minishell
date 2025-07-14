@@ -12,13 +12,12 @@
 
 #include "ast.h"
 #include "execution.h"
+#include "ft_init.h"
+#include "ft_io.h"
 #include "ft_vectors.h"
 #include "handle_signal.h"
-#include "ft_init.h"
-#include "ft_string.h"
 #include "minishell.h"
 #include "parsing.h"
-#include "ft_io.h"
 #include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
