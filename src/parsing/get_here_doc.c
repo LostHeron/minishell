@@ -20,9 +20,14 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i, \
+														int *p_hd_count);
 static int	generate_filename(char **p_filename, int nb);
+static int	open_fds(char *filename, int *p_fd_tmp_write, int *p_fd_here_doc_table);
 static int	here_doc_delimited_by_end_of_file(char *delimiter);
-static int	fill_file(t_list *env, int fd, int should_expand, char *delimiter);
+static int	should_expand(char *delimiter);
+static int	fill_file_no_expand(int fd, char *delimiter);
+static int	fill_file_expand(t_list *env, int fd, char *delimiter);
 static int	here_doc_transform(t_list *env, char **p_line);
 static char	*get_key(char *line);
 static char	*get_value(t_list *env, char *line);
@@ -31,67 +36,69 @@ static void	my_free(t_vector *ptr_vec);
 int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 {
 	size_t	i;
-	size_t	here_doc_count;
+	int		ret;
+	int		hd_count;
+
+	i = 0;
+	hd_count = 0;
+	while (i < p_tokens->size)
+	{
+		ret = get_here_doc_i(p_mini, p_tokens, i, &hd_count);
+		if (ret != 0)
+		{
+			// do somehting ?
+			return (ret);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i, \
+													int *p_hd_count)
+{
 	char	*delimiter;
 	char	*filename;
 	int		ret;
 	int		fd_tmp_write;
 
-	i = 0;
-	here_doc_count = 0;
-	while (i < p_tokens->size)
+	if (ft_strcmp(((char **)p_tokens->data)[i], "<<") == 0)
 	{
-		if (ft_strcmp(((char **)p_tokens->data)[i], "<<") == 0)
+		ret = generate_filename(&filename, *p_hd_count);
+		if (ret != 0)
 		{
-			delimiter = ((char **)p_tokens->data)[i + 1];
-			ret = generate_filename(&filename, here_doc_count);
-			if (ret != 0)
-			{
-				return (ret);
-			}
-			unlink(filename); // a del this line because generate filename should generate a filename which does not exist already !
-			printf("filename = %s\n", filename);
-			fd_tmp_write = open(filename, O_WRONLY | O_CREAT, 0666);
-			if (fd_tmp_write < 0)
-			{
-				// should close all here doc here !
-				ft_putstr_fd("could not open filename for writting here_doc!\n", 2);
-				return (1);
-			}
-			p_mini->fds_here_doc[here_doc_count] = open(filename, O_RDONLY , 0666);
-			if (p_mini->fds_here_doc[here_doc_count] < 0)
-			{
-				// should close all here_doc already opened !
-				ft_putstr_fd("could not open filename for reading here_doc!\n", 2);
-				return (1);
-			}
-			if (unlink(filename) < 0)
-			{
-				ft_putstr_fd("could not unlink file !\n", 2);
-				return (1);
-			}
-			free(filename);
-			if (delimiter[0] == '\'')
-				fill_file(p_mini->env, fd_tmp_write, 0, delimiter);
-			else
-				fill_file(p_mini->env, fd_tmp_write, 1, delimiter);
-			if (close (fd_tmp_write) < 0)
-			{
-				perror(NULL);
-				return (1);
-			}
-			free(((char **)p_tokens->data)[i + 1]);
-			((char **)p_tokens->data)[i + 1] = ft_malloc(2 * sizeof(char));
-			if (((char **)p_tokens->data)[i + 1] == NULL)
-			{
-				// do other stuff ?
-				return (ERROR_MALLOC);
-			}
-			((char **)p_tokens->data)[i + 1][0] = here_doc_count;
-			((char **)p_tokens->data)[i + 1][1] = '\0';
-			here_doc_count++;
+			return (ret);
 		}
-		i++;
+		unlink(filename); // a del this line because generate filename should generate a filename which does not exist already !
+		printf("filename = %s\n", filename);
+		ret = open_fds(filename, &fd_tmp_write, \
+					&p_mini->fds_here_doc[*p_hd_count]);
+		free(filename);
+		if (ret != 0)
+		{
+			// close all here_documents 
+			return (ret);
+		}
+		delimiter = ((char **)p_tokens->data)[i + 1];
+		if (should_expand(delimiter) == 1)
+			fill_file_expand(p_mini->env, fd_tmp_write, delimiter);
+		else
+			fill_file_no_expand(fd_tmp_write, delimiter);
+		if (close (fd_tmp_write) < 0)
+		{
+			perror(NULL);
+			return (1);
+		}
+		free(((char **)p_tokens->data)[i + 1]);
+		((char **)p_tokens->data)[i + 1] = ft_malloc(2 * sizeof(char));
+		if (((char **)p_tokens->data)[i + 1] == NULL)
+		{
+			// do other stuff ?
+			return (ERROR_MALLOC);
+		}
+		((char **)p_tokens->data)[i + 1][0] = *p_hd_count;
+		((char **)p_tokens->data)[i + 1][1] = '\0';
+		(*p_hd_count)++;
 	}
 	return (0);
 }
@@ -111,62 +118,63 @@ static int	generate_filename(char **p_filename, int nb)
 	return (0);
 }
 
-static int	fill_file(t_list *env, int fd, int should_expand, char *delimiter)
+static int	open_fds(char *filename, int *p_fd_tmp_write, int *p_fd_here_doc_table)
+{
+	*p_fd_tmp_write = open(filename, O_WRONLY | O_CREAT, 0666);
+	if (*p_fd_tmp_write < 0)
+	{
+		perror("open");
+		ft_putstr_fd("could not open filename for writting here_doc!\n", 2);
+		return (ERROR_OPEN);
+	}
+	*p_fd_here_doc_table = open(filename, O_RDONLY, 0666);
+	if (*p_fd_here_doc_table < 0)
+	{
+		perror("open");
+		ft_putstr_fd("could not open filename for reading here_doc!\n", 2);
+		return (ERROR_OPEN);
+	}
+	if (unlink(filename) < 0)
+	{
+		perror("unlink");
+		ft_putstr_fd("could not unlink file !\n", 2);
+		return (ERROR_UNLINK);
+	}
+	return (0);
+}
+
+static int	should_expand(char *delimiter)
+{
+	size_t	i;
+
+	i = 0;
+	while (delimiter[i])
+	{
+		if (delimiter[i] == '\'' || delimiter[i] == '\"')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int	fill_file_expand(t_list *env, int fd, char *delimiter)
 {
 	int		err_code;
 	char	*line;
 	char	*line_cpy;
 	int		ret;
 
-	line = get_next_line(0, &err_code);
-	if (err_code != 0)
-	{
-		return (err_code);
-	}
-	if (line == NULL)
-	{
-		ret = here_doc_delimited_by_end_of_file(delimiter);
-		if (ret != 0)
-		{
-			return (ERROR_MALLOC);
-		}
-		return (0);
-	}
+	line = (char *)1;
 	while (line != NULL)
 	{
-		dprintf(2, "line = '%s'\n", line);
-		if (should_expand == 1)
-		{
-			line_cpy = line;
-			dprintf(2, "we are expanding variable !\n");
-			ret = here_doc_transform(env, &line_cpy);
-			if (ret != 0)
-			{
-				free(line);
-				return (ret);
-			}
-		}
-		free(line);
-		dprintf(2, "writing to file : \n");
-		dprintf(2, "'%s'\n", line_cpy);
-		if (write(fd, line_cpy, ft_strlen(line_cpy)) < 0)
-		{
-			free(line_cpy);
-			return (ERROR_WRITE);
-		}
-		free(line_cpy);
 		line = get_next_line(0, &err_code);
 		if (err_code != 0)
-		{
 			return (err_code);
-		}
 		if (line == NULL)
 		{
 			ret = here_doc_delimited_by_end_of_file(delimiter);
 			if (ret != 0)
-			{
 				return (ERROR_MALLOC);
-			}
 			return (0);
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
@@ -174,6 +182,50 @@ static int	fill_file(t_list *env, int fd, int should_expand, char *delimiter)
 			free(line);
 			return (0);
 		}
+		line_cpy = line;
+		ret = here_doc_transform(env, &line_cpy);
+		free(line);
+		if (ret != 0)
+			return (ret);
+		if (write(fd, line_cpy, ft_strlen(line_cpy)) < 0)
+		{
+			free(line_cpy);
+			return (ERROR_WRITE);
+		}
+		free(line_cpy);
+	}
+	return (0);
+}
+
+static int	fill_file_no_expand(int fd, char *delimiter)
+{
+	int		err_code;
+	char	*line;
+	int		ret;
+
+	while (1)
+	{
+		line = get_next_line(0, &err_code);
+		if (err_code != 0)
+			return (err_code);
+		if (line == NULL)
+		{
+			ret = here_doc_delimited_by_end_of_file(delimiter);
+			if (ret != 0)
+				return (ERROR_MALLOC);
+			return (0);
+		}
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+		{
+			free(line);
+			return (0);
+		}
+		if (write(fd, line, ft_strlen(line)) < 0)
+		{
+			free(line);
+			return (ERROR_WRITE);
+		}
+		free(line);
 	}
 	return (0);
 }
@@ -281,18 +333,12 @@ static int	here_doc_delimited_by_end_of_file(char *delimiter)
 	char	*str;
 
 	str = ft_strjoin("warning: here-document delimited \
-							by end-of-file (wanted ", delimiter);
+							by end-of-file (wanted `", delimiter);
 	if (str == NULL)
-	{
-		// do stuff ?
 		return (ERROR_MALLOC);
-	}
 	str = ft_strjoin_free_first(str, "')");
 	if (str == NULL)
-	{
-		// do stuff ?
 		return (ERROR_MALLOC);
-	}
 	ft_putstr_fd(str, 2);
 	free(str);
 	return (0);

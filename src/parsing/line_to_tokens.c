@@ -32,13 +32,6 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	}
 	if (line && *line)
 		add_history(line);
-	ret = check_parenthesis(line);
-	if (ret != 0)
-	{
-		free(line);
-		print_error(ret);
-		return (1);
-	}
 	ret = get_tokens(p_mini, p_tokens, line);
 	if (ret != 0)
 	{

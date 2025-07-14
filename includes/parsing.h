@@ -20,7 +20,7 @@ int		tokenize(t_minishell *p_mini, t_vector *p_tokens);
 int		line_to_tokens(t_minishell *p_mini, t_vector *p_tokens);
 int		check_errors(t_minishell *p_mini, t_vector *p_tokens);
 int		prepare_here_doc(t_minishell *p_mini, t_vector *p_tokens);
-int		check_parenthesis(char *line);
+int		check_parenthesis(t_vector *p_tokens);
 int		check_error_syntax(t_vector tokens);
 int		check_before_after(t_vector tokens, size_t i);
 int		check_before(t_vector tokens, size_t i);

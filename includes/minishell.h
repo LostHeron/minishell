@@ -57,6 +57,7 @@ typedef struct s_env
 # define ERROR_WRITE -4
 # define ERROR_READ -5
 # define ERROR_DUP -6
+# define ERROR_UNLINK 6
 # define ERROR_OPEN 7
 # define ERROR_DUP2 8
 # define ERROR_FORK 9
