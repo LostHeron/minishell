@@ -14,6 +14,7 @@
 #include "ft_vectors.h"
 #include "parsing.h"
 #include "ft_io.h"
+#include "printing.h"
 
 int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 {
@@ -23,6 +24,12 @@ int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 	if (ret != 0)
 	{
 		ft_putstr_fd("error syntax in check_error_syntax !\n", 2);
+		return (ret);
+	}
+	ret = check_parenthesis(p_tokens);
+	if (ret != 0)
+	{
+		print_error(ret);
 		return (ret);
 	}
 	if (p_tokens->size <= 0)
