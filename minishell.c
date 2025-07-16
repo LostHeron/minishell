@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 18:57:12 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/15 15:42:27 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 static int	start_minishell(t_minishell *p_mini);
 static int	ast_ize(t_ast **p_ast, t_vector *p_tokens);
 static int	run_exec(t_minishell *p_mini, t_ast **p_ast);
-static void	close_fd1(t_minishell *p_mini);
 
 int	main(int argc, char **argv, char **env)
 {
@@ -81,6 +80,7 @@ static int	start_minishell(t_minishell *p_mini)
 	{
 		return (ret);
 	}
+	p_mini->head_ast = ast;
 	ret = run_exec(p_mini, &ast);
 	if (ret != 0)
 	{
@@ -107,6 +107,7 @@ static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 {
 	int	ret;
+	int	ret_exec;
 
 	p_mini->previous_side = PREV_NONE;
 	p_mini->previous_type = -1;
@@ -114,15 +115,10 @@ static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 	{
 		perror("fn : run_exec : pipe(p_mini->fd1)");
 		free_tree(p_ast);
-		return (1);
+		return (ERROR_PIPE);
 	}
 	p_mini->first_cmd = 1;
-	ret = exec_func(*p_ast, p_mini);
-	if (ret != 0)
-	{
-		// do stuff ?
-		// return ?
-	}
+	ret_exec = exec_func(*p_ast, p_mini);
 	close_fd1(p_mini);
 	ret = wait_children(p_mini);
 	if (ret != 0)
@@ -131,17 +127,12 @@ static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 		// so exit but nice way !
 	}
 	free_tree(p_ast);
+	if (ret_exec != 0)
+	{
+		// do stuff ?
+		// return ?
+		// faut wait dans tous les cas !
+		return (ret_exec);
+	}
 	return (0);
-}
-
-static void	close_fd1(t_minishell *p_mini)
-{
-	if (p_mini->fd1[0] != -1)
-		if (close(p_mini->fd1[0]) == -1)
-			perror("minishell.c : main : (close(minishell.fd1[0])");
-	p_mini->fd1[0] = -1;
-	if (p_mini->fd1[1] != -1)
-		if (close(p_mini->fd1[1]) == -1)
-			perror("minishell.c : main : (close(minishell.fd2[0])");
-	p_mini->fd1[1] = -1;
 }

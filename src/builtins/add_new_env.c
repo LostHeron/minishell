@@ -46,7 +46,7 @@ static void	add_node_lst(t_minishell *p_mini, t_list *new_node)
 	}
 	else
 	{
-		if (ft_strcmp(((t_env *)p_mini->env->content)->key, \
+		if (ft_strcmp(((t_env *)p_mini->env->content)->key,
 				((t_env *)new_node->content)->key) > 0)
 		{
 			new_node->next = p_mini->env;
@@ -69,8 +69,8 @@ static void	add_node_lst_after_head(t_minishell *p_mini, t_list *new_node)
 	tmp = p_mini->env;
 	while (tmp->next != NULL)
 	{
-		if (ft_strcmp(((t_env *)tmp->next->content)->key, \
-					((t_env *)new_node->content)->key) > 0)
+		if (ft_strcmp(((t_env *)tmp->next->content)->key,
+				((t_env *)new_node->content)->key) > 0)
 		{
 			new_node->next = tmp->next;
 			tmp->next = new_node;

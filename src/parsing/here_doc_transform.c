@@ -16,9 +16,9 @@
 #include "ft_char.h"
 #include "parsing.h"
 
-static int	create_new_line(t_list *env, t_vector *p_vec, \
+static int	create_new_line(t_list *env, t_vector *p_vec,\
 								char **p_line, size_t *p_i);
-static int	key_is_valid(t_list *env, t_vector *p_vec, \
+static int	key_is_valid(t_list *env, t_vector *p_vec,\
 								char **p_line, size_t *p_i);
 static int	handle_value(t_list *env, t_vector *p_vec, char *key);
 static void	my_free(t_vector *ptr_vec);
@@ -30,7 +30,7 @@ int	here_doc_transform(t_list *env, char **p_line)
 	size_t		i;
 
 	ret = ft_vector_init(&vec, ft_strlen((*p_line)) + 5, \
-							sizeof(char), &my_free);
+sizeof(char), &my_free);
 	if (ret != 0)
 		return (ret);
 	i = 0;
@@ -51,7 +51,7 @@ int	here_doc_transform(t_list *env, char **p_line)
 	return (0);
 }
 
-static int	create_new_line(t_list *env, t_vector *p_vec, \
+static int	create_new_line(t_list *env, t_vector *p_vec,\
 									char **p_line, size_t *p_i)
 {
 	int	ret;
@@ -60,8 +60,8 @@ static int	create_new_line(t_list *env, t_vector *p_vec, \
 		(*p_i)++;
 	if ((*p_line)[(*p_i)] == '$')
 	{
-		if (ft_isalpha((*p_line)[(*p_i) + 1]) == 0 && \
-								(*p_line)[(*p_i) + 1] != '_')
+		if (ft_isalpha((*p_line)[(*p_i) + 1]) == 0
+								&& (*p_line)[(*p_i) + 1] != '_')
 			(*p_i)++;
 		else
 		{
@@ -76,7 +76,7 @@ static int	create_new_line(t_list *env, t_vector *p_vec, \
 	return (0);
 }
 
-static int	key_is_valid(t_list *env, t_vector *p_vec, \
+static int	key_is_valid(t_list *env, t_vector *p_vec,\
 								char **p_line, size_t *p_i)
 {
 	int		ret;

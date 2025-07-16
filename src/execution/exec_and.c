@@ -6,14 +6,13 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 10:51:26 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 19:15:50 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/15 10:40:52 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "minishell.h"
 #include "execution.h"
-#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdio.h>

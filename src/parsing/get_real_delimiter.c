@@ -16,11 +16,11 @@
 #include <stddef.h>
 #include <unistd.h>
 
-static int	concatenate_outside_quote(char **p_final_delimiter, \
+static int	concatenate_outside_quote(char **p_final_delimiter,	\
 								char **p_delimiter, size_t *p_i);
-static int	case_encounter_quote(char **p_final_delimiter, \
+static int	case_encounter_quote(char **p_final_delimiter,	\
 									char **p_delimiter, size_t *p_i);
-static int	case_not_empty_quote(char **p_final_delimiter, \
+static int	case_not_empty_quote(char **p_final_delimiter,	\
 									char **p_delimiter, size_t *p_i);
 
 char	*get_real_delimiter(char *delimiter)
@@ -51,7 +51,7 @@ char	*get_real_delimiter(char *delimiter)
 	return (final_delimiter);
 }
 
-static int	concatenate_outside_quote(char **p_final_delimiter, \
+static int	concatenate_outside_quote(char **p_final_delimiter,	\
 								char **p_delimiter, size_t *p_i)
 {
 	char	*tmp_string;
@@ -63,7 +63,7 @@ static int	concatenate_outside_quote(char **p_final_delimiter, \
 		return (ERROR_MALLOC);
 	}
 	*p_final_delimiter = ft_strjoin_free_first(*p_final_delimiter, \
-													tmp_string);
+tmp_string);
 	free(tmp_string);
 	if (*p_final_delimiter == 0)
 		return (ERROR_MALLOC);
@@ -72,7 +72,7 @@ static int	concatenate_outside_quote(char **p_final_delimiter, \
 	return (0);
 }
 
-static int	case_encounter_quote(char **p_final_delimiter, \
+static int	case_encounter_quote(char **p_final_delimiter,\
 									char **p_delimiter, size_t *p_i)
 {
 	char	quote_type;
@@ -93,7 +93,7 @@ static int	case_encounter_quote(char **p_final_delimiter, \
 	return (0);
 }
 
-static int	case_not_empty_quote(char **p_final_delimiter, \
+static int	case_not_empty_quote(char **p_final_delimiter,\
 									char **p_delimiter, size_t *p_i)
 {
 	char	*tmp_string;
@@ -104,8 +104,8 @@ static int	case_not_empty_quote(char **p_final_delimiter, \
 		free(*p_final_delimiter);
 		return (ERROR_MALLOC);
 	}
-	*p_final_delimiter = ft_strjoin_free_first(*p_final_delimiter, \
-													tmp_string);
+	*p_final_delimiter = ft_strjoin_free_first(*p_final_delimiter,
+			tmp_string);
 	free(tmp_string);
 	if (*p_final_delimiter == 0)
 		return (ERROR_MALLOC);

@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/14 16:57:45 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/15 16:08:30 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,8 +80,14 @@ EXECUTION_FILES := exec_func.c \
 				   exec_and.c \
 				   exec_pipe.c \
 				   exec_command.c \
+				   exec_sequence.c \
+				   exec_background.c \
+				   exec_subshell.c \
+				   exit_child.c \
 				   child_execution.c \
 				   parent_execution.c \
+				   change_fd_pipe.c \
+				   close_fd1.c \
 				   case_forking.c \
 				   case_no_forking.c \
 				   restore_fds.c \
@@ -102,6 +108,7 @@ BUILTINS_FILES := builtin_cd.c \
 				  builtin_exit.c \
 				  builtin_export.c \
 				  builtin_export_with_args.c \
+				  builtin_export_no_args.c \
 				  export_from_string.c \
 				  get_new_key_value.c \
 				  add_new_env.c \

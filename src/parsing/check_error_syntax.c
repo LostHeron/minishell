@@ -14,7 +14,7 @@
 #include "ft_string.h"
 #include "parsing.h"
 
-static void	init_smths(char **smth_before, char **smth_after, \
+static void	init_smths(char **smth_before, char **smth_after,\
 										char **smth_before_after);
 static int	perform_checks(t_vector tokens, char **smths[3]);
 static int	is_this(char **arr_to_comp, char *str);
@@ -39,7 +39,7 @@ int	check_error_syntax(t_vector tokens)
 	return (ret);
 }
 
-static void	init_smths(char **smth_before, char **smth_after, \
+static void	init_smths(char **smth_before, char **smth_after,\
 										char **smth_before_after)
 {
 	smth_before[0] = ";";

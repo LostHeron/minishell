@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 18:38:40 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/15 16:08:04 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <errno.h>
-
-static void	change_fd_pipe(t_minishell *p_mini);
 
 int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
@@ -34,9 +32,9 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	else
 	{
 		if (close(p_mini->fd1[0]) == -1)
-			perror("child left : close(p_mini->fd1[0]");
+			perror("fn: child_execution: child left: close(p_mini->fd1[0]");
 		if (close(p_mini->fd1[1]) == -1)
-			perror("child left : close(p_mini->fd1[1]");
+			perror("fn: child_execution: child left: close(p_mini->fd1[1]");
 	}
 	ret = change_fd_redir(p_mini, ast);
 	if (ret != 0)
@@ -44,12 +42,13 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 		// do stuff ?
 		// return ? 
 		// should close all fds !
-		//exit(1);
+		//no no exit !exit(1);
+		//only return here 
 	}
 	if (cmd_type == CMD_BUILTIN)
 	{
 		ret = call_builtins(p_mini, ast->arguments.com_args.content);
-		exit (ret);
+		return (ret);
 	}
 	else
 	{
@@ -81,49 +80,14 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 				{
 					printf("%s: command not found\n", cmd);
 					// do some cleaning stuff or leaks !
-					exit(127);
+					return(127);
 				}
 			}
 		}
 		execve(cmd, ast->arguments.com_args.content.data, NULL);
-		if (errno == EACCES)
-			exit(126);
 		perror(cmd);
-		exit(errno);
-	}
-}
-
-static void	change_fd_pipe(t_minishell *p_mini)
-{
-	if (p_mini->previous_side == PREV_LEFT)
-	{
-		if (p_mini->first_cmd != 1)
-		{
-			if (dup2(p_mini->fd1[0], 0) == -1)
-				perror(NULL); // do stuff ?
-		}
-		if (dup2(p_mini->fd2[1], 1) == -1)
-			perror(NULL); // do stuff ?
-	}
-	if (p_mini->previous_side == PREV_RIGHT)
-		if (dup2(p_mini->fd1[0], 0) == -1)
-			; // do stuff ?
-	if (p_mini->previous_side == PREV_RIGHT)
-	{
-		if (close(p_mini->fd1[0]) == -1)
-			perror("child right : close(p_mini->fd1[0]");
-		if (close(p_mini->fd1[1]) == -1)
-			perror("child right : close(p_mini->fd1[1]");
-	}
-	else
-	{
-		if (close(p_mini->fd1[0]) == -1)
-			perror("child left : close(p_mini->fd1[0]");
-		if (close(p_mini->fd1[1]) == -1)
-			perror("child left : close(p_mini->fd1[1]");
-		if (close(p_mini->fd2[0]) == -1)
-			perror("child right : close(p_mini->fd2[0]");
-		if (close(p_mini->fd2[1]) == -1)
-			perror("child right : close(p_mini->fd2[1]");
+		if (errno == EACCES)
+			return (126);
+		return (1);
 	}
 }

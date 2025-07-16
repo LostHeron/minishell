@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 17:23:44 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/03 14:41:58 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/15 13:38:35 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	init_minishell(t_minishell *p_mini, char **env)
 	int	ret;
 
 	p_mini->last_error_code = 0;
+	p_mini->is_main_process = TRUE;
 	ret = init_env(p_mini, env);
 	if (ret != 0)
 		return (ret);

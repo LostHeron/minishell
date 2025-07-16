@@ -24,18 +24,21 @@ cat << eof > file1 | cat << eoff > file2
 
 TODO:
 
-- 1) expand des '*'
+- 1) expand des '*' // done logiquement !
 - 2) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2 // OU PAS ?
 - 3) Normage dans Execution
+- 3) Refaire error synthax au niveau des parenthese, apres des parenthese ou avant, il peu y avoir 
+que des redirections s'il y a autre chose ou des operateurs de commande 
 - 4) Leak et sortie en cas d'erreurs de partout ! 
         -> dans init
         -> dans parsing
         -> dans ast
         -> dans execution
+- 5) faire en sorte que lorsque l'on quitte minishell on close tous les fds restant des HERE-DOCS (ceux ouvert dans les subshells que je ne close pas de suite !
 - cd which reset PWD environment variable only in case of PWD existing !
 - option "-n" of echo builtin !
-- implementation of '&' and ';'
-- implementation of subshell
+- implementation of '&' and ';' // background must be do better but is advanced a little !
+- implementation of subshell // quite good advanced !
 - handle signal :
     - Ctrl C
     - Ctrl \

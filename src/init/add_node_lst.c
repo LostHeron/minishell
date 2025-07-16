@@ -34,7 +34,7 @@ static void	case_env_not_null(t_minishell *p_mini, t_list *new_node)
 	t_list	*tmp;
 
 	if (ft_strcmp(((t_env *)p_mini->env->content)->key, \
-			((t_env *)new_node->content)->key) > 0)
+((t_env *)new_node->content)->key) > 0)
 	{
 		new_node->next = p_mini->env;
 		p_mini->env = new_node;
@@ -45,7 +45,7 @@ static void	case_env_not_null(t_minishell *p_mini, t_list *new_node)
 		while (tmp->next != NULL)
 		{
 			if (ft_strcmp(((t_env *)tmp->next->content)->key, \
-						((t_env *)new_node->content)->key) > 0)
+((t_env *)new_node->content)->key) > 0)
 			{
 				new_node->next = tmp->next;
 				tmp->next = new_node;

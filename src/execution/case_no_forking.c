@@ -6,13 +6,14 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:45:10 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/14 14:47:20 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/15 11:58:01 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ast.h"
 #include "execution.h"
+#include "ft_io.h"
 
 int	case_no_forking(t_ast *ast, t_minishell *p_mini)
 {
@@ -28,9 +29,8 @@ int	case_no_forking(t_ast *ast, t_minishell *p_mini)
 	ret = restore_fds(p_mini);
 	if (ret != 0)
 	{
-		if (ret_builtin < 0)
-			return (ret_builtin);
-		return (1);
+		ft_putstr_fd("could not restore fds, stopping programme execution\n", 2);
+		return (-1);
 	}
 	if (ret_builtin < 0)
 		return (ret_builtin);

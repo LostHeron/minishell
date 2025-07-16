@@ -20,13 +20,13 @@
 #include <unistd.h>
 #include <stdio.h>
 
-static int		init_elems_list(char *place_to_go, char ***p_elems, \
+static int		init_elems_list(char *place_to_go, char ***p_elems,\
 														t_list **p_list);
 static int		get_list(t_list **p_list, char **elems);
 static size_t	get_path_len(t_list *list);
 static char		*get_path_name(t_list *list, size_t	path_len);
 
-int	get_path_len_name(char *place_to_go, size_t *p_path_len, \
+int	get_path_len_name(char *place_to_go, size_t *p_path_len,\
 													char **p_path_name)
 {
 	int		ret;

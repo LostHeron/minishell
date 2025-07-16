@@ -15,11 +15,13 @@
 #include "builtins.h"
 #include "minishell.h"
 
+static int	change_existing_env(t_list *env, char *new_key, char *new_value);
+
 /* 
  * This function expects a valid string format for 
  * the string it is passed of format :
  * starting by an alpha or an '_';
- * and next char being eith alnum of '_';
+ * and next char being eith alnum or '_';
 */
 int	export_from_string(char *str, t_minishell *p_mini)
 {
@@ -35,21 +37,7 @@ int	export_from_string(char *str, t_minishell *p_mini)
 	while (env != NULL)
 	{
 		if (ft_strcmp(new_key, ((t_env *)env->content)->key) == 0)
-		{
-			if (new_value != NULL)
-			{
-				free(((t_env *)env->content)->value);
-				((t_env *)env->content)->value = new_value;
-				free(new_key);
-				return (0);
-			}
-			else
-			{
-				free(new_value);
-				free(new_key);
-				return (0);
-			}
-		}
+			return (change_existing_env(env, new_key, new_value));
 		env = env->next;
 	}
 	ret = add_new_env(new_key, new_value, p_mini);
@@ -58,6 +46,21 @@ int	export_from_string(char *str, t_minishell *p_mini)
 		free(new_key);
 		free(new_value);
 		return (ret);
+	}
+	return (0);
+}
+
+static int	change_existing_env(t_list *env, char *new_key, char *new_value)
+{
+	free(new_key);
+	if (new_value != NULL)
+	{
+		free(((t_env *)env->content)->value);
+		((t_env *)env->content)->value = new_value;
+	}
+	else
+	{
+		free(new_value);
 	}
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_or.c                                          :+:      :+:    :+:   */
+/*   exec_sequence.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 12:54:30 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/15 10:40:45 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/15 10:40:37 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/15 11:05:25 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int	exec_or(t_ast *ast, t_minishell *p_mini)
+int	exec_sequence(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;
 	/*
@@ -68,15 +68,12 @@ int	exec_or(t_ast *ast, t_minishell *p_mini)
 		}
 	}
 	*/
-	if (p_mini->last_error_code != 0)
+	p_mini->previous_side = PREV_RIGHT;
+	ret = exec_func(ast->arguments.op_args.right, p_mini);
+	if (ret != 0)
 	{
-		p_mini->previous_side = PREV_RIGHT;
-		ret = exec_func(ast->arguments.op_args.right, p_mini);
-		if (ret != 0)
-		{
-			// do stuff ?
-			return (ret);
-		}
+		// do stuff ?
+		return (ret);
 	}
 	return (0);
 }
