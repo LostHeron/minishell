@@ -118,6 +118,7 @@ EXPAND_FILES := expand.c \
 				rebuild_filename.c \
 				expand_wildcard.c \
 				match_wildcard.c \
+				matching.c \
 
 C_FILES := minishell.c \
 		   $(addprefix $(PARSING_DIR),$(PARSING_FILES)) \

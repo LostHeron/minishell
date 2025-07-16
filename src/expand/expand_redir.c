@@ -15,7 +15,8 @@
 #include "expand.h"
 #include "ft_vectors.h"
 
-static int	expand_filename(t_vector *p_redir, int ind, char *src, t_minishell mini);
+static int	expand_filename(t_vector *p_redir, int ind,
+				char *src, t_minishell mini);
 
 int	expand_redir(t_vector *p_redir, t_minishell mini)
 {
@@ -25,7 +26,8 @@ int	expand_redir(t_vector *p_redir, t_minishell mini)
 	i = 0;
 	while (i < p_redir->size)
 	{
-		ret = expand_filename(p_redir, i, ((t_dirargs *)p_redir->data)[i].filename, mini);
+		ret = expand_filename(p_redir, i,
+				((t_dirargs *)p_redir->data)[i].filename, mini);
 		if (ret != 0)
 		{
 			ft_vector_free(p_redir);
@@ -49,7 +51,8 @@ static void	free_exp(t_vector *word)
 	free(word->data);
 }
 
-static int	expand_filename(t_vector *dest, int ind, char *src, t_minishell mini)
+static int	expand_filename(t_vector *dest, int ind,
+			char *src, t_minishell mini)
 {
 	int			ret;
 	t_vector	splitted;

@@ -47,6 +47,7 @@ int	expand_redir(t_vector *p_redir, t_minishell mini);
 int	split_elem(t_vector *splitted, char *src);
 int	expand_variables(t_vector splitted, t_minishell mini);
 int	find_match(char **replace, t_vector pattern);
+int	matching(t_vector pattern, char *elem, int *p_match);
 int	expand_wildcard(t_vector *p_splitted);
 int	remove_last(t_exp *p_exp_part, int p_ind);
 int	replace_key_value(t_exp *p_exp_part, int *p_ind, int len_key, t_env *p_env);

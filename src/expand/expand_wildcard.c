@@ -60,7 +60,8 @@ static void	pattern_start(t_vector splitted, int *p_vec_ind, int *p_ind)
 			while (*p_ind >= 0)
 			{
 				if (ft_strchr(WHITE_SPACES,
-					((t_exp *)splitted.data)[*p_vec_ind].content[*p_ind]) != NULL)
+						((t_exp *)splitted.data)[*p_vec_ind].content[*p_ind])
+						!= NULL)
 				{
 					(*p_ind)++;
 					return ;
@@ -85,7 +86,7 @@ static void	free_data(t_vector *p_vector)
 static int	add_elem(t_vector *p_pattern, t_exp exp_part, int ind)
 {
 	t_pat	elem;
-	
+
 	elem.c = exp_part.content[ind];
 	if (elem.c == '*' && exp_part.quote == NONE)
 		elem.wild = TRUE;
@@ -94,7 +95,8 @@ static int	add_elem(t_vector *p_pattern, t_exp exp_part, int ind)
 	return (ft_vector_add_single(p_pattern, &elem));
 }
 
-static int	get_pattern(t_vector *p_pattern, t_vector splitted, int vec_ind, int ind)
+static int	get_pattern(t_vector *p_pattern, t_vector splitted,
+				int vec_ind, int ind)
 {
 	int		ret;
 
@@ -124,7 +126,7 @@ static int	init_replace(t_vector *p_splitted, t_vector *p_copy, int vec_ind)
 {
 	int		ret;
 	int		i;
-	
+
 	ft_vector_copy(p_copy, p_splitted);
 	ret = ft_vector_init(p_splitted, 5, p_copy->data_size, p_copy->del);
 	if (ret != 0)
@@ -145,9 +147,11 @@ static int	join_end(t_exp *p_exp, t_vector copy, t_ind p_ind)
 	while ((size_t)(*(p_ind.vec)) < copy.size)
 	{
 		if (((t_exp *)copy.data)[*(p_ind.vec)].quote == NONE
-			&& ft_strchr(WHITE_SPACES, ((t_exp *)copy.data)[*(p_ind.vec)].content[*(p_ind.elt)]) != NULL)
+			&& ft_strchr(WHITE_SPACES,
+			((t_exp *)copy.data)[*(p_ind.vec)].content[*(p_ind.elt)]) != NULL)
 		{
-			p_exp->content = ft_strjoin_free_first(p_exp->content, &((t_exp *)copy.data)[*(p_ind.vec)].content[*(p_ind.elt)]);
+			p_exp->content = ft_strjoin_free_first(p_exp->content,
+					&((t_exp *)copy.data)[*(p_ind.vec)].content[*(p_ind.elt)]);
 			if (p_exp->content == NULL)
 				return (ERROR_MALLOC);
 			return (0);
@@ -155,7 +159,8 @@ static int	join_end(t_exp *p_exp, t_vector copy, t_ind p_ind)
 		else
 		{
 			*(p_ind.elt) += 1;
-			if (((t_exp *)copy.data)[*(p_ind.vec)].content[*(p_ind.elt)] == '\0')
+			if (((t_exp *)copy.data)[*(p_ind.vec)].content[*(p_ind.elt)]
+					== '\0')
 			{
 				*(p_ind.vec) += 1;
 				*(p_ind.elt) = 0;
@@ -165,16 +170,18 @@ static int	join_end(t_exp *p_exp, t_vector copy, t_ind p_ind)
 	return (0);
 }
 
-static int	replace_wildcard(t_vector *p_splitted, t_vector copy, t_ind *p_ind, char *replace)
+static int	replace_wildcard(t_vector *p_splitted, t_vector copy,
+				t_ind *p_ind, char *replace)
 {
 	int		ret;
 	t_exp	exp;
-	
+
 	exp.quote = NONE;
 	exp.content = NULL;
 	if (*(p_ind->elt) != 0)
 	{
-		exp.content = ft_strndup(((t_exp *)copy.data)[*(p_ind->vec)].content, *(p_ind->elt) - 1);
+		exp.content = ft_strndup(((t_exp *)copy.data)[*(p_ind->vec)].content,
+				*(p_ind->elt) - 1);
 		if (exp.content == NULL)
 			return (ERROR_MALLOC);
 	}
@@ -192,7 +199,7 @@ static int	replace_wildcard(t_vector *p_splitted, t_vector copy, t_ind *p_ind, c
 
 static int	end_replace(t_vector *p_splitted, t_vector copy, int vec_ind)
 {
-	int ret;
+	int	ret;
 
 	while ((size_t)vec_ind < copy.size)
 	{
@@ -204,7 +211,8 @@ static int	end_replace(t_vector *p_splitted, t_vector copy, int vec_ind)
 	return (0);
 }
 
-static int	handle_wildcard(t_vector *p_splitted, int *p_vec_ind, int *p_ind, char *replace)
+static int	handle_wildcard(t_vector *p_splitted, int *p_vec_ind,
+				int *p_ind, char *replace)
 {
 	int			ret;
 	t_vector	copy;

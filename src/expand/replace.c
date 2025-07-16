@@ -50,7 +50,8 @@ int	replace_key_value(t_exp *p_exp_part, int *p_ind, int len_key, t_env *p_env)
 	ft_strncat(replace, p_exp_part->content, *p_ind);
 	if (p_env != NULL)
 		ft_strlcat(replace, p_env->value, len_replace);
-	ft_strlcat(replace, p_exp_part->content + *p_ind + len_key + 1, len_replace);
+	ft_strlcat(replace, p_exp_part->content + *p_ind + len_key + 1,
+		len_replace);
 	free(p_exp_part->content);
 	p_exp_part->content = replace;
 	*p_ind += len_val;
@@ -82,5 +83,5 @@ int	replace_err_code(t_exp *p_exp_part, int *p_ind, t_minishell mini)
 	free(p_exp_part->content);
 	p_exp_part->content = replace;
 	*p_ind += len_code;
-	return (0);	
+	return (0);
 }
