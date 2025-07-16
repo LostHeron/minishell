@@ -113,6 +113,8 @@ static int	matching(t_vector pattern, char *elem_name, int *match)
 
 	seg = NULL;
 	i = 0;
+	if (elem_name[0] == '.'  && ((t_pat *)pattern.data)[i].c != '.')
+		return (0);
 	if (((t_pat *)pattern.data)[i].wild == FALSE)
 	{
 		ret = build_segment(&seg, pattern, &i);
