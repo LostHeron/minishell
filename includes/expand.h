@@ -29,10 +29,25 @@ typedef struct s_exp
 	char			*content;
 }	t_exp;
 
+typedef struct s_pat
+{
+	char	c;
+	int		wild;
+}	t_pat;
+
+typedef struct s_ind
+{
+	int	*vec;
+	int	*elt;
+}	t_ind;
+
 int	expand(t_vector *p_args, t_minishell mini);
+int	expand_both(t_vector *p_splitted, t_minishell mini);
 int	expand_redir(t_vector *p_redir, t_minishell mini);
 int	split_elem(t_vector *splitted, char *src);
 int	expand_variables(t_vector splitted, t_minishell mini);
+int	find_match(char **replace, t_vector pattern);
+int	expand_wildcard(t_vector *p_splitted);
 int	remove_last(t_exp *p_exp_part, int p_ind);
 int	replace_key_value(t_exp *p_exp_part, int *p_ind, int len_key, t_env *p_env);
 int	replace_err_code(t_exp *p_exp_part, int *p_ind, t_minishell mini);

@@ -20,9 +20,9 @@ static int	expand_here(t_vector splitted, size_t vec_ind, int *p_ind, t_minishel
 
 int	expand_variables(t_vector splitted, t_minishell mini)
 {
-	int	ret;
+	int		ret;
 	size_t	i;
-	int	j;
+	int		j;
 
 	i = 0;
 	while (i < splitted.size)

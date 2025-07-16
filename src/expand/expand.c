@@ -44,6 +44,16 @@ int	expand(t_vector *p_args, t_minishell mini)
 	return (0);
 }
 
+int	expand_both(t_vector *p_splitted, t_minishell mini)
+{
+	int	ret;
+
+	ret = expand_variables(*p_splitted, mini);
+	if (ret != 0)
+		return (ret);
+	return (expand_wildcard(p_splitted));
+}
+
 static void	free_exp(t_vector *word)
 {
 	size_t	i;
@@ -71,7 +81,7 @@ static int	expand_elem(t_vector *dest, char *src, t_minishell mini)
 		ft_vector_free(&splitted);
 		return (ret);
 	}
-	ret = expand_variables(splitted, mini);
+	ret = expand_both(&splitted, mini);
 	if (ret != 0)
 	{
 		ft_vector_free(&splitted);

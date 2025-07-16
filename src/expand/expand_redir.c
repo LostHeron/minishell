@@ -63,7 +63,7 @@ static int	expand_filename(t_vector *dest, int ind, char *src, t_minishell mini)
 		ft_vector_free(&splitted);
 		return (ret);
 	}
-	ret = expand_variables(splitted, mini);
+	ret = expand_both(&splitted, mini);
 	if (ret != 0)
 	{
 		ft_vector_free(&splitted);
