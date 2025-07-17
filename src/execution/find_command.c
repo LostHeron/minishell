@@ -37,5 +37,7 @@ int	find_command(char **p_cmd, t_vector path)
 		free(new_cmd);
 		i++;
 	}
+	if (access(*p_cmd, F_OK) == 0)
+		return (0);
 	return (1);
 }
