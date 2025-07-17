@@ -17,9 +17,9 @@
 #include "ft_string.h"
 
 static int	build_segment(char **seg, t_vector pattern, int *ind);
-static int	pattern_start(t_vector pattern, char **p_elem,
+static int	matching_start(t_vector pattern, char **p_elem,
 				int *match, int *ind);
-static void	segment_matching(char **p_elem, char **seg, int *p_match);
+static void	matching_segment(char **p_elem, char **seg, int *p_match);
 
 int	matching(t_vector pattern, char *elem, int *p_match)
 {
@@ -28,7 +28,7 @@ int	matching(t_vector pattern, char *elem, int *p_match)
 	int		i;
 
 	i = 0;
-	ret = pattern_start(pattern, &elem, p_match, &i);
+	ret = matching_start(pattern, &elem, p_match, &i);
 	if (ret != 0 || *p_match == FALSE)
 		return (ret);
 	s = NULL;
@@ -39,7 +39,7 @@ int	matching(t_vector pattern, char *elem, int *p_match)
 			return (ret);
 		if ((size_t)i < pattern.size)
 		{
-			segment_matching(&elem, &s, p_match);
+			matching_segment(&elem, &s, p_match);
 			if (*p_match == FALSE)
 				return (0);
 		}
@@ -74,7 +74,8 @@ static int	build_segment(char **seg, t_vector pattern, int *ind)
 	return (0);
 }
 
-static int	pattern_start(t_vector pattern, char **p_elem, int *match, int *ind)
+static int	matching_start(t_vector pattern,
+				char **p_elem, int *match, int *ind)
 {
 	int		ret;
 	char	*seg;
@@ -103,7 +104,7 @@ static int	pattern_start(t_vector pattern, char **p_elem, int *match, int *ind)
 	return (0);
 }
 
-static void	segment_matching(char **p_elem, char **seg, int *p_match)
+static void	matching_segment(char **p_elem, char **seg, int *p_match)
 {
 	*p_elem = ft_strstr(*p_elem, *seg);
 	if (*p_elem == NULL)

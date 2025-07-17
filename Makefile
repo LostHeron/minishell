@@ -111,14 +111,16 @@ BUILTINS_FILES := builtin_cd.c \
 EXPAND_DIR := src/expand/
 EXPAND_FILES := expand.c \
 				expand_variables.c \
+				expand_redir.c \
+				expand_wildcard.c \
+				split_elem.c \
 				replace.c \
 				rebuild_elem.c \
-				split_elem.c \
-				expand_redir.c \
 				rebuild_filename.c \
-				expand_wildcard.c \
+				pattern.c \
 				match_wildcard.c \
 				matching.c \
+				handle_wildcard.c \
 				free.c \
 
 C_FILES := minishell.c \
