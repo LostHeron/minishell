@@ -88,8 +88,17 @@ void	print_tree(t_ast *root, size_t depth)
 			printf("\t");
 			i++;
 		}
-		printf("SUBSHELL\n");
-		print_tree(root->arguments.sub_args, depth + 1);
+		printf("SUBSHELL");
+		i = 0;
+		while (i < root->arguments.sub_args.dir_args.size)
+		{
+			printf(" REDIR %lu : %s %s", i + 1, print_redir(((t_dirargs *)root->arguments.sub_args.dir_args.data)[i].dir), ((t_dirargs *)root->arguments.sub_args.dir_args.data)[i].filename);
+			if (i + 1 < root->arguments.sub_args.dir_args.size)
+				printf(" ");
+			i++;
+		}
+		printf("\n");
+		print_tree(root->arguments.sub_args.sub, depth + 1);
 	}
 	else
 	{

@@ -10,9 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "minishell.h"
 #include "expand.h"
 #include "ft_vectors.h"
+#include <stdio.h>
 
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini);
 
@@ -44,17 +46,14 @@ int	expand(t_vector *p_args, t_minishell mini)
 	return (0);
 }
 
-static void	free_exp(t_vector *word)
+int	expand_both(t_vector *p_splitted, t_minishell mini)
 {
-	size_t	i;
+	int	ret;
 
-	i = 0;
-	while (i < word->size)
-	{
-		free(((t_exp *)word->data)[i].content);
-		i++;
-	}
-	free(word->data);
+	ret = expand_variables(*p_splitted, mini);
+	if (ret != 0)
+		return (ret);
+	return (expand_wildcard(p_splitted));
 }
 
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini)
@@ -71,7 +70,7 @@ static int	expand_elem(t_vector *dest, char *src, t_minishell mini)
 		ft_vector_free(&splitted);
 		return (ret);
 	}
-	ret = expand_variables(splitted, mini);
+	ret = expand_both(&splitted, mini);
 	if (ret != 0)
 	{
 		ft_vector_free(&splitted);

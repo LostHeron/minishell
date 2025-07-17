@@ -14,6 +14,7 @@
 #include "ast.h"
 #include "ft_string.h"
 #include "ft_standard.h"
+#include <stdio.h>
 
 static t_dir	get_dir(t_vector tokens, size_t ind)
 {
@@ -57,13 +58,30 @@ static t_type	get_type(t_vector tokens, size_t ind)
 	return (COMMAND);
 }
 
-static int	fill_command(t_ast *root, t_vector tokens, size_t *ind)
+static int	fill_redir(t_vector *p_dir_args, t_vector tokens, size_t *ind, t_dir dir)
 {
 	t_dirargs	redir;
-	t_type		type;
+	
+	redir.dir = dir;
+	(*ind)++;
+	if (get_type(tokens, *ind) != COMMAND || get_dir(tokens, *ind) != NOT_DIR)
+		return (1);
+	redir.filename = ft_strdup(((char **)tokens.data)[*ind]);
+	if (!redir.filename)
+		return (1);
+	if (ft_vector_add_single(p_dir_args, &redir))
+	{
+		free(redir.filename);
+		return (1);	
+	}
+	return (0);
+}
 
-	type = get_type(tokens, *ind);
-	while (type == COMMAND)
+static int	fill_command(t_comargs *p_com_args, t_vector tokens, size_t *ind)
+{
+	t_dirargs	redir;
+
+	while (get_type(tokens, *ind) == COMMAND)
 	{
 		redir.dir = get_dir(tokens, *ind);
 		if (redir.dir == NOT_DIR)
@@ -71,7 +89,7 @@ static int	fill_command(t_ast *root, t_vector tokens, size_t *ind)
 			redir.filename = ft_strdup(((char **)tokens.data)[*ind]);
 			if (!redir.filename)
 				return (1);
-			if (ft_vector_add_single(&root->arguments.com_args.content, &redir.filename))
+			if (ft_vector_add_single(&p_com_args->content, &redir.filename))
 			{
 				free(redir.filename);
 				return (1);
@@ -79,29 +97,13 @@ static int	fill_command(t_ast *root, t_vector tokens, size_t *ind)
 		}
 		else
 		{
-			(*ind)++;
-			type = get_type(tokens, *ind);
-			if (type == COMMAND)
-			{
-				if (get_dir(tokens, *ind) != NOT_DIR)
-					return (1);
-				redir.filename = ft_strdup(((char **)tokens.data)[*ind]);
-				if (!redir.filename)
-					return (1);
-				if (ft_vector_add_single(&root->arguments.com_args.dir_args, &redir))
-				{
-					free(redir.filename);
-					return (1);	
-				}
-			}
-			else
+			if (fill_redir(&p_com_args->dir_args, tokens, ind, redir.dir))
 				return (1);
 		}
 		(*ind)++;
-		type = get_type(tokens, *ind);
 	}
 	redir.filename = NULL;
-	if (ft_vector_add_single(&root->arguments.com_args.content, &redir.filename))
+	if (ft_vector_add_single(&p_com_args->content, &redir.filename))
 		return (1);
 	return (0);
 }
@@ -128,6 +130,14 @@ static t_ast	*create_leaf(t_type type)
 			return (NULL);
 		}
 	}
+	else if (type == SUBSHELL)
+	{
+		if (ft_vector_init(&leaf->arguments.sub_args.dir_args, 5, sizeof(t_dirargs), free_dirargs))
+		{
+			free(leaf);
+			return (NULL);
+		}
+	}
 	return (leaf);
 }
 
@@ -136,6 +146,7 @@ t_ast	*create_ast(t_vector tokens, t_type max_prio, size_t *ind)
 	t_ast	*root;
 	t_ast	*tmp;
 	t_type	type;
+	t_dir	dir;
 
 	type = get_type(tokens, *ind);
 	if (type >= max_prio)
@@ -148,18 +159,34 @@ t_ast	*create_ast(t_vector tokens, t_type max_prio, size_t *ind)
 		if (type == SUBSHELL)
 		{
 			(*ind)++;
-			root->arguments.sub_args = create_ast(tokens, END_SUBSHELL, ind);
-			if (!root->arguments.sub_args)
+			root->arguments.sub_args.sub = create_ast(tokens, END_SUBSHELL, ind);
+			if (!root->arguments.sub_args.sub)
 			{
 				free_tree(&root);
 				return (NULL);
 			}
-		}
-		else if (type == END_SUBSHELL)
 			(*ind)++;
+			if (get_type(tokens, *ind) == COMMAND)
+			{
+				dir = get_dir(tokens, *ind);
+				while (dir != NOT_DIR)
+				{
+					if (fill_redir(&root->arguments.sub_args.dir_args, tokens, ind, dir))
+					{
+						free_tree(&root);
+						return (NULL);
+					}
+					(*ind)++;
+					if (*ind >= tokens.size)
+						dir = NOT_DIR;
+					else
+						dir = get_dir(tokens, *ind);
+				}
+			}
+		}
 		else if (type == COMMAND)
 		{	
-			if (fill_command(root, tokens, ind))
+			if (fill_command(&root->arguments.com_args, tokens, ind))
 			{
 				free_tree(&root);
 				return (NULL);

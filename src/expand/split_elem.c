@@ -16,7 +16,8 @@
 #include "ft_string.h"
 
 static int	fill_exp(t_exp *p_exp_part, char *src, int *p_ind);
-static int	fill_content(t_exp *p_exp_part, char *src, int *p_ind, char *charset);
+static int	fill_content(t_exp *p_exp_part, char *src,
+				int *p_ind, char *charset);
 static int	is_charset(char c, char *set);
 
 int	split_elem(t_vector *splitted, char *src)
@@ -44,7 +45,7 @@ int	split_elem(t_vector *splitted, char *src)
 static int	fill_exp(t_exp *p_exp_part, char *src, int *p_ind)
 {
 	int	ret;
-	
+
 	if (src[*p_ind] == '\'')
 	{
 		p_exp_part->quote = SINGLE;
@@ -69,7 +70,8 @@ static int	fill_exp(t_exp *p_exp_part, char *src, int *p_ind)
 	return (ret);
 }
 
-static int	fill_content(t_exp *p_exp_part, char *src, int *p_ind, char *charset)
+static int	fill_content(t_exp *p_exp_part, char *src,
+				int *p_ind, char *charset)
 {
 	int	i;
 

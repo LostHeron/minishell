@@ -15,7 +15,8 @@
 #include "expand.h"
 #include "ft_vectors.h"
 
-static int	expand_filename(t_vector *p_redir, int ind, char *src, t_minishell mini);
+static int	expand_filename(t_vector *p_redir, int ind,
+				char *src, t_minishell mini);
 
 int	expand_redir(t_vector *p_redir, t_minishell mini)
 {
@@ -25,7 +26,8 @@ int	expand_redir(t_vector *p_redir, t_minishell mini)
 	i = 0;
 	while (i < p_redir->size)
 	{
-		ret = expand_filename(p_redir, i, ((t_dirargs *)p_redir->data)[i].filename, mini);
+		ret = expand_filename(p_redir, i,
+				((t_dirargs *)p_redir->data)[i].filename, mini);
 		if (ret != 0)
 		{
 			ft_vector_free(p_redir);
@@ -36,20 +38,8 @@ int	expand_redir(t_vector *p_redir, t_minishell mini)
 	return (0);
 }
 
-static void	free_exp(t_vector *word)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < word->size)
-	{
-		free(((t_exp *)word->data)[i].content);
-		i++;
-	}
-	free(word->data);
-}
-
-static int	expand_filename(t_vector *dest, int ind, char *src, t_minishell mini)
+static int	expand_filename(t_vector *dest, int ind,
+			char *src, t_minishell mini)
 {
 	int			ret;
 	t_vector	splitted;
@@ -63,7 +53,7 @@ static int	expand_filename(t_vector *dest, int ind, char *src, t_minishell mini)
 		ft_vector_free(&splitted);
 		return (ret);
 	}
-	ret = expand_variables(splitted, mini);
+	ret = expand_both(&splitted, mini);
 	if (ret != 0)
 	{
 		ft_vector_free(&splitted);
