@@ -69,7 +69,10 @@ int	get_pattern(t_vector *p_pattern, t_vector splitted,
 				return (ret);
 			ind++;
 			if (((t_exp *)splitted.data)[vec_ind].content[ind] == '\0')
+			{
 				vec_ind++;
+				ind = 0;
+			}
 		}
 	}
 	return (0);

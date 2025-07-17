@@ -16,7 +16,6 @@
 #include "ft_vectors.h"
 #include "ft_lists_single.h"
 #include "ft_string.h"
-#include <stdio.h>
 
 static int	expand_here(t_vector *p_splitted,
 				ssize_t *p_vec_ind, ssize_t *p_ind);
@@ -35,6 +34,7 @@ int	expand_wildcard(t_vector *p_splitted)
 			ret = expand_single(p_splitted, &i);
 			if (ret != 0)
 				return (ret);
+			printf("vec ind : %zu\n", i);
 		}
 		i++;
 	}
@@ -76,6 +76,13 @@ static int	expand_here(t_vector *p_splitted,
 		ft_vector_free(&pattern);
 		return (ret);
 	}
+	size_t i = 0;
+	while (i < pattern.size)
+	{
+		printf("%c", ((t_pat *)pattern.data)[i].c);
+		i++;
+	}
+	printf("\n");
 	replace = NULL;
 	ret = find_match(&replace, pattern);
 	if (replace == NULL || ret != 0)
