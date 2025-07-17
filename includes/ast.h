@@ -57,11 +57,17 @@ typedef struct s_opargs
 	struct s_ast	*right;
 }	t_opargs;
 
+typedef struct s_subargs
+{
+	struct s_ast	*sub;
+	t_vector		dir_args;
+}	t_subargs;
+
 typedef union u_args
 {
 	t_comargs		com_args;
 	t_opargs		op_args;
-	struct s_ast	*sub_args;
+	t_subargs		sub_args;
 }	t_args;
 
 typedef struct s_ast

@@ -50,7 +50,10 @@ void	free_tree(t_ast **root)
 		ft_vector_free(&(*root)->arguments.com_args.content);
 	}
 	else if ((*root)->type == SUBSHELL)
-		free_tree(&(*root)->arguments.sub_args);
+	{
+		ft_vector_free(&(*root)->arguments.sub_args.dir_args);
+		free_tree(&(*root)->arguments.sub_args.sub);
+	}
 	else
 	{
 		free_tree(&(*root)->arguments.op_args.left);
