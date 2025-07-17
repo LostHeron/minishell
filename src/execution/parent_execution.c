@@ -23,11 +23,11 @@ void	parent_execution(t_ast *ast, t_minishell *p_mini, int pid)
 	i = 0;
 	while (i < ast->arguments.com_args.dir_args.size)
 	{
-		if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir \
-																== HEREDOC)
+		if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir
+			== HEREDOC)
 		{
-			to_close = ((t_dirargs *) \
-						ast->arguments.com_args.dir_args.data)[i].filename[0];
+			to_close = \
+((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].filename[0];
 			if (close(p_mini->fds_here_doc[to_close]) < 0)
 				perror("fn : parent_execution : close");
 			p_mini->fds_here_doc[to_close] = -1;

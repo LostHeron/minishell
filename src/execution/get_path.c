@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:50:12 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 14:21:04 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/17 17:52:19 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,21 @@
 #include "ft_vectors.h"
 #include "minishell.h"
 
+static int	fill_vector_with_paths(t_vector *p_path, t_list *tmp);
 static int	add_path_to_path(t_vector *p_path, char *path_string);
-static int	add_slash_to_path(t_vector *p_path);
+static void	clear_vector_data(t_vector *ptr_vec);
 static void	my_free(t_vector *ptr_vec);
+int			add_slash_to_path(t_vector *p_path);
 
+/* This function initialize a t_vector 'path, passed via
+ * its address, and fill it with the different path from PATH
+ * environment variable
+ * in case of success:
+ *  -> return (0) and have correctly initialize path
+ * in case of failure:
+ *  -> return the corresponding error code and free
+ *     everything that has been allocated
+*/
 int	get_path(t_minishell *p_mini, t_vector *p_path)
 {
 	int			ret;
@@ -26,35 +37,41 @@ int	get_path(t_minishell *p_mini, t_vector *p_path)
 
 	ret = ft_vector_init(p_path, 5, sizeof(char *), &my_free);
 	if (ret != 0)
-	{
-		// do stuff
 		return (ret);
-	}
 	if (p_mini->env == NULL)
 		return (0);
 	tmp = p_mini->env;
 	while (tmp != NULL && ft_strcmp("PATH", ((t_env *)tmp->content)->key) != 0)
 		tmp = tmp->next;
 	if (tmp == NULL)
-	{
 		return (0);
-	}
 	else
 	{
-		ret = add_path_to_path(p_path, ((t_env *)tmp->content)->value);
+		ret = fill_vector_with_paths(p_path, tmp);
 		if (ret != 0)
 		{
-			// do stuff 
-			return (ret);
-		}
-		ret = add_slash_to_path(p_path);
-		if (ret != 0)
-		{
-			// do stuff 
+			ft_vector_free(p_path);
 			return (ret);
 		}
 		return (0);
 	}
+}
+
+static int	fill_vector_with_paths(t_vector *p_path, t_list *tmp)
+{
+	int	ret;
+
+	ret = add_path_to_path(p_path, ((t_env *)tmp->content)->value);
+	if (ret != 0)
+	{
+		return (ret);
+	}
+	ret = add_slash_to_path(p_path);
+	if (ret != 0)
+	{
+		return (ret);
+	}
+	return (0);
 }
 
 static int	add_path_to_path(t_vector *p_path, char *path_string)
@@ -64,9 +81,7 @@ static int	add_path_to_path(t_vector *p_path, char *path_string)
 	char	**split;
 
 	if (path_string == NULL)
-	{
 		return (0);
-	}
 	split = ft_split(path_string, ":");
 	if (split == NULL)
 		return (ERROR_MALLOC);
@@ -76,7 +91,8 @@ static int	add_path_to_path(t_vector *p_path, char *path_string)
 		ret = ft_vector_add_single(p_path, split + i);
 		if (ret != 0)
 		{
-			// do stuff
+			clear_vector_data(p_path);
+			ft_split_free(split);
 			return (ret);
 		}
 		i++;
@@ -85,41 +101,25 @@ static int	add_path_to_path(t_vector *p_path, char *path_string)
 	return (0);
 }
 
-static int	add_slash_to_path(t_vector *p_path)
+/* This function is called when ft_vector_add_single fail
+ * while it was adding elements from splitted data to the vector
+ * this is necessary because in case of failure, we need to free 
+ * the splitted data, but also free the vector, we can not simply 
+ * free the vector, because if vector had filled half of the data
+ * from splitted data, we will either have DOUBLE FREE or NOT FREEED
+ * all the data !
+*/
+static void	clear_vector_data(t_vector *ptr_vec)
 {
-	size_t	len;
 	size_t	i;
-	//char	*new_path;
 
 	i = 0;
-	while (i < p_path->size)
+	while (i < ptr_vec->size)
 	{
-		len = ft_strlen(((char **)p_path->data)[i]);
-		if (((char **)p_path->data)[i][len - 1] != '/')
-		{
-			((char **)p_path->data)[i] = \
-				ft_strjoin_free_first(((char **)p_path->data)[i], "/");
-			if (((char **)p_path->data)[i] == NULL)
-			{
-				return (ERROR_MALLOC);
-			}
-			/*
-			new_path = ft_malloc((len + 2) * sizeof(char));
-			if (new_path == NULL)
-			{
-				// do stuff 
-				return (ERROR_MALLOC);
-			}
-			ft_strcpy(new_path, ((char **)p_mini->path.data)[i]);
-			new_path[len] = '/';
-			new_path[len + 1] = '\0';
-			free(((char **)p_mini->path.data)[i]);
-			((char **)p_mini->path.data)[i] = new_path;
-			*/
-		}
+		((char **)ptr_vec->data)[i] = NULL;
 		i++;
 	}
-	return (0);
+	ptr_vec->size = 0;
 }
 
 static void	my_free(t_vector *ptr_vec)
@@ -133,4 +133,6 @@ static void	my_free(t_vector *ptr_vec)
 		i++;
 	}
 	free(ptr_vec->data);
+	ptr_vec->size = 0;
+	ptr_vec->capacity = 0;
 }

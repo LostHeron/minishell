@@ -26,7 +26,7 @@ int	close_here_doc_fds(t_minishell *p_mini)
 			if (close(p_mini->fds_here_doc[fd_i]) < 0)
 			{
 				perror(\
-		"in redir_here_doc : close(p_mini->fds_here_doc[fd_to_chose])\n");
+"in redir_here_doc : close(p_mini->fds_here_doc[fd_to_chose])\n");
 			}
 		}
 		fd_i++;

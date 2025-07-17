@@ -17,7 +17,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast, \
+static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,\
 														t_minishell *p_mini));
 
 /*	This function is the entry point for executing command 
@@ -46,14 +46,14 @@ int	exec_func(t_ast *ast, t_minishell *p_mini)
 	{
 		ft_putstr_fd("ERROR : ast-type not defined !\n", 2);
 		ft_putstr_fd("EXITING program !\n", 2);
-		print_tree(ast, 0); // should print the tree on the standard output !
+		print_tree(ast, 0); // should print the tree on stderr !
 		p_mini->should_exit = TRUE;
 		p_mini->last_error_code = 1;
 		return (1);
 	}
 }
 
-static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast, \
+static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,\
 														t_minishell *p_mini))
 {
 	exec_table[OR] = &exec_or;

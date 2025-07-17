@@ -33,7 +33,6 @@ typedef struct s_minishell
 {
 	int			should_exit;
 	t_ast		*head_ast;
-	int			is_main_process;
 	int			fd_tty_copy;
 	int			last_child_id;
 	int			last_error_code;

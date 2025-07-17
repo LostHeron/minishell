@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include <sys/wait.h>
 
-static void	get_child_return_value(t_minishell *p_mini, \
+static void	get_child_return_value(t_minishell *p_mini,\
 									int child_ret, int *p_ret);
 
 int	wait_children(t_minishell *p_mini)
@@ -39,7 +39,7 @@ int	wait_children(t_minishell *p_mini)
 		return (0);
 }
 
-static void	get_child_return_value(t_minishell *p_mini, \
+static void	get_child_return_value(t_minishell *p_mini,\
 									int child_ret, int *p_ret)
 {
 	if (WIFEXITED(child_ret) != 0)

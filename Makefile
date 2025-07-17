@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/15 16:08:30 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/17 17:52:36 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,7 @@ EXECUTION_FILES := exec_func.c \
 				   child_execution.c \
 				   parent_execution.c \
 				   change_fd_pipe.c \
+				   add_slash_to_path.c \
 				   close_fd1.c \
 				   case_forking.c \
 				   case_no_forking.c \

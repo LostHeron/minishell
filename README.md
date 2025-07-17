@@ -24,6 +24,7 @@ cat << eof > file1 | cat << eoff > file2
 
 TODO:
 
+- 1) do not display prompt of readline if not in tty mode
 - 1) expand des '*' // done logiquement !
 - 2) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2 // OU PAS ?
 - 3) Normage dans Execution
@@ -36,20 +37,26 @@ que des redirections s'il y a autre chose ou des operateurs de commande
         -> dans execution
 - 5) faire en sorte que lorsque l'on quitte minishell on close tous les fds restant des HERE-DOCS (ceux ouvert dans les subshells que je ne close pas de suite !
 - cd which reset PWD environment variable only in case of PWD existing !
-- option "-n" of echo builtin !
 - implementation of '&' and ';' // background must be do better but is advanced a little !
 - implementation of subshell // quite good advanced !
 - handle signal :
     - Ctrl C
     - Ctrl \
-- modify PATH when it is modified by unset ! // should be OK !
 - in env builtin, make "_" environment variable to be the last command executed ! // or just remove this environment variable
 - a function to transform env chained list to a (char **) that can be passed to execve !
 - readline signal SIGINT interrupt (with something like readline hook smth)
-- leaks
 
+
+ |
+ |
+ |
+ |
+ |
+\ /
 OLD stuff just in case for check : 
 
+- modify PATH when it is modified by unset ! // should be OK !
+- option "-n" of echo builtin ! // DONE mais à check
 - 1) expansion of variable et tokenization dans arbre! // bien avancé !
 - 2) erreur syntax // normalement on a un truc, a check
 - 3) code erreur dernière fonction // logiquement c'est pas trop mal , mais a vérifier

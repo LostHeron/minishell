@@ -29,7 +29,8 @@ int	case_no_forking(t_ast *ast, t_minishell *p_mini)
 	ret = restore_fds(p_mini);
 	if (ret != 0)
 	{
-		ft_putstr_fd("could not restore fds, stopping programme execution\n", 2);
+		ft_putstr_fd(
+			"could not restore fds, stopping programme execution\n", 2);
 		return (-1);
 	}
 	if (ret_builtin < 0)
