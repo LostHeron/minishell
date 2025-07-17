@@ -119,6 +119,7 @@ EXPAND_FILES := expand.c \
 				expand_wildcard.c \
 				match_wildcard.c \
 				matching.c \
+				free.c \
 
 C_FILES := minishell.c \
 		   $(addprefix $(PARSING_DIR),$(PARSING_FILES)) \

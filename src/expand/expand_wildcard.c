@@ -19,37 +19,49 @@
 #include <stdio.h>
 
 static int	expand_here(t_vector *p_splitted, int *p_vec_ind, int *p_ind);
+static int	expand_single(t_vector *p_splitted, size_t *p_vec_ind);
 
 int	expand_wildcard(t_vector *p_splitted)
 {
-	int	ret;
-	int	i;
-	int	j;
+	int		ret;
+	size_t	i;
 
 	i = 0;
 	while ((size_t)i < p_splitted->size)
 	{
 		if (((t_exp *)p_splitted->data)[i].quote != SINGLE)
 		{
-			j = 0;
-			while ((size_t)i < p_splitted->size && ((t_exp *)p_splitted->data)[i].content[j])
-			{
-				if (((t_exp *)p_splitted->data)[i].content[j] == '*')
-				{
-					ret = expand_here(p_splitted, &i, &j);
-					if (ret != 0)
-						return (ret);
-				}
-				else
-					j++;
-			}
+			ret = expand_single(p_splitted, &i);
+			if (ret != 0)
+				return (ret);
 		}
 		i++;
 	}
 	return (0);
 }
 
-static void	pattern_start(t_vector splitted, int *p_vec_ind, int *p_ind)
+static int	expand_single(t_vector *p_splitted, size_t *p_vec_ind)
+{
+	int		ret;
+	size_t	i;
+
+	i = 0;
+	while ((*p_vec_ind) < p_splitted->size
+		&& ((t_exp *)p_splitted->data)[*p_vec_ind].content[i])
+	{
+		if (((t_exp *)p_splitted->data)[*p_vec_ind].content[i] == '*')
+		{
+			ret = expand_here(p_splitted, p_vec_ind, &i);
+			if (ret != 0)
+				return (ret);
+		}
+		else
+			i++;
+	}
+	return (0);
+}
+
+static void	pattern_start(t_vector splitted, size_t *p_vec_ind, int *p_ind)
 {
 	while (*p_vec_ind >= 0)
 	{
@@ -76,11 +88,6 @@ static void	pattern_start(t_vector splitted, int *p_vec_ind, int *p_ind)
 		*p_vec_ind = 0;
 		*p_ind = 0;
 	}
-}
-
-static void	free_data(t_vector *p_vector)
-{
-	free(p_vector->data);
 }
 
 static int	add_elem(t_vector *p_pattern, t_exp exp_part, int ind)

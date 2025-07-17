@@ -16,8 +16,9 @@
 #include "ft_standard.h"
 #include "ft_string.h"
 
-static int	join_strings(char **first, char *second);
-static int	add_unquoted(t_vector *dest, char **string, char *unquoted);
+static int	rebuild_exp(t_vector *dest, t_vector splitted,
+				size_t ind, char **p_new_arg);
+static int	add_unquoted(t_vector *dest, char **p_string, char *unquoted);
 
 int	rebuild_elem(t_vector *dest, t_vector splitted)
 {
@@ -29,10 +30,7 @@ int	rebuild_elem(t_vector *dest, t_vector splitted)
 	i = 0;
 	while (i < splitted.size)
 	{
-		if (((t_exp *)splitted.data)[i].quote == NONE)
-			ret = add_unquoted(dest, &new_arg, ((t_exp *)splitted.data)[i].content);
-		else
-			ret = join_strings(&new_arg, ((t_exp *)splitted.data)[i].content);
+		ret = rebuild_exp(dest, splitted, i, &new_arg);
 		if (ret != 0)
 		{
 			free(new_arg);
@@ -49,18 +47,28 @@ int	rebuild_elem(t_vector *dest, t_vector splitted)
 	return (ret);
 }
 
-static int	join_strings(char **first, char *second)
+static int	rebuild_exp(t_vector *dest, t_vector splitted,
+				size_t ind, char **p_new_arg)
 {
-	if (*first == NULL)
-		*first = ft_strdup(second);
+	int	ret;
+
+	if (((t_exp *)splitted.data)[ind].quote == NONE)
+	{
+		ret = add_unquoted(dest, p_new_arg,
+				((t_exp *)splitted.data)[ind].content);
+		return (ret);
+	}
 	else
-		*first = ft_strjoin_free_first(*first, second);
-	if (*first == NULL)
-		return (ERROR_MALLOC);
-	return (0);
+	{
+		*p_new_arg = ft_strjoin_free_first(*p_new_arg,
+				((t_exp *)splitted.data)[ind].content);
+		if (*p_new_arg == NULL)
+			return (ERROR_MALLOC);
+		return (0);
+	}
 }
 
-static int	add_tab(t_vector *dest, char **string, char **tab)
+static int	add_tab(t_vector *dest, char **p_string, char **tab)
 {
 	int	ret;
 	int	i;
@@ -68,61 +76,53 @@ static int	add_tab(t_vector *dest, char **string, char **tab)
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		ret = join_strings(string, tab[i]);
-		if (ret != 0)
-			return (ret);
+		*p_string = ft_strjoin_free_first(*p_string, tab[i]);
+		if (*p_string == NULL)
+			return (ERROR_MALLOC);
 		if (tab[i + 1] != NULL)
 		{
-			ret = ft_vector_add_single(dest, string);
+			ret = ft_vector_add_single(dest, p_string);
 			if (ret != 0)
 				return (ret);
-			*string = NULL;
+			*p_string = NULL;
 		}
 		i++;
 	}
 	return (0);
 }
 
-static void	free_tab(char **arr)
+static int	whitespace_check(t_vector *dest, char **p_string,
+				char *unquoted, int ind)
 {
-	int	i;
+	int	ret;
 
-	i = 0;
-	while (arr[i] != NULL)
+	if (*p_string != NULL && ft_strchr(WHITE_SPACES, unquoted[ind]) != NULL)
 	{
-		free(arr[i]);
-		i++;
+		ret = ft_vector_add_single(dest, p_string);
+		if (ret != 0)
+			return (ret);
+		*p_string = NULL;
 	}
-	free(arr);
+	return (0);
 }
 
-static int	add_unquoted(t_vector *dest, char **string, char *unquoted)
+static int	add_unquoted(t_vector *dest, char **p_string, char *unquoted)
 {
 	int		ret;
 	char	**unquoted_split;
 
 	if (*unquoted == '\0')
 		return (0);
-	if (*string != NULL && ft_strchr(WHITE_SPACES, *unquoted) != NULL)
-	{
-		ret = ft_vector_add_single(dest, string);
-		if (ret != 0)
-			return (ret);
-		*string = NULL;
-	}
+	ret = whitespace_check(dest, p_string, unquoted, 0);
+	if (ret != 0)
+		return (ret);
 	unquoted_split = ft_split(unquoted, WHITE_SPACES);
 	if (unquoted_split == NULL)
 		return (ERROR_MALLOC);
-	ret = add_tab(dest, string, unquoted_split);
+	ret = add_tab(dest, p_string, unquoted_split);
 	free_tab(unquoted_split);
 	if (ret != 0)
 		return (ret);
-	if (*string != NULL && ft_strchr(WHITE_SPACES, unquoted[ft_strlen(unquoted) - 1]) != NULL)
-	{
-		ret = ft_vector_add_single(dest, string);
-		if (ret != 0)
-			return (ret);
-		*string = NULL;
-	}
-	return (0);
+	ret = whitespace_check(dest, p_string, unquoted, ft_strlen(unquoted) - 1);
+	return (ret);
 }

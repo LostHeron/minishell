@@ -38,19 +38,6 @@ int	expand_redir(t_vector *p_redir, t_minishell mini)
 	return (0);
 }
 
-static void	free_exp(t_vector *word)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < word->size)
-	{
-		free(((t_exp *)word->data)[i].content);
-		i++;
-	}
-	free(word->data);
-}
-
 static int	expand_filename(t_vector *dest, int ind,
 			char *src, t_minishell mini)
 {

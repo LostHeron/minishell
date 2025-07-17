@@ -20,7 +20,6 @@
 
 static int	match_and_join(char **replace, t_vector pattern, char *name);
 static int	get_next_dir(DIR *dir, struct dirent **elem);
-static int	init_dir_parsing(DIR **dir, struct dirent **elem);
 
 int	find_match(char **replace, t_vector pattern)
 {
@@ -34,13 +33,13 @@ int	find_match(char **replace, t_vector pattern)
 		perror("opendir");
 		return (1);
 	}
-	ret = get_next_dir(dir, elem);
+	ret = get_next_dir(dir, &elem);
 	while (elem != NULL)
 	{
 		ret = match_and_join(replace, pattern, elem->d_name);
 		if (ret != 0)
 			break ;
-		ret = get_next_dir(&dir, &elem);
+		ret = get_next_dir(dir, &elem);
 		if (ret != 0)
 			break ;
 	}
@@ -58,6 +57,7 @@ static int	get_next_dir(DIR *dir, struct dirent **elem)
 		perror("readdir");
 		return (1);
 	}
+	return (0);
 }
 
 static int	match_and_join(char **replace, t_vector pattern, char *name)
@@ -81,4 +81,5 @@ static int	match_and_join(char **replace, t_vector pattern, char *name)
 		if (*replace == NULL)
 			return (ERROR_MALLOC);
 	}
+	return (0);
 }

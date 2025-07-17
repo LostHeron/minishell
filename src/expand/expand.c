@@ -54,19 +54,6 @@ int	expand_both(t_vector *p_splitted, t_minishell mini)
 	return (expand_wildcard(p_splitted));
 }
 
-static void	free_exp(t_vector *word)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < word->size)
-	{
-		free(((t_exp *)word->data)[i].content);
-		i++;
-	}
-	free(word->data);
-}
-
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini)
 {
 	int			ret;
