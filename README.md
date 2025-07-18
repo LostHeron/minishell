@@ -24,9 +24,11 @@ cat << eof > file1 | cat << eoff > file2
 
 TODO:
 
-- 1) do not display prompt of readline if not in tty mode
+- 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas
+- 2) faire quand > vers un nom de fichier sans permission que ça arrete la commande 
 - 1) expand des '*' // done logiquement !
 - 2) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2 // OU PAS ?
+- 2) faire quand > vers un nom de fichier sans permission que ça arrete la commande 
 - 3) Normage dans Execution
 - 3) Refaire error synthax au niveau des parenthese, apres des parenthese ou avant, il peu y avoir 
 que des redirections s'il y a autre chose ou des operateurs de commande 
@@ -43,7 +45,6 @@ que des redirections s'il y a autre chose ou des operateurs de commande
     - Ctrl C
     - Ctrl \
 - in env builtin, make "_" environment variable to be the last command executed ! // or just remove this environment variable
-- a function to transform env chained list to a (char **) that can be passed to execve !
 - readline signal SIGINT interrupt (with something like readline hook smth)
 
 
@@ -55,6 +56,9 @@ que des redirections s'il y a autre chose ou des operateurs de commande
 \ /
 OLD stuff just in case for check : 
 
+- 1) do not display prompt of readline if not in tty mode // DONE
+- 3) initialiaze an environment even is 'char **env' passed to minishell is NULL // done for PWD
+- a function to transform env chained list to a (char **) that can be passed to execve ! // done !
 - modify PATH when it is modified by unset ! // should be OK !
 - option "-n" of echo builtin ! // DONE mais à check
 - 1) expansion of variable et tokenization dans arbre! // bien avancé !
@@ -77,5 +81,6 @@ OLD stuff just in case for check :
 
 flemme :
 
-
+- expand of cd '-' as '-' corresponding to OLDPWD
+- initialize environment varaible SHLVL ?
 - 7) modifier args for token which shoudl not be init each time (optionel mais cool si fait)

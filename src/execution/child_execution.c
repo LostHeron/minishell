@@ -6,10 +6,11 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/17 17:59:19 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/18 12:42:21 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "ast.h"
@@ -28,6 +29,7 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	char		*cmd;
 	int			ret;
 	t_vector	path;
+	t_vector	new_env;
 
 	if (close(p_mini->fd_tty_copy) < 0)
 		perror("close(p_mini->fd_stdin) at start of children\n");
@@ -47,7 +49,7 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 		if (close(p_mini->fd1[1]) == -1)
 			perror("fn: child_execution: child left: close(p_mini->fd1[1]");
 	}
-	ret = change_fd_redir(p_mini, ast);
+	ret = change_fd_redir(p_mini, ast->arguments.com_args.dir_args);
 	if (ret != 0)
 	{
 		// do stuff ?
@@ -96,7 +98,11 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 				}
 			}
 		}
-		execve(cmd, ast->arguments.com_args.content.data, NULL);
+		ret = get_env_from_list(&new_env, p_mini->env);
+		if (ret != 0)
+			return (ret);
+		execve(cmd, ast->arguments.com_args.content.data, new_env.data);
+		ft_vector_free(&new_env);
 		perror(cmd);
 		if (errno == EACCES)
 			return (126);

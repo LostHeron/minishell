@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:29:40 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 14:25:41 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/18 14:23:35 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 		ft_strlcat(p_mini->cwd_name, "/", CWD_NAME_MAX_LENGTH);
 	free(place_to_go);
 	free(path_name);
-	path_name = ft_strjoin("PWD=", p_mini->cwd_name);
-	ret = export_from_string(path_name, p_mini);
-	free(path_name);
+	ret = update_pwd_env_var(p_mini);
+	if (ret != 0)
+		return (ret);
 	return (ret);
 }
 

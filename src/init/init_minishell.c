@@ -6,13 +6,12 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 17:23:44 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/15 13:38:35 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/18 11:10:39 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
-#include "printing.h"
 #include "freeing.h"
 #include "ft_init.h"
 #include <unistd.h>
@@ -53,6 +52,5 @@ int	init_minishell(t_minishell *p_mini, char **env)
 		free(p_mini->cwd_name);
 		return (ERROR_DUP);
 	}
-	print_path(p_mini); // to be deleted
 	return (0);
 }

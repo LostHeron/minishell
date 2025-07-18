@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:44:09 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/20 15:51:59 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/18 13:39:46 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static int	change_existing_env(t_list *env, char *new_key, char *new_value);
  * This function expects a valid string format for 
  * the string it is passed of format :
  * starting by an alpha or an '_';
- * and next char being eith alnum or '_';
+ * and next char being eith alnum or '_' until an '=' sign
+ * then can have any kind of char 
 */
 int	export_from_string(char *str, t_minishell *p_mini)
 {

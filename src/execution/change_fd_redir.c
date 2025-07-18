@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ast.h"
+#include "ft_vectors.h"
 #include "minishell.h"
 #include "execution.h"
 #include <fcntl.h>
@@ -21,12 +22,12 @@ static void	init_redir_table(int (*redir_table[3])(char *filename));
 static int	redir_in(char *filename);
 static int	redir_out(char *filename);
 static int	redir_append(char *filename);
-static int	redir_here_doc(t_minishell *p_mini, t_ast *ast, size_t i);
+static int	redir_here_doc(t_minishell *p_mini, t_vector redir, size_t i);
 /*
 static int	redir_heredoc(t_ast *ast, size_t i);
 */
 
-int	change_fd_redir(t_minishell *p_mini, t_ast *ast)
+int	change_fd_redir(t_minishell *p_mini, t_vector redir)
 {
 	size_t	i;
 	int		ret;
@@ -34,28 +35,28 @@ int	change_fd_redir(t_minishell *p_mini, t_ast *ast)
 
 	i = 0;
 	init_redir_table(redir_table);
-	while (i < ast->arguments.com_args.dir_args.size)
+	while (i < redir.size)
 	{
 		/*
-		ret = perform_redir_i(((t_dirargs *)ast->arguments.com_args.dir_args.data)[i]);
+		ret = perform_redir_i(((t_dirargs *)redir.data)[i]);
 		if (ret != 0)
 			return (ret);
 			*/
 		if (\
-IN <= ((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir && \
-((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir <= APPEND)
+IN <= ((t_dirargs *)redir.data)[i].dir && \
+((t_dirargs *)redir.data)[i].dir <= APPEND)
 		{
 			ret = \
 redir_table[((t_dirargs *)\
-ast->arguments.com_args.dir_args.data)[i].dir](((t_dirargs *)\
-ast->arguments.com_args.dir_args.data)[i].filename);
+redir.data)[i].dir](((t_dirargs *)\
+redir.data)[i].filename);
 			if (ret != 0)
 				return (1);
 		}
 		else if (\
-((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir == HEREDOC)
+((t_dirargs *)redir.data)[i].dir == HEREDOC)
 		{
-			ret = redir_here_doc(p_mini, ast, i);
+			ret = redir_here_doc(p_mini, redir, i);
 			if (ret != 0)
 				return (1);
 		}
@@ -153,12 +154,12 @@ static int	redir_append(char *filename)
 	return (0);
 }
 
-static int	redir_here_doc(t_minishell *p_mini, t_ast *ast, size_t i)
+static int	redir_here_doc(t_minishell *p_mini, t_vector redir, size_t i)
 {
 	int		fd_to_chose;
 
 	fd_to_chose = \
-((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].filename[0];
+((t_dirargs *)redir.data)[i].filename[0];
 	if (dup2(p_mini->fds_here_doc[fd_to_chose], 0) < 0)
 	{
 		return (ERROR_DUP2);

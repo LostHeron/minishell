@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "expand.h"
 #include "minishell.h"
 #include "ast.h"
 #include "execution.h"
@@ -47,9 +48,12 @@ int	exec_subshell(t_ast *ast, t_minishell *p_mini)
 			if (close(p_mini->fd1[1]) == -1)
 				perror("fn: exec_subshell: child left : close(p_mini->fd1[1]");
 		}
-		/*
-		expand redir
-		ret = change_fd_redir(p_mini, ast);
+		ret = expand_redir(&ast->arguments.sub_args.dir_args, *p_mini);
+		if (ret != 0)
+		{
+			return (ret);
+		}
+		ret = change_fd_redir(p_mini, ast->arguments.sub_args.dir_args);
 		if (ret != 0)
 		{
 			// do stuff ?
@@ -57,8 +61,8 @@ int	exec_subshell(t_ast *ast, t_minishell *p_mini)
 			// should close all fds !
 			//no no exit !exit(1);
 			//only return here 
+			return (ret);
 		}
-		*/
 		p_mini->previous_side = PREV_NONE;
 		p_mini->previous_type = -1;
 		if (pipe(p_mini->fd1) == -1)
@@ -68,7 +72,7 @@ int	exec_subshell(t_ast *ast, t_minishell *p_mini)
 			return (ERROR_PIPE);
 		}
 		p_mini->first_cmd = 1;
-		ret_exec = exec_func(ast->arguments.sub_args, p_mini);
+		ret_exec = exec_func(ast->arguments.sub_args.sub, p_mini);
 		close_fd1(p_mini);
 		ret = wait_children(p_mini);
 		if (ret != 0)

@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/17 17:52:36 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/18 14:20:20 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ INIT_FILES := init_minishell.c \
 			  add_node_lst.c \
 			  init_builtins.c \
 			  init_cwd_name.c \
-			  cwd_and_pwd_env_match.c \
+			  case_value_not_null.c \
 
 FREEING_DIR := src/freeing/
 FREEING_FILES := free_minishell.c \
@@ -87,6 +87,7 @@ EXECUTION_FILES := exec_func.c \
 				   child_execution.c \
 				   parent_execution.c \
 				   change_fd_pipe.c \
+				   get_env_from_list.c \
 				   add_slash_to_path.c \
 				   close_fd1.c \
 				   case_forking.c \
@@ -111,6 +112,7 @@ BUILTINS_FILES := builtin_cd.c \
 				  builtin_export_with_args.c \
 				  builtin_export_no_args.c \
 				  export_from_string.c \
+				  update_pwd_env_var.c \
 				  get_new_key_value.c \
 				  add_new_env.c \
 				  builtin_pwd.c \
