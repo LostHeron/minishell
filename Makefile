@@ -59,6 +59,7 @@ PARSING_FILES := tokenize.c \
 
 AST_DIR := src/ast/
 AST_FILES := print_tree.c \
+			 create_ast.c \
 			 tree_operations.c \
 			 free_everything.c \
 

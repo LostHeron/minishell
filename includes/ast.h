@@ -80,6 +80,11 @@ void	free_dirargs(t_vector *dirargs_ptr);
 void	free_command_content(t_vector *content_ptr);
 void	free_tree(t_ast **root);
 void	print_tree(t_ast *root, size_t depth);
+t_type	get_type(t_vector tokens, size_t ind);
+t_dir	get_dir(t_vector tokens, size_t ind);
+int		fill_command(t_comargs *p_com_args, t_vector tokens, size_t *ind);
+int		fill_redir(t_vector *p_dir_args,
+			t_vector tokens, size_t *ind, t_dir dir);
 t_ast	*create_ast(t_vector tokens, t_type max_prio, size_t *ind);
 
 #endif
