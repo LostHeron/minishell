@@ -32,11 +32,6 @@ int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 		print_error(ret);
 		return (ret);
 	}
-	if (p_tokens->size <= 0)
-	{
-		ft_putstr_fd("token.size == 0 -> continue and wait next input !\n", 2);
-		return (0);
-	}
 	ret = prepare_here_doc(p_mini, p_tokens);
 	if (ret != 0)
 	{

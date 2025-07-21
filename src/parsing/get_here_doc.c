@@ -20,8 +20,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i, \
-														int *p_hd_count);
+static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i,	\
+															int *p_hd_count);
 
 /* main function of here_doc
  * if an error occurs when calling get_here_doc_i,
@@ -50,7 +50,7 @@ int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 	return (0);
 }
 
-static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i, \
+static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 													int *p_hd_count)
 {
 	int	ret;

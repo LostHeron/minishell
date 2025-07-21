@@ -29,7 +29,8 @@ int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 	ret = check_errors(p_mini, p_tokens);
 	if (ret != 0)
 	{
-		ft_vector_free(p_tokens);
+		//ft_vector_free(p_tokens); not sure about this one here
+		//seems not logical but maybe
 		return (ret);
 	}
 	return (0);

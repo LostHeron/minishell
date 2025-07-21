@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap_fds.c                                         :+:      :+:    :+:   */
+/*   close_case_prev_right.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 17:26:16 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/15 12:01:25 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/21 11:23:50 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/21 11:24:00 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,21 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int	swap_fds(t_minishell *p_mini)
+int	close_case_prev_right(t_minishell *p_mini, int final_ret)
 {
-	int	ret;
-
-	ret = 0;
-	if (close(p_mini->fd1[0]) != 0)
+	if (close(p_mini->fd1[0]) == -1)
 	{
-		perror("swap_fds : close(p_minit->fd1[0])");
-		ret = ERROR_CLOSE;
+		perror("fn: close_case_prev_right: close(p_mini->fd1[0])");
+		if (final_ret == 0)
+			final_ret = ERROR_CLOSE;
 	}
-	if (close(p_mini->fd1[1]) != 0)
+	p_mini->fd1[0] = -1;
+	if (close(p_mini->fd1[1]) == -1)
 	{
-		perror("swap_fds : close(p_minit->fd1[1])");
-		ret = ERROR_CLOSE;
+		perror("fn: close_case_prev_right: close(p_mini->fd1[1])");
+		if (final_ret == 0)
+			final_ret = ERROR_CLOSE;
 	}
-	if (ret == 0)
-	{
-		p_mini->fd1[0] = p_mini->fd2[0];
-		p_mini->fd1[1] = p_mini->fd2[1];
-	}
-	return (ret);
+	p_mini->fd1[1] = -1;
+	return (final_ret);
 }

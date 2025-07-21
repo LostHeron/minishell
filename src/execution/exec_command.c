@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:02:34 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 18:52:53 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/15 11:59:02 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "execution.h"
 #include "ft_vectors.h"
 #include "minishell.h"
-#include "ft_io.h"
 #include "ft_string.h"
 #include "expand.h"
 #include <unistd.h>
@@ -35,8 +34,8 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 	ret = expand_redir(&ast->arguments.com_args.dir_args, *p_mini);
 	if (ret != 0)
 		return (ret);
-	cmd_type = get_cmd_type(p_mini->builtins_name, \
-						ast->arguments.com_args.content);
+	cmd_type = get_cmd_type(p_mini->builtins_name,
+			ast->arguments.com_args.content);
 	if (p_mini->previous_type == PIPE || cmd_type == CMD_BINARY)
 	{
 		ret = case_forking(ast, p_mini, cmd_type);
@@ -44,10 +43,10 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 			return (ret);
 	}
 	else
-		case_no_forking(ast, p_mini);
+		ret = case_no_forking(ast, p_mini);
 	if (p_mini->first_cmd == 1)
 		p_mini->first_cmd = 0;
-	return (0);
+	return (ret);
 }
 
 static int	get_cmd_type(char **builtins_name, t_vector cmd_args)
@@ -55,12 +54,6 @@ static int	get_cmd_type(char **builtins_name, t_vector cmd_args)
 	char	*cmd_name;
 	size_t	i;
 
-	if (cmd_args.size < 1)
-	{
-		ft_putstr_fd("error should not enter here !\n", 2);
-		ft_putstr_fd("exec_command.c l:70\n", 2);
-		exit(1);
-	}
 	cmd_name = ((char **)cmd_args.data)[0];
 	i = 0;
 	while (builtins_name[i] != NULL)

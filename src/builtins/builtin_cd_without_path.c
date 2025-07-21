@@ -20,43 +20,25 @@
 #include <unistd.h>
 #include <stdio.h>
 
+static int	init_path_name(t_minishell *p_mini, char **p_path_name);
 static int	get_path_name(char **p_path_name, t_list *env);
+static int	call_to_chdir(char *path_name);
 
 int	builtin_cd_without_path_given(t_minishell *p_mini)
 {
 	int		ret;
 	char	*path_name;
-	char	*error_string;
-	size_t	path_len;
 
-	ret = get_path_name(&path_name, p_mini->env);
+	ret = init_path_name(p_mini, &path_name);
 	if (ret != 0)
-	{
-		ft_putstr_fd("cd: HOME not set\n", 2);
-		return (1);
-	}
-	path_len = ft_strlen(path_name);
-	if (path_name[path_len - 1] == '/')
-		path_len--;
-	if (path_len > CWD_NAME_MAX_LENGTH)
-	{
-		ft_printf_fd(2, "%s\n", strerror(ENAMETOOLONG));
-		return (1);
-	}
-	ret = chdir(path_name);
-	if (ret == -1)
-	{
-		error_string = ft_strjoin("cd: ", path_name);
-		if (error_string == NULL)
-		{
-			return (ERROR_MALLOC);
-		}
-		perror(error_string);
-		free(error_string);
-		return (1);
-	}
+		return (ret);
+	ret = call_to_chdir(path_name);
+	if (ret != 0)
+		return (ret);
 	ft_strlcpy(p_mini->cwd_name, path_name, CWD_NAME_MAX_LENGTH);
 	path_name = ft_strjoin("PWD=", path_name);
+	if (path_name == NULL)
+		return (ERROR_MALLOC);
 	ret = export_from_string(path_name, p_mini);
 	free(path_name);
 	return (ret);
@@ -81,4 +63,46 @@ static int	get_path_name(char **p_path_name, t_list *env)
 		env = env->next;
 	}
 	return (1);
+}
+
+static int	call_to_chdir(char *path_name)
+{
+	int		ret;
+	char	*error_string;
+
+	ret = chdir(path_name);
+	if (ret == -1)
+	{
+		error_string = ft_strjoin("cd: ", path_name);
+		if (error_string == NULL)
+		{
+			return (ERROR_MALLOC);
+		}
+		perror(error_string);
+		free(error_string);
+		return (1);
+	}
+	return (0);
+}
+
+static int	init_path_name(t_minishell *p_mini, char **p_path_name)
+{
+	size_t	path_len;
+	int		ret;
+
+	ret = get_path_name(p_path_name, p_mini->env);
+	if (ret != 0)
+	{
+		ft_putstr_fd("cd: HOME not set\n", 2);
+		return (1);
+	}
+	path_len = ft_strlen(*p_path_name);
+	if ((*p_path_name)[path_len - 1] == '/')
+		path_len--;
+	if (path_len > CWD_NAME_MAX_LENGTH)
+	{
+		ft_printf_fd(2, "%s\n", strerror(ENAMETOOLONG));
+		return (1);
+	}
+	return (0);
 }

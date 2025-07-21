@@ -30,8 +30,8 @@ int	builtin_env(t_vector args, t_minishell *p_mini)
 	{
 		if (((t_env *)tmp->content)->value != NULL)
 		{
-			printf("%s=%s\n", \
-				((t_env *)tmp->content)->key, \
+			printf("%s=%s\n",
+				((t_env *)tmp->content)->key,
 				((t_env *)tmp->content)->value);
 		}
 		tmp = tmp->next;
