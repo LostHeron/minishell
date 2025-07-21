@@ -13,6 +13,8 @@
 #ifndef HANDLE_SIGNAL_H
 # define HANDLE_SIGNAL_H
 
+extern int		my_signal;
+
 void	init_signals(void);
 
 #endif 
