@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/14 16:57:45 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/21 14:57:55 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ INIT_FILES := init_minishell.c \
 			  add_node_lst.c \
 			  init_builtins.c \
 			  init_cwd_name.c \
-			  cwd_and_pwd_env_match.c \
+			  case_value_not_null.c \
 
 FREEING_DIR := src/freeing/
 FREEING_FILES := free_minishell.c \
@@ -81,10 +81,27 @@ EXECUTION_FILES := exec_func.c \
 				   exec_and.c \
 				   exec_pipe.c \
 				   exec_command.c \
+				   exec_sequence.c \
+				   exec_background.c \
+				   exec_subshell.c \
+				   exit_child.c \
 				   child_execution.c \
 				   parent_execution.c \
+				   change_fd_pipe.c \
+				   get_env_from_list.c \
+				   add_slash_to_path.c \
+				   close_fd1.c \
+				   close_case_prev_left.c \
+				   close_case_prev_right.c \
+				   close_on_error.c \
+				   close_case_no_pipe.c \
+				   make_redirections.c \
 				   case_forking.c \
 				   case_no_forking.c \
+				   redir_in.c \
+				   redir_append.c \
+				   redir_out.c \
+				   redir_here_doc.c \
 				   restore_fds.c \
 				   wait_children.c \
 				   get_path.c \
@@ -103,7 +120,9 @@ BUILTINS_FILES := builtin_cd.c \
 				  builtin_exit.c \
 				  builtin_export.c \
 				  builtin_export_with_args.c \
+				  builtin_export_no_args.c \
 				  export_from_string.c \
+				  update_pwd_env_var.c \
 				  get_new_key_value.c \
 				  add_new_env.c \
 				  builtin_pwd.c \

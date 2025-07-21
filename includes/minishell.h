@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/14 14:02:46 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/15 13:59:58 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "ft_vectors.h"
 # include "ft_lists_single.h"
+# include "ast.h"
 # define WHITE_SPACES " \t\n\v\f\r"
 # define CMD_BUILTIN 3
 # define CMD_BINARY 2
@@ -31,6 +32,7 @@
 typedef struct s_minishell
 {
 	int			should_exit;
+	t_ast		*head_ast;
 	int			fd_tty_copy;
 	int			last_child_id;
 	int			last_error_code;
@@ -53,10 +55,12 @@ typedef struct s_env
 	char	*value;
 }			t_env;
 
+# define ERROR_CLOSE -2
 # define ERROR_MALLOC -3
 # define ERROR_WRITE -4
 # define ERROR_READ -5
 # define ERROR_DUP -6
+# define ERROR_PIPE 4
 # define ERROR_HERE_DOC_FILENAME 5
 # define ERROR_UNLINK 6
 # define ERROR_OPEN 7

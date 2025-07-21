@@ -1,41 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_command.c                                     :+:      :+:    :+:   */
+/*   add_slash_to_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 14:01:57 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 14:26:55 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/17 17:50:57 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/17 17:51:17 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
 #include "ft_vectors.h"
-#include <unistd.h>
+#include "ft_string.h"
 
-int	find_command(char **p_cmd, t_vector path)
+/* add a slash to value from PATH
+ * which do not have one at their end !
+*/
+int	add_slash_to_path(t_vector *p_path)
 {
+	size_t	len;
 	size_t	i;
-	char	*new_cmd;
 
 	i = 0;
-	while (i < path.size)
+	while (i < p_path->size)
 	{
-		new_cmd = ft_strjoin(((char **)path.data)[i], *p_cmd);
-		if (new_cmd == NULL)
-			return (ERROR_MALLOC);
-		if (access(new_cmd, F_OK) == 0)
+		len = ft_strlen(((char **)p_path->data)[i]);
+		if (((char **)p_path->data)[i][len - 1] != '/')
 		{
-			free(*p_cmd);
-			*p_cmd = new_cmd;
-			return (0);
+			((char **)p_path->data)[i] = \
+ft_strjoin_free_first(((char **)p_path->data)[i], "/");
+			if (((char **)p_path->data)[i] == NULL)
+			{
+				return (ERROR_MALLOC);
+			}
 		}
-		free(new_cmd);
 		i++;
 	}
-	if (path.size == 0)
-		if (access(*p_cmd, F_OK) == 0)
-			return (0);
-	return (1);
+	return (0);
 }

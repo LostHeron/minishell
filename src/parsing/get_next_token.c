@@ -17,9 +17,9 @@
 #include <stdio.h>
 #include <sys/types.h>
 
-static int		case_not_an_args(ssize_t *p_token_size, \
+static int		case_not_an_args(ssize_t *p_token_size,\
 									char **p_line, char **args);
-static int		dup_new_token(char **p_token_i, char **p_line, \
+static int		dup_new_token(char **p_token_i, char **p_line,\
 									size_t token_size);
 static ssize_t	get_bloc_size(char *line, int *p_err_code);
 static ssize_t	get_end(char *line, char c);
@@ -46,16 +46,16 @@ int	get_next_token(char **p_token_i, char **p_line, char **args)
 	return (0);
 }
 
-static int	case_not_an_args(ssize_t *p_token_size, \
+static int	case_not_an_args(ssize_t *p_token_size,\
 									char **p_line, char **args)
 {
 	ssize_t	quote_size;
 	int		err_code;
 
 	(*p_token_size) = 0;
-	while ((*p_line)[(*p_token_size)] != '\0' && \
-				ft_strchr(WHITE_SPACES, (*p_line)[(*p_token_size)]) == NULL && \
-				ft_strstr_args((*p_line) + (*p_token_size), args) == 0)
+	while ((*p_line)[(*p_token_size)] != '\0'
+				&& ft_strchr(WHITE_SPACES, (*p_line)[(*p_token_size)]) == NULL
+				&& ft_strstr_args((*p_line) + (*p_token_size), args) == 0)
 	{
 		if (ft_strchr("\"'", (*p_line)[(*p_token_size)]) != NULL)
 		{

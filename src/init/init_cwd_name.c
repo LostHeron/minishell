@@ -6,10 +6,11 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:28:23 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/03 14:50:58 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/18 14:14:43 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "minishell.h"
 #include "ft_standard.h"
 #include "ft_string.h"
@@ -20,6 +21,7 @@
 static int		case_pwd_env_not_null(t_minishell *p_mini, t_env *pwd_env);
 static int		case_pwd_env_null(t_minishell *p_mini);
 static t_env	*get_pwd_env(t_list *env);
+static int		init_pwd_env_var(t_minishell *p_mini);
 
 /* this function should malloc p_mini->cwd_name
  * to the size of CWD_NAME_MAX_LENGTH
@@ -42,16 +44,31 @@ int	init_cwd_name(t_minishell *p_mini)
 	{
 		ret = case_pwd_env_not_null(p_mini, pwd_env);
 		if (ret != 0)
-			free(p_mini->cwd_name);
-		return (ret);
+			return (ret);
 	}
 	else
 	{
 		ret = case_pwd_env_null(p_mini);
 		if (ret != 0)
-			free(p_mini->cwd_name);
-		return (ret);
+			return (ret);
 	}
+	ret = init_pwd_env_var(p_mini);
+	if (ret != 0)
+		free(p_mini->cwd_name);
+	return (ret);
+}
+
+static int	init_pwd_env_var(t_minishell *p_mini)
+{
+	char	*pwd_env_str;
+	int		ret;
+
+	pwd_env_str = ft_strjoin("PWD=", p_mini->cwd_name);
+	if (pwd_env_str == NULL)
+		return (ERROR_MALLOC);
+	ret = export_from_string(pwd_env_str, p_mini);
+	free(pwd_env_str);
+	return (ret);
 }
 
 static t_env	*get_pwd_env(t_list *env)
@@ -80,6 +97,7 @@ static int	case_pwd_env_not_null(t_minishell *p_mini, t_env *pwd_env)
 		ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
 		if (ret_getcwd == NULL)
 		{
+			free(p_mini->cwd_name);
 			perror("fn : initi_cwd_name : getcwd :");
 			return (1);
 		}
@@ -94,6 +112,7 @@ static int	case_pwd_env_null(t_minishell *p_mini)
 	ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
 	if (ret_getcwd == NULL)
 	{
+		free(p_mini->cwd_name);
 		perror("fn : case_pwd_env_null : getcwd");
 		return (1);
 	}

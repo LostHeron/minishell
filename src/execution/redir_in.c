@@ -1,38 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap_fds.c                                         :+:      :+:    :+:   */
+/*   redir_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 17:26:16 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/15 12:01:25 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/21 09:05:55 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/21 14:39:13 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <unistd.h>
+#include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h>
 
-int	swap_fds(t_minishell *p_mini)
+int	redir_in(char *filename)
 {
-	int	ret;
+	int		fd;
 
-	ret = 0;
-	if (close(p_mini->fd1[0]) != 0)
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
 	{
-		perror("swap_fds : close(p_minit->fd1[0])");
-		ret = ERROR_CLOSE;
+		perror(NULL);
+		return (ERROR_OPEN);
 	}
-	if (close(p_mini->fd1[1]) != 0)
+	if (dup2(fd, 0) == -1)
 	{
-		perror("swap_fds : close(p_minit->fd1[1])");
-		ret = ERROR_CLOSE;
+		perror("fn: redir_in: dup2(fd, 0)");
+		if (close(fd) < 0)
+			perror("fn: redir_in: close(fd)");
+		return (ERROR_DUP2);
 	}
-	if (ret == 0)
+	if (close(fd) == -1)
 	{
-		p_mini->fd1[0] = p_mini->fd2[0];
-		p_mini->fd1[1] = p_mini->fd2[1];
+		perror("fn: redir_in: close(fd)");
+		return (ERROR_CLOSE);
 	}
-	return (ret);
+	return (0);
 }

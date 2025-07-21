@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap_fds.c                                         :+:      :+:    :+:   */
+/*   redir_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 17:26:16 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/15 12:01:25 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/21 09:08:05 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/21 09:08:12 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <fcntl.h>
 #include <unistd.h>
-#include <stdio.h>
 
-int	swap_fds(t_minishell *p_mini)
+int	redir_here_doc(t_minishell *p_mini, t_dirargs redir)
 {
-	int	ret;
+	int		fd_to_chose;
 
-	ret = 0;
-	if (close(p_mini->fd1[0]) != 0)
+	fd_to_chose = redir.filename[0];
+	if (dup2(p_mini->fds_here_doc[fd_to_chose], 0) < 0)
 	{
-		perror("swap_fds : close(p_minit->fd1[0])");
-		ret = ERROR_CLOSE;
+		return (ERROR_DUP2);
 	}
-	if (close(p_mini->fd1[1]) != 0)
-	{
-		perror("swap_fds : close(p_minit->fd1[1])");
-		ret = ERROR_CLOSE;
-	}
-	if (ret == 0)
-	{
-		p_mini->fd1[0] = p_mini->fd2[0];
-		p_mini->fd1[1] = p_mini->fd2[1];
-	}
-	return (ret);
+	return (0);
 }

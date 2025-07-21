@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:34:56 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 14:46:57 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/16 17:12:24 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,18 @@
 #include <stdio.h>
 
 int			builtin_export_with_args(t_vector args, t_minishell *p_mini);
-static int	builtin_export_no_args(t_minishell *p_mini);
+int			builtin_export_no_args(t_minishell *p_mini);
 
+/* 
+ * function called when export is used in command line 
+ * return :
+ *	in case of success : return 0
+ *	in case of failure :
+ *		if it is an error which we should stop the shell
+ *			-> negative integer
+ *		if it is an error which (like bad env name)
+ *			-> positive integer
+*/
 int	builtin_export(t_vector args, t_minishell *p_mini)
 {
 	size_t	ret;
@@ -24,42 +34,11 @@ int	builtin_export(t_vector args, t_minishell *p_mini)
 	ret = 0;
 	if (args.size == 2)
 	{
-		builtin_export_no_args(p_mini);//builtin_export_no_args(p_mini);
+		ret = builtin_export_no_args(p_mini);
 	}
 	else
 	{
 		ret = builtin_export_with_args(args, p_mini);
-		if (ret < 0)
-		{
-			// do stuff ? and exit after
-		}
-		else if (ret != 0)
-		{
-			// do stuff ? and continue execution 
-		}
 	}
 	return (ret);
-}
-
-static int	builtin_export_no_args(t_minishell *p_mini)
-{
-	t_list	*tmp;
-
-	tmp = p_mini->env;
-	while (tmp != NULL)
-	{
-		if (((t_env *)tmp->content)->value != NULL)
-		{
-			printf("declare -x %s=\"%s\"\n", \
-				((t_env *)tmp->content)->key, \
-				((t_env *)tmp->content)->value);
-		}
-		else
-		{
-			printf("declare -x %s\n", \
-				((t_env *)tmp->content)->key);
-		}
-		tmp = tmp->next;
-	}
-	return (0);
 }

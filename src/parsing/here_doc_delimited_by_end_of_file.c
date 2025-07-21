@@ -19,7 +19,7 @@ int	here_doc_delimited_by_end_of_file(char *delimiter)
 	char	*str;
 
 	str = ft_strjoin(\
-	"warning: here-document delimited by end-of-file (wanted `", delimiter);
+"warning: here-document delimited by end-of-file (wanted `", delimiter);
 	if (str == NULL)
 		return (ERROR_MALLOC);
 	str = ft_strjoin_free_first(str, "')\n");

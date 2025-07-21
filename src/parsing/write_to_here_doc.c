@@ -16,13 +16,13 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-static int	open_fds(char *filename, int *p_fd_tmp_write, \
+static int	open_fds(char *filename, int *p_fd_tmp_write,	\
 										int *p_fd_here_doc_table);
-static int	hd_fds_init(t_minishell *p_mini, int *p_fd_tmp_write, \
+static int	hd_fds_init(t_minishell *p_mini, int *p_fd_tmp_write,	\
 														int *p_hd_count);
 static int	should_expand(char *delimiter);
 
-int	write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i, \
+int	write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 														int *p_hd_count)
 {
 	int		ret;
@@ -48,7 +48,7 @@ int	write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i, \
 	return (ret);
 }
 
-static int	hd_fds_init(t_minishell *p_mini, int *p_fd_tmp_write, \
+static int	hd_fds_init(t_minishell *p_mini, int *p_fd_tmp_write,	\
 														int *p_hd_count)
 {
 	char	*filename;
@@ -58,12 +58,12 @@ static int	hd_fds_init(t_minishell *p_mini, int *p_fd_tmp_write, \
 	if (ret != 0)
 		return (ret);
 	ret = open_fds(filename, p_fd_tmp_write, \
-				&p_mini->fds_here_doc[*p_hd_count]);
+&p_mini->fds_here_doc[*p_hd_count]);
 	free(filename);
 	return (ret);
 }
 
-static int	open_fds(char *filename, int *p_fd_tmp_write, \
+static int	open_fds(char *filename, int *p_fd_tmp_write,	\
 									int *p_fd_here_doc_table)
 {
 	*p_fd_tmp_write = open(filename, O_WRONLY | O_CREAT, 0666);

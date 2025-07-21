@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:49:50 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/20 15:40:41 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/18 14:20:38 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	add_new_env(char *new_key, char *new_value, t_minishell *p_mini);
 int	builtin_exit(t_vector args, t_minishell *p_mini);
 int	builtin_pwd(t_vector args, t_minishell *p_mini);
 int	builtin_unset(t_vector args, t_minishell *p_mini);
+int	update_pwd_env_var(t_minishell *p_mini);
 
 # define BUILTINS_NB 7
 # define NB_BUILTINS BUILTINS_NB

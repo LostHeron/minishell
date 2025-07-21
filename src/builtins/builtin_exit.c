@@ -25,24 +25,22 @@ int	builtin_exit(t_vector args, t_minishell *p_mini)
 
 	if (args.size < 2)
 	{
-		// should never enter here !
+		ft_printf_fd(2, \
+"entered in builtin exit with no arguments, should never append, exiting");
+		exit(1);
 	}
 	else if (args.size == 2)
 	{
 		p_mini->should_exit = TRUE;
 		return (p_mini->last_error_code);
 	}
-	else if (args.size >= 3)
+	else
 	{
 		ret = arguments_is_numeric(((char **)args.data)[1]);
 		if (ret == 0)
 			return (case_arguments_is_numeric(p_mini, args));
 		else
 			return (case_arguments_not_numeric(p_mini));
-	}
-	else
-	{
-		// should never enter here !
 	}
 	return (0);
 }
