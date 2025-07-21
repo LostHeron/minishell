@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:13:46 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/18 12:27:36 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/21 09:08:47 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ int		child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type);
 int		wait_children(t_minishell *p_mini);
 int		call_builtins(t_minishell *p_mini, t_vector cmd_args);
 void	close_fd1(t_minishell *p_mini);
+int		redir_here_doc(t_minishell *p_mini, t_dirargs redir);
+int		redir_append(char *filename);
+int		redir_in(char *filename);
+int		redir_out(char *filename);
 int		get_path(t_minishell *p_mini, t_vector *p_path);
 int		get_env_from_list(t_vector *p_new_env, t_list *env);
 int		change_fd_redir(t_minishell *p_mini, t_vector redir);

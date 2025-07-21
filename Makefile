@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/18 14:20:20 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/21 09:10:11 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,6 +92,10 @@ EXECUTION_FILES := exec_func.c \
 				   close_fd1.c \
 				   case_forking.c \
 				   case_no_forking.c \
+				   redir_in.c \
+				   redir_append.c \
+				   redir_out.c \
+				   redir_here_doc.c \
 				   restore_fds.c \
 				   wait_children.c \
 				   get_path.c \

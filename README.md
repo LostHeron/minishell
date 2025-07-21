@@ -28,7 +28,6 @@ TODO:
 - 2) faire quand > vers un nom de fichier sans permission que ça arrete la commande 
 - 1) expand des '*' // done logiquement !
 - 2) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2 // OU PAS ?
-- 2) faire quand > vers un nom de fichier sans permission que ça arrete la commande 
 - 3) Normage dans Execution
 - 3) Refaire error synthax au niveau des parenthese, apres des parenthese ou avant, il peu y avoir 
 que des redirections s'il y a autre chose ou des operateurs de commande 
@@ -38,9 +37,8 @@ que des redirections s'il y a autre chose ou des operateurs de commande
         -> dans ast
         -> dans execution
 - 5) faire en sorte que lorsque l'on quitte minishell on close tous les fds restant des HERE-DOCS (ceux ouvert dans les subshells que je ne close pas de suite !
-- cd which reset PWD environment variable only in case of PWD existing !
-- implementation of '&' and ';' // background must be do better but is advanced a little !
-- implementation of subshell // quite good advanced !
+- implementation of '&' and ';' // background must be do better but is implemented a little !
+- implementation of subshell // quite good advanced ! even done ?? no must miss something
 - handle signal :
     - Ctrl C
     - Ctrl \
@@ -56,6 +54,7 @@ que des redirections s'il y a autre chose ou des operateurs de commande
 \ /
 OLD stuff just in case for check : 
 
+- cd which reset PWD environment variable only in case of PWD existing ! // should be done !
 - 1) do not display prompt of readline if not in tty mode // DONE
 - 3) initialiaze an environment even is 'char **env' passed to minishell is NULL // done for PWD
 - a function to transform env chained list to a (char **) that can be passed to execve ! // done !
