@@ -23,8 +23,8 @@ int	builtin_export_no_args(t_minishell *p_mini)
 		if (((t_env *)tmp->content)->value != NULL)
 		{
 			printf("export %s=\"%s\"\n", \
-((t_env *)tmp->content)->key, \
-((t_env *)tmp->content)->value);
+					((t_env *)tmp->content)->key, \
+					((t_env *)tmp->content)->value);
 		}
 		else
 		{

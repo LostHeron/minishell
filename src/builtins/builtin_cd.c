@@ -20,7 +20,7 @@
 #include <string.h>
 
 static int	with_path_given(t_vector args, t_minishell *p_mini);
-static int	get_path_name(t_minishell *p_mini, char **p_place_to_go,\
+static int	get_path_name(t_minishell *p_mini, char **p_place_to_go, \
 							char **p_path_name, size_t	*p_path_len);
 static char	*new_place_to_go(char *place_to_go, char *old_path);
 static int	call_to_chdir(char **p_place_to_go, char *path_name);
@@ -80,7 +80,7 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 	return (ret);
 }
 
-static int	get_path_name(t_minishell *p_mini, char **p_place_to_go,\
+static int	get_path_name(t_minishell *p_mini, char **p_place_to_go, \
 							char **p_path_name, size_t	*p_path_len)
 {
 	int	ret;
