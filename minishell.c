@@ -48,6 +48,11 @@ int	main(int argc, char **argv, char **env)
 	while (minishell.should_exit == FALSE)
 	{
 		ret = start_minishell(&minishell);
+		if (rl_done != 0)
+		{
+			rl_done = 0;
+			continue ;
+		}
 		if (ret != 0)
 		{
 			if (ret < 0)
@@ -73,6 +78,8 @@ static int	start_minishell(t_minishell *p_mini)
 	t_ast		*ast;
 
 	ret = tokenize(p_mini, &tokens);
+	if (rl_done != 0)
+		return (0);
 	if (ret != 0)
 	{
 		return (ret);

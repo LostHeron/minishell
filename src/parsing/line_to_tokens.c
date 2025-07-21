@@ -25,6 +25,8 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	int		ret;
 
 	line = readline("prompt >> ");
+	if (rl_done != 0)
+		return (0);
 	if (line == NULL)
 	{
 		p_mini->should_exit = TRUE;
