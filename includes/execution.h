@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:13:46 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 09:08:47 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/21 11:28:08 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ int		get_env_from_list(t_vector *p_new_env, t_list *env);
 int		change_fd_redir(t_minishell *p_mini, t_vector redir);
 int		change_fd_pipe(t_minishell *p_mini);
 int		close_here_doc_fds(t_minishell *p_mini);
+int		close_case_prev_left(t_minishell *p_mini, int final_ret);
+int		close_case_prev_right(t_minishell *p_mini, int final_ret);
+int		make_redirections(t_ast *ast, t_minishell *p_mini);
 int		init_minishell(t_minishell *p_mini, char **env);
 void	init_builtins(t_minishell *p_mini);
 int		init_env(t_minishell *p_mini, char **env);

@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:44:39 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 09:08:55 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/21 11:00:04 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ static int	perform_redir_i(t_minishell *p_mini, t_dirargs redir,
 static int	redir_heredoc(t_ast *ast, size_t i);
 */
 
+/* this function should handle the following redirction :
+ *  - <<
+ *  - >>
+ *  - >
+ *  - <
+ *  in case of success:
+ *		return (0);
+ *	in case of failure:
+ *		return error_code associated with failure and do not perform
+ *		the following redir
+*/
 int	change_fd_redir(t_minishell *p_mini, t_vector redir)
 {
 	size_t	i;
@@ -38,10 +49,7 @@ int	change_fd_redir(t_minishell *p_mini, t_vector redir)
 		ret = \
 			perform_redir_i(p_mini, ((t_dirargs *)redir.data)[i], redir_table);
 		if (ret != 0)
-		{
-			// do something
 			return (ret);
-		}
 		i++;
 	}
 	ret = close_here_doc_fds(p_mini); // not sure about this function !

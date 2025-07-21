@@ -6,11 +6,10 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/18 12:42:21 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/21 11:28:51 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "ast.h"
@@ -31,6 +30,14 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	t_vector	path;
 	t_vector	new_env;
 
+	ret = make_redirections(ast, p_mini);
+	if (ret != 0)
+	{
+		// do something ? dependant of what is ret
+		// if it is ERROR_OPEN maybe just continue next command !
+		return (ret);
+	}
+	/*
 	if (close(p_mini->fd_tty_copy) < 0)
 		perror("close(p_mini->fd_stdin) at start of children\n");
 	if (p_mini->previous_type == PIPE)
@@ -58,6 +65,7 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 		//no no exit !exit(1);
 		//only return here 
 	}
+	*/
 	if (cmd_type == CMD_BUILTIN)
 	{
 		ret = call_builtins(p_mini, ast->arguments.com_args.content);

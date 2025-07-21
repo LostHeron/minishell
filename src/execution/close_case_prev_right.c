@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_here_doc_fds.c                               :+:      :+:    :+:   */
+/*   close_case_prev_right.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 13:22:21 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 11:10:31 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/21 11:23:50 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/21 11:24:00 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,21 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int	close_here_doc_fds(t_minishell *p_mini)
+int	close_case_prev_right(t_minishell *p_mini, int final_ret)
 {
-	size_t	fd_i;
-
-	fd_i = 0;
-	while (fd_i < NB_MAX_HERE_DOC)
+	if (close(p_mini->fd1[0]) == -1)
 	{
-		if (p_mini->fds_here_doc[fd_i] > 0)
-		{
-			if (close(p_mini->fds_here_doc[fd_i]) < 0)
-			{
-				perror(\
-"in redir_here_doc : close(p_mini->fds_here_doc[fd_to_chose])\n");
-			}
-		}
-		fd_i++;
+		perror("fn: close_case_prev_right: close(p_mini->fd1[0])");
+		if (final_ret == 0)
+			final_ret = ERROR_CLOSE;
 	}
-	return (0);
+	p_mini->fd1[0] = -1;
+	if (close(p_mini->fd1[1]) == -1)
+	{
+		perror("fn: close_case_prev_right: close(p_mini->fd1[1])");
+		if (final_ret == 0)
+			final_ret = ERROR_CLOSE;
+	}
+	p_mini->fd1[1] = -1;
+	return (final_ret);
 }

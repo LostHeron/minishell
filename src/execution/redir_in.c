@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 09:05:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 09:06:36 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/21 10:56:39 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	redir_in(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("fn: redir_in: open(filename, O_RDONLY)");
+		perror("fn: redir_in: open(filename, O_RDONLY)"); 
+		// maybe just perror(NULL)
+		// for this one, because this case of failure is "ok";
+		// like if filename is a file with no permission on
 		return (ERROR_OPEN);
 	}
 	if (dup2(fd, 0) == -1)
