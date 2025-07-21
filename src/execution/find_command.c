@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:01:57 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 14:55:57 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/21 14:26:55 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	find_command(char **p_cmd, t_vector path)
 		free(new_cmd);
 		i++;
 	}
-	if (access(*p_cmd, F_OK) == 0)
-		return (0);
+	if (path.size == 0)
+		if (access(*p_cmd, F_OK) == 0)
+			return (0);
 	return (1);
 }
