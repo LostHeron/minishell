@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/21 11:27:48 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/21 14:57:55 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,6 +92,8 @@ EXECUTION_FILES := exec_func.c \
 				   close_fd1.c \
 				   close_case_prev_left.c \
 				   close_case_prev_right.c \
+				   close_on_error.c \
+				   close_case_no_pipe.c \
 				   make_redirections.c \
 				   case_forking.c \
 				   case_no_forking.c \

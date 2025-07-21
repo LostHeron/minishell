@@ -6,14 +6,14 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:20:13 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/02 15:26:51 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/21 14:44:42 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
 
-static void	get_child_return_value(t_minishell *p_mini,\
+static void	get_child_return_value(t_minishell *p_mini, \
 									int child_ret, int *p_ret);
 
 int	wait_children(t_minishell *p_mini)
@@ -39,7 +39,7 @@ int	wait_children(t_minishell *p_mini)
 		return (0);
 }
 
-static void	get_child_return_value(t_minishell *p_mini,\
+static void	get_child_return_value(t_minishell *p_mini, \
 									int child_ret, int *p_ret)
 {
 	if (WIFEXITED(child_ret) != 0)

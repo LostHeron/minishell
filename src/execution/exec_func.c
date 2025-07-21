@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:27:28 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/15 15:25:07 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/21 14:43:56 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,\
+static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast, \
 														t_minishell *p_mini));
 
 /*	This function is the entry point for executing command 
@@ -53,7 +53,7 @@ int	exec_func(t_ast *ast, t_minishell *p_mini)
 	}
 }
 
-static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,\
+static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast, \
 														t_minishell *p_mini))
 {
 	exec_table[OR] = &exec_or;

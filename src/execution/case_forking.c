@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:43:13 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/15 16:02:30 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/21 14:43:29 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 		p_mini->last_child_id = 0;
 		ret = child_execution(ast, p_mini, cmd_type);
 		// here should call a function which will clear
-		// all malloced ared (free_p_mini)
+		// all malloced ared (free_p_mini) its done before
+		// if i say no shit !
 		// and return the correct value to return 
 		// to the parent process
 		exit(exit_child(p_mini, ret));

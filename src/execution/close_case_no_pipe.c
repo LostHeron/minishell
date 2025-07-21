@@ -1,41 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_in.c                                         :+:      :+:    :+:   */
+/*   close_case_no_pipe.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/21 09:05:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 14:39:13 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/21 14:54:58 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/21 14:57:43 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
 
-int	redir_in(char *filename)
+int	close_case_no_pipe(t_minishell *p_mini)
 {
-	int		fd;
+	int	ret;
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	ret = 0;
+	if (close(p_mini->fd1[0]) == -1)
 	{
-		perror(NULL);
-		return (ERROR_OPEN);
+		perror("fn: child_execution: child left: close(p_mini->fd1[0]");
+		ret = ERROR_CLOSE;
 	}
-	if (dup2(fd, 0) == -1)
+	if (close(p_mini->fd1[1]) == -1)
 	{
-		perror("fn: redir_in: dup2(fd, 0)");
-		if (close(fd) < 0)
-			perror("fn: redir_in: close(fd)");
-		return (ERROR_DUP2);
+		perror("fn: child_execution: child left: close(p_mini->fd1[1]");
+		ret = ERROR_CLOSE;
 	}
-	if (close(fd) == -1)
-	{
-		perror("fn: redir_in: close(fd)");
-		return (ERROR_CLOSE);
-	}
-	return (0);
+	return (ret);
 }

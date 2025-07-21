@@ -75,6 +75,8 @@ static int	start_minishell(t_minishell *p_mini)
 	{
 		return (ret);
 	}
+	if (tokens.size == 0)
+		return (0);
 	ret = ast_ize(&ast, &tokens);
 	if (ret != 0)
 	{
