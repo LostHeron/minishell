@@ -58,10 +58,11 @@ PARSING_FILES := tokenize.c \
 				 ft_strstr_args.c \
 
 AST_DIR := src/ast/
-AST_FILES := print_tree.c \
-			 create_ast.c \
-			 tree_operations.c \
+AST_FILES := tree_operations.c \
 			 free_everything.c \
+			 create_ast.c \
+			 print_utils.c \
+			 print_tree.c \
 
 INIT_DIR := src/init/
 INIT_FILES := init_minishell.c \
