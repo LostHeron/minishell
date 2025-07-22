@@ -25,9 +25,9 @@
  *	- in case of success, it must return 0, and 
  *	have allocated everything correctly !
  *	TO CHECK :
- *		- failure of init_env ; TO DO (coded)
- *		- failure of init_cwd_name ; TO DO (coded)
- *		- failue of dup(STDIN_FILENO); TO DO  (coded)
+ *		- failure of init_env ; DONE -> OK !
+ *		- failure of init_cwd_name ; DONE -> OK !
+ *		- failure of dup(STDIN_FILENO); DONE -> OK !
 */
 int	init_minishell(t_minishell *p_mini, char **env)
 {

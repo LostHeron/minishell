@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:28:23 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/18 14:14:43 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/22 13:03:43 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-static int		case_pwd_env_not_null(t_minishell *p_mini, t_env *pwd_env);
-static int		case_pwd_env_null(t_minishell *p_mini);
+static int		free_cwd_name_return(char *cwd_name, int ret);
 static t_env	*get_pwd_env(t_list *env);
 static int		init_pwd_env_var(t_minishell *p_mini);
 
@@ -30,6 +29,11 @@ static int		init_pwd_env_var(t_minishell *p_mini);
  * in case of success :
  *	return the string p_mini->cwd_name should be filled
  *	with the correct current working directory of the shell
+ *	to check :
+ *		-> ft_malloc fail : DONE -> OK !
+ *		-> case_pwd_env_not_null : DONE -> OK !
+ *		-> case_pwd_env_null : DONE -> OK !
+ *		-> init_pwd_env_var : DONE -> OK !
 */
 int	init_cwd_name(t_minishell *p_mini)
 {
@@ -44,13 +48,13 @@ int	init_cwd_name(t_minishell *p_mini)
 	{
 		ret = case_pwd_env_not_null(p_mini, pwd_env);
 		if (ret != 0)
-			return (ret);
+			return (free_cwd_name_return(p_mini->cwd_name, ret));
 	}
 	else
 	{
 		ret = case_pwd_env_null(p_mini);
 		if (ret != 0)
-			return (ret);
+			return (free_cwd_name_return(p_mini->cwd_name, ret));
 	}
 	ret = init_pwd_env_var(p_mini);
 	if (ret != 0)
@@ -58,6 +62,16 @@ int	init_cwd_name(t_minishell *p_mini)
 	return (ret);
 }
 
+static int	free_cwd_name_return(char *cwd_name, int ret)
+{
+	free(cwd_name);
+	return (ret);
+}
+
+/* to check 
+ *	-> ft_strjoin fail : DONE -> OK !
+ *	-> export_from_string fail : DONE -> OK !
+*/
 static int	init_pwd_env_var(t_minishell *p_mini)
 {
 	char	*pwd_env_str;
@@ -82,39 +96,4 @@ static t_env	*get_pwd_env(t_list *env)
 		env = env->next;
 	}
 	return (NULL);
-}
-
-static int	case_pwd_env_not_null(t_minishell *p_mini, t_env *pwd_env)
-{
-	char	*ret_getcwd;
-
-	if (pwd_env->value != NULL)
-	{
-		return (case_value_not_null(p_mini, pwd_env->value));
-	}
-	else
-	{
-		ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
-		if (ret_getcwd == NULL)
-		{
-			free(p_mini->cwd_name);
-			perror("fn : initi_cwd_name : getcwd :");
-			return (1);
-		}
-	}
-	return (0);
-}
-
-static int	case_pwd_env_null(t_minishell *p_mini)
-{
-	char	*ret_getcwd;
-
-	ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
-	if (ret_getcwd == NULL)
-	{
-		free(p_mini->cwd_name);
-		perror("fn : case_pwd_env_null : getcwd");
-		return (1);
-	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/21 14:57:55 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/22 12:59:26 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,8 @@ INIT_FILES := init_minishell.c \
 			  add_node_lst.c \
 			  init_builtins.c \
 			  init_cwd_name.c \
+			  case_pwd_env_not_null.c \
+			  case_pwd_env_null.c \
 			  case_value_not_null.c \
 
 FREEING_DIR := src/freeing/

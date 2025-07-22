@@ -16,17 +16,19 @@
 #include "ft_vectors.h"
 #include "parsing.h"
 
+/* to check
+ *	-> line_to_tokens fail : TO DO ;
+ *	-> check_errors fail : TO DO ;
+*/
 int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 {
 	int		ret;
 
 	ret = line_to_tokens(p_mini, p_tokens);
+	if (ret != 0)
+		return (ret);
 	if (my_signal != 0)
 		return (0);
-	if (ret != 0)
-	{
-		return (ret);
-	}
 	ret = check_errors(p_mini, p_tokens);
 	if (ret != 0)
 	{

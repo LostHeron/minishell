@@ -21,26 +21,21 @@
 #include <readline/history.h>
 
 static int	get_tokens(t_minishell *p_mini, t_vector *p_tokens, char *line);
+static void	get_line(char **p_line, int *p_ret);
 
+/* to check
+ *	-> 
+*/
 int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 {
 	char	*line;
 	int		ret;
 
-	if (isatty(0) == 1)
-	{
-		line = readline("prompt >> ");
-		if (my_signal != 0)
-		{
-			rl_replace_line("\0", 0);
-		}
-	}
-	else
-	{
-		line = get_next_line(0, &ret);
-		if (ret != 0)
-			return (ret);
-	}
+	get_line(&line, &ret);
+	if (ret != 0)
+		return (ret);
+	if (my_signal != 0)
+		return (0);
 	if (line == NULL)
 	{
 		p_mini->should_exit = TRUE;
@@ -54,6 +49,24 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 		return (ret);
 	}
 	return (0);
+}
+
+static void	get_line(char **p_line, int *p_ret)
+{
+	*p_ret = 0;
+	if (isatty(0) == 1)
+	{
+		*p_line = readline("prompt >> ");
+		if (my_signal != 0)
+		{
+			return ;
+		}
+	}
+	else
+	{
+		*p_line = get_next_line(0, p_ret);
+		return ;
+	}
 }
 
 static int	get_tokens(t_minishell *p_mini, t_vector *p_tokens, char *line)

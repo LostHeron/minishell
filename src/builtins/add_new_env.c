@@ -17,6 +17,10 @@
 static void	add_node_lst(t_minishell *p_mini, t_list *new_node);
 static void	add_node_lst_after_head(t_minishell *p_mini, t_list *new_node);
 
+/* to check
+ *	-> ft_malloc fail : DONE -> OK !
+ *	-> ft_s_lstnew fail : DONE -> OK !
+*/
 int	add_new_env(char *new_key, char *new_value, t_minishell *p_mini)
 {
 	t_env	*new_env;
