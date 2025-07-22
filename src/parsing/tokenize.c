@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <readline/readline.h>
+#include "handle_signal.h"
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
@@ -19,6 +21,8 @@ int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 	int		ret;
 
 	ret = line_to_tokens(p_mini, p_tokens);
+	if (my_signal != 0)
+		return (0);
 	if (ret != 0)
 	{
 		return (ret);

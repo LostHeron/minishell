@@ -15,6 +15,7 @@
 #include "parsing.h"
 #include "printing.h"
 #include "ft_io.h"
+#include "handle_signal.h"
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -27,7 +28,13 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	int		ret;
 
 	if (isatty(0) == 1)
+	{
 		line = readline("prompt >> ");
+		if (my_signal != 0)
+		{
+			rl_replace_line("\0", 0);
+		}
+	}
 	else
 	{
 		line = get_next_line(0, &ret);
