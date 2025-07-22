@@ -16,7 +16,7 @@
 #include "parsing.h"
 #include <stdlib.h>
 
-static int	extract_tokens(t_vector *p_tokens, char **p_token_i,\
+static int	extract_tokens(t_vector *p_tokens, char **p_token_i, \
 								char **p_line, char **args);
 void		my_free(t_vector *p_vec);
 
@@ -26,17 +26,25 @@ void		my_free(t_vector *p_vec);
  *	return (0) and have initialized correctly t_vector structure
  * int case of failure:
  *	return non null integer and have freed correctly the t_vector structure !
+ * to check :
+ *	-> ft_vector_init failure : TO DO ;
+ *	-> extract_tokens failure : TO DO ;
 */
+#include <stdio.h>
 int	ft_split_args(t_vector *p_tokens, char *line, char **args)
 {
 	char		*token_i;
 	int			ret;
+	int			a;
 
 	ret = ft_vector_init(p_tokens, 5, sizeof(char *), &my_free);
 	if (ret != 0)
 		return (ret);
+	a = 0;
 	while (line[0])
 	{
+		printf("a = %i\n", a);
+		a++;
 		ret = extract_tokens(p_tokens, &token_i, &line, args);
 		if (ret != 0)
 		{
@@ -47,7 +55,7 @@ int	ft_split_args(t_vector *p_tokens, char *line, char **args)
 	return (0);
 }
 
-static int	extract_tokens(t_vector *p_tokens, char **p_token_i,\
+static int	extract_tokens(t_vector *p_tokens, char **p_token_i, \
 								char **p_line, char **args)
 {
 	int	ret;

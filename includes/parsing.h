@@ -41,7 +41,6 @@ char	*get_key(char *line);
 int		lexer(char *line, t_vector *p_tokens);
 int		ft_split_args(t_vector *p_tokens, char *line, char **args);
 int		get_next_token(char **p_token_i, char **p_line, char **args);
-int		init_args(char ***p_args);
 size_t	ft_strstr_args(char *line, char **args);
 
 #endif

@@ -27,7 +27,7 @@ int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 	ret = line_to_tokens(p_mini, p_tokens);
 	if (ret != 0)
 		return (ret);
-	if (my_signal != 0)
+	if (g_my_signal != 0)
 		return (0);
 	ret = check_errors(p_mini, p_tokens);
 	if (ret != 0)

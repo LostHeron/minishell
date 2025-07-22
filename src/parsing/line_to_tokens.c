@@ -20,11 +20,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-static int	get_tokens(t_minishell *p_mini, t_vector *p_tokens, char *line);
+static int	get_tokens(t_vector *p_tokens, char *line);
 static void	get_line(char **p_line, int *p_ret);
 
 /* to check
- *	-> 
+ *	-> get_line fail (with ret) : DONE ;
+ *	-> get_tokens fail : TO DO ;
 */
 int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 {
@@ -34,7 +35,7 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	get_line(&line, &ret);
 	if (ret != 0)
 		return (ret);
-	if (my_signal != 0)
+	if (g_my_signal != 0)
 		return (0);
 	if (line == NULL)
 	{
@@ -43,21 +44,20 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	}
 	if (line && *line)
 		add_history(line);
-	ret = get_tokens(p_mini, p_tokens, line);
-	if (ret != 0)
-	{
-		return (ret);
-	}
-	return (0);
+	return (get_tokens(p_tokens, line));
 }
 
+/* to check
+ *	-> *p_line = NULL and *p_ret != 0 : DONE -> OK !
+ *	-> readline = NULL : DONE -> OK !
+*/
 static void	get_line(char **p_line, int *p_ret)
 {
 	*p_ret = 0;
 	if (isatty(0) == 1)
 	{
 		*p_line = readline("prompt >> ");
-		if (my_signal != 0)
+		if (g_my_signal != 0)
 		{
 			return ;
 		}
@@ -69,27 +69,14 @@ static void	get_line(char **p_line, int *p_ret)
 	}
 }
 
-static int	get_tokens(t_minishell *p_mini, t_vector *p_tokens, char *line)
+/* to check
+ *	-> lexer fail : TO DO ;
+*/
+static int	get_tokens(t_vector *p_tokens, char *line)
 {
 	int	ret;
 
 	ret = lexer(line, p_tokens);
-	if (ret != 0)
-	{
-		if (ret > 0)
-		{
-			free(line);
-			print_error(ret);
-			p_mini->last_error_code = 2;
-			return (ret);
-		}
-		else
-		{
-			free(line);
-			p_mini->last_error_code = 2;
-			return (ret);
-		}
-	}
 	free(line);
-	return (0);
+	return (ret);
 }

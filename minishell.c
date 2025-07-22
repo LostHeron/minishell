@@ -18,6 +18,7 @@
 #include "handle_signal.h"
 #include "minishell.h"
 #include "parsing.h"
+#include "printing.h"
 #include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,7 +29,7 @@ static int	start_minishell(t_minishell *p_mini);
 static int	ast_ize(t_ast **p_ast, t_vector *p_tokens);
 static int	run_exec(t_minishell *p_mini, t_ast **p_ast);
 
-int my_signal;
+int	g_my_signal;
 
 /* to check :
  *	- init_minishell : DONE -> OK !
@@ -53,9 +54,9 @@ int	main(int argc, char **argv, char **env)
 	while (minishell.should_exit == FALSE)
 	{
 		ret = start_minishell(&minishell);
-		if (my_signal != 0)
+		if (g_my_signal != 0)
 		{
-			my_signal = 0;
+			g_my_signal = 0;
 			rl_done = 0;
 			continue;
 		}
@@ -68,6 +69,7 @@ int	main(int argc, char **argv, char **env)
 				// continue program but display error message ?
 				// I think do nothing if error code is not negativ !
 				// return ?
+				print_error(ret);
 				continue ;
 			}
 		}
@@ -91,7 +93,7 @@ static int	start_minishell(t_minishell *p_mini)
 	ret = tokenize(p_mini, &tokens);
 	if (ret != 0)
 		return (ret);
-	if (my_signal != 0)
+	if (g_my_signal != 0)
 	{
 		return (0);
 	}

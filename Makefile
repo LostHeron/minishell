@@ -52,7 +52,6 @@ PARSING_FILES := tokenize.c \
 				 fill_file_expand.c \
 				 fill_file_no_expand.c \
 				 lexer.c \
-				 init_args.c \
 				 get_next_token.c \
 				 ft_split_args.c \
 				 ft_strstr_args.c \
