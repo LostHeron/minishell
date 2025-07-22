@@ -15,8 +15,7 @@
 #include "ft_string.h"
 
 static int	add_next_env(t_vector *p_new_env, t_list *env);
-static int	case_value_null(t_list *env, char **p_str);
-static int	case_value_not_null(t_list *env, char **p_str);
+static int	case_value_not_null_env(t_list *env, char **p_str);
 static void	my_free(t_vector *ptr_vec);
 
 int	get_env_from_list(t_vector *p_new_env, t_list *env)
@@ -54,36 +53,22 @@ static int	add_next_env(t_vector *p_new_env, t_list *env)
 
 	if (((t_env *)env->content)->value != NULL)
 	{
-		ret = case_value_not_null(env, &str);
+		ret = case_value_not_null_env(env, &str);
+		if (ret != 0)
+			return (ret);
+		ret = ft_vector_add_single(p_new_env, &str);
 		if (ret != 0)
 			return (ret);
 	}
-	else
-	{
-		ret = case_value_null(env, &str);
-		if (ret != 0)
-			return (ret);
-	}
-	ret = ft_vector_add_single(p_new_env, &str);
-	if (ret != 0)
-		return (ret);
 	return (0);
 }
 
-static int	case_value_not_null(t_list *env, char **p_str)
+static int	case_value_not_null_env(t_list *env, char **p_str)
 {
 	*p_str = ft_strjoin(((t_env *)env->content)->key, "=");
 	if (*p_str == NULL)
 		return (ERROR_MALLOC);
 	*p_str = ft_strjoin_free_first(*p_str, ((t_env *)env->content)->value);
-	if (*p_str == NULL)
-		return (ERROR_MALLOC);
-	return (0);
-}
-
-static int	case_value_null(t_list *env, char **p_str)
-{
-	*p_str = ft_strdup(((t_env *)env->content)->key);
 	if (*p_str == NULL)
 		return (ERROR_MALLOC);
 	return (0);

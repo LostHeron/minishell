@@ -161,6 +161,10 @@ D_FILES := $(OBJ_FILES:.o=.d)
 
 .PHONY : all clean fclean re debug debug_clean debug_fclean debug_re
 
+start: 
+	$(MAKE) debug
+	valgrind --trace-children=yes --track-fds=yes -s --leak-check=full --show-leak-kinds=all --suppressions=my_supp ./minishell
+
 all: makelibft $(NAME)
 
 makelibft:

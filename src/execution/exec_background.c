@@ -16,14 +16,11 @@
 #include <unistd.h>
 #include <stdio.h>
 
-// dont l'idée c'est de fork 
-// puis dans l'enfant call exec_func sur le neoud à gauche
-// et dans le parents de call exec_func sur le noeud à droite 
+static void	background_execution(t_ast *ast, t_minishell *p_mini);
+
 int	exec_background(t_ast *ast, t_minishell *p_mini)
 {
 	int	pid;
-	int	ret;
-	int	ret_exec;
 
 	pid = fork();
 	if (pid < 0)
@@ -33,34 +30,35 @@ int	exec_background(t_ast *ast, t_minishell *p_mini)
 	}
 	if (pid == 0)
 	{
-		// est ce que c'est exec_func qu'il faut appeler ?
-		// ou une fonction plus en amont ?
-		// je pense exec_func c'est ok fine !
-		ret_exec = exec_func(ast->arguments.op_args.left, p_mini);
-		close_fd1(p_mini);
-		ret = wait_children(p_mini);
-		if (ret != 0)
-		{
-			// to see what we do ?
-			// ... no return i guess !
-		}
-		if (close(p_mini->fd_tty_copy) < 0)
-			perror("close");
-		exit(exit_child(p_mini, ret)); // exit with ret or with p_mini->last_child_id;
+		background_execution(ast, p_mini);
 	}
 	else
 	{
-		// in parent : 
-		p_mini->last_child_id = pid;
-		ret = exec_func(ast->arguments.op_args.right, p_mini);
-		/*
-		if (ret != 0)
-		{
-			// do something else ???, I do not think so !
-			return (ret);
-		}
-		if nothing else we can just return ret !
-		*/
-		return (ret);
+		p_mini->last_child_id = 0;
+		p_mini->previous_side = PREV_RIGHT;
+		return (exec_func(ast->arguments.op_args.right, p_mini));
 	}
+	return (0);
+}
+
+/* This function should handle processes that are executed in background
+ * it should wait for them to finish then 
+*/
+static void	background_execution(t_ast *ast, t_minishell *p_mini)
+{
+	int	ret;
+
+	p_mini->previous_side = PREV_LEFT;
+	ret = exec_func(ast->arguments.op_args.left, p_mini);
+	close_fd1(p_mini);
+	if (close(p_mini->fd_tty_copy) < 0)
+		perror("close");
+	wait_children(p_mini);
+	if (ret != 0)
+	{
+		// really usefull ? lets see how does exec_func
+		// can fail ;
+		exit (ret);
+	}
+	exit(exit_child(p_mini, p_mini->last_error_code));
 }

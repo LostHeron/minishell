@@ -29,7 +29,7 @@ void		add_node_lst(t_minishell *p_mini, t_list *new_node);
 *	set p_mini->env to NULL and 
 *	have freed all memory it hade allocated
 *	to check
-*	 - new_env = ft_malloc(sizeof(t_env)); failure : TO DO
+*		- add_env_i_list fail : TO DO 
 */
 int	init_env(t_minishell *p_mini, char **env)
 {
@@ -51,6 +51,12 @@ int	init_env(t_minishell *p_mini, char **env)
 	return (0);
 }
 
+/* to check
+ *	- new_env == NULL : DONE -> OK !
+ *	- fill_new_env fail : TO DO ;
+ *	- ft_s_lst_new fail : TO DO ;
+*/
+#include <stdio.h>
 static int	add_env_i_list(t_minishell *p_mini, char *env_i)
 {
 	t_env	*new_env;
@@ -78,6 +84,11 @@ static int	add_env_i_list(t_minishell *p_mini, char *env_i)
 	return (0);
 }
 
+/*
+ * to check :
+ *  - without_equal_sign fail : TO DO ;
+ *  - with_equal_sign fail : TO DO;
+*/
 static int	fill_new_env(t_env *new_env, char *env_i)
 {
 	int		ret;
@@ -99,17 +110,28 @@ static int	fill_new_env(t_env *new_env, char *env_i)
 	return (0);
 }
 
+/* to check :
+ *  - ft_strdup fail : TO DO ;
+*/
 static int	without_equal_sign(t_env *new_env, char *env_i)
 {
+	static int	i;
+
+	printf("i = %i\n", i);
 	new_env->key = ft_strdup(env_i);
 	if (new_env->key == NULL)
 	{
 		return (ERROR_MALLOC);
 	}
 	new_env->value = NULL;
+	i++;
 	return (0);
 }
 
+/* to check :
+ *  - first ft_strdup fail : TO DO ;
+ *  - second ft_strdup fail : TO DO ;
+*/
 static int	with_equal_sign(t_env *new_env, char *env_i, char *equal_pos)
 {
 	new_env->key = ft_strndup(env_i, equal_pos - env_i);
