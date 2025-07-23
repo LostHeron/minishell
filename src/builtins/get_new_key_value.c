@@ -13,6 +13,11 @@
 #include "minishell.h"
 #include "ft_string.h"
 
+/* to check :
+ *	-> first ft_strdup() fail : DONE -> OK !
+ *	-> second ft_strdup() fail : DONE -> OK !
+ *	-> third ft_strdup()fial : DONE -> OK !
+*/
 int	get_new_key_value(char *str, char **p_new_key, char **p_new_value)
 {
 	char	*equal_position;
@@ -33,7 +38,7 @@ int	get_new_key_value(char *str, char **p_new_key, char **p_new_value)
 		*p_new_value = ft_strdup(equal_position + 1);
 		if (*p_new_value == NULL)
 		{
-			free(*p_new_value);
+			free(*p_new_key);
 			return (ERROR_MALLOC);
 		}
 	}

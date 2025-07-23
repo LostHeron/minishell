@@ -24,7 +24,7 @@ void	init_signals(void)
 	struct sigaction	sig_int;
 	struct sigaction	sig_quit;
 
-	my_signal = 0;
+	g_my_signal = 0;
 	ft_bzero(&sig_int, sizeof(struct sigaction));
 	ft_bzero(&sig_quit, sizeof(struct sigaction));
 	sig_int.sa_handler = &handle_sigint;
@@ -36,7 +36,7 @@ void	init_signals(void)
 
 static void	handle_sigint(int sig)
 {
-	my_signal = sig;
+	g_my_signal = sig;
 	rl_done = 1;
 	return ;
 }

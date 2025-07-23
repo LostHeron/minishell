@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   case_pwd_env_null.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 17:43:05 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:02:42 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/22 12:55:41 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/22 13:03:07 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vectors.h"
-#include "parsing.h"
-#include <stdlib.h>
+#include "minishell.h"
+#include "minishell.h"
+#include <unistd.h>
+#include <stdio.h>
 
-int	lexer(char *line, t_vector *p_tokens)
+/* to check
+ *	-> getcwd fail : DONE -> OK !
+*/
+int	case_pwd_env_null(t_minishell *p_mini)
 {
-	char	**args;
-	int		ret;
+	char	*ret_getcwd;
 
-	ret = init_args(&args);
-	if (ret != 0)
-		return (ret);
-	ret = ft_split_args(p_tokens, line, args);
-	free(args);
-	return (ret);
+	ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
+	if (ret_getcwd == NULL)
+	{
+		perror("fn : case_pwd_env_null : getcwd");
+		return (1);
+	}
+	return (0);
 }

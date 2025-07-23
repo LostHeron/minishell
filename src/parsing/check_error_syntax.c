@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:48:59 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:26:53 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/23 14:58:45 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,32 @@ static int	is_this(char **arr_to_comp, char *str);
 #define AFTER 1
 #define BEFORE_AFTER 2
 
+/*	this function will check synthax errors concerning
+ *	(at this point quote check is already performed 
+ *	meanind matchin "" and matching '')
+ * special tokens followed by other forbidden tokens, the following
+ * errors are treated :
+ * we call SP1 (special tokens) the following tokens : 
+ *  - |
+ *  - ||
+ *  - && 
+ * we call SP2 (special tokens) the following tokens : 
+ *  - &
+ *  - ;
+ * we call R (redir tokens) the following tokens :
+ *	- >
+ *	- >>
+ *	- <
+ *	- << 
+ *
+ *	the rules of synthax error checking are the following :
+ *		- SP1 must have tokens, whice must not be SP1 or SP2, to left and right
+ *		- SP2 must have tokens, whice must not be SP1 or SP2, to left
+ *		- R must have tokens, whiche must not be SP1 nor SP2 nor R, to right
+ *
+ * to check
+ *	
+*/
 int	check_error_syntax(t_vector tokens)
 {
 	int		ret;

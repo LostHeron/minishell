@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "ft_string.h"
+#include <ft_standard.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <stdlib.h>
@@ -23,6 +24,10 @@ static int	init_buf_getcwd(char **p_buf_getcwd);
 static int	init_statbufs(struct stat *p_statbuf_pwd, \
 				struct stat *p_statbuf_getcwd, char *buf_getcwd, char *value);
 
+/* to check : 
+ *  -> case_value_is_valid_file fail : DONE -> OK !
+ *  -> getcwd fail : DONE -> OK !
+ */
 int	case_value_not_null(t_minishell *p_mini, char *value)
 {
 	char	*ret_getcwd;
@@ -36,13 +41,16 @@ int	case_value_not_null(t_minishell *p_mini, char *value)
 		ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
 		if (ret_getcwd == NULL)
 		{
-			perror("fn : initi_cwd_name : getcwd :");
-			return (1);
+			perror("fn : initi_cwd_name : getcwd");
+			return (-1);
 		}
 		return (0);
 	}
 }
 
+/* to check :
+ *	-> cwd_and_pwd_env_match fail (return value is negative) : TO DO ;
+*/
 static int	case_value_is_valid_file(t_minishell *p_mini, char *value)
 {
 	int		ret;
@@ -56,7 +64,7 @@ static int	case_value_is_valid_file(t_minishell *p_mini, char *value)
 			ret_getcwd = getcwd(p_mini->cwd_name, CWD_NAME_MAX_LENGTH);
 			if (ret_getcwd == NULL)
 			{
-				perror("fn : case_value_id_valid_file : getcwd :");
+				perror("fn : case_value_id_valid_file : getcwd");
 				return (1);
 			}
 			return (0);
@@ -78,6 +86,10 @@ static int	case_value_is_valid_file(t_minishell *p_mini, char *value)
  * if no errors and both inode matches : return 0;
  * if no errors and both inode do not matches : return positive non null integer
  * in case of errors return a negative non null integer !
+ * to check : 
+ *	-> init_buf_getcwd fail : DONE -> OK !
+ *	-> init_statbufs fail : DONE -> OK !
+ *
 */
 static int	cwd_and_pwd_env_match(char *value)
 {
@@ -89,7 +101,7 @@ static int	cwd_and_pwd_env_match(char *value)
 	ret = init_buf_getcwd(&buf_getcwd);
 	if (ret != 0)
 	{
-		return (-1);
+		return (ret);
 	}
 	ret = init_statbufs(&statbuf_pwd, &statbuf_getcwd, buf_getcwd, value);
 	if (ret != 0)
@@ -104,11 +116,15 @@ static int	cwd_and_pwd_env_match(char *value)
 		return (1);
 }
 
+/* to check : 
+ *	-> ft_malloc fail : DONE -> OK !
+ *	-> getcwd fail : DONE -> OK !
+*/
 static int	init_buf_getcwd(char **p_buf_getcwd)
 {
 	char	*ret_getcwd;
 
-	*p_buf_getcwd = malloc(CWD_NAME_MAX_LENGTH * sizeof(char));
+	*p_buf_getcwd = ft_malloc(CWD_NAME_MAX_LENGTH * sizeof(char));
 	if (*p_buf_getcwd == NULL)
 	{
 		return (ERROR_MALLOC);
@@ -116,13 +132,17 @@ static int	init_buf_getcwd(char **p_buf_getcwd)
 	ret_getcwd = getcwd(*p_buf_getcwd, CWD_NAME_MAX_LENGTH);
 	if (ret_getcwd == NULL)
 	{
+		perror("fn: init_buf_getcwd: getcwd");
 		free(*p_buf_getcwd);
-		perror("fn: getcwd:");
 		return (-1);
 	}
 	return (0);
 }
 
+/* to check
+ *	-> first stat failure : DONE -> OK !
+ *	-> second stat failure : DONE -> OK !
+*/
 static int	init_statbufs(struct stat *p_statbuf_pwd, \
 			struct stat *p_statbuf_getcwd, char *buf_getcwd, char *value)
 {

@@ -22,7 +22,7 @@
 # define TRUE 1
 # define FALSE 0
 
-# define CWD_NAME_MAX_LENGTH 4095
+# define CWD_NAME_MAX_LENGTH 4096
 
 // error of define here should move something !
 // maybe allocate number of function later ?? who knows !

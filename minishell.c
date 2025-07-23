@@ -18,6 +18,7 @@
 #include "handle_signal.h"
 #include "minishell.h"
 #include "parsing.h"
+#include "printing.h"
 #include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,8 +29,13 @@ static int	start_minishell(t_minishell *p_mini);
 static int	ast_ize(t_ast **p_ast, t_vector *p_tokens);
 static int	run_exec(t_minishell *p_mini, t_ast **p_ast);
 
-int my_signal;
+int	g_my_signal;
 
+/* to check :
+ *	- init_minishell : DONE -> OK !
+ *	- start_minishell failure : TO DO !
+ *	- 
+*/
 int	main(int argc, char **argv, char **env)
 {
 	int			ret;
@@ -38,7 +44,7 @@ int	main(int argc, char **argv, char **env)
 	minishell.should_exit = FALSE;
 	(void) argc;
 	(void) argv;
-	ret = init_minishell(&minishell, env); // checked !
+	ret = init_minishell(&minishell, env);
 	if (ret != 0)
 	{
 		ft_putstr_fd("starting initialisation failure, aborting\n", 2);
@@ -48,8 +54,9 @@ int	main(int argc, char **argv, char **env)
 	while (minishell.should_exit == FALSE)
 	{
 		ret = start_minishell(&minishell);
-		if (my_signal != 0)
+		if (g_my_signal != 0)
 		{
+			g_my_signal = 0;
 			rl_done = 0;
 			continue;
 		}
@@ -62,6 +69,7 @@ int	main(int argc, char **argv, char **env)
 				// continue program but display error message ?
 				// I think do nothing if error code is not negativ !
 				// return ?
+				print_error(ret);
 				continue ;
 			}
 		}
@@ -71,6 +79,11 @@ int	main(int argc, char **argv, char **env)
 	return (minishell.last_error_code);
 }
 
+/* to check
+ *	-> tokenize fail : TO DO ;
+ *	-> ast_ize fail : TO DO ;
+ *	-> run_exec fail : TO DO ;
+*/
 static int	start_minishell(t_minishell *p_mini)
 {
 	int			ret;
@@ -78,28 +91,21 @@ static int	start_minishell(t_minishell *p_mini)
 	t_ast		*ast;
 
 	ret = tokenize(p_mini, &tokens);
-	if (my_signal != 0)
-	{
-		my_signal = 0;
-		return (0);
-	}
 	if (ret != 0)
-	{
 		return (ret);
+	if (g_my_signal != 0)
+	{
+		return (0);
 	}
 	if (tokens.size == 0)
 		return (0);
 	ret = ast_ize(&ast, &tokens);
 	if (ret != 0)
-	{
 		return (ret);
-	}
 	p_mini->head_ast = ast;
 	ret = run_exec(p_mini, &ast);
 	if (ret != 0)
-	{
 		return (ret);
-	}
 	return (0);
 }
 

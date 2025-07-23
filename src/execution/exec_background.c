@@ -36,7 +36,8 @@ int	exec_background(t_ast *ast, t_minishell *p_mini)
 	{
 		p_mini->last_child_id = 0;
 		p_mini->previous_side = PREV_RIGHT;
-		return (exec_func(ast->arguments.op_args.right, p_mini));
+		if (ast->arguments.op_args.right->type != END_LINE)
+			return (exec_func(ast->arguments.op_args.right, p_mini));
 	}
 	return (0);
 }

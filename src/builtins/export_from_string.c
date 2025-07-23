@@ -23,6 +23,10 @@ static int	change_existing_env(t_list *env, char *new_key, char *new_value);
  * starting by an alpha or an '_';
  * and next char being eith alnum or '_' until an '=' sign
  * then can have any kind of char 
+ * to check : 
+ *	 -> get_new_key_value fail : DONE -> OK ;
+ *	 -> change_existing_env : DONE -> OK ; (always succed)
+ *	 -> add_new_env : DONE -> OK ;
 */
 int	export_from_string(char *str, t_minishell *p_mini)
 {
@@ -51,6 +55,10 @@ int	export_from_string(char *str, t_minishell *p_mini)
 	return (0);
 }
 
+/* this function only return 0
+ *	to reduce calling function line length !
+ * but this function always succed 
+*/
 static int	change_existing_env(t_list *env, char *new_key, char *new_value)
 {
 	free(new_key);
