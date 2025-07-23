@@ -10,20 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_memory.h"
 #include "minishell.h"
 #include <sys/wait.h>
+#include <signal.h>
 
-static void	get_child_return_value(t_minishell *p_mini, \
+static void	get_child_return_value(t_minishell *p_mini,\
 									int child_ret, int *p_ret);
+static void	set_ign_sigint(struct sigaction *s);
+static void	un_set_ign_sigint(struct sigaction *s);
 
 int	wait_children(t_minishell *p_mini)
 {
-	int	child_ret;
-	int	ret;
-	int	wait_id;
+	int					child_ret;
+	int					ret;
+	int					wait_id;
+	struct sigaction	s[2];
 
 	if (p_mini->last_child_id != 0)
 	{
+		set_ign_sigint(s);
 		wait_id = wait(&child_ret);
 		while (wait_id != -1)
 		{
@@ -33,13 +39,31 @@ int	wait_children(t_minishell *p_mini)
 			}
 			wait_id = wait(&child_ret);
 		}
+		un_set_ign_sigint(s);
 		return (ret);
 	}
 	else
+	{
 		return (0);
+	}
 }
 
-static void	get_child_return_value(t_minishell *p_mini, \
+static void	set_ign_sigint(struct sigaction *s)
+{
+	ft_bzero(s + 0, sizeof(struct sigaction));
+	ft_bzero(s + 1, sizeof(struct sigaction));
+	s[0].sa_handler = SIG_IGN;
+	sigaction(SIGINT, s + 0, s + 1);
+	return ;
+}
+
+static void	un_set_ign_sigint(struct sigaction *s)
+{
+	sigaction(SIGINT, s + 1, NULL);
+	return ;
+}
+
+static void	get_child_return_value(t_minishell *p_mini,\
 									int child_ret, int *p_ret)
 {
 	if (WIFEXITED(child_ret) != 0)

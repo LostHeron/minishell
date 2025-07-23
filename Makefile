@@ -164,7 +164,7 @@ D_FILES := $(OBJ_FILES:.o=.d)
 
 start: 
 	$(MAKE) debug
-	valgrind --trace-children=yes --track-fds=yes -s --leak-check=full --show-leak-kinds=all --suppressions=my_supp ./minishell
+	valgrind --trace-children=yes --track-fds=yes -s --track-origins=yes --leak-check=full --show-leak-kinds=all --suppressions=my_supp ./minishell
 
 all: makelibft $(NAME)
 
