@@ -13,7 +13,6 @@
 #include "minishell.h"
 #include "parsing.h"
 #include "ft_string.h"
-#include "ft_io.h"
 #include <stdio.h>
 #include <sys/types.h>
 
@@ -24,6 +23,10 @@ static int		dup_new_token(char **p_token_i, char **p_line,\
 static ssize_t	get_bloc_size(char *line, int *p_err_code);
 static ssize_t	get_end(char *line, char c);
 
+/* to check
+ *	-> case_not_an_args fail : DONE -> OK !
+ *	-> dup_new_token fail : DONE -> OK !
+*/
 int	get_next_token(char **p_token_i, char **p_line, char **args)
 {
 	ssize_t	token_size;
@@ -46,6 +49,9 @@ int	get_next_token(char **p_token_i, char **p_line, char **args)
 	return (0);
 }
 
+/* to check
+ *	-> get_block_size return ERROR : DONE -> OK !
+*/
 static int	case_not_an_args(ssize_t *p_token_size,\
 									char **p_line, char **args)
 {
@@ -61,9 +67,7 @@ static int	case_not_an_args(ssize_t *p_token_size,\
 		{
 			quote_size = get_bloc_size((*p_line) + (*p_token_size), &err_code);
 			if (err_code != 0)
-			{
 				return (err_code);
-			}
 			(*p_token_size) += quote_size;
 		}
 		else
@@ -72,6 +76,9 @@ static int	case_not_an_args(ssize_t *p_token_size,\
 	return (0);
 }
 
+/* to check
+ *	-> ft_strndup fail : DONE -> OK !
+*/
 static int	dup_new_token(char **p_token_i, char **p_line, size_t token_size)
 {
 	if (token_size > 0)
@@ -84,16 +91,15 @@ static int	dup_new_token(char **p_token_i, char **p_line, size_t token_size)
 		*p_line += token_size;
 		return (0);
 	}
-	else if (token_size == 0)
-		return (0);
 	else
-	{
-		ft_putstr_fd("get_next_token error : \
-						should not get to token_size < 0\n", 2);
-		return (-1);
-	}
+		return (0);
 }
 
+/* to check
+ *	nothing, this function only return
+ *	a value different than 0 if the closure of " or ' is 
+ *	not found until end of line 
+*/
 static ssize_t	get_bloc_size(char *line, int *p_err_code)
 {
 	ssize_t	i;
@@ -118,6 +124,10 @@ static ssize_t	get_bloc_size(char *line, int *p_err_code)
 		return (i + 1);
 }
 
+/*
+ * nothing to check;
+ * only return -1 is the closure of che char c (" or ') is not found
+*/
 static ssize_t	get_end(char *line, char c)
 {
 	ssize_t	i;

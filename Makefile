@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/22 12:59:26 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/23 14:49:29 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ PARSING_FILES := tokenize.c \
 				 line_to_tokens.c \
 				 check_errors.c \
 				 check_error_syntax.c \
-				 check_parenthesis.c \
+				 check_matching_parenthesis.c \
 				 check_after.c \
 				 check_after_redir.c \
 				 check_before.c \
@@ -51,7 +51,6 @@ PARSING_FILES := tokenize.c \
 				 here_doc_transform.c \
 				 fill_file_expand.c \
 				 fill_file_no_expand.c \
-				 lexer.c \
 				 get_next_token.c \
 				 ft_split_args.c \
 				 ft_strstr_args.c \

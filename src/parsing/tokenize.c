@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:24:04 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:03:30 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/23 15:00:02 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "parsing.h"
 
 /* to check
- *	-> line_to_tokens fail : TO DO ;
+ *	-> line_to_tokens fail : DONE -> OK !
  *	-> check_errors fail : TO DO ;
 */
 int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
@@ -32,8 +32,7 @@ int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 	ret = check_errors(p_mini, p_tokens);
 	if (ret != 0)
 	{
-		//ft_vector_free(p_tokens); not sure about this one here
-		//seems not logical but maybe
+		ft_vector_free(p_tokens);
 		return (ret);
 	}
 	return (0);

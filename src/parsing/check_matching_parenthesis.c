@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_parenthesis.c                                :+:      :+:    :+:   */
+/*   check_matching_parenthesis.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:18:43 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/25 16:26:03 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/23 14:49:16 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_vectors.h"
 #include <stdlib.h>
 
-int	check_parenthesis(t_vector *p_tokens)
+int	check_matching_parenthesis(t_vector *p_tokens)
 {
 	size_t	i;
 	ssize_t	nb_parenthesis;

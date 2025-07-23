@@ -13,24 +13,24 @@
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
-#include "printing.h"
 #include "ft_io.h"
 #include "handle_signal.h"
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-static int	get_tokens(t_vector *p_tokens, char *line);
 static void	get_line(char **p_line, int *p_ret);
+static void	init_args(char **p_args);
 
 /* to check
- *	-> get_line fail (with ret) : DONE ;
- *	-> get_tokens fail : TO DO ;
+ *	-> get_line fail (with ret) : DONE -> OK !
+ *	-> ft_split_args fail : DONE -> OK !
 */
 int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 {
 	char	*line;
 	int		ret;
+	char	*args[11];
 
 	get_line(&line, &ret);
 	if (ret != 0)
@@ -44,7 +44,10 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	}
 	if (line && *line)
 		add_history(line);
-	return (get_tokens(p_tokens, line));
+	init_args(args);
+	ret = ft_split_args(p_tokens, line, args);
+	free(line);
+	return (ret);
 }
 
 /* to check
@@ -69,14 +72,17 @@ static void	get_line(char **p_line, int *p_ret)
 	}
 }
 
-/* to check
- *	-> lexer fail : TO DO ;
-*/
-static int	get_tokens(t_vector *p_tokens, char *line)
+static void	init_args(char **p_args)
 {
-	int	ret;
-
-	ret = lexer(line, p_tokens);
-	free(line);
-	return (ret);
+	p_args[10] = NULL;
+	p_args[0] = "&&";
+	p_args[1] = "||";
+	p_args[2] = "<<";
+	p_args[3] = ">>";
+	p_args[4] = "|";
+	p_args[5] = "&";
+	p_args[6] = ">";
+	p_args[7] = "<";
+	p_args[8] = "(";
+	p_args[9] = ")";
 }

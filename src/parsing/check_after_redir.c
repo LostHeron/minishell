@@ -15,9 +15,18 @@
 
 static void	init_list_check_after_redir(char **list_check);
 
+/* This function is called when token is one of : ">>" ">" "<<" "<" 
+ * should check that ((char**)token.data)[i + 1]
+ * exists (meaning i != tokens.size - 1) 
+ * and is not one of : "&&" "||" "|" "&" ";" ">" ">>" "<<" "<" "(" ")"
+ * check should be checked in function check_after
+ * 
+ * if it is ok : return 0
+ * if it is bad token : return 1
+*/
 int	check_after_redir(t_vector tokens, size_t i)
 {
-	char	*list_check[10];
+	char	*list_check[12];
 	size_t	j;
 
 	init_list_check_after_redir(list_check);
@@ -49,5 +58,7 @@ static void	init_list_check_after_redir(char **list_check)
 	list_check[6] = "<<";
 	list_check[7] = ">";
 	list_check[8] = ">>";
-	list_check[9] = NULL;
+	list_check[9] = ")";
+	list_check[10] = "(";
+	list_check[11] = NULL;
 }

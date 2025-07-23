@@ -23,7 +23,8 @@ int	check_after(t_vector tokens, size_t i)
 	list_check[2] = "||";
 	list_check[3] = "|";
 	list_check[4] = ";";
-	list_check[5] = NULL;
+	list_check[5] = ")";
+	list_check[6] = NULL;
 	if (i == tokens.size - 1)
 	{
 		return (1);

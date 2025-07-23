@@ -37,7 +37,8 @@ int	exec_sequence(t_ast *ast, t_minishell *p_mini)
 	if (ret != 0)
 		return (ret);
 	p_mini->previous_side = PREV_RIGHT;
-	ret = exec_func(ast->arguments.op_args.right, p_mini);
+	if (ast->arguments.op_args.right->type != END_LINE)
+		ret = exec_func(ast->arguments.op_args.right, p_mini);
 	return (ret);
 }
 

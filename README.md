@@ -24,6 +24,7 @@ cat << eof > file1 | cat << eoff > file2
 
 TODO:
 
+- 7) regler le probleme ou une commande se finit par ';'
 - 5) gerer le shell qui se lance dans /home/jweber/goinfre/a/b/c après avoir supprimer a/b/c ?
 - 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas
 - 2) faire quand > vers un nom de fichier sans permission que ça arrete la commande 
