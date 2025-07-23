@@ -79,6 +79,7 @@ int	replace_err_code(t_exp *p_exp_part, int *p_ind, t_minishell mini)
 	*replace = '\0';
 	ft_strncat(replace, p_exp_part->content, *p_ind);
 	ft_strlcat(replace, err_code, len_replace);
+	free(err_code);
 	ft_strlcat(replace, p_exp_part->content + *p_ind + 2, len_replace);
 	free(p_exp_part->content);
 	p_exp_part->content = replace;
