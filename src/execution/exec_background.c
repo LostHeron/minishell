@@ -13,6 +13,7 @@
 #include "execution.h"
 #include "minishell.h"
 #include "ast.h"
+#include <signal.h>
 #include <unistd.h>
 #include <stdio.h>
 
@@ -20,7 +21,8 @@ static void	background_execution(t_ast *ast, t_minishell *p_mini);
 
 int	exec_background(t_ast *ast, t_minishell *p_mini)
 {
-	int	pid;
+	int					pid;
+	struct sigaction	sig_def;
 
 	pid = fork();
 	if (pid < 0)
@@ -30,6 +32,8 @@ int	exec_background(t_ast *ast, t_minishell *p_mini)
 	}
 	if (pid == 0)
 	{
+		sig_def.sa_handler = SIG_DFL;
+		sigaction(SIGQUIT, &sig_def, NULL);
 		background_execution(ast, p_mini);
 	}
 	else

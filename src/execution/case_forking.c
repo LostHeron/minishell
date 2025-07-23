@@ -17,11 +17,13 @@
 #include <readline/readline.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <signal.h>
 
 int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
-	int	pid;
-	int	ret;
+	int					pid;
+	int					ret;
+	struct sigaction	sig_def;
 
 	pid = fork();
 	if (pid == -1)
@@ -31,6 +33,8 @@ int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	}
 	if (pid == 0)
 	{
+		sig_def.sa_handler = SIG_DFL;
+		sigaction(SIGQUIT, &sig_def, NULL);
 		p_mini->last_child_id = 0;
 		ret = child_execution(ast, p_mini, cmd_type);
 		// here should call a function which will clear
