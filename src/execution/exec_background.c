@@ -36,6 +36,7 @@ int	exec_background(t_ast *ast, t_minishell *p_mini)
 		ft_bzero(&sig_def, sizeof(sig_def));
 		sig_def.sa_handler = SIG_DFL;
 		sigaction(SIGQUIT, &sig_def, NULL);
+		sigaction(SIGINT, &sig_def, NULL);
 		background_execution(ast, p_mini);
 	}
 	else
