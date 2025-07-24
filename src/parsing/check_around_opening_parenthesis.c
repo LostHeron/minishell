@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "ft_vectors.h"
 #include "ft_string.h"
 
@@ -37,12 +38,14 @@ int	check_around_opening_parenthesis(t_vector *p_tokens, size_t	token_i)
 	if (token_i > 0)
 		ret = check_before_opening_parenthesis(p_tokens, token_i);
 	if (ret != 0)
-		return (ret);
-	if (token_i == p_tokens->size -1)
-		return (1);
+		return (ERROR_AROUND_OPENING_PARENTHESIS);
+	if (token_i == p_tokens->size - 1)
+		return (ERROR_AROUND_OPENING_PARENTHESIS);
 	else
 		ret = check_after_opening_parenthesis(p_tokens, token_i);
-	return (ret);
+	if (ret != 0)
+		return (ERROR_AROUND_OPENING_PARENTHESIS);
+	return (0);
 }
 
 /* this function is called when tokens is "("

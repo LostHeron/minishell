@@ -13,6 +13,8 @@
 #include "minishell.h"
 #include "ft_io.h"
 
+static void print_other_errors(int err_code);
+
 void	print_error(int err_code)
 {
 	if (err_code == ERROR_UNCLOSED_S_QUOTES)
@@ -23,4 +25,32 @@ void	print_error(int err_code)
 		ft_printf_fd(2, "syntax error : unmatching parenthesis \n");
 	else if (err_code == ERROR_EMPTY_PARENTHESIS)
 		ft_printf_fd(2, "syntax error : empty parenthesis \n");
+	else if (err_code == ERROR_AROUND_CLOSING_PARENTHESIS)
+		ft_printf_fd(2, "syntax error : error around closing parenthesis\n");
+	else if (err_code == ERROR_AROUND_OPENING_PARENTHESIS)
+		ft_printf_fd(2, "syntax error : error around opening parenthesis\n");
+	else
+		print_other_errors(err_code);
+}
+
+static void	print_other_errors(int err_code)
+{
+	if (err_code == ERROR_AROUND_AND)
+		ft_printf_fd(2, "syntax error : error around &&\n");
+	if (err_code == ERROR_AROUND_OR)
+		ft_printf_fd(2, "syntax error : error around ||\n");
+	if (err_code == ERROR_AROUND_PIPE)
+		ft_printf_fd(2, "syntax error : error around |\n");
+	if (err_code == ERROR_AROUND_BACKGROUND)
+		ft_printf_fd(2, "syntax error : error around &\n");
+	if (err_code == ERROR_AROUND_SEQUENCE)
+		ft_printf_fd(2, "syntax error : error around ;\n");
+	if (err_code == ERROR_AROUND_REDIR_OUT)
+		ft_printf_fd(2, "syntax error : error around >\n");
+	if (err_code == ERROR_AROUND_REDIR_IN)
+		ft_printf_fd(2, "syntax error : error around <\n");
+	if (err_code == ERROR_AROUND_REDIR_HEREDOC)
+		ft_printf_fd(2, "syntax error : error around <<\n");
+	if (err_code == ERROR_AROUND_REDIR_APPEND)
+		ft_printf_fd(2, "syntax error : error around >>\n");
 }

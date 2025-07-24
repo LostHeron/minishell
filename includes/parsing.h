@@ -23,6 +23,7 @@ int		prepare_here_doc(t_minishell *p_mini, t_vector *p_tokens);
 int		check_matching_parenthesis(t_vector *p_tokens);
 int		check_error_syntax(t_vector tokens);
 int		check_around_opening_parenthesis(t_vector *p_tokens, size_t	token_i);
+int		check_around_closing_parenthesis(t_vector *p_tokens, size_t	token_i);
 int		check_before_after(t_vector tokens, size_t i);
 int		check_before(t_vector tokens, size_t i);
 int		check_after_redir(t_vector tokens, size_t i);

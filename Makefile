@@ -36,6 +36,7 @@ PARSING_FILES := tokenize.c \
 				 check_error_syntax.c \
 				 check_matching_parenthesis.c \
 				 check_around_opening_parenthesis.c \
+				 check_around_closing_parenthesis.c \
 				 check_after.c \
 				 check_after_redir.c \
 				 check_before.c \

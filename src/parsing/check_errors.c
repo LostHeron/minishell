@@ -16,7 +16,7 @@
 #include "ft_io.h"
 #include "ft_string.h"
 
-//static int	check_around_parenthesis(t_vector *p_tokens);
+static int	check_around_parenthesis(t_vector *p_tokens);
 
 int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 {
@@ -24,28 +24,19 @@ int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 
 	ret = check_error_syntax(*p_tokens);
 	if (ret != 0)
-	{
-		ft_putstr_fd("error syntax in check_error_syntax !\n", 2); // change this error message
-		// to display a nicer message of type error synthax in pipe '|' pipe cannot be followed by 
-		// ... ...
-		// and must be done at start of function 
 		return (ret);
-	}
 	ret = check_matching_parenthesis(p_tokens);
 	if (ret != 0)
 		return (ret);
-	/*
 	ret = check_around_parenthesis(p_tokens);
 	if (ret != 0)
 		return (ret);
-	*/
 	ret = prepare_here_doc(p_mini, p_tokens);
 	if (ret != 0)
 		return (ret);
 	return (0);
 }
 
-/*
 static int	check_around_parenthesis(t_vector *p_tokens)
 {
 	size_t	token_i;
@@ -67,5 +58,5 @@ static int	check_around_parenthesis(t_vector *p_tokens)
 			return (ret);
 		token_i++;	
 	}
+	return (0);
 }
-*/

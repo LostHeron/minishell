@@ -27,8 +27,9 @@ int	check_matching_parenthesis(t_vector *p_tokens)
 		if (ft_strcmp(((char **)p_tokens->data)[i], "(") == 0)
 		{
 			nb_parenthesis++;
-			if (i != p_tokens->size
-				&& ft_strcmp(((char **)p_tokens->data)[i + 1], ")") == 0)
+			if (i == p_tokens->size)
+				return (ERROR_EMPTY_PARENTHESIS);
+			if (ft_strcmp(((char **)p_tokens->data)[i + 1], ")") == 0)
 				return (ERROR_EMPTY_PARENTHESIS);
 		}
 		if (ft_strcmp(((char **)p_tokens->data)[i], ")") == 0)
