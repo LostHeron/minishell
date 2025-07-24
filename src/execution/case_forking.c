@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #include "ast.h"
+#include "ft_memory.h"
 #include "minishell.h"
 #include "execution.h"
-#include "freeing.h"
 #include <readline/readline.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -33,6 +33,7 @@ int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	}
 	if (pid == 0)
 	{
+		ft_bzero(&sig_def, sizeof(sig_def));
 		sig_def.sa_handler = SIG_DFL;
 		sigaction(SIGQUIT, &sig_def, NULL);
 		p_mini->last_child_id = 0;

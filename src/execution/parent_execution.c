@@ -21,6 +21,8 @@ void	parent_execution(t_ast *ast, t_minishell *p_mini, int pid)
 	int		to_close;
 
 	i = 0;
+	p_mini->last_child_id = pid;
+	printf("in parent_execution, p_mini->last_chlid_id = %i\n", p_mini->last_child_id);
 	while (i < ast->arguments.com_args.dir_args.size)
 	{
 		if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir
@@ -34,5 +36,4 @@ void	parent_execution(t_ast *ast, t_minishell *p_mini, int pid)
 		}
 		i++;
 	}
-	p_mini->last_child_id = pid;
 }

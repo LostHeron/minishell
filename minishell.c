@@ -53,11 +53,11 @@ int	main(int argc, char **argv, char **env)
 	init_signals();
 	while (minishell.should_exit == FALSE)
 	{
+		g_my_signal = 0;
+		rl_done = 0;
 		ret = start_minishell(&minishell);
 		if (g_my_signal != 0)
 		{
-			g_my_signal = 0;
-			rl_done = 0;
 			continue;
 		}
 		if (ret != 0)
@@ -126,7 +126,6 @@ static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 
 static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 {
-	int	ret;
 	int	ret_exec;
 
 	p_mini->previous_side = PREV_NONE;
@@ -140,12 +139,7 @@ static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 	p_mini->first_cmd = 1;
 	ret_exec = exec_func(*p_ast, p_mini);
 	close_fd1(p_mini);
-	ret = wait_children(p_mini);
-	if (ret != 0)
-	{
-		// must exit program cuz should not happens in normal behaviour
-		// so exit but nice way !
-	}
+	wait_children(p_mini);
 	free_tree(p_ast);
 	if (ret_exec != 0)
 	{
