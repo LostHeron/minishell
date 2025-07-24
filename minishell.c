@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/18 13:57:41 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/24 13:43:11 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,9 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (ret != 0)
 		{
+			print_error(ret);
 			if (ret < 0)
 				minishell.should_exit = TRUE;
-			else
-			{
-				// continue program but display error message ?
-				// I think do nothing if error code is not negativ !
-				// return ?
-				print_error(ret);
-				continue ;
-			}
 		}
 	}
 	free_minishell(&minishell);
