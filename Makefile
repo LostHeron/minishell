@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/23 17:38:11 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/24 13:38:50 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ PARSING_FILES := tokenize.c \
 				 check_matching_parenthesis.c \
 				 check_around_opening_parenthesis.c \
 				 check_around_closing_parenthesis.c \
+				 check_after_closing_parenthesis.c \
 				 check_after.c \
 				 check_after_redir.c \
 				 check_before.c \
