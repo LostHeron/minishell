@@ -18,6 +18,16 @@
 
 static int	check_around_parenthesis(t_vector *p_tokens);
 
+/* This function should check that there is no syntax
+ * errors. It will return 0 if no syntax error are present
+ * and one in the other case.
+ * It will also read all heredocuments
+ * to check:
+ *  -> check error_syntax fail         : DONE -> OK !
+ *  -> check matching_parenthesis fail : DONE -> OK !
+ *  -> check around_parenthesis fail   : DONE -> OK !
+ *  -> check prepare_here_doc fail     : TO DO ; 
+*/
 int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 {
 	int	ret;
@@ -56,7 +66,7 @@ static int	check_around_parenthesis(t_vector *p_tokens)
 		}
 		if (ret != 0)
 			return (ret);
-		token_i++;	
+		token_i++;
 	}
 	return (0);
 }

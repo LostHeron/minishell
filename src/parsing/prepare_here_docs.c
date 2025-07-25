@@ -14,9 +14,15 @@
 #include "ft_vectors.h"
 #include "parsing.h"
 #include "ft_io.h"
+#include <errno.h>
+#include <readline/readline.h>
 
 static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC]);
 
+/* to check
+ *	-> count_here_doc fail : DONE -> OK !
+ *	-> get_here_doc fail : TO DO ;
+*/
 int	prepare_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 {
 	int	ret;
@@ -27,15 +33,18 @@ int	prepare_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 	{
 		ft_putstr_fd("maximum here-document count exceeded\n", 2);
 		p_mini->last_error_code = 2;
-		return (0);
+		return (1);
 	}
 	ret = get_here_doc(p_mini, p_tokens);
-	if (ret != 0)
+	if (ret == ERROR_READ)
 	{
-		ft_putstr_fd("problem occured in function 'get_here_doc'\n", 2);
-		return (0);
+		if (errno == EINTR)
+		{
+			printf("\n");
+			return (1);
+		}
 	}
-	return (0);
+	return (ret);
 }
 
 static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC])

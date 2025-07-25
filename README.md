@@ -24,13 +24,8 @@ cat << eof > file1 | cat << eoff > file2
 
 TODO:
 
-- 9) tester programme qui handle sigint et qui boucle a l'infinie et dans le process parent voir ce que ça donne sur wait
-- 8) MODIFIER wait_children en fonction d'un nombre d'enfant a wait
-pour pouvoir exec_background un nombre infini de command
-- 9) et voir pour que les signaux ne soient pas envoyé du parents aux enfants 'zombie'
-- 7) regler le probleme ou une commande se finit par ';'
-- 5) gerer le shell qui se lance dans /home/jweber/goinfre/a/b/c après avoir supprimer a/b/c ?
-- 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas
+- 5) gerer le shell qui se lance dans /home/jweber/goinfre/a/b/c après avoir supprimer a/b/c ? // work ok execpt for printing pwd just does not behave like bash but nvm;
+- 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas // and look how to make it work
 - 2) faire quand > vers un nom de fichier sans permission que ça arrete la commande 
 - 2) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2 // OU PAS ?
 - 3) Normage dans Execution
@@ -59,6 +54,11 @@ que des redirections s'il y a autre chose ou des operateurs de commande
 \ /
 OLD stuff just in case for check : 
 
+- 7) regler le probleme ou une commande se finit par ';' // DONE (execpt for print tree);
+- 8) MODIFIER wait_children en fonction d'un nombre d'enfant a wait
+pour pouvoir exec_background un nombre infini de command // DONE even if exec_background is suppressed
+- 9) et voir pour que les signaux ne soient pas envoyé du parents aux enfants 'zombie' // so we forget this one
+- 9) tester programme qui handle sigint et qui boucle a l'infinie et dans le process parent voir ce que ça donne sur wait
 - 1) expand des '*' // done logiquement !
 - cd which reset PWD environment variable only in case of PWD existing ! // should be done !
 - 1) do not display prompt of readline if not in tty mode // DONE

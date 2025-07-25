@@ -54,28 +54,6 @@ static int	gnl_here_doc(t_list *env, int fd, char *delimiter, int *p_exiting)
 	return (0);
 }
 
-static int	compare_line(char *line, int *p_exiting, char *delimiter)
-{
-	char	*line_cmp;
-
-	line_cmp = ft_strndup(line, ft_strlen(line) - 1);
-	if (line_cmp == NULL)
-	{
-		free(line);
-		*p_exiting = 1;
-		return (ERROR_MALLOC);
-	}
-	if (ft_strcmp(line_cmp, delimiter) == 0)
-	{
-		*p_exiting = 1;
-		free(line);
-		free(line_cmp);
-		return (0);
-	}
-	free(line_cmp);
-	return (0);
-}
-
 static int	read_the_line(char **p_line, char *delimiter, int *p_exiting)
 {
 	int	err_code;
@@ -97,6 +75,28 @@ static int	read_the_line(char **p_line, char *delimiter, int *p_exiting)
 		}
 		return (0);
 	}
+	return (0);
+}
+
+static int	compare_line(char *line, int *p_exiting, char *delimiter)
+{
+	char	*line_cmp;
+
+	line_cmp = ft_strndup(line, ft_strlen(line) - 1);
+	if (line_cmp == NULL)
+	{
+		free(line);
+		*p_exiting = 1;
+		return (ERROR_MALLOC);
+	}
+	if (ft_strcmp(line_cmp, delimiter) == 0)
+	{
+		*p_exiting = 1;
+		free(line);
+		free(line_cmp);
+		return (0);
+	}
+	free(line_cmp);
 	return (0);
 }
 

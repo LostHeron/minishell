@@ -22,6 +22,15 @@ static int	hd_fds_init(t_minishell *p_mini, int *p_fd_tmp_write,	\
 														int *p_hd_count);
 static int	should_expand(char *delimiter);
 
+/* this function will opens fd for writing to and reading from the here_doc
+ * then it will write to the here_doc from user input (and make expansion)
+ * then it will close fd for writting and put fd for reading in its right place
+ * to check :
+ *	-> hd_fds_init fail : TO DO ;
+ *	-> get_real_delimiter fail : TO DO ;
+ *	-> fill_file_expand fail : TO DO ;
+ *	-> fill_file_no_expand fail : TO DO ;
+*/
 int	write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 														int *p_hd_count)
 {
