@@ -51,7 +51,10 @@ int	exec_subshell(t_ast *ast, t_minishell *p_mini)
 			exit(exit_child(p_mini, p_mini->last_error_code));
 	}
 	else
+	{
 		p_mini->last_child_id = pid;
+		p_mini->nb_child_to_wait++;
+	}
 	return (0);
 }
 

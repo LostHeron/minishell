@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-static void	background_execution(t_ast *ast, t_minishell *p_mini);
+static int	background_execution(t_ast *ast, t_minishell *p_mini);
 
 int	exec_background(t_ast *ast, t_minishell *p_mini)
 {
@@ -37,10 +37,11 @@ int	exec_background(t_ast *ast, t_minishell *p_mini)
 		sig_def.sa_handler = SIG_DFL;
 		sigaction(SIGQUIT, &sig_def, NULL);
 		sigaction(SIGINT, &sig_def, NULL);
-		background_execution(ast, p_mini);
+		exit(background_execution(ast, p_mini));
 	}
 	else
 	{
+		kill(pid, SIGSTOP);
 		p_mini->last_child_id = 0;
 		p_mini->previous_side = PREV_RIGHT;
 		if (ast->arguments.op_args.right->type != END_LINE)
@@ -52,7 +53,7 @@ int	exec_background(t_ast *ast, t_minishell *p_mini)
 /* This function should handle processes that are executed in background
  * it should wait for them to finish then 
 */
-static void	background_execution(t_ast *ast, t_minishell *p_mini)
+static int	background_execution(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;
 
@@ -61,12 +62,13 @@ static void	background_execution(t_ast *ast, t_minishell *p_mini)
 	close_fd1(p_mini);
 	if (close(p_mini->fd_tty_copy) < 0)
 		perror("close");
+	printf("in background_execution before wait_childrend call\n");
 	wait_children(p_mini);
 	if (ret != 0)
 	{
 		// really usefull ? lets see how does exec_func
 		// can fail ;
-		exit (ret);
+		return (ret);
 	}
-	exit(exit_child(p_mini, p_mini->last_error_code));
+	return(exit_child(p_mini, p_mini->last_error_code));
 }

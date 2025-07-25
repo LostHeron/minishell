@@ -22,6 +22,7 @@ void	parent_execution(t_ast *ast, t_minishell *p_mini, int pid)
 
 	i = 0;
 	p_mini->last_child_id = pid;
+	p_mini->nb_child_to_wait++;
 	while (i < ast->arguments.com_args.dir_args.size)
 	{
 		if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir

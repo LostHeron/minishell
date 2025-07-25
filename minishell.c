@@ -56,10 +56,6 @@ int	main(int argc, char **argv, char **env)
 		g_my_signal = 0;
 		rl_done = 0;
 		ret = start_minishell(&minishell);
-		if (g_my_signal != 0)
-		{
-			continue;
-		}
 		if (ret != 0)
 		{
 			print_error(ret);

@@ -39,6 +39,7 @@ typedef struct s_minishell
 	int			previous_side;
 	int			previous_type;
 	int			first_cmd;
+	int			nb_child_to_wait;
 	int			fd1[2];
 	int			fd2[2];
 	t_list		*env;
@@ -59,9 +60,9 @@ typedef struct s_env
 
 enum e_error_cod
 {
+	ERROR_READ = -1,
 	ERROR_CLOSE = -2,
 	ERROR_WRITE = -4,
-	ERROR_READ = -5,
 	ERROR_DUP = -6,
 	ERROR_PIPE = 4,
 	ERROR_HERE_DOC_FILENAME,
