@@ -10,15 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ast.h"
 #include "minishell.h"
 #include "ft_standard.h"
 #include "ft_string.h"
-#include "ft_io.h"
 #include <limits.h>
 #include <unistd.h>
 
 static int	change_name(char **p_filename, size_t *p_nb);
 
+/* to check 
+ *	-> ft_itoa fail : DONE -> OK !
+ *	-> ft_strjoin fail : DONE -> OK !
+ *	-> change_name fail : DONE -> OK !
+*/
 int	generate_hd_filename(char **p_filename, size_t	nb)
 {
 	char	*nb_str;
@@ -40,6 +45,11 @@ int	generate_hd_filename(char **p_filename, size_t	nb)
 	return (0);
 }
 
+/* to check :
+ *	-> ERROR *p_nb == INT_MAX : DONE -> OK !
+ *	-> ft_itoa fail : DONE -> OK ;
+ *	-> ft_strjoin fail : DONE -> OK !
+*/
 static int	change_name(char **p_filename, size_t *p_nb)
 {
 	char	*nb_str;
@@ -47,8 +57,6 @@ static int	change_name(char **p_filename, size_t *p_nb)
 	free(*p_filename);
 	if (*p_nb == INT_MAX)
 	{
-		ft_printf_fd(2, \
-"too much filename beginning with \"/tmp/minishell_tmp_file_nb_\"\n");
 		return (ERROR_HERE_DOC_FILENAME);
 	}
 	(*p_nb)++;

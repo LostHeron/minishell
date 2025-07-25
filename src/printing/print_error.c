@@ -13,11 +13,13 @@
 #include "minishell.h"
 #include "ft_io.h"
 
-static void print_other_errors(int err_code);
+static void	print_other_errors(int err_code);
 
 void	print_error(int err_code)
 {
-	if (err_code == ERROR_UNCLOSED_S_QUOTES)
+	if (err_code == ERROR_MALLOC)
+		ft_printf_fd(2, "ERROR due to memory allocation\n");
+	else if (err_code == ERROR_UNCLOSED_S_QUOTES)
 		ft_printf_fd(2, "syntax error : unclose single quotes\n");
 	else if (err_code == ERROR_UNCLOSED_D_QUOTES)
 		ft_printf_fd(2, "syntax error : unclosed double quotes\n");
@@ -35,22 +37,27 @@ void	print_error(int err_code)
 
 static void	print_other_errors(int err_code)
 {
-	if (err_code == ERROR_AROUND_AND)
+	if (err_code == ERROR_HERE_DOC_FILENAME)
+		ft_printf_fd(2, \
+"too much filename beginning with \"/tmp/minishell_tmp_file_nb_\"\n");
+	else if (err_code == ERROR_AROUND_AND)
 		ft_printf_fd(2, "syntax error : error around &&\n");
-	if (err_code == ERROR_AROUND_OR)
+	else if (err_code == ERROR_AROUND_OR)
 		ft_printf_fd(2, "syntax error : error around ||\n");
-	if (err_code == ERROR_AROUND_PIPE)
+	else if (err_code == ERROR_AROUND_PIPE)
 		ft_printf_fd(2, "syntax error : error around |\n");
-	if (err_code == ERROR_AROUND_BACKGROUND)
+	else if (err_code == ERROR_AROUND_BACKGROUND)
 		ft_printf_fd(2, "syntax error : error around &\n");
-	if (err_code == ERROR_AROUND_SEQUENCE)
+	else if (err_code == ERROR_AROUND_SEQUENCE)
 		ft_printf_fd(2, "syntax error : error around ;\n");
-	if (err_code == ERROR_AROUND_REDIR_OUT)
+	else if (err_code == ERROR_AROUND_REDIR_OUT)
 		ft_printf_fd(2, "syntax error : error around >\n");
-	if (err_code == ERROR_AROUND_REDIR_IN)
+	else if (err_code == ERROR_AROUND_REDIR_IN)
 		ft_printf_fd(2, "syntax error : error around <\n");
-	if (err_code == ERROR_AROUND_REDIR_HEREDOC)
+	else if (err_code == ERROR_AROUND_REDIR_HEREDOC)
 		ft_printf_fd(2, "syntax error : error around <<\n");
-	if (err_code == ERROR_AROUND_REDIR_APPEND)
+	else if (err_code == ERROR_AROUND_REDIR_APPEND)
 		ft_printf_fd(2, "syntax error : error around >>\n");
+	else
+		ft_printf_fd(2, "syntax error : unknown error \n");
 }

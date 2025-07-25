@@ -53,6 +53,10 @@ int	main(int argc, char **argv, char **env)
 	init_signals();
 	while (minishell.should_exit == FALSE)
 	{
+		if (g_my_signal == SIGINT)
+			minishell.last_error_code = SIGINT + 128;
+		if (g_my_signal == SIGQUIT)
+			minishell.last_error_code = SIGQUIT + 128;
 		g_my_signal = 0;
 		rl_done = 0;
 		ret = start_minishell(&minishell);

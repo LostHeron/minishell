@@ -59,7 +59,7 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 }
 
 /* to check
- *	-> get_prompt_fail : TO DO ;
+ *	-> get_prompt_fail : DONE -> OK ;
  *	-> *p_line = NULL and *p_ret != 0 : DONE -> OK !
  *	-> readline = NULL : DONE -> OK !
 */
