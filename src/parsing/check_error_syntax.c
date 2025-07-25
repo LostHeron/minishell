@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "ft_vectors.h"
 #include "ft_string.h"
 #include "parsing.h"
@@ -18,6 +19,7 @@ static void	init_smths(char **smth_before, char **smth_after,\
 										char **smth_before_after);
 static int	perform_checks(t_vector tokens, char **smths[3]);
 static int	is_this(char **arr_to_comp, char *str);
+static int	get_err_code(char *token);
 
 #define BEFORE 0
 #define AFTER 1
@@ -85,25 +87,23 @@ static void	init_smths(char **smth_before, char **smth_after,\
 static int	perform_checks(t_vector tokens, char **smths[3])
 {
 	size_t	i;
+	int		ret;
 
 	i = 0;
+	ret = 0;
 	while (i < tokens.size)
 	{
 		if (is_this(smths[BEFORE], ((char **)tokens.data)[i]) == 0)
-		{
 			if (check_before(tokens, i) != 0)
-				return (1);
-		}
+				ret = 1;
 		if (is_this(smths[AFTER], ((char **)tokens.data)[i]) == 0)
-		{
 			if (check_after_redir(tokens, i) != 0)
-				return (1);
-		}
+				ret = 1;
 		if (is_this(smths[BEFORE_AFTER], ((char **)tokens.data)[i]) == 0)
-		{
 			if (check_before_after(tokens, i) != 0)
-				return (1);
-		}
+				ret = 1;
+		if (ret != 0)
+			return (get_err_code(((char **)tokens.data)[i]));
 		i++;
 	}
 	return (0);
@@ -121,4 +121,27 @@ static int	is_this(char **arr_to_comp, char *str)
 		i++;
 	}
 	return (1);
+}
+
+static int	get_err_code(char *token)
+{
+	if (ft_strcmp(token, "&&") == 0)
+		return (ERROR_AROUND_AND);
+	if (ft_strcmp(token, "||") == 0)
+		return (ERROR_AROUND_OR);
+	if (ft_strcmp(token, "|") == 0)
+		return (ERROR_AROUND_PIPE);
+	if (ft_strcmp(token, "&") == 0)
+		return (ERROR_AROUND_BACKGROUND);
+	if (ft_strcmp(token, ";") == 0)
+		return (ERROR_AROUND_SEQUENCE);
+	if (ft_strcmp(token, ">") == 0)
+		return (ERROR_AROUND_REDIR_OUT);
+	if (ft_strcmp(token, "<") == 0)
+		return (ERROR_AROUND_REDIR_IN);
+	if (ft_strcmp(token, "<<") == 0)
+		return (ERROR_AROUND_REDIR_HEREDOC);
+	if (ft_strcmp(token, ">>") == 0)
+		return (ERROR_AROUND_REDIR_APPEND);
+	return (ERROR_UNKNOWN);
 }

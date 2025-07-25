@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include <sys/wait.h>
 #include <signal.h>
+#include <stdio.h>
 
 static void	get_child_return_value(t_minishell *p_mini,\
 									int child_ret, int *p_ret);
@@ -27,17 +28,31 @@ int	wait_children(t_minishell *p_mini)
 	int					wait_id;
 	struct sigaction	s[2];
 
+	ret = 0;
+	set_ign_sigint(s);
+	while (p_mini->nb_child_to_wait > 0)
+	{
+		wait_id = wait(&child_ret);
+		p_mini->nb_child_to_wait--;
+		if (wait_id == p_mini->last_child_id)
+		{
+			get_child_return_value(p_mini, child_ret, &ret);
+		}
+	}
+	un_set_ign_sigint(s);
+	return (ret);
+	/*
 	if (p_mini->last_child_id != 0)
 	{
 		set_ign_sigint(s);
-		wait_id = wait(&child_ret);
-		while (wait_id != -1)
+		while (p_mini->nb_child_to_wait > 0)
 		{
+			wait_id = wait(&child_ret);
+			p_mini->nb_child_to_wait--;
 			if (wait_id == p_mini->last_child_id)
 			{
 				get_child_return_value(p_mini, child_ret, &ret);
 			}
-			wait_id = wait(&child_ret);
 		}
 		un_set_ign_sigint(s);
 		return (ret);
@@ -46,12 +61,12 @@ int	wait_children(t_minishell *p_mini)
 	{
 		return (0);
 	}
+	*/
 }
 
 static void	set_ign_sigint(struct sigaction *s)
 {
 	ft_bzero(s + 0, sizeof(struct sigaction));
-	ft_bzero(s + 1, sizeof(struct sigaction));
 	s[0].sa_handler = SIG_IGN;
 	sigaction(SIGINT, s + 0, s + 1);
 	return ;
@@ -73,6 +88,7 @@ static void	get_child_return_value(t_minishell *p_mini,\
 	}
 	else if (WIFSIGNALED(child_ret) != 0)
 	{
+		printf("\n");
 		p_mini->last_error_code = WTERMSIG(child_ret);
 		p_mini->last_error_code += 128;
 		*p_ret = 0;

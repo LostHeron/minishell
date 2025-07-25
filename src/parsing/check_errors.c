@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 16:00:16 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/23 14:52:58 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/23 17:51:52 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,59 @@
 #include "ft_vectors.h"
 #include "parsing.h"
 #include "ft_io.h"
-#include "printing.h"
+#include "ft_string.h"
 
+static int	check_around_parenthesis(t_vector *p_tokens);
+
+/* This function should check that there is no syntax
+ * errors. It will return 0 if no syntax error are present
+ * and one in the other case.
+ * It will also read all heredocuments
+ * to check:
+ *  -> check error_syntax fail         : DONE -> OK !
+ *  -> check matching_parenthesis fail : DONE -> OK !
+ *  -> check around_parenthesis fail   : DONE -> OK !
+ *  -> check prepare_here_doc fail     : TO DO ; 
+*/
 int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 {
 	int	ret;
 
 	ret = check_error_syntax(*p_tokens);
 	if (ret != 0)
-	{
-		ft_putstr_fd("error syntax in check_error_syntax !\n", 2); // change this error message
-		// to display a nicer message of type error synthax in pipe '|' pipe cannot be followed by 
-		// ... ...
-		// and must be done at start of function 
 		return (ret);
-	}
 	ret = check_matching_parenthesis(p_tokens);
 	if (ret != 0)
 		return (ret);
-	/*
 	ret = check_around_parenthesis(p_tokens);
 	if (ret != 0)
 		return (ret);
-	*/
 	ret = prepare_here_doc(p_mini, p_tokens);
 	if (ret != 0)
 		return (ret);
 	return (0);
 }
 
-/*
-static int check_around_parenthesis(t_tokens *p_tokens)
+static int	check_around_parenthesis(t_vector *p_tokens)
 {
+	size_t	token_i;
+	int		ret;
 
+	token_i = 0;
+	while (token_i < p_tokens->size -1)
+	{
+		ret = 0;
+		if (ft_strcmp("(", ((char **)p_tokens->data)[token_i]) == 0)
+		{
+			ret = check_around_opening_parenthesis(p_tokens, token_i);
+		}
+		else if (ft_strcmp(")", ((char **)p_tokens->data)[token_i]) == 0)
+		{
+			ret = check_around_closing_parenthesis(p_tokens, token_i);
+		}
+		if (ret != 0)
+			return (ret);
+		token_i++;
+	}
+	return (0);
 }
-*/
