@@ -24,7 +24,7 @@ enum	e_previous
 };
 
 int		restore_fds(t_minishell *p_mini);
-void	parent_execution(t_ast *ast, t_minishell *p_mini, int pid);
+int		parent_execution(t_ast *ast, t_minishell *p_mini, int pid);
 int		case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type);
 int		case_no_forking(t_ast *ast, t_minishell *p_mini);
 int		exec_func(t_ast *ast, t_minishell *p_mini);

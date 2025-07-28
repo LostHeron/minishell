@@ -25,6 +25,11 @@ static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
 /* at this point, we are already in the child process
  * of the command type node, 
  * we entered here from exec_command call !
+ * to do :
+ *	-> first close fail : TO DO ;
+ *	-> make_redirections fail : TO DO ;
+ *	-> call_builtins fail : TO DO;
+ *	-> case_cmd_type_binary fail : TO DO;
 */
 int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {

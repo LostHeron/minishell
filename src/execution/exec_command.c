@@ -21,6 +21,12 @@
 
 static int	get_cmd_type(char **builtins_name, t_vector cmd_args);
 
+/* to check :
+ *	-> expand fail : DONE -> OK !
+ *	-> expand_redir fail : DONE -> OK !
+ *	-> case_forking fail : TO DO ;
+ *	-> case_no_forking fail : TO DO ;
+*/
 int	exec_command(t_ast *ast, t_minishell *p_mini)
 {
 	int		cmd_type;

@@ -16,7 +16,7 @@
 #include <signal.h>
 #include <stdio.h>
 
-static void	get_child_return_value(t_minishell *p_mini,\
+static void	get_child_return_value(t_minishell *p_mini, \
 									int child_ret, int *p_ret);
 static void	set_ign_sigint(struct sigaction *s);
 static void	un_set_ign_sigint(struct sigaction *s);

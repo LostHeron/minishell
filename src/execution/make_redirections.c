@@ -32,6 +32,10 @@
  *
  *		Then the function should perform < << > >> redirections
  *	and close the fd opened after each performed redirection.
+ * to check : 
+ *	-> change_fd_pipe fail : TO DO ;
+ *	-> close_case_no_pipe fail : TO DO ;
+ *	-> change_fd_redir : TO DO ;
 */
 int	make_redirections(t_vector redir, t_minishell *p_mini)
 {

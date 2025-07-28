@@ -11,33 +11,35 @@
 /* ************************************************************************** */
 
 #include "ast.h"
-#include "ft_memory.h"
 #include "minishell.h"
 #include "execution.h"
+#include "printing.h"
 #include <readline/readline.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <signal.h>
 
+/* to check : 
+ *	-> fork fail : DONE ;
+ *	-> child_execution fail : TO DO ; but what to do ? 
+ *	-> parent_execution fail : DONE -> OK ;
+*/
 int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
 	int					pid;
 	int					ret;
-	struct sigaction	sig_def;
 
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("fn: case_forking: fork");
+		perror("fork");
 		return (ERROR_FORK);
 	}
 	if (pid == 0)
 	{
-		ft_bzero(&sig_def, sizeof(sig_def));
-		sig_def.sa_handler = SIG_DFL;
-		sigaction(SIGQUIT, &sig_def, NULL);
 		p_mini->last_child_id = 0;
 		ret = child_execution(ast, p_mini, cmd_type);
+		if (ret != 0)
+			print_error(ret);
 		// here should call a function which will clear
 		// all malloced ared (free_p_mini) its done before
 		// if i say no shit !
@@ -47,7 +49,7 @@ int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	}
 	else
 	{
-		parent_execution(ast, p_mini, pid);
-		return (0);
+		a++;
+		return (parent_execution(ast, p_mini, pid));
 	}
 }

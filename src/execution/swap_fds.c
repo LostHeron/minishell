@@ -32,7 +32,9 @@ int	swap_fds(t_minishell *p_mini)
 	if (ret == 0)
 	{
 		p_mini->fd1[0] = p_mini->fd2[0];
+		p_mini->fd2[0] = -1;
 		p_mini->fd1[1] = p_mini->fd2[1];
+		p_mini->fd2[1] = -1;
 	}
 	return (ret);
 }
