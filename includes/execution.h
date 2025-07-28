@@ -42,7 +42,7 @@ int		wait_children(t_minishell *p_mini);
 int		call_builtins(t_minishell *p_mini, t_vector cmd_args);
 void	close_on_error(t_minishell *p_mini);
 int		close_case_no_pipe(t_minishell *p_mini);
-void	close_fd1(t_minishell *p_mini);
+int		close_fd1(t_minishell *p_mini);
 int		redir_here_doc(t_minishell *p_mini, t_dirargs redir);
 int		redir_append(char *filename);
 int		redir_in(char *filename);

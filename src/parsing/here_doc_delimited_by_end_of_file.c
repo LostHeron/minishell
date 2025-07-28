@@ -14,9 +14,15 @@
 #include "ft_io.h"
 #include "minishell.h"
 
+/* to check : 
+ *	-> ft_srjoin fail : DONE -> OK !
+ *	-> ft_strjoin_free_first fail : DONE -> OK !
+ *	-> ft_putstr_fd fail : DONE -> OK !
+*/
 int	here_doc_delimited_by_end_of_file(char *delimiter)
 {
 	char	*str;
+	int		nb_write;
 
 	str = ft_strjoin(\
 "warning: here-document delimited by end-of-file (wanted `", delimiter);
@@ -25,7 +31,9 @@ int	here_doc_delimited_by_end_of_file(char *delimiter)
 	str = ft_strjoin_free_first(str, "')\n");
 	if (str == NULL)
 		return (ERROR_MALLOC);
-	ft_putstr_fd(str, 2);
+	nb_write = ft_putstr_fd(str, 2);
 	free(str);
+	if (nb_write < 0)
+		return (ERROR_WRITE);
 	return (0);
 }

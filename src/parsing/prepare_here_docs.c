@@ -21,9 +21,9 @@ static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC]);
 
 /* to check
  *	-> count_here_doc fail : DONE -> OK !
- *	-> get_here_doc fail : TO DO ;
+ *	-> get_here_doc fail : DONE -> OK !
 */
-int	prepare_here_doc(t_minishell *p_mini, t_vector *p_tokens)
+int	prepare_here_docs(t_minishell *p_mini, t_vector *p_tokens)
 {
 	int	ret;
 

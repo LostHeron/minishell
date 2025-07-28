@@ -28,8 +28,9 @@ static int	close_all_here_doc(t_minishell *p_mini);
  * the function should then free / close everything related to 
  * heredoc and return an error corresponding to the problem
  * to check : 
- *	-> get_here_doc_i fail : TO DO ;
- *	-> close_all_here_doc fail : TO DO ;
+ *	-> get_here_doc_i fail : DONE -> OK !
+ *	-> close_all_here_doc fail : NOT need to check, if we enter here
+ *	we will already exit minishell, just trying to exit it well !
 */
 int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 {
@@ -44,8 +45,7 @@ int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 		ret = get_here_doc_i(p_mini, p_tokens, i, &hd_count);
 		if (ret != 0)
 		{
-			if (close_all_here_doc(p_mini) != 0)
-				return (ERROR_CLOSE);
+			close_all_here_doc(p_mini);
 			return (ret);
 		}
 		i++;
@@ -55,8 +55,8 @@ int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 
 /* This function will handle one here_document
  * to check
- *	-> write_to_here_doc fail : TO DO ;
- *	-> ft_malloc faile : TO DO ;
+ *	-> write_to_here_doc fail : DONE -> OK !
+ *	-> ft_malloc fail : DONE -> OK !
 */
 static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 													int *p_hd_count)
@@ -71,10 +71,7 @@ static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 		free(((char **)p_tokens->data)[i + 1]);
 		((char **)p_tokens->data)[i + 1] = ft_malloc(2 * sizeof(char));
 		if (((char **)p_tokens->data)[i + 1] == NULL)
-		{
-			// do other stuff ?
 			return (ERROR_MALLOC);
-		}
 		((char **)p_tokens->data)[i + 1][0] = *p_hd_count;
 		((char **)p_tokens->data)[i + 1][1] = '\0';
 		(*p_hd_count)++;

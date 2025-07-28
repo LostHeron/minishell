@@ -13,6 +13,9 @@
 #include "ft_char.h"
 #include "ft_string.h"
 
+/* to check 
+ *	-> ft_strndup fail : DONE -> OK !
+*/
 char	*get_key(char *line)
 {
 	size_t	i;

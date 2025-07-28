@@ -32,7 +32,10 @@ static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast, \
  *	if the error is negative :
  *		the user must be given a message indicating the error
  *		but the prompt must not be given back and the shell should exit !
-	*/
+ *
+ * to check :
+ *	-> exec_table fail  : TO DO  ;
+*/
 int	exec_func(t_ast *ast, t_minishell *p_mini)
 {
 	int		(*exec_table[NB_T_TYPE])(t_ast *ast, t_minishell *p_mini);
@@ -49,7 +52,7 @@ int	exec_func(t_ast *ast, t_minishell *p_mini)
 		print_tree(ast, 0); // should print the tree on stderr !
 		p_mini->should_exit = TRUE;
 		p_mini->last_error_code = 1;
-		return (1);
+		return (-10);
 	}
 }
 

@@ -24,7 +24,12 @@ cat << eof > file1 | cat << eoff > file2
 
 TODO:
 
+- 9) segfault when entering empty line
+- 8) generate error message for ERROR_WRITE // DONE 
+- 7) generate error message for ERROR_READ // DONE 
+- 6) wrong error message in case of SIGINT in heredocuments (and maybe cat)
 - 5) gerer le shell qui se lance dans /home/jweber/goinfre/a/b/c après avoir supprimer a/b/c ? // work ok execpt for printing pwd just does not behave like bash but nvm;
+- 5) utiliser readline au lieu de get next line dans les here documents ?
 - 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas // and look how to make it work
 - 2) faire quand > vers un nom de fichier sans permission que ça arrete la commande 
 - 2) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2 // OU PAS ?
