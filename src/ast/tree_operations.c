@@ -35,12 +35,9 @@ t_type	get_type(t_vector tokens, size_t ind)
 			return (PIPE);
 		return (OR);
 	}
-	if (((char **)tokens.data)[ind][0] == '&')
-	{
-		if (!(((char **)tokens.data)[ind][1]))
-			return (BACKGROUND);
+	if (((char **)tokens.data)[ind][0] == '&'
+		&& ((char **)tokens.data)[ind][0] == '&')
 		return (AND);
-	}
 	return (COMMAND);
 }
 

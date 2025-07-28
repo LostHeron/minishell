@@ -24,7 +24,6 @@ typedef enum e_type
 	PIPE,
 	AND,
 	OR,
-	BACKGROUND,
 	SEQUENCE,
 	END_SUBSHELL,
 	END_LINE
