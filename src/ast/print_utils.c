@@ -24,8 +24,6 @@ char	*print_type(t_type type)
 		return ("AND");
 	if (type == OR)
 		return ("OR");
-	if (type == BACKGROUND)
-		return ("BACKGROUND");
 	if (type == SEQUENCE)
 		return ("SEQUENCE");
 	return ("OTHER");
