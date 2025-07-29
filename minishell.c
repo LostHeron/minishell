@@ -50,9 +50,9 @@ int	main(int argc, char **argv, char **env)
 		ft_putstr_fd("starting initialisation failure, aborting\n", 2);
 		return (1);
 	}
-	init_signals();
 	while (minishell.should_exit == FALSE)
 	{
+		init_signals();
 		if (g_my_signal == SIGINT)
 			minishell.last_error_code = SIGINT + 128;
 		if (g_my_signal == SIGQUIT)

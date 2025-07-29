@@ -26,6 +26,8 @@
  *		-> if builtin function return negative value, error inside builtin
  *		that must make us stop execution of the program 
  *	- then restore fd to its original !
+ *	to check : 
+ *	-> 
 */
 int	case_no_forking(t_ast *ast, t_minishell *p_mini)
 {

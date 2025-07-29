@@ -88,8 +88,10 @@ static void	get_child_return_value(t_minishell *p_mini,\
 	}
 	else if (WIFSIGNALED(child_ret) != 0)
 	{
-		printf("\n");
 		p_mini->last_error_code = WTERMSIG(child_ret);
+		if (p_mini->last_error_code == SIGQUIT)
+			printf("Quit (core dumped)");
+		printf("\n");
 		p_mini->last_error_code += 128;
 		*p_ret = 0;
 	}

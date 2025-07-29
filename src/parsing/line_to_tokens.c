@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_memory.h"
 #include "ft_string.h"
 #include "minishell.h"
 #include "ft_vectors.h"
@@ -20,10 +21,15 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
 
 static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret);
 static void	init_args(char **p_args);
+static void	restore_sigquit(void);
+static void	do_nothing(int sig);
+
 static char	*get_prompt(t_minishell *p_mini);
+static void	free_line(t_vector *ptr_vec);
 
 /* This fuction will readline with getline function
  * Then parse this line to transform it to tokens 
@@ -45,6 +51,7 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 		return (ret);
 	if (g_my_signal != 0)
 		return (0);
+	restore_sigquit();
 	if (line == NULL)
 	{
 		p_mini->should_exit = TRUE;
@@ -105,7 +112,21 @@ static void	init_args(char **p_args)
 	p_args[9] = NULL;
 }
 
-static void	free_line(t_vector *ptr_vec);
+static void	restore_sigquit(void)
+{
+	struct sigaction	s;
+
+	ft_bzero(&s, sizeof(struct sigaction));
+	s.sa_handler = do_nothing;
+	s.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &s, NULL);
+}
+
+static void	do_nothing(int sig)
+{
+	(void) sig;
+	return ;
+}
 
 /* This function should return a pointer to the malloced
  * prompt. 
