@@ -19,7 +19,7 @@
 int		tokenize(t_minishell *p_mini, t_vector *p_tokens);
 int		line_to_tokens(t_minishell *p_mini, t_vector *p_tokens);
 int		check_errors(t_minishell *p_mini, t_vector *p_tokens);
-int		prepare_here_doc(t_minishell *p_mini, t_vector *p_tokens);
+int		prepare_here_docs(t_minishell *p_mini, t_vector *p_tokens);
 int		check_matching_parenthesis(t_vector *p_tokens);
 int		check_error_syntax(t_vector tokens);
 int		check_around_opening_parenthesis(t_vector *p_tokens, size_t	token_i);
@@ -30,7 +30,7 @@ int		check_after_redir(t_vector tokens, size_t i);
 int		check_after(t_vector tokens, size_t i);
 int		count_here_doc(t_vector tokens);
 int		get_here_doc(t_minishell *p_mini, t_vector *p_tokens);
-int		write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i,\
+int		write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i, \
 													int *p_hd_count);
 int		generate_hd_filename(char **p_filename, size_t	nb);
 char	*get_real_delimiter(char *delimiter);

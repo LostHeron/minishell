@@ -25,14 +25,20 @@ static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
 /* at this point, we are already in the child process
  * of the command type node, 
  * we entered here from exec_command call !
+ * to do :
+ *	-> first close fail : DONE -> OK !
+ *	-> make_redirections fail : TO DO ;
+ *	-> call_builtins fail : TO DO;
+ *	-> case_cmd_type_binary fail : TO DO;
 */
 int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
 	int			ret;
 
-	if (close(p_mini->fd_tty_copy) < 0)
+	ret = close(p_mini->fd_tty_copy);
+	if (ret < 0)
 	{
-		perror("close(p_mini->fd_stdin) at start of children\n");
+		perror("close");
 		close_on_error(p_mini);
 		return (ERROR_CLOSE);
 	}

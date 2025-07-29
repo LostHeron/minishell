@@ -10,30 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_vectors.h"
 #include "minishell.h"
 #include "ast.h"
 #include <unistd.h>
 #include <stdio.h>
 
-void	parent_execution(t_ast *ast, t_minishell *p_mini, int pid)
+/* This function will
+ * increment the number of child to wait for (because we forked just before)
+ * set p_mini->last_child_id to the pid of the process just created
+ * and close all here_documents that has been opened with this command !
+ * to check
+ *	-> close fail : DONE ;
+*/
+int	parent_execution(t_vector dir_args, t_minishell *p_mini, int pid)
 {
 	size_t	i;
 	int		to_close;
+	int		final_ret;
 
 	i = 0;
+	final_ret = 0;
 	p_mini->last_child_id = pid;
 	p_mini->nb_child_to_wait++;
-	while (i < ast->arguments.com_args.dir_args.size)
+	while (i < dir_args.size)
 	{
-		if (((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].dir
-			== HEREDOC)
+		if (((t_dirargs *)dir_args.data)[i].dir == HEREDOC)
 		{
-			to_close = \
-		((t_dirargs *)ast->arguments.com_args.dir_args.data)[i].filename[0];
+			to_close = ((t_dirargs *)dir_args.data)[i].filename[0];
 			if (close(p_mini->fds_here_doc[to_close]) < 0)
+			{
 				perror("fn : parent_execution : close");
+				final_ret = ERROR_CLOSE;
+			}
 			p_mini->fds_here_doc[to_close] = -1;
 		}
 		i++;
 	}
+	return (final_ret);
 }

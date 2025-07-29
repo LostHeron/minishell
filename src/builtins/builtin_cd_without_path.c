@@ -24,6 +24,12 @@ static int	init_path_name(t_minishell *p_mini, char **p_path_name);
 static int	get_path_name(char **p_path_name, t_list *env);
 static int	call_to_chdir(char *path_name);
 
+/* to check : 
+ *	-> init_path_name fail : DONE -> OK !
+ *	-> call_to_chdir fail : DONE -> OK !
+ *	-> ft_strjoin fail : DONE -> OK !
+ *	-> export_from_string fail : DONE -> OK !
+*/
 int	builtin_cd_without_path_given(t_minishell *p_mini)
 {
 	int		ret;
@@ -44,6 +50,15 @@ int	builtin_cd_without_path_given(t_minishell *p_mini)
 	return (ret);
 }
 
+/* This function return 0 if the environment variable $HOME
+ * exisits and its value is not NULL and set *p_path_name 
+ * to the value of $HOME
+ *
+ * if returns 1 if there is no $HOME environment variable
+ * of if its value is NULL
+ * to check:
+ *	-> nothing to check function is safe  and can not fail
+*/
 static int	get_path_name(char **p_path_name, t_list *env)
 {
 	while (env != NULL)
@@ -65,6 +80,10 @@ static int	get_path_name(char **p_path_name, t_list *env)
 	return (1);
 }
 
+/* to check : 
+ *	-> ft_strjoin fail : DONE -> OK !
+ *	-> chdir fail : DONE -> OK !
+*/
 static int	call_to_chdir(char *path_name)
 {
 	int		ret;
@@ -85,6 +104,10 @@ static int	call_to_chdir(char *path_name)
 	return (0);
 }
 
+/* to check :
+ *	-> get_path_name fail : TO DO ;
+ *	-> 
+*/
 static int	init_path_name(t_minishell *p_mini, char **p_path_name)
 {
 	size_t	path_len;

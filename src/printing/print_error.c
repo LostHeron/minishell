@@ -19,6 +19,16 @@ void	print_error(int err_code)
 {
 	if (err_code == ERROR_MALLOC)
 		ft_printf_fd(2, "ERROR due to memory allocation\n");
+	else if (err_code == ERROR_CLOSE)
+		ft_printf_fd(2, "ERROR : while trying to close\n");
+	else if (err_code == ERROR_FORK)
+		ft_printf_fd(2, "ERROR : while trying to fork\n");
+	else if (err_code == ERROR_READ)
+		ft_printf_fd(2, "ERROR : read error\n");
+	else if (err_code == ERROR_PIPE)
+		ft_printf_fd(2, "ERROR : while trying to create pipe\n");
+	else if (err_code == ERROR_WRITE)
+		ft_printf_fd(2, "ERROR : write error\n");
 	else if (err_code == ERROR_UNCLOSED_S_QUOTES)
 		ft_printf_fd(2, "syntax error : unclose single quotes\n");
 	else if (err_code == ERROR_UNCLOSED_D_QUOTES)

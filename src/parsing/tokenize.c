@@ -18,7 +18,7 @@
 
 /* to check
  *	-> line_to_tokens fail : DONE -> OK !
- *	-> check_errors fail : TO DO ;
+ *	-> check_errors fail : DONE -> OK !
 */
 int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 {

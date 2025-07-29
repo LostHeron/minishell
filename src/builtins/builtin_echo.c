@@ -14,8 +14,8 @@
 #include "minishell.h"
 #include <stdio.h>
 
-static int	print_current_arg(t_vector args, size_t	i, int *p_print_new_line, \
-													int *p_check_for_option);
+static int	print_current_arg(t_vector args, size_t	i, int *p_print_new_line,
+				int *p_check_for_option);
 static int	is_option_n(char *str);
 
 int	builtin_echo(t_vector args, t_minishell *p_mini)
@@ -37,12 +37,13 @@ int	builtin_echo(t_vector args, t_minishell *p_mini)
 		i++;
 	}
 	if (print_new_line == 1)
-		printf("\n");
+		if (printf("\n") < 0)
+			return (ERROR_WRITE);
 	return (0);
 }
 
-static int	print_current_arg(t_vector args, size_t	i, int *p_print_new_line, \
-													int *p_check_for_option)
+static int	print_current_arg(t_vector args, size_t	i, int *p_print_new_line,
+								int *p_check_for_option)
 {
 	int	ret;
 

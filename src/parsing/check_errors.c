@@ -13,7 +13,6 @@
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
-#include "ft_io.h"
 #include "ft_string.h"
 
 static int	check_around_parenthesis(t_vector *p_tokens);
@@ -26,7 +25,7 @@ static int	check_around_parenthesis(t_vector *p_tokens);
  *  -> check error_syntax fail         : DONE -> OK !
  *  -> check matching_parenthesis fail : DONE -> OK !
  *  -> check around_parenthesis fail   : DONE -> OK !
- *  -> check prepare_here_doc fail     : TO DO ; 
+ *  -> check prepare_here_doc fail     : DONE -> OK !
 */
 int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 {
@@ -41,7 +40,7 @@ int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 	ret = check_around_parenthesis(p_tokens);
 	if (ret != 0)
 		return (ret);
-	ret = prepare_here_doc(p_mini, p_tokens);
+	ret = prepare_here_docs(p_mini, p_tokens);
 	if (ret != 0)
 		return (ret);
 	return (0);
@@ -53,7 +52,7 @@ static int	check_around_parenthesis(t_vector *p_tokens)
 	int		ret;
 
 	token_i = 0;
-	while (token_i < p_tokens->size -1)
+	while (token_i < p_tokens->size)
 	{
 		ret = 0;
 		if (ft_strcmp("(", ((char **)p_tokens->data)[token_i]) == 0)

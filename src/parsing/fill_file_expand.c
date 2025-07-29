@@ -15,12 +15,16 @@
 #include "parsing.h"
 #include "ft_string.h"
 #include <unistd.h>
+#include <stdio.h>
 
 static int	gnl_here_doc(t_list *env, int fd, char *delimiter, int *p_exiting);
 static int	compare_line(char *line, int *p_exiting, char *delimiter);
 static int	read_the_line(char **p_line, char *delimiter, int *p_exiting);
 static int	transform_write_line(int fd, t_list *env, char *line);
 
+/* to check
+ *	-> gnl_here_doc fail : DONE -> OK!
+*/
 int	fill_file_expand(t_list *env, int fd, char *delimiter)
 {
 	int		ret;
@@ -34,6 +38,11 @@ int	fill_file_expand(t_list *env, int fd, char *delimiter)
 	return (ret);
 }
 
+/* to check :
+ *	-> read_the_line fail : DONE -> OK !
+ *	-> compare_line fail : DONE -> OK !
+ *	-> transform_write_line fail : DONE -> OK !
+*/
 static int	gnl_here_doc(t_list *env, int fd, char *delimiter, int *p_exiting)
 {
 	char	*line;
@@ -54,6 +63,12 @@ static int	gnl_here_doc(t_list *env, int fd, char *delimiter, int *p_exiting)
 	return (0);
 }
 
+/* to check :
+ *	-> get_next_line fail : DONE -> OK !
+ *		-> case error read;
+ *		-> case error malloc;
+ *	-> here_doc_delimited_by_end_of_file : DONE -> OK !
+*/
 static int	read_the_line(char **p_line, char *delimiter, int *p_exiting)
 {
 	int	err_code;
@@ -71,13 +86,18 @@ static int	read_the_line(char **p_line, char *delimiter, int *p_exiting)
 		ret = here_doc_delimited_by_end_of_file(delimiter);
 		if (ret != 0)
 		{
-			return (ERROR_MALLOC);
+			return (ret);
 		}
 		return (0);
 	}
 	return (0);
 }
 
+/* why not just ft_strncmp(line_cmp, delimiter, ft_stlen(line) - 1) ??
+ * must be a reason at the time but whatever it works like that 
+ * to check
+ *	-> ft_strndup fail : DONE ;
+*/
 static int	compare_line(char *line, int *p_exiting, char *delimiter)
 {
 	char	*line_cmp;
@@ -100,21 +120,27 @@ static int	compare_line(char *line, int *p_exiting, char *delimiter)
 	return (0);
 }
 
+/* to check :
+ *	-> here_doc_transform fail : DONE -> OK !
+ *	-> write fail : DONE !
+*/
 static int	transform_write_line(int fd, t_list *env, char *line)
 {
 	char	*line_cpy;
 	int		ret;
+	int		nb_write;
 
 	line_cpy = line;
 	ret = here_doc_transform(env, &line_cpy);
 	free(line);
 	if (ret != 0)
 		return (ret);
-	if (write(fd, line_cpy, ft_strlen(line_cpy)) < 0)
+	nb_write = write(fd, line_cpy, ft_strlen(line_cpy));
+	free(line_cpy);
+	if (nb_write < 0)
 	{
-		free(line_cpy);
+		perror("write");
 		return (ERROR_WRITE);
 	}
-	free(line_cpy);
 	return (0);
 }

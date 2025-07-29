@@ -73,8 +73,8 @@ int	main(int argc, char **argv, char **env)
 }
 
 /* to check
- *	-> tokenize fail : TO DO ;
- *	-> ast_ize fail : TO DO ;
+ *	-> tokenize fail : DONE -> OK !
+ *	-> ast_ize fail : DONE -> OK !
  *	-> run_exec fail : TO DO ;
 */
 static int	start_minishell(t_minishell *p_mini)
@@ -91,7 +91,10 @@ static int	start_minishell(t_minishell *p_mini)
 		return (0);
 	}
 	if (tokens.size == 0)
+	{
+		ft_vector_free(&tokens);
 		return (0);
+	}
 	ret = ast_ize(&ast, &tokens);
 	if (ret != 0)
 		return (ret);
@@ -102,6 +105,9 @@ static int	start_minishell(t_minishell *p_mini)
 	return (0);
 }
 
+/* to check :
+ *	-> create_ast fail : DONE (from Corentin);
+*/
 static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 {
 	size_t	i;	
@@ -110,36 +116,40 @@ static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 	*p_ast = create_ast(*p_tokens, END_LINE, &i);
 	ft_vector_free(p_tokens);
 	if (*p_ast == NULL)
-	{
-		ft_putstr_fd("error synthax in ast !\n", 2);
-		return (1);
-	}
+		return (ERROR_MALLOC);
 	return (0);
 }
 
+/* to check :
+ *	-> pipe fail : TO DO ;
+ *	-> exec_func fail : TO DO ;
+ *	-> close_fd1 fail : TO DO ;
+ *	-> wait_children fail : to check even ??
+*/
 static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 {
 	int	ret_exec;
+	int	ret;
+	int	final_ret;
 
+	final_ret = 0;
 	p_mini->previous_side = PREV_NONE;
 	p_mini->previous_type = -1;
-	if (pipe(p_mini->fd1) == -1)
+	ret = pipe(p_mini->fd1);
+	if (ret == -1)
 	{
-		perror("fn : run_exec : pipe(p_mini->fd1)");
+		perror("pipe");
 		free_tree(p_ast);
 		return (ERROR_PIPE);
 	}
 	p_mini->first_cmd = 1;
 	ret_exec = exec_func(*p_ast, p_mini);
-	close_fd1(p_mini);
+	if (ret_exec != 0)
+		final_ret = ret_exec;
+	ret = close_fd1(p_mini);
+	if (ret != 0 && final_ret == 0)
+		final_ret = ret;
 	wait_children(p_mini);
 	free_tree(p_ast);
-	if (ret_exec != 0)
-	{
-		// do stuff ?
-		// return ?
-		// faut wait dans tous les cas !
-		return (ret_exec);
-	}
-	return (0);
+	return (final_ret);
 }

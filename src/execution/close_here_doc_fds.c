@@ -17,19 +17,22 @@
 int	close_here_doc_fds(t_minishell *p_mini)
 {
 	size_t	fd_i;
+	int		final_ret;
 
 	fd_i = 0;
+	final_ret = 0;
 	while (fd_i < NB_MAX_HERE_DOC)
 	{
 		if (p_mini->fds_here_doc[fd_i] > 0)
 		{
 			if (close(p_mini->fds_here_doc[fd_i]) < 0)
 			{
-				perror(\
-"in redir_here_doc : close(p_mini->fds_here_doc[fd_to_chose])\n");
+				perror("close");
+				final_ret = ERROR_CLOSE;
 			}
+			p_mini->fds_here_doc[fd_i] = -1;
 		}
 		fd_i++;
 	}
-	return (0);
+	return (final_ret);
 }

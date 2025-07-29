@@ -23,6 +23,9 @@ static int	compare_line(char *line, int *p_exiting, char *delimiter);
 static int	read_the_line(char **p_line, char *delimiter, int *p_exiting);
 static int	write_line(int fd, char *line);
 
+/* to check
+ *	-> gnl_here_doc fail : DONE -> OK !
+*/
 int	fill_file_no_expand(int fd, char *delimiter)
 {
 	int		ret;
@@ -36,6 +39,11 @@ int	fill_file_no_expand(int fd, char *delimiter)
 	return (ret);
 }
 
+/* to check :
+ *	-> read_the_line fail : DONE -> OK !
+ *	-> compare_line : DONE -> OK !
+ *	-> write_line : DONE -> OK !
+*/
 static int	gnl_here_doc(int fd, char *delimiter, int *p_exiting)
 {
 	char	*line;
@@ -56,6 +64,9 @@ static int	gnl_here_doc(int fd, char *delimiter, int *p_exiting)
 	return (0);
 }
 
+/* to check
+ *	-> ft_strndup fail : DONE -> OK !
+*/
 static int	compare_line(char *line, int *p_exiting, char *delimiter)
 {
 	char	*line_cmp;
@@ -78,6 +89,10 @@ static int	compare_line(char *line, int *p_exiting, char *delimiter)
 	return (0);
 }
 
+/* to check
+ *	-> gnl fail : DONE -> OK !
+ *	-> here_doc_delimited_by_end_of_file fail : DONE -> OK !
+*/
 static int	read_the_line(char **p_line, char *delimiter, int *p_exiting)
 {
 	int	err_code;
@@ -102,9 +117,15 @@ static int	read_the_line(char **p_line, char *delimiter, int *p_exiting)
 	return (0);
 }
 
+/* to check : 
+ *	-> write fail : DONE -> OK !
+*/
 static int	write_line(int fd, char *line)
 {
-	if (write(fd, line, ft_strlen(line)) < 0)
+	int	nb_write;
+
+	nb_write = write(fd, line, ft_strlen(line));
+	if (nb_write < 0)
 	{
 		perror("write");
 		free(line);

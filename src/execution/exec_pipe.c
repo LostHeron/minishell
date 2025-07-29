@@ -30,28 +30,11 @@ int	exec_pipe(t_ast *ast, t_minishell *p_mini)
 	ret = swap_fds(p_mini);
 	if (ret != 0)
 	{
-		if (close(p_mini->fd2[0]) < 0)
-			perror("close");
-		if (close(p_mini->fd2[1]) < 0)
-			perror("close");
 		return (ret);
 	}
 	ret = launch_right(ast, p_mini);
 	if (ret != 0)
 		return (ret);
-	/*
-	p_mini->previous_side = PREV_RIGHT;
-	ret = exec_func(ast->arguments.op_args.right, p_mini);
-	if (ret != 0 || p_mini->is_main_process == FALSE)
-	{
-		// do stuff ?
-		if (close(p_mini->fd2[0]) < 0)
-			perror("close");
-		if (close(p_mini->fd2[1]) < 0)
-			perror("close");
-		return (ret);
-	}
-	*/
 	return (0);
 }
 
@@ -85,10 +68,12 @@ static int	launch_right(t_ast *ast, t_minishell *p_mini)
 	ret = exec_func(ast->arguments.op_args.right, p_mini);
 	if (ret != 0)
 	{
+		/*
 		if (close(p_mini->fd2[0]) < 0)
 			perror("close");
 		if (close(p_mini->fd2[1]) < 0)
 			perror("close");
+		*/
 		return (ret);
 	}
 	return (0);

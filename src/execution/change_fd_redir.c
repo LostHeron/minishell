@@ -30,11 +30,17 @@ static int	redir_heredoc(t_ast *ast, size_t i);
  *  - >>
  *  - >
  *  - <
+ *  it should also ensure after the function return that all heredocuments fd 
+ *  are closed !
  *  in case of success:
  *		return (0);
  *	in case of failure:
  *		return error_code associated with failure and do not perform
  *		the following redir
+ *
+ * to check :
+ *	-> perform_redir_i fail : TO DO;
+ *	-> close_here_doc_fds fail : TO DO ;
 */
 int	change_fd_redir(t_minishell *p_mini, t_vector redir)
 {
@@ -46,18 +52,23 @@ int	change_fd_redir(t_minishell *p_mini, t_vector redir)
 	init_redir_table(redir_table);
 	while (i < redir.size)
 	{
-		ret = \
-			perform_redir_i(p_mini, ((t_dirargs *)redir.data)[i], redir_table);
+		ret = perform_redir_i(p_mini,
+				((t_dirargs *)redir.data)[i], redir_table);
 		if (ret != 0)
+		{
+			close_here_doc_fds(p_mini);
 			return (ret);
+		}
 		i++;
 	}
-	ret = close_here_doc_fds(p_mini); // not sure about this function !
-	if (ret != 0)
-		return (1);
-	return (0);
+	ret = close_here_doc_fds(p_mini);
+	return (ret);
 }
 
+/* to check :
+ *	-> redir_table fail : TO DO ;
+ *	-> redir_here_doc fail : TO DO;
+*/
 static int	perform_redir_i(t_minishell *p_mini, t_dirargs redir,
 			int (*redir_table[3])(char *filename))
 {
@@ -67,13 +78,13 @@ static int	perform_redir_i(t_minishell *p_mini, t_dirargs redir,
 	{
 		ret = redir_table[redir.dir](redir.filename);
 		if (ret != 0)
-			return (1);
+			return (ret);
 	}
 	else if (redir.dir == HEREDOC)
 	{
 		ret = redir_here_doc(p_mini, redir);
 		if (ret != 0)
-			return (1);
+			return (ret);
 	}
 	return (0);
 }

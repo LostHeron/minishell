@@ -26,10 +26,10 @@ static int	should_expand(char *delimiter);
  * then it will write to the here_doc from user input (and make expansion)
  * then it will close fd for writting and put fd for reading in its right place
  * to check :
- *	-> hd_fds_init fail : TO DO ; -> should be ok but check again
- *	-> get_real_delimiter fail : TO DO ;
- *	-> fill_file_expand fail : TO DO ;
- *	-> fill_file_no_expand fail : TO DO ;
+ *	-> get_real_delimiter fail : DONE -> OK !
+ *	-> hd_fds_init fail : DONE -> OK !
+ *	-> fill_file_expand fail : DONE -> OK !
+ *	-> fill_file_no_expand fail : DONE -> OK !
 */
 int	write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 														int *p_hd_count)
@@ -39,14 +39,17 @@ int	write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 	char	*delimiter;
 	int		expanding;
 
-	ret = hd_fds_init(p_mini, &fd_tmp_write, p_hd_count);
-	if (ret != 0)
-		return (ret);
 	delimiter = ((char **)p_tokens->data)[i + 1];
+	expanding = should_expand(delimiter);
 	delimiter = get_real_delimiter(delimiter);
 	if (delimiter == NULL)
 		return (ERROR_MALLOC);
-	expanding = should_expand(delimiter);
+	ret = hd_fds_init(p_mini, &fd_tmp_write, p_hd_count);
+	if (ret != 0)
+	{
+		free(delimiter);
+		return (ret);
+	}
 	if (expanding == 1)
 		ret = fill_file_expand(p_mini->env, fd_tmp_write, delimiter);
 	else

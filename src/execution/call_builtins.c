@@ -14,6 +14,17 @@
 #include "ft_string.h"
 #include "ft_io.h"
 
+/* to check
+ *	-> p_mini->builtins_func fail : DONE -> OK ! (exits well, just need to ensure
+ *	that in builtins there is no leaks)
+ *		-> builtin_echo fail : DONE -> OK !
+ *		-> builtin_cd fail : TO DO ;
+ *		-> builtin_env fail : TO DO;
+ *		-> builtin_exit fail : TO DO;
+ *		-> builtin_pwd fail : TO DO;
+ *		-> builtin_export fail : TO DO;
+ *		-> builtin_unset fail : TO DO;
+*/
 int	call_builtins(t_minishell *p_mini, t_vector cmd_args)
 {
 	char	*cmd_name;
@@ -33,5 +44,5 @@ int	call_builtins(t_minishell *p_mini, t_vector cmd_args)
 		"could not find which builtin to call, should not happend\n");
 	ft_printf_fd(2,
 		"tried to call builtin name : %s\n", cmd_name);
-	exit(1);
+	return (-10);
 }
