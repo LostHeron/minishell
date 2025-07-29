@@ -20,6 +20,8 @@ cat << yoyo > log1 & sleep 2 && echo youhou
 
 cat << eof > file1 | cat << eoff > file2
 
+the following command with dup2 failure 
+ls > log1 << eof1 | ls > log2 << eof2 | ls > log3 << eof3 
 
 
 TODO:

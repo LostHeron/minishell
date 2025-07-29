@@ -20,7 +20,9 @@
 
 /* to check : 
  *	-> fork fail : DONE ;
- *	-> child_execution fail : TO DO ; but what to do ? 
+ *	-> child_execution fail : TO DO ; but what to do ?
+ *	(will no change the result of main process out,
+ *	because child will exit after child_execution ends);
  *	-> parent_execution fail : DONE -> OK ;
 */
 int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
@@ -38,18 +40,16 @@ int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	{
 		p_mini->last_child_id = 0;
 		ret = child_execution(ast, p_mini, cmd_type);
-		if (ret != 0)
+		if (ret < 0)
+		{
 			print_error(ret);
-		// here should call a function which will clear
-		// all malloced ared (free_p_mini) its done before
-		// if i say no shit !
-		// and return the correct value to return 
-		// to the parent process
+			exit(exit_child(p_mini, 2));
+		}
 		exit(exit_child(p_mini, ret));
 	}
 	else
 	{
-		a++;
-		return (parent_execution(ast, p_mini, pid));
+		return (
+			parent_execution(ast->arguments.com_args.dir_args, p_mini, pid));
 	}
 }

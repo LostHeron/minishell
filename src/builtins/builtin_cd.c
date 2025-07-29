@@ -20,18 +20,23 @@
 #include <string.h>
 
 static int	with_path_given(t_vector args, t_minishell *p_mini);
-static int	get_path_name(t_minishell *p_mini, char **p_place_to_go, \
-							char **p_path_name, size_t	*p_path_len);
+static int	get_path_name(t_minishell *p_mini, char **p_place_to_go,
+				char **p_path_name, size_t	*p_path_len);
 static char	*new_place_to_go(char *place_to_go, char *old_path);
 static int	call_to_chdir(char **p_place_to_go, char *path_name);
 
+/* to check :
+ *	-> builtin_cd_without_path_given fail : DONE -> OK !
+ *	-> with_path_given fail : TO DO ;
+*/
 int	builtin_cd(t_vector args, t_minishell *p_mini)
 {
 	int			ret;
 
 	if (args.size > 3)
 	{
-		ft_putstr_fd("cd: too many arguments\n", 2);
+		if (ft_putstr_fd("cd: too many arguments\n", 2) < 0)
+			return (ERROR_WRITE);
 		return (1);
 	}
 	else if (args.size == 2)
@@ -47,10 +52,16 @@ int	builtin_cd(t_vector args, t_minishell *p_mini)
 	else
 	{
 		ft_putstr_fd("ERROR : args.size in builtin cd is wrong !\n", 2);
-		exit(1);
+		return (-10);
 	}
 }
 
+/* to check : 
+ *	-> ft_strdup fail : DONE -> OK !
+ *	-> get_path_name fail : TO DO ;
+ *	-> call_to_chdir fail : TO DO ;
+ *	-> update_pwd_env_var fail : TO DO ;
+*/
 static int	with_path_given(t_vector args, t_minishell *p_mini)
 {
 	char		*place_to_go;
@@ -80,8 +91,12 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 	return (ret);
 }
 
-static int	get_path_name(t_minishell *p_mini, char **p_place_to_go, \
-							char **p_path_name, size_t	*p_path_len)
+/* to check 
+ *	-> new_place_to_go fail : DONE -> OK !
+ *	-> get_path_len_name : TO DO ;
+*/
+static int	get_path_name(t_minishell *p_mini, char **p_place_to_go,
+						char **p_path_name, size_t	*p_path_len)
 {
 	int	ret;
 
@@ -100,6 +115,10 @@ static int	get_path_name(t_minishell *p_mini, char **p_place_to_go, \
 	return (0);
 }
 
+/* to check
+ *	-> first ft_strjoin fail : DONE -> OK !
+ *  -> second ft_strjoin fail : DONE -> OK !
+*/
 static char	*new_place_to_go(char *place_to_go, char *old_path)
 {
 	char	*new_place_1;

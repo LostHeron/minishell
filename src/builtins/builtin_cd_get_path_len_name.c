@@ -20,14 +20,19 @@
 #include <unistd.h>
 #include <stdio.h>
 
-static int		init_elems_list(char *place_to_go, char ***p_elems, \
-														t_list **p_list);
+static int		init_elems_list(char *place_to_go, char ***p_elems,
+					t_list **p_list);
 static int		get_list(t_list **p_list, char **elems);
 static size_t	get_path_len(t_list *list);
 static char		*get_path_name(t_list *list, size_t	path_len);
 
-int	get_path_len_name(char *place_to_go, size_t *p_path_len, \
-													char **p_path_name)
+/* to check : 
+ *	-> init_elems_list fail : DONE -> OK !
+ *	-> get_path_len too long : DONE -> OK !
+ *	-> get_paht_name fail :  DONE -> OK !
+*/
+int	get_path_len_name(char *place_to_go, size_t *p_path_len,
+						char **p_path_name)
 {
 	int		ret;
 	char	**elems;
@@ -56,6 +61,29 @@ int	get_path_len_name(char *place_to_go, size_t *p_path_len, \
 	return (0);
 }
 
+/* to check :
+ *	-> ft_split fail : DONE -> OK !
+ *	-> get_list fail : DONE -> OK !
+*/
+static int	init_elems_list(char *place_to_go, char ***p_elems, t_list **p_list)
+{
+	int	ret;
+
+	*p_elems = ft_split(place_to_go, "/");
+	if (*p_elems == NULL)
+		return (ERROR_MALLOC);
+	ret = get_list(p_list, *p_elems);
+	if (ret < 0)
+	{
+		ft_split_free(*p_elems);
+		return (ret);
+	}
+	return (0);
+}
+
+/* to check :
+ *	-> ft_s_lst_new fail : DONE -> OK !
+*/
 static int	get_list(t_list **p_list, char **elems)
 {
 	size_t	i;
@@ -84,22 +112,10 @@ static int	get_list(t_list **p_list, char **elems)
 	return (0);
 }
 
-static int	init_elems_list(char *place_to_go, char ***p_elems, t_list **p_list)
-{
-	int	ret;
-
-	*p_elems = ft_split(place_to_go, "/");
-	if (*p_elems == NULL)
-		return (ERROR_MALLOC);
-	ret = get_list(p_list, *p_elems);
-	if (ret < 0)
-	{
-		ft_split_free(*p_elems);
-		return (ret);
-	}
-	return (0);
-}
-
+/* to check
+ * nothing to check : this function just return 
+ * the lenght of the pathname sent by the user !
+*/
 static size_t	get_path_len(t_list *list)
 {
 	size_t	ret;
@@ -123,6 +139,9 @@ static size_t	get_path_len(t_list *list)
 	return (ret);
 }
 
+/* to check
+ *	-> ft_malloc fail : DONE -> OK !
+*/
 static char	*get_path_name(t_list *list, size_t	path_len)
 {
 	char	*ret;

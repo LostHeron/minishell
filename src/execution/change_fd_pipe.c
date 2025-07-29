@@ -38,17 +38,23 @@ int	change_fd_pipe(t_minishell *p_mini)
 
 static int	dup2_case_prev_left(t_minishell *p_mini)
 {
+	int	ret;
+
 	if (p_mini->first_cmd != 1)
 	{
-		if (dup2(p_mini->fd1[0], 0) == -1)
+		//ret = dup2(p_mini->fd1[0], 0);
+		ret = -1;
+		#include <errno.h>
+		errno = EBADF;
+		if (ret == -1)
 		{
-			perror("fn: dup2_case_prev_left: dup2(p_mini->fd1[0], 1)");
+			perror("dup2");
 			return (ERROR_DUP2);
 		}
 	}
 	if (dup2(p_mini->fd2[1], 1) == -1)
 	{
-		perror("fn: dup2_case_prev_left: dup2(p_mini->fd2[1], 1)");
+		perror("dup2");
 		return (ERROR_DUP2);
 	}
 	return (0);

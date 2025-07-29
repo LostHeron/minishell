@@ -17,6 +17,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+static void	init_fds(t_minishell *p_mini);
+
 /* 
  * This function should initiate the structe t_minishell,
  * it should fill all correct informaiton
@@ -35,6 +37,7 @@ int	init_minishell(t_minishell *p_mini, char **env)
 
 	p_mini->last_error_code = 0;
 	p_mini->nb_child_to_wait = 0;
+	init_fds(p_mini);
 	ret = init_env(p_mini, env);
 	if (ret != 0)
 		return (ret);
@@ -54,4 +57,12 @@ int	init_minishell(t_minishell *p_mini, char **env)
 		return (ERROR_DUP);
 	}
 	return (0);
+}
+
+static void	init_fds(t_minishell *p_mini)
+{
+	p_mini->fd1[0] = -1;
+	p_mini->fd1[1] = -1;
+	p_mini->fd2[0] = -1;
+	p_mini->fd2[1] = -1;
 }

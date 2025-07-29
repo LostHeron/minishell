@@ -16,18 +16,24 @@
 
 int	close_case_prev_right(t_minishell *p_mini, int final_ret)
 {
-	if (close(p_mini->fd1[0]) == -1)
+	if (p_mini->fd1[0] != -1)
 	{
-		perror("fn: close_case_prev_right: close(p_mini->fd1[0])");
-		if (final_ret == 0)
-			final_ret = ERROR_CLOSE;
+		if (close(p_mini->fd1[0]) == -1)
+		{
+			perror("close");
+			if (final_ret == 0)
+				final_ret = ERROR_CLOSE;
+		}
 	}
 	p_mini->fd1[0] = -1;
-	if (close(p_mini->fd1[1]) == -1)
+	if (p_mini->fd1[1] != 0)
 	{
-		perror("fn: close_case_prev_right: close(p_mini->fd1[1])");
-		if (final_ret == 0)
-			final_ret = ERROR_CLOSE;
+		if (close(p_mini->fd1[1]) == -1)
+		{
+			perror("close");
+			if (final_ret == 0)
+				final_ret = ERROR_CLOSE;
+		}
 	}
 	p_mini->fd1[1] = -1;
 	return (final_ret);
