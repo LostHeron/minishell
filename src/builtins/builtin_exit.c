@@ -32,6 +32,7 @@ int	builtin_exit(t_vector args, t_minishell *p_mini)
 	else if (args.size == 2)
 	{
 		p_mini->should_exit = TRUE;
+		p_mini->print_error = 0;
 		return (p_mini->last_error_code);
 	}
 	else
@@ -42,7 +43,6 @@ int	builtin_exit(t_vector args, t_minishell *p_mini)
 		else
 			return (case_arguments_not_numeric(p_mini));
 	}
-	return (0);
 }
 
 static int	arguments_is_numeric(char *str)
@@ -81,6 +81,7 @@ static int	case_arguments_is_numeric(t_minishell *p_mini, t_vector args)
 	else
 	{
 		p_mini->should_exit = TRUE;
+		p_mini->print_error = 0;
 		p_mini->last_error_code = ft_atoi(((char **)args.data)[1]);
 		return (p_mini->last_error_code);
 	}
@@ -90,5 +91,6 @@ static int	case_arguments_not_numeric(t_minishell *p_mini)
 {
 	ft_putstr_fd("exit: numeric argument required\n", 2);
 	p_mini->should_exit = TRUE;
+	p_mini->last_error_code = 2;
 	return (2);
 }

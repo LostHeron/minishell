@@ -168,7 +168,7 @@ all: makelibft $(NAME)
 
 start: 
 	$(MAKE) debug
-	valgrind --trace-children=yes --track-fds=yes -s --track-origins=yes --leak-check=full --show-leak-kinds=all --suppressions=/home/jweber/0_mes_fichiers/0_42_files/3_minishell/minishell/my_supp ./minishell
+	valgrind --trace-children=yes --track-fds=yes -s --track-origins=yes --leak-check=full --show-leak-kinds=all --suppressions=/home/jweber/0_mes_fichiers/0_42_files/3_minishell/minishell/my_supp ./minishell ; echo "in here exit code = "$$?
 
 makelibft:
 	$(MAKE) -C $(LIBFT_DIR)

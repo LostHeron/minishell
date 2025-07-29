@@ -51,14 +51,14 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 		return (ret);
 	if (g_my_signal != 0)
 		return (0);
-	restore_sigquit();
 	if (line == NULL)
 	{
 		p_mini->should_exit = TRUE;
-		return (1);
+		return (0);
 	}
 	if (line && *line)
 		add_history(line);
+	restore_sigquit();
 	init_args(args);
 	ret = ft_split_args(p_tokens, line, args);
 	free(line);

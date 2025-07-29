@@ -62,9 +62,12 @@ int	main(int argc, char **argv, char **env)
 		ret = start_minishell(&minishell);
 		if (ret != 0)
 		{
-			print_error(ret);
-			if (ret < 0)
-				minishell.should_exit = TRUE;
+			if (minishell.print_error == 1)
+			{
+				print_error(ret);
+				if (ret < 0)
+					minishell.should_exit = TRUE;
+			}
 		}
 	}
 	free_minishell(&minishell);
@@ -87,9 +90,9 @@ static int	start_minishell(t_minishell *p_mini)
 	if (ret != 0)
 		return (ret);
 	if (g_my_signal != 0)
-	{
 		return (0);
-	}
+	if (p_mini->should_exit == 1)
+		return (0);
 	if (tokens.size == 0)
 	{
 		ft_vector_free(&tokens);

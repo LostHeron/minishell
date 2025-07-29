@@ -37,6 +37,7 @@ int	init_minishell(t_minishell *p_mini, char **env)
 
 	p_mini->last_error_code = 0;
 	p_mini->nb_child_to_wait = 0;
+	p_mini->print_error = 1;
 	init_fds(p_mini);
 	ret = init_env(p_mini, env);
 	if (ret != 0)

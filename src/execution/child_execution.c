@@ -81,6 +81,8 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	perror(cmd);
 	if (errno == EACCES)
 		return (126);
+	if (errno == ENOENT)
+		return (127);
 	return (1);
 }
 
