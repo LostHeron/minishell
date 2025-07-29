@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:35:23 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/17 18:27:56 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:22:23 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	builtin_env(t_vector args, t_minishell *p_mini)
 	{
 		if (((t_env *)tmp->content)->value != NULL)
 		{
-			printf("%s=%s\n",
+			ft_printf_fd(1, "%s=%s\n",
 				((t_env *)tmp->content)->key,
 				((t_env *)tmp->content)->value);
 		}

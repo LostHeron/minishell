@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-19 16:40:04 by cviel             #+#    #+#             */
-/*   Updated: 2025-05-19 16:40:04 by cviel            ###   ########.fr       */
+/*   Created: 2025/05/19 16:40:04 by cviel             #+#    #+#             */
+/*   Updated: 2025/07/29 18:23:31 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "ast.h"
+#include "ft_io.h"
 
 static void	print_tabs(size_t depth);
 static void	print_content(t_vector content);
@@ -22,7 +23,7 @@ void	print_tree(t_ast *root, size_t depth)
 	if (root == NULL)
 		return ;
 	print_tabs(depth);
-	printf("%s", print_type(root->type));
+	ft_printf_fd(1, "%s", print_type(root->type));
 	if (root->type == COMMAND)
 	{
 		print_content(root->arguments.com_args.content);
@@ -35,7 +36,7 @@ void	print_tree(t_ast *root, size_t depth)
 	}
 	else
 	{
-		printf("\n");
+		ft_printf_fd(1, "\n");
 		print_tree(root->arguments.op_args.left, depth + 1);
 		print_tree(root->arguments.op_args.right, depth + 1);
 	}
@@ -48,7 +49,7 @@ static void	print_tabs(size_t depth)
 	i = 0;
 	while (i < depth)
 	{
-		printf("\t");
+		ft_printf_fd(1, "\t");
 		i++;
 	}
 }
@@ -57,16 +58,16 @@ static void	print_content(t_vector content)
 {
 	size_t	i;
 
-	printf(" : args = '");
+	ft_printf_fd(1, " : args = '");
 	i = 0;
 	while (i < content.size - 1)
 	{
-		printf("%s", ((char **)content.data)[i]);
+		ft_printf_fd(1, "%s", ((char **)content.data)[i]);
 		if (i + 1 < content.size - 1)
-			printf(" ");
+			ft_printf_fd(1, " ");
 		i++;
 	}
-	printf("'");
+	ft_printf_fd(1, "'");
 }
 
 static void	print_all_redir(t_vector dir_args)
@@ -76,12 +77,12 @@ static void	print_all_redir(t_vector dir_args)
 	i = 0;
 	while (i < dir_args.size)
 	{
-		printf(" REDIR %lu : %s %s", i + 1,
+		ft_printf_fd(1, " REDIR %lu : %s %s", i + 1,
 			print_redir(((t_dirargs *)dir_args.data)[i].dir),
 			((t_dirargs *)dir_args.data)[i].filename);
 		if (i + 1 < dir_args.size)
-			printf(" ");
+			ft_printf_fd(1, " ");
 		i++;
 	}
-	printf("\n");
+	ft_printf_fd(1, "\n");
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 15:10:59 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:23:38 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include "ast.h"
 #include "execution.h"
+#include "ft_io.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -103,7 +104,7 @@ static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 			return (ret);
 		else
 		{
-			printf("%s: command not found\n", *p_cmd);
+			ft_printf_fd(1, "%s: command not found\n", *p_cmd);
 			return (127);
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:34:41 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/26 14:26:45 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:22:23 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	builtin_pwd(t_vector args, t_minishell *p_mini)
 	}
 	else
 	{
-		ret = printf("%s\n", p_mini->cwd_name);
+		ret = ft_printf_fd(1, "%s\n", p_mini->cwd_name);
 		if (ret < 0)
 		{
 			perror("printf: ");

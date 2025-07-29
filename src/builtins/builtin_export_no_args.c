@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_no_args.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:11:31 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/16 17:12:29 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:23:58 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "ft_io.h"
 #include <stdio.h>
 
 int	builtin_export_no_args(t_minishell *p_mini)
@@ -22,13 +23,13 @@ int	builtin_export_no_args(t_minishell *p_mini)
 	{
 		if (((t_env *)tmp->content)->value != NULL)
 		{
-			printf("export %s=\"%s\"\n", \
+			ft_printf_fd(1, "export %s=\"%s\"\n", \
 					((t_env *)tmp->content)->key, \
 					((t_env *)tmp->content)->value);
 		}
 		else
 		{
-			printf("export %s\n", ((t_env *)tmp->content)->key);
+			ft_printf_fd(1, "export %s\n", ((t_env *)tmp->content)->key);
 		}
 		tmp = tmp->next;
 	}

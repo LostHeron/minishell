@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   wait_children.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:20:13 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 14:44:42 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:23:46 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_memory.h"
 #include "minishell.h"
+#include "ft_io.h"
 #include <sys/wait.h>
 #include <signal.h>
 #include <stdio.h>
@@ -69,8 +70,8 @@ static void	get_child_return_value(t_minishell *p_mini,
 	{
 		p_mini->last_error_code = WTERMSIG(child_ret);
 		if (p_mini->last_error_code == SIGQUIT)
-			printf("Quit (core dumped)");
-		printf("\n");
+			ft_printf_fd(1, "Quit (core dumped)");
+		ft_printf_fd(1, "\n");
 		p_mini->last_error_code += 128;
 		*p_ret = 0;
 	}

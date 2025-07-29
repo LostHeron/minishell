@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_here_docs.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:32:44 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/02 16:33:39 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:22:23 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	prepare_here_docs(t_minishell *p_mini, t_vector *p_tokens)
 	{
 		if (errno == EINTR)
 		{
-			printf("\n");
+			ft_printf_fd(1, "\n");
 			return (1);
 		}
 	}

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:35:36 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/16 17:35:54 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:23:52 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_vectors.h"
 #include "minishell.h"
+#include "ft_io.h"
 #include <stdio.h>
 
 static int	print_current_arg(t_vector args, size_t	i, int *p_print_new_line,
@@ -37,7 +38,7 @@ int	builtin_echo(t_vector args, t_minishell *p_mini)
 		i++;
 	}
 	if (print_new_line == 1)
-		if (printf("\n") < 0)
+		if (ft_printf_fd(1, "\n") < 0)
 			return (ERROR_WRITE);
 	return (0);
 }
@@ -56,12 +57,12 @@ static int	print_current_arg(t_vector args, size_t	i, int *p_print_new_line,
 		}
 	}
 	*p_check_for_option = 0;
-	ret = printf("%s", ((char **)args.data)[i]);
+	ret = ft_printf_fd(1, "%s", ((char **)args.data)[i]);
 	if (ret < 0)
 		return (ERROR_WRITE);
 	if (i != args.size - 2)
 	{
-		ret = printf(" ");
+		ret = ft_printf_fd(1, " ");
 		if (ret < 0)
 			return (ERROR_WRITE);
 	}

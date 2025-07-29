@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_tokens.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:58:31 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/18 11:05:17 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/29 18:28:28 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,9 @@ static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret)
 	else
 	{
 		free(prompt);
-		*p_line = get_next_line(0, p_ret);
+		char *line = get_next_line(0, p_ret);
+		*p_line = ft_strtrim(line, "\n");
+		free(line);
 		return ;
 	}
 }
