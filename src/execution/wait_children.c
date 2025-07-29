@@ -16,8 +16,8 @@
 #include <signal.h>
 #include <stdio.h>
 
-static void	get_child_return_value(t_minishell *p_mini, \
-									int child_ret, int *p_ret);
+static void	get_child_return_value(t_minishell *p_mini,
+				int child_ret, int *p_ret);
 static void	set_ign_sigint(struct sigaction *s);
 static void	un_set_ign_sigint(struct sigaction *s);
 
@@ -41,27 +41,6 @@ int	wait_children(t_minishell *p_mini)
 	}
 	un_set_ign_sigint(s);
 	return (ret);
-	/*
-	if (p_mini->last_child_id != 0)
-	{
-		set_ign_sigint(s);
-		while (p_mini->nb_child_to_wait > 0)
-		{
-			wait_id = wait(&child_ret);
-			p_mini->nb_child_to_wait--;
-			if (wait_id == p_mini->last_child_id)
-			{
-				get_child_return_value(p_mini, child_ret, &ret);
-			}
-		}
-		un_set_ign_sigint(s);
-		return (ret);
-	}
-	else
-	{
-		return (0);
-	}
-	*/
 }
 
 static void	set_ign_sigint(struct sigaction *s)
@@ -78,8 +57,8 @@ static void	un_set_ign_sigint(struct sigaction *s)
 	return ;
 }
 
-static void	get_child_return_value(t_minishell *p_mini,\
-									int child_ret, int *p_ret)
+static void	get_child_return_value(t_minishell *p_mini,
+							int child_ret, int *p_ret)
 {
 	if (WIFEXITED(child_ret) != 0)
 	{
