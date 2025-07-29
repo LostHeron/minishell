@@ -93,17 +93,16 @@ static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret)
 
 static void	init_args(char **p_args)
 {
-	p_args[10] = NULL;
 	p_args[0] = "&&";
 	p_args[1] = "||";
 	p_args[2] = "<<";
 	p_args[3] = ">>";
 	p_args[4] = "|";
-	p_args[5] = "&";
-	p_args[6] = ">";
-	p_args[7] = "<";
-	p_args[8] = "(";
-	p_args[9] = ")";
+	p_args[5] = ">";
+	p_args[6] = "<";
+	p_args[7] = "(";
+	p_args[8] = ")";
+	p_args[9] = NULL;
 }
 
 static void	free_line(t_vector *ptr_vec);

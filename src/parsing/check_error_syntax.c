@@ -54,7 +54,7 @@ static int	get_err_code(char *token);
 int	check_error_syntax(t_vector tokens)
 {
 	int		ret;
-	char	*smth_before[3];
+	char	*smth_before[2];
 	char	*smth_after[5];
 	char	*smth_before_after[4];
 	char	**smths[3];
@@ -71,8 +71,7 @@ static void	init_smths(char **smth_before, char **smth_after,\
 										char **smth_before_after)
 {
 	smth_before[0] = ";";
-	smth_before[1] = "&";
-	smth_before[2] = NULL;
+	smth_before[1] = NULL;
 	smth_after[0] = ">";
 	smth_after[1] = ">>";
 	smth_after[2] = "<";
@@ -131,8 +130,6 @@ static int	get_err_code(char *token)
 		return (ERROR_AROUND_OR);
 	if (ft_strcmp(token, "|") == 0)
 		return (ERROR_AROUND_PIPE);
-	if (ft_strcmp(token, "&") == 0)
-		return (ERROR_AROUND_BACKGROUND);
 	if (ft_strcmp(token, ";") == 0)
 		return (ERROR_AROUND_SEQUENCE);
 	if (ft_strcmp(token, ">") == 0)

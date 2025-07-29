@@ -44,7 +44,7 @@ que des redirections s'il y a autre chose ou des operateurs de commande
         -> dans ast
         -> dans execution
 - 5) faire en sorte que lorsque l'on quitte minishell on close tous les fds restant des HERE-DOCS (ceux ouvert dans les subshells que je ne close pas de suite !
-- implementation of '&' and ';' // background must be do better but is implemented a little !
+- implementation of '&' and ';' // gave up
 - implementation of subshell // quite good advanced ! even done ?? no must miss something
 - handle signal :
     - Ctrl C

@@ -31,7 +31,6 @@ int		exec_func(t_ast *ast, t_minishell *p_mini);
 int		exec_and(t_ast *ast, t_minishell *p_mini);
 int		exec_or(t_ast *ast, t_minishell *p_mini);
 int		exec_sequence(t_ast *ast, t_minishell *p_mini);
-int		exec_background(t_ast *ast, t_minishell *p_mini);
 int		exec_pipe(t_ast *ast, t_minishell *p_mini);
 int		exec_command(t_ast *ast, t_minishell *p_mini);
 int		exec_subshell(t_ast *ast, t_minishell *p_mini);

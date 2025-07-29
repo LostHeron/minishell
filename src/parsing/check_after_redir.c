@@ -26,7 +26,7 @@ static void	init_list_check_after_redir(char **list_check);
 */
 int	check_after_redir(t_vector tokens, size_t i)
 {
-	char	*list_check[12];
+	char	*list_check[11];
 	size_t	j;
 
 	init_list_check_after_redir(list_check);
@@ -50,15 +50,14 @@ int	check_after_redir(t_vector tokens, size_t i)
 static void	init_list_check_after_redir(char **list_check)
 {
 	list_check[0] = "&&";
-	list_check[1] = "&";
-	list_check[2] = "||";
-	list_check[3] = "|";
-	list_check[4] = ";";
-	list_check[5] = "<";
-	list_check[6] = "<<";
-	list_check[7] = ">";
-	list_check[8] = ">>";
-	list_check[9] = ")";
-	list_check[10] = "(";
-	list_check[11] = NULL;
+	list_check[1] = "||";
+	list_check[2] = "|";
+	list_check[3] = ";";
+	list_check[4] = "<";
+	list_check[5] = "<<";
+	list_check[6] = ">";
+	list_check[7] = ">>";
+	list_check[8] = ")";
+	list_check[9] = "(";
+	list_check[10] = NULL;
 }

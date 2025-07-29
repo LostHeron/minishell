@@ -26,7 +26,7 @@ static void	init_list_check_before(char **list_check);
 */
 int	check_before(t_vector tokens, size_t i)
 {
-	char	*list_check[11];
+	char	*list_check[10];
 	size_t	j;
 
 	init_list_check_before(list_check);
@@ -50,14 +50,13 @@ int	check_before(t_vector tokens, size_t i)
 static void	init_list_check_before(char **list_check)
 {
 	list_check[0] = "&&";
-	list_check[1] = "&";
-	list_check[2] = "||";
-	list_check[3] = "|";
-	list_check[4] = ";";
-	list_check[5] = "<";
-	list_check[6] = "<<";
-	list_check[7] = ">";
-	list_check[8] = ">>";
-	list_check[9] = "(";
-	list_check[10] = NULL;
+	list_check[1] = "||";
+	list_check[2] = "|";
+	list_check[3] = ";";
+	list_check[4] = "<";
+	list_check[5] = "<<";
+	list_check[6] = ">";
+	list_check[7] = ">>";
+	list_check[8] = "(";
+	list_check[9] = NULL;
 }

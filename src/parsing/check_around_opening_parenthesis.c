@@ -75,11 +75,10 @@ static int	check_before_opening_parenthesis(t_vector *p_tokens, size_t token_i)
 static void	init_list_before_opening_parenthesis(char **list_check)
 {
 	list_check[0] = "&&";
-	list_check[1] = "&";
-	list_check[2] = "||";
-	list_check[3] = "|";
-	list_check[4] = ";";
-	list_check[5] = NULL;
+	list_check[1] = "||";
+	list_check[2] = "|";
+	list_check[3] = ";";
+	list_check[4] = NULL;
 }
 
 /* This function is called when token is "("
@@ -110,10 +109,9 @@ static int	check_after_opening_parenthesis(t_vector *p_tokens, size_t token_i)
 static void	init_list_after_opening_parenthesis(char **list_check)
 {
 	list_check[0] = "&&";
-	list_check[1] = "&";
-	list_check[2] = "||";
-	list_check[3] = "|";
-	list_check[4] = ";";
-	list_check[5] = ")";
-	list_check[6] = NULL;
+	list_check[1] = "||";
+	list_check[2] = "|";
+	list_check[3] = ";";
+	list_check[4] = ")";
+	list_check[5] = NULL;
 }

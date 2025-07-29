@@ -56,8 +56,6 @@ static void	print_other_errors(int err_code)
 		ft_printf_fd(2, "syntax error : error around ||\n");
 	else if (err_code == ERROR_AROUND_PIPE)
 		ft_printf_fd(2, "syntax error : error around |\n");
-	else if (err_code == ERROR_AROUND_BACKGROUND)
-		ft_printf_fd(2, "syntax error : error around &\n");
 	else if (err_code == ERROR_AROUND_SEQUENCE)
 		ft_printf_fd(2, "syntax error : error around ;\n");
 	else if (err_code == ERROR_AROUND_REDIR_OUT)

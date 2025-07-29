@@ -74,4 +74,3 @@ static void	init_list_before_closing_parenthesis(char **list_check)
 	list_check[7] = "(";
 	list_check[8] = NULL;
 }
-

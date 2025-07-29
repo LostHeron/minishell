@@ -15,16 +15,15 @@
 
 int	check_after(t_vector tokens, size_t i)
 {
-	char	*list_check[10];
+	char	*list_check[6];
 	size_t	j;
 
 	list_check[0] = "&&";
-	list_check[1] = "&";
-	list_check[2] = "||";
-	list_check[3] = "|";
-	list_check[4] = ";";
-	list_check[5] = ")";
-	list_check[6] = NULL;
+	list_check[1] = "||";
+	list_check[2] = "|";
+	list_check[3] = ";";
+	list_check[4] = ")";
+	list_check[5] = NULL;
 	if (i == tokens.size - 1)
 	{
 		return (1);

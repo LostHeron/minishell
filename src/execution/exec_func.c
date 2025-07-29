@@ -66,7 +66,6 @@ static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,\
 	exec_table[AND] = &exec_and;
 	exec_table[COMMAND] = &exec_command;
 	exec_table[PIPE] = &exec_pipe;
-	exec_table[BACKGROUND] = &exec_background;
 	exec_table[SEQUENCE] = &exec_sequence;
 	exec_table[SUBSHELL] = &exec_subshell;
 	return ;

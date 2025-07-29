@@ -86,7 +86,6 @@ EXECUTION_FILES := exec_func.c \
 				   exec_pipe.c \
 				   exec_command.c \
 				   exec_sequence.c \
-				   exec_background.c \
 				   exec_subshell.c \
 				   exit_child.c \
 				   child_execution.c \
