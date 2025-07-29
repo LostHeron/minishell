@@ -42,10 +42,7 @@ static int	dup2_case_prev_left(t_minishell *p_mini)
 
 	if (p_mini->first_cmd != 1)
 	{
-		//ret = dup2(p_mini->fd1[0], 0);
-		ret = -1;
-		#include <errno.h>
-		errno = EBADF;
+		ret = dup2(p_mini->fd1[0], 0);
 		if (ret == -1)
 		{
 			perror("dup2");

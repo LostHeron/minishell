@@ -50,6 +50,8 @@ static void	print_other_errors(int err_code)
 	if (err_code == ERROR_HERE_DOC_FILENAME)
 		ft_printf_fd(2, \
 "too much filename beginning with \"/tmp/minishell_tmp_file_nb_\"\n");
+	else if (err_code == ERROR_OPEN)
+		return ;
 	else if (err_code == ERROR_AROUND_AND)
 		ft_printf_fd(2, "syntax error : error around &&\n");
 	else if (err_code == ERROR_AROUND_OR)

@@ -22,7 +22,7 @@ int	redir_in(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		perror(NULL);
+		perror(filename);
 		return (ERROR_OPEN);
 	}
 	if (dup2(fd, 0) == -1)

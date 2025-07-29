@@ -35,8 +35,10 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 	ret = expand(&ast->arguments.com_args.content, *p_mini);
 	if (ret != 0)
 		return (ret);
+	/*
 	if (ast->arguments.com_args.content.size <= 1)
 		return (0);
+	*/
 	ret = expand_redir(&ast->arguments.com_args.dir_args, *p_mini);
 	if (ret != 0)
 		return (ret);
@@ -61,6 +63,8 @@ static int	get_cmd_type(char **builtins_name, t_vector cmd_args)
 	size_t	i;
 
 	cmd_name = ((char **)cmd_args.data)[0];
+	if (cmd_name == NULL)
+		return (CMD_BUILTIN);
 	i = 0;
 	while (builtins_name[i] != NULL)
 	{
