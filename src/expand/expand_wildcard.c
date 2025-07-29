@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-30 13:27:31 by cviel             #+#    #+#             */
-/*   Updated: 2025-06-30 13:27:31 by cviel            ###   ########.fr       */
+/*   Created: 2025/06/30 13:27:31 by cviel             #+#    #+#             */
+/*   Updated: 2025/07/29 19:04:21 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "ft_vectors.h"
 #include "ft_lists_single.h"
 #include "ft_string.h"
+#include <stdio.h>
 
 static int	expand_here(t_vector *p_splitted,
 				ssize_t *p_vec_ind, ssize_t *p_ind);
@@ -61,6 +62,28 @@ static int	expand_single(t_vector *p_splitted, ssize_t *p_vec_ind)
 	return (0);
 }
 
+static void	go_next(t_vector splitted,
+				ssize_t *p_vec_ind, ssize_t *p_ind)
+{
+	while ((size_t)(*p_vec_ind) < splitted.size
+		&& ((t_exp *)splitted.data)[*p_vec_ind].content[*p_ind] != '*')
+	{
+		if (((t_exp *)splitted.data)[*p_vec_ind].quote != NONE)
+			(*p_vec_ind)++;
+		else
+		{
+			(*p_ind)++;
+			if (((t_exp *)
+					splitted.data)[*p_vec_ind].content[*p_ind] == '\0')
+			{
+				(*p_vec_ind)++;
+				(*p_ind) = 0;
+			}
+		}
+	}
+	(*p_ind)++;
+}
+
 static int	expand_here(t_vector *p_splitted,
 				ssize_t *p_vec_ind, ssize_t *p_ind)
 {
@@ -81,7 +104,7 @@ static int	expand_here(t_vector *p_splitted,
 	{
 		free(replace);
 		ft_vector_free(&pattern);
-		*p_ind += 1;
+		go_next(*p_splitted, p_vec_ind, p_ind);
 		return (ret);
 	}
 	ft_vector_free(&pattern);
