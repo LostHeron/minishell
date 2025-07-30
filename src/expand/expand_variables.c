@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-23 13:02:57 by cviel             #+#    #+#             */
-/*   Updated: 2025/06/23 18:35:35 by jweber           ###   ########.fr       */
+/*   Created: 2025/06/23 13:02:57 by cviel             #+#    #+#             */
+/*   Updated: 2025/07/30 16:25:08 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static int	expand_here(t_vector splitted, size_t vec_ind,
 	int		len_key;
 
 	p_exp_part = &((t_exp *)splitted.data)[vec_ind];
-	if (p_exp_part->content[*p_ind + 1] == '\0' && vec_ind + 1 < splitted.size
+	if (p_exp_part->quote == NONE && p_exp_part->content[*p_ind + 1] == '\0'
+		&& vec_ind + 1 < splitted.size
 		&& ((t_exp *)splitted.data)[vec_ind + 1].quote != NONE)
 		return (remove_last(p_exp_part, *p_ind));
 	if (p_exp_part->content[*p_ind + 1] == '?')
