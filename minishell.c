@@ -61,6 +61,8 @@ int	main(int argc, char **argv, char **env)
 		rl_done = 0;
 		init_signals();
 		ret = start_minishell(&minishell);
+		if (isatty(0) == 0 && minishell.last_error_code != 0)
+			minishell.should_exit = TRUE;
 		if (ret != 0 && g_my_signal == 0)
 		{
 			if (minishell.print_error == 1)
