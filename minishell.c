@@ -17,6 +17,7 @@
 #include "ft_vectors.h"
 #include "handle_signal.h"
 #include "minishell.h"
+#include "freeing.h"
 #include "parsing.h"
 #include "printing.h"
 #include <readline/readline.h>
@@ -60,7 +61,7 @@ int	main(int argc, char **argv, char **env)
 		rl_done = 0;
 		init_signals();
 		ret = start_minishell(&minishell);
-		if (ret != 0)
+		if (ret != 0 && g_my_signal == 0)
 		{
 			if (minishell.print_error == 1)
 			{
@@ -70,7 +71,7 @@ int	main(int argc, char **argv, char **env)
 			}
 		}
 	}
-	free_minishell(&minishell);
+	ret = free_minishell(&minishell);
 	rl_clear_history();
 	return (minishell.last_error_code);
 }

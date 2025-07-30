@@ -1,38 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   restore_fds.c                                      :+:      :+:    :+:   */
+/*   close_saved_tty.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/04 18:46:05 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/30 13:02:28 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/30 12:51:13 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/30 13:00:05 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <unistd.h>
+#include "execution.h"
 #include <stdio.h>
+#include <unistd.h>
 
-int	restore_fds(t_minishell *p_mini)
+int	close_saved_tty(t_minishell *p_mini)
 {
 	int	ret;
+	int	final_ret;
 
-	ret = 0;
-	if (dup2(p_mini->fd_tty_err, STDERR_FILENO) < 0)
+	final_ret = 0;
+	ret = close(p_mini->fd_tty_in);
+	if (ret < 0)
 	{
-		perror(NULL);
-		ret = ERROR_DUP2;
+		perror("close");
+		final_ret = ERROR_CLOSE;
 	}
-	if (dup2(p_mini->fd_tty_in, STDIN_FILENO) < 0)
+	ret = close(p_mini->fd_tty_out);
+	if (ret < 0)
 	{
-		perror("fn: restore_fd : dup2");
-		ret = ERROR_DUP2;
+		perror("close");
+		final_ret = ERROR_CLOSE;
 	}
-	if (dup2(p_mini->fd_tty_out, STDOUT_FILENO) < 0)
+	ret = close(p_mini->fd_tty_err);
+	if (ret < 0)
 	{
-		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
-		ret = ERROR_DUP2;
+		perror("close");
+		final_ret = ERROR_CLOSE;
 	}
-	return (ret);
+	return (final_ret);
 }

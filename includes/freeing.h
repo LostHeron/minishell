@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-void	free_env(t_list *lst);
-void	free_minishell(t_minishell *p_mini);
+void		free_env(t_list *lst);
+int			free_minishell(t_minishell *p_mini);
 
 #endif

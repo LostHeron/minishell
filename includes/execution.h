@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:13:46 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 15:10:09 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/30 12:52:19 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		redir_append(char *filename);
 int		redir_in(char *filename);
 int		redir_out(char *filename);
 int		get_path(t_minishell *p_mini, t_vector *p_path);
+int		close_saved_tty(t_minishell *p_mini);
 int		get_env_from_list(t_vector *p_new_env, t_list *env);
 int		change_fd_redir(t_minishell *p_mini, t_vector redir);
 int		change_fd_pipe(t_minishell *p_mini);
@@ -59,6 +60,5 @@ void	init_builtins(t_minishell *p_mini);
 int		init_env(t_minishell *p_mini, char **env);
 int		init_path(t_minishell *p_mini);
 int		find_command(char **p_cmd, t_vector path);
-void	free_minishell(t_minishell *p_mini);
 
 #endif

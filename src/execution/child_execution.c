@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 15:10:59 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/30 13:00:08 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini);
 static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
+static int	errno_special_value(int errno);
 
 /* at this point, we are already in the child process
  * of the command type node, 
@@ -35,12 +36,11 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
 	int			ret;
 
-	ret = close(p_mini->fd_tty_copy);
-	if (ret < 0)
+	ret = close_saved_tty(p_mini);
+	if (ret != 0)
 	{
-		perror("close");
 		close_on_error(p_mini);
-		return (ERROR_CLOSE);
+		return (ret);
 	}
 	ret = make_redirections(ast->arguments.com_args.dir_args, p_mini);
 	if (ret != 0)
@@ -79,10 +79,8 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	execve(cmd, ast->arguments.com_args.content.data, new_env.data);
 	ft_vector_free(&new_env);
 	perror(cmd);
-	if (errno == EACCES)
-		return (126);
-	if (errno == ENOENT)
-		return (127);
+	if (errno == EACCES || errno == ENOENT)
+		return (errno_special_value(errno));
 	return (1);
 }
 
@@ -110,4 +108,12 @@ static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 		}
 	}
 	return (0);
+}
+
+static int	errno_special_value(int errno)
+{
+	if (errno == EACCES)
+		return (126);
+	else
+		return (127);
 }

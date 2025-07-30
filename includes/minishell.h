@@ -34,7 +34,9 @@ typedef struct s_minishell
 	int			should_exit;
 	int			print_error;
 	t_ast		*head_ast;
-	int			fd_tty_copy;
+	int			fd_tty_in;
+	int			fd_tty_out;
+	int			fd_tty_err;
 	int			last_child_id;
 	int			last_error_code;
 	int			previous_side;

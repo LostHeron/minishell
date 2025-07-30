@@ -46,7 +46,7 @@ int	case_no_forking(t_ast *ast, t_minishell *p_mini)
 			{
 				ft_putstr_fd(
 					"could not restore fds, stopping programme execution\n",
-					p_mini->fd_tty_copy);
+					p_mini->fd_tty_err);
 				return (-10);
 			}
 			p_mini->last_error_code = 1;
@@ -68,7 +68,7 @@ int	case_no_forking(t_ast *ast, t_minishell *p_mini)
 	{
 		ft_putstr_fd(
 			"could not restore fds, stopping programme execution\n",
-			p_mini->fd_tty_copy);
+			p_mini->fd_tty_err);
 		return (-10);
 	}
 	if (ret_builtin < 0)
