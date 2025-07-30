@@ -35,10 +35,6 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 	ret = expand(&ast->arguments.com_args.content, *p_mini);
 	if (ret != 0)
 		return (ret);
-	/*
-	if (ast->arguments.com_args.content.size <= 1)
-		return (0);
-	*/
 	ret = expand_redir(&ast->arguments.com_args.dir_args, *p_mini);
 	if (ret != 0)
 		return (ret);
