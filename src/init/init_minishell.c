@@ -49,9 +49,6 @@ int	init_minishell(t_minishell *p_mini, char **env)
 	}
 	init_builtins(p_mini);
 	ret = init_saved_tty(p_mini);
-	if (ret != 0)
-		return (ret);
-	ret = init_saved_tty(p_mini);
 	return (ret);
 }
 
