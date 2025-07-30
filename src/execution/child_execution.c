@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_io.h"
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "ast.h"
@@ -103,7 +104,7 @@ static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 			return (ret);
 		else
 		{
-			printf("%s: command not found\n", *p_cmd);
+			ft_printf_fd(2, "%s: command not found\n", *p_cmd);
 			return (127);
 		}
 	}
