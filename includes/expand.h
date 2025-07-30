@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-20 13:30:21 by cviel             #+#    #+#             */
-/*   Updated: 2025-06-20 13:30:21 by cviel            ###   ########.fr       */
+/*   Created: 2025/06/20 13:30:21 by cviel             #+#    #+#             */
+/*   Updated: 2025/07/30 19:18:05 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPAND_H
 # define EXPAND_H
 
+#include <unistd.h>
 # include "minishell.h"
 # include "ft_vectors.h"
 
@@ -42,7 +43,7 @@ typedef struct s_ind
 }	t_ind;
 
 int		expand(t_vector *p_args, t_minishell mini);
-int		expand_both(t_vector *p_splitted, t_minishell mini);
+int		expand_all(t_vector *p_splitted, t_minishell mini);
 int		expand_redir(t_vector *p_redir, t_minishell mini);
 int		split_elem(t_vector *splitted, char *src);
 int		expand_variables(t_vector splitted, t_minishell mini);
@@ -63,5 +64,6 @@ int		remove_last(t_exp *p_exp_part, int p_ind);
 void	free_exp(t_vector *word);
 void	free_data(t_vector *p_vector);
 void	free_tab(char **arr);
+void 	free_splitted(t_vector *p_word);
 
 #endif

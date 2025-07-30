@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:27:31 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/29 19:04:21 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/30 19:10:02 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "ft_vectors.h"
 #include "ft_lists_single.h"
 #include "ft_string.h"
-#include <stdio.h>
 
 static int	expand_here(t_vector *p_splitted,
 				ssize_t *p_vec_ind, ssize_t *p_ind);
