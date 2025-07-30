@@ -59,9 +59,10 @@ int	main(int argc, char **argv, char **env)
 			minishell.last_error_code = SIGQUIT + 128;
 		g_my_signal = 0;
 		rl_done = 0;
+		minishell.is_error_syntax = 0;
 		init_signals();
 		ret = start_minishell(&minishell);
-		if (isatty(0) == 0 && minishell.last_error_code != 0)
+		if (isatty(0) == 0 && minishell.is_error_syntax == 1)
 			minishell.should_exit = TRUE;
 		if (ret != 0 && g_my_signal == 0)
 		{

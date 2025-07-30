@@ -16,8 +16,8 @@
 # include "minishell.h"
 
 int	builtin_cd(t_vector	args, t_minishell *p_mini);
-int	get_path_len_name(char *place_to_go, size_t *p_path_len, \
-													char **p_path_name);
+int	get_path_len_name(char *place_to_go, size_t *p_path_len,
+		char **p_path_name);
 int	builtin_cd_without_path_given(t_minishell *p_mini);
 int	builtin_echo(t_vector args, t_minishell *p_mini);
 int	builtin_env(t_vector args, t_minishell *p_mini);
