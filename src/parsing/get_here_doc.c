@@ -50,8 +50,11 @@ int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 
 	i = 0;
 	hd_count = 0;
-	ignore_sigquit(&old_s);
-	change_term_attr(&old_t);
+	if (isatty(0) == 1) 
+	{
+		ignore_sigquit(&old_s);
+		change_term_attr(&old_t);
+	}
 	while (i < p_tokens->size)
 	{
 		ret = get_here_doc_i(p_mini, p_tokens, i, &hd_count);
@@ -59,15 +62,21 @@ int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 			printf("^C");
 		if (ret != 0)
 		{
-			restore_term_attr(&old_t);
-			restore_sigquit(&old_s);
+			if (isatty(0) == 1) 
+			{
+				restore_term_attr(&old_t);
+				restore_sigquit(&old_s);
+			}
 			close_all_here_doc(p_mini);
 			return (ret);
 		}
 		i++;
 	}
-	restore_term_attr(&old_t);
-	restore_sigquit(&old_s);
+	if (isatty(0) == 1) 
+	{
+		restore_term_attr(&old_t);
+		restore_sigquit(&old_s);
+	}
 	return (0);
 }
 

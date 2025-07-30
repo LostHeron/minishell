@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 17:23:44 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/18 11:10:39 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/30 12:42:52 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "freeing.h"
 #include "ft_init.h"
 #include <unistd.h>
-#include <stdio.h>
 
 static void	init_fds(t_minishell *p_mini);
 
@@ -49,15 +48,11 @@ int	init_minishell(t_minishell *p_mini, char **env)
 		return (ret);
 	}
 	init_builtins(p_mini);
-	p_mini->fd_tty_copy = dup(STDIN_FILENO);
-	if (p_mini->fd_tty_copy < 0)
-	{
-		perror(NULL);
-		free_env(p_mini->env);
-		free(p_mini->cwd_name);
-		return (ERROR_DUP);
-	}
-	return (0);
+	ret = init_saved_tty(p_mini);
+	if (ret != 0)
+		return (ret);
+	ret = init_saved_tty(p_mini);
+	return (ret);
 }
 
 static void	init_fds(t_minishell *p_mini)

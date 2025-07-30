@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:14:56 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 15:21:18 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/30 12:58:35 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <stdio.h>
 
 static int	subshell_execution(t_ast *ast, t_minishell *p_mini);
+static void	parent_subshell(t_minishell *p_mini, int pid);
 
 /*	This function should set up, then fork, then execute subshell
  * 	In case of success :
@@ -43,18 +44,14 @@ int	exec_subshell(t_ast *ast, t_minishell *p_mini)
 	}
 	if (pid == 0)
 	{
-		p_mini->last_child_id = 0;
 		ret_exec = subshell_execution(ast, p_mini);
 		if (ret_exec != 0)
-			exit(exit_child(p_mini, ret));
+			exit(exit_child(p_mini, ret_exec));
 		else
 			exit(exit_child(p_mini, p_mini->last_error_code));
 	}
 	else
-	{
-		p_mini->last_child_id = pid;
-		p_mini->nb_child_to_wait++;
-	}
+		parent_subshell(p_mini, pid);
 	return (0);
 }
 
@@ -62,6 +59,7 @@ static int	subshell_execution(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;
 
+	p_mini->last_child_id = 0;
 	ret = make_redirections(ast->arguments.sub_args.dir_args, p_mini);
 	if (ret != 0)
 	{
@@ -81,8 +79,12 @@ static int	subshell_execution(t_ast *ast, t_minishell *p_mini)
 		return (ret);
 	close_fd1(p_mini);
 	wait_children(p_mini);
-	if (close(p_mini->fd_tty_copy) < 0)
-		perror(\
-	"in exec_subshell : close(p_mini->fd_stdin) at start of children\n");
-	return (0);
+	ret = close_saved_tty(p_mini);
+	return (ret);
+}
+
+static void	parent_subshell(t_minishell *p_mini, int pid)
+{
+	p_mini->last_child_id = pid;
+	p_mini->nb_child_to_wait++;
 }
