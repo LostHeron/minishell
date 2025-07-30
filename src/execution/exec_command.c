@@ -37,7 +37,10 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 		return (ret);
 	ret = expand_redir(&ast->arguments.com_args.dir_args, *p_mini);
 	if (ret != 0)
+	{
+		p_mini->last_error_code = 1;
 		return (ret);
+	}
 	cmd_type = get_cmd_type(p_mini->builtins_name,
 			ast->arguments.com_args.content);
 	if (p_mini->previous_type == PIPE || cmd_type == CMD_BINARY)

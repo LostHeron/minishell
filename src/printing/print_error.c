@@ -68,6 +68,8 @@ static void	print_other_errors(int err_code)
 		ft_printf_fd(2, "syntax error : error around <<\n");
 	else if (err_code == ERROR_AROUND_REDIR_APPEND)
 		ft_printf_fd(2, "syntax error : error around >>\n");
+	else if (err_code == ERROR_FILENAME)
+		ft_printf_fd(2, "ERROR : ambiguous redirect\n");
 	else
 		ft_printf_fd(2, "syntax error : unknown error \n");
 }

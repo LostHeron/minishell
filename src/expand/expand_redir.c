@@ -30,7 +30,6 @@ int	expand_redir(t_vector *p_redir, t_minishell mini)
 				((t_dirargs *)p_redir->data)[i].filename, mini);
 		if (ret != 0)
 		{
-			ft_vector_free(p_redir);
 			return (ret);
 		}
 		i++;
