@@ -15,12 +15,15 @@
 #include "minishell.h"
 #include "ast.h"
 #include "execution.h"
+#include "ft_string.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini);
+static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
 static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
 static int	errno_special_value(void);
 
@@ -62,18 +65,22 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	t_vector	new_env;
 	int			ret;
 
-	if (((char **)ast->arguments.com_args.content.data)[0][0] == '/'
-		|| (((char **)ast->arguments.com_args.content.data)[0][0] == '.'
-		&& ((char **)ast->arguments.com_args.content.data)[0][1] == '/'))
-	{
+	/*
+	first = ((char **)ast->arguments.com_args.content.data)[0];
+	if (ft_strncmp(first, "/", 1) == 0
+		|| ft_strncmp(first, "./", 2) == 0 || ft_strncmp(first, "../", 3) == 0
+		|| ft_strcmp(first, ".") == 0 || ft_strcmp(first, "..") == 0)
 		cmd = ((char **)ast->arguments.com_args.content.data)[0];
-	}
 	else
 	{
 		ret = case_find_command(ast, p_mini, &cmd);
 		if (ret != 0)
 			return (ret);
 	}
+	*/
+	ret = get_command(ast, p_mini, &cmd);
+	if (ret != 0)
+		return (ret);
 	ret = get_env_from_list(&new_env, p_mini->env);
 	if (ret != 0)
 		return (ret);
@@ -82,7 +89,45 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	perror(cmd);
 	if (errno == EACCES || errno == ENOENT)
 		return (errno_special_value());
-	return (1);
+	return (ret);
+}
+
+/* function will search for the command,
+ * if command start with "/" or "./" or "../" or is equal to ".."
+ * or is equal to ".", the command will return error and print to the user
+ * that the command is a directory !
+*/
+static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
+{
+	int			ret;
+	char		*first;
+	struct stat f_stat;
+
+	first = ((char **)ast->arguments.com_args.content.data)[0];
+	if (ft_strncmp(first, "/", 1) == 0
+		|| ft_strncmp(first, "./", 2) == 0 || ft_strncmp(first, "../", 3) == 0
+		|| ft_strcmp(first, ".") == 0 || ft_strcmp(first, "..") == 0)
+		*p_cmd = ((char **)ast->arguments.com_args.content.data)[0];
+	else
+	{
+		ret = case_find_command(ast, p_mini, p_cmd);
+		if (ret != 0)
+			return (ret);
+	}
+	ret = stat(*p_cmd, &f_stat);
+	if (ret != 0)
+	{
+		;// do stuff 
+	}
+	if ((f_stat.st_mode & S_IFMT) == S_IFDIR)
+	{
+		errno = EISDIR;
+		perror(*p_cmd);
+		return (126);
+	}
+	// check if  *p_cmd is a directory with stat,
+	// if it is, then perror is a directory and return 126
+	return (0);
 }
 
 static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)

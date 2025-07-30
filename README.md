@@ -26,6 +26,9 @@ ls > log1 << eof1 | ls > log2 << eof2 | ls > log3 << eof3
 
 TODO:
 
+- 13) cat < coucou avec coucou qui est inexistant code erreur = 7 au lieu de 1, de même avec cat > coco sans permission sur coco
+- 12) ; marche pas regarder pourquoi
+- 11) export code d'erreur pas bon quand fail 
 - 10) echo with -ne and - flag to try again behaviour
 - 9) segfault when entering empty line
 - 8) generate error message for ERROR_WRITE // DONE 
