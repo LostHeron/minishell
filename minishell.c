@@ -60,7 +60,7 @@ int	main(int argc, char **argv, char **env)
 		rl_done = 0;
 		init_signals();
 		ret = start_minishell(&minishell);
-		if (ret != 0)
+		if (ret != 0 && g_my_signal == 0)
 		{
 			if (minishell.print_error == 1)
 			{

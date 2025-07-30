@@ -93,6 +93,11 @@ static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret)
 	else
 	{
 		free(prompt);
+		/*
+		char *line = get_next_line(0, p_ret);
+		*p_line = ft_strtrim(line, "\n");
+		free(line);
+		*/
 		*p_line = get_next_line(0, p_ret);
 		return ;
 	}
