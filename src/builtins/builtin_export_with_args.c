@@ -50,9 +50,11 @@ int	builtin_export_with_args(t_vector args, t_minishell *p_mini)
 static int	export_each_entry(t_minishell *p_mini, char *arg_i)
 {
 	int		ret;
+	int		final_ret;
 	char	*new_key;
 	char	*new_value;
 
+	final_ret = 0;
 	ret = get_new_key_value(arg_i, &new_key, &new_value);
 	if (ret != 0)
 		return (ret);
@@ -62,7 +64,7 @@ static int	export_each_entry(t_minishell *p_mini, char *arg_i)
 			arg_i);
 		free(new_key);
 		free(new_value);
-		ret = 1;
+		final_ret = 1;
 	}
 	else
 	{
@@ -70,7 +72,7 @@ static int	export_each_entry(t_minishell *p_mini, char *arg_i)
 		if (ret != 0)
 			return (ret);
 	}
-	return (0);
+	return (final_ret);
 }
 
 static int	check_key(char *str)
