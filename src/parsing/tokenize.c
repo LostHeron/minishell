@@ -34,6 +34,8 @@ int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 	ret = check_errors(p_mini, p_tokens);
 	if (ret != 0)
 	{
+		if (ret > 0)
+			p_mini->last_error_code = 2;
 		ft_vector_free(p_tokens);
 		return (ret);
 	}
