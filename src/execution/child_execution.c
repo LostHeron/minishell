@@ -49,6 +49,8 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	ret = make_redirections(ast->arguments.com_args.dir_args, p_mini);
 	if (ret != 0)
 	{
+		if (ret == ERROR_OPEN)
+			return (1);
 		return (ret);
 	}
 	if (((char **)ast->arguments.com_args.content.data)[0] == NULL)
