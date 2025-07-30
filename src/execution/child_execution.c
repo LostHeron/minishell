@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/30 13:00:08 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/30 13:14:47 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini);
 static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
-static int	errno_special_value(int errno);
+static int	errno_special_value(void);
 
 /* at this point, we are already in the child process
  * of the command type node, 
@@ -80,7 +80,7 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	ft_vector_free(&new_env);
 	perror(cmd);
 	if (errno == EACCES || errno == ENOENT)
-		return (errno_special_value(errno));
+		return (errno_special_value());
 	return (1);
 }
 
@@ -110,7 +110,7 @@ static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 	return (0);
 }
 
-static int	errno_special_value(int errno)
+static int	errno_special_value(void)
 {
 	if (errno == EACCES)
 		return (126);
