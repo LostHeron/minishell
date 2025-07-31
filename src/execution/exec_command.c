@@ -81,13 +81,18 @@ static int	change_underscore_var(t_minishell *p_mini, t_vector args)
 	char	*str;
 	int		ret;
 
-	str = "_=";
-	str = ft_strjoin(str, ((char **)args.data)[args.size - 2]);
-	if (str == NULL)
-		return (ERROR_MALLOC);
-	ret = export_from_string(str, p_mini);
-	free(str);
-	return (ret);
+	if (args.size >= 2)
+	{
+		str = "_=";
+		str = ft_strjoin(str, ((char **)args.data)[args.size - 2]);
+		if (str == NULL)
+			return (ERROR_MALLOC);
+		ret = export_from_string(str, p_mini);
+		free(str);
+		return (ret);
+	}
+	else
+		return (0);
 }
 
 static int	expansion(t_ast *ast, t_minishell *p_mini)
