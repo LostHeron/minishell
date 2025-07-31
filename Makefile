@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
+#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/31 20:28:42 by jweber            #+#    #+#              #
-#    Updated: 2025/07/31 20:28:43 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/01 00:34:16 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -143,6 +143,7 @@ EXPAND_FILES := expand.c \
 				expand_redir.c \
 				replace.c \
 				word_split.c \
+				build_word.c \
 				expand_wildcard.c \
 				match_wildcard.c \
 				handle_wildcard.c \
