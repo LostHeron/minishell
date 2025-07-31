@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:53:34 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 18:55:12 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 19:36:37 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 #include "expand.h"
 #include "ft_vectors.h"
 #include "ft_memory.h"
-#include <stdio.h>
+
+static int	expand_everything(t_vector *p_args,
+				t_vector copy, t_minishell mini);
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini);
 
 int	expand(t_vector *p_args, t_minishell mini)
@@ -23,7 +25,6 @@ int	expand(t_vector *p_args, t_minishell mini)
 	int			ret;
 	t_vector	copy;
 	char		*null;
-	size_t		i;
 
 	ft_vector_copy(&copy, p_args);
 	ft_bzero(p_args, sizeof(t_vector));
@@ -33,6 +34,32 @@ int	expand(t_vector *p_args, t_minishell mini)
 		ft_vector_free(&copy);
 		return (ret);
 	}
+	ret = expand_everything(p_args, copy, mini);
+	ft_vector_free(&copy);
+	if (ret != 0)
+		return (ret);
+	null = NULL;
+	return (ft_vector_add_single(p_args, &null));
+}
+
+int	expand_all(t_vector *p_splitted, t_minishell mini)
+{
+	int	ret;
+
+	ret = expand_variables(*p_splitted, mini);
+	if (ret != 0)
+		return (ret);
+	ret = word_split(p_splitted);
+	if (ret != 0)
+		return (ret);
+	return (expand_wildcard(p_splitted));
+}
+
+static int	expand_everything(t_vector *p_args, t_vector copy, t_minishell mini)
+{
+	int		ret;
+	size_t	i;
+
 	i = 0;
 	while (i < copy.size - 1)
 	{
@@ -44,22 +71,7 @@ int	expand(t_vector *p_args, t_minishell mini)
 		}
 		i++;
 	}
-	ft_vector_free(&copy);
-	null = NULL;
-	return (ft_vector_add_single(p_args, &null));
-}
-
-int	expand_all(t_vector *p_splitted, t_minishell mini)
-{
-	int	ret;
-	
-	ret = expand_variables(*p_splitted, mini);
-	if (ret != 0)
-		return (ret);
-	ret = word_split(p_splitted);
-	if (ret != 0)
-		return (ret);
-	return (expand_wildcard(p_splitted));
+	return (0);
 }
 
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini)

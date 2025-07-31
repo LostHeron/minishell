@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:06:07 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 19:02:33 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 19:23:19 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "ft_vectors.h"
 #include "ft_standard.h"
 #include "ft_string.h"
-#include <stdio.h>
+
 int	rebuild_exp(t_vector *dest, t_vector splitted, size_t ind);
 
 int	rebuild_elem(t_vector *dest, t_vector splitted)
@@ -40,7 +40,7 @@ int	rebuild_exp(t_vector *dest, t_vector splitted, size_t ind)
 	int		ret;
 	char	*content;
 	size_t	i;
-	
+
 	content = NULL;
 	i = 0;
 	while (i < (((t_vector *)splitted.data)[ind].size))

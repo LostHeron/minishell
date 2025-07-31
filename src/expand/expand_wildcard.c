@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:27:31 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 18:43:35 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 19:37:06 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "ft_lists_single.h"
 #include "ft_memory.h"
 #include "ft_string.h"
-#include <stdio.h>
+
 static int	expand_pattern(t_vector *p_splitted, size_t *p_vec_ind);
 
 int	expand_wildcard(t_vector *p_splitted)
@@ -49,12 +49,30 @@ int	expand_wildcard(t_vector *p_splitted)
 	return (0);
 }
 
-static int	get_pattern(t_vector *p_pattern, t_vector word)
+static int	fill_info(t_vector *p_pattern, t_vector word, size_t vec_ind)
 {
 	int		ret;
 	t_pat	elem;
 	size_t	i;
-	size_t	j;
+
+	i = 0;
+	while (((t_exp *)word.data)[vec_ind].content[i] != '\0')
+	{
+		elem.c = ((t_exp *)word.data)[vec_ind].content[i];
+		elem.wild = (elem.c == '*'
+				&& ((t_exp *)word.data)[vec_ind].quote == NONE);
+		ret = ft_vector_add_single(p_pattern, &elem);
+		if (ret != 0)
+			return (ret);
+		i++;
+	}
+	return (0);
+}
+
+static int	get_pattern(t_vector *p_pattern, t_vector word)
+{
+	int		ret;
+	size_t	i;
 
 	ft_bzero(p_pattern, sizeof(t_vector));
 	ret = ft_vector_init(p_pattern, 5, sizeof(t_pat), free_data);
@@ -63,16 +81,9 @@ static int	get_pattern(t_vector *p_pattern, t_vector word)
 	i = 0;
 	while (i < word.size)
 	{
-		j = 0;
-		while (((t_exp *)word.data)[i].content[j] != '\0')
-		{
-			elem.c = ((t_exp *)word.data)[i].content[j];
-			elem.wild = (elem.c == '*' && ((t_exp *)word.data)[i].quote == NONE);
-			ret = ft_vector_add_single(p_pattern, &elem);
-			if (ret != 0)
-				return (ret);
-			j++;
-		}
+		ret = fill_info(p_pattern, word, i);
+		if (ret != 0)
+			return (ret);
 		i++;
 	}
 	return (0);
@@ -83,7 +94,7 @@ static int	expand_pattern(t_vector *p_splitted, size_t *p_vec_ind)
 	int			ret;
 	t_vector	pattern;
 	t_vector	names;
-	
+
 	ret = get_pattern(&pattern, ((t_vector *)p_splitted->data)[*p_vec_ind]);
 	if (ret != 0)
 	{
@@ -99,5 +110,5 @@ static int	expand_pattern(t_vector *p_splitted, size_t *p_vec_ind)
 	}
 	ret = handle_wildcard(p_splitted, p_vec_ind, names);
 	ft_vector_free(&names);
-	return (ret);	
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:14:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 19:01:47 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 19:37:13 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 static int	init_replace(t_vector *p_splitted,
 				t_vector *p_copy, size_t vec_ind);
 static int	replace_wildcard(t_vector *p_splitted,
-				size_t *p_vec_ind, t_vector names);
+				t_vector names, size_t *p_vec_ind);
 static int	end_replace(t_vector *p_splitted, t_vector copy, size_t vec_ind);
 
 int	handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names)
@@ -35,7 +35,7 @@ int	handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names)
 		return (ret);
 	}
 	copy_i = *p_vec_ind + 1;
-	ret = replace_wildcard(p_splitted, p_vec_ind, names);
+	ret = replace_wildcard(p_splitted, names, p_vec_ind);
 	if (ret != 0)
 	{
 		ft_vector_free(&copy);
@@ -67,11 +67,38 @@ static int	init_replace(t_vector *p_splitted,
 	return (0);
 }
 
-static int	replace_wildcard(t_vector *p_splitted,
-					size_t *p_vec_ind, t_vector names)
+static int	add_name(t_vector *p_splitted, t_vector names, size_t name_ind)
 {
 	int			ret;
 	t_vector	word;
+	t_exp		exp;
+
+	ret = ft_vector_init(&word, 1, sizeof(t_exp), free_exp);
+	if (ret != 0)
+		return (ret);
+	exp.content = ft_strdup(((char **)names.data)[name_ind]);
+	if (exp.content == NULL)
+	{
+		ft_vector_free(&word);
+		return (ERROR_MALLOC);
+	}
+	ret = ft_vector_add_single(&word, &exp);
+	if (ret != 0)
+	{
+		free(exp.content);
+		ft_vector_free(&word);
+		return (ret);
+	}
+	ret = ft_vector_add_single(p_splitted, &word);
+	if (ret != 0)
+		ft_vector_free(&word);
+	return (ret);
+}
+
+static int	replace_wildcard(t_vector *p_splitted,
+					t_vector names, size_t *p_vec_ind)
+{
+	int			ret;
 	t_exp		exp;
 	size_t		i;
 
@@ -79,25 +106,9 @@ static int	replace_wildcard(t_vector *p_splitted,
 	exp.quote = NONE;
 	while (i < names.size)
 	{
-		ret = ft_vector_init(&word, 1, sizeof(t_exp), free_exp);
+		ret = add_name(p_splitted, names, i);
 		if (ret != 0)
 			return (ret);
-		exp.content = ft_strdup(((char **)names.data)[i]);
-		if (exp.content == NULL)
-		{
-			ft_vector_free(&word);
-			return (ERROR_MALLOC);
-		}
-		ret = ft_vector_add_single(&word, &exp);
-		if (ret != 0)
-		{
-			free(exp.content);
-			ft_vector_free(&word);
-			return (ret);
-		}
-		ret = ft_vector_add_single(p_splitted, &word);
-		if (ret != 0)
-			ft_vector_free(&word);
 		(*p_vec_ind)++;
 		i++;
 	}
@@ -110,7 +121,8 @@ static int	end_replace(t_vector *p_splitted, t_vector copy, size_t vec_ind)
 
 	while (vec_ind < copy.size)
 	{
-		ret = ft_vector_add_single(p_splitted, &((t_vector *)copy.data)[vec_ind]);
+		ret = ft_vector_add_single(p_splitted,
+				&((t_vector *)copy.data)[vec_ind]);
 		if (ret != 0)
 			return (ret);
 		vec_ind++;

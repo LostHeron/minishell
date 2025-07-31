@@ -6,14 +6,14 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 13:30:21 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 18:53:55 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 19:04:57 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPAND_H
 # define EXPAND_H
 
-#include <unistd.h>
+# include <unistd.h>
 # include "minishell.h"
 # include "ft_vectors.h"
 
@@ -51,10 +51,11 @@ int		rebuild_filename(t_vector *dest, int ind, t_vector splitted);
 int		rebuild_exp(t_vector *dest, t_vector splitted, size_t ind);
 int		find_match(t_vector *p_names, t_vector pattern);
 int		matching(t_vector pattern, char *elem, int *p_match);
-int		handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names);
+int		handle_wildcard(t_vector *p_splitted,
+			size_t *p_vec_ind, t_vector names);
 int		remove_last(t_exp *p_exp_part, int p_ind);
 void	free_exp(t_vector *word);
 void	free_data(t_vector *p_vector);
-void 	free_splitted(t_vector *p_word);
+void	free_splitted(t_vector *p_word);
 
 #endif
