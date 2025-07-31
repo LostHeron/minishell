@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:53:34 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 16:51:19 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 17:56:51 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include "expand.h"
 #include "ft_vectors.h"
+#include "ft_memory.h"
 
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini);
 
@@ -22,9 +23,9 @@ int	expand(t_vector *p_args, t_minishell mini)
 	int			ret;
 	t_vector	copy;
 	size_t		i;
-	char		*null;
 
 	ft_vector_copy(&copy, p_args);
+	ft_bzero(p_args, sizeof(t_vector));
 	ret = ft_vector_init(p_args, copy.capacity, copy.data_size, copy.del);
 	if (ret != 0)
 	{
@@ -42,10 +43,8 @@ int	expand(t_vector *p_args, t_minishell mini)
 		}
 		i++;
 	}
-	null = NULL;
-	ret = ft_vector_add_single(p_args, &null);
 	ft_vector_free(&copy);
-	return (ret);
+	return (0);
 }
 
 int	expand_all(t_vector *p_splitted, t_minishell mini)

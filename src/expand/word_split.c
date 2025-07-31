@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 19:09:17 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 16:05:33 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 17:58:08 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "expand.h"
 #include "ft_vectors.h"
 #include "ft_string.h"
+#include "ft_memory.h"
 
 static int	build_word(t_vector *p_splitted, t_vector copy,
 				size_t *p_vec_ind, size_t *p_ind);
@@ -26,6 +27,7 @@ int	word_split(t_vector *p_splitted)
 	size_t		j;
 
 	ft_vector_copy(&copy, p_splitted);
+	ft_bzero(p_splitted, sizeof(t_vector));
 	ret = ft_vector_init(p_splitted, 5, sizeof(t_vector), free_splitted);
 	if (ret != 0)
 	{
@@ -34,7 +36,7 @@ int	word_split(t_vector *p_splitted)
 	}
 	i = 0;
 	j = 0;
-	while (i < copy.size);
+	while (i < copy.size)
 	{
 		ret = build_word(p_splitted, copy, &i, &j);
 		if (ret != 0)
@@ -54,13 +56,13 @@ static int	unquoted_split(t_vector *p_word, t_vector copy,
 	size_t	i;
 	
 	while (ft_strchr(WHITE_SPACES,
-			((t_exp *)copy.data)[*p_vec_ind].content[*p_ind] != NULL))
+			((t_exp *)copy.data)[*p_vec_ind].content[*p_ind]) != NULL)
 		(*p_ind)++;
 	i = 0;
 	while (((t_exp *)copy.data)[*p_vec_ind].content[*p_ind] != '\0')
 	{
 		if (ft_strchr(WHITE_SPACES,
-			((t_exp *)copy.data)[*p_vec_ind].content[*p_ind + i] != NULL))
+			((t_exp *)copy.data)[*p_vec_ind].content[*p_ind + i]) != NULL)
 			break ;
 		i++;
 	}
@@ -101,7 +103,7 @@ static int	build_word(t_vector *p_splitted, t_vector copy,
 		{
 			ret = unquoted_split(&word, copy, p_vec_ind, p_ind); 
 			if (ret == 0 && *p_vec_ind < copy.size && ft_strchr(WHITE_SPACES,
-					((t_exp *)copy.data)[*p_vec_ind].content[*p_ind] != NULL))
+					((t_exp *)copy.data)[*p_vec_ind].content[*p_ind]) != NULL)
 				break;
 		}
 		else

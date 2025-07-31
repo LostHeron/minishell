@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 13:00:35 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 16:49:03 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 17:58:59 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 #include <errno.h>
 #include "minishell.h"
 #include "expand.h"
+#include "ast.h"
 #include "ft_vectors.h"
 #include "ft_string.h"
+#include "ft_memory.h"
 
 static int	match_and_link(t_vector *p_names, t_vector pattern, char *name);
 static int	get_next_dir(DIR *dir, struct dirent **elem);
@@ -28,7 +30,7 @@ int	find_match(t_vector *p_names, t_vector pattern)
 	struct dirent	*elem;
 
 	ft_bzero(p_names, sizeof(t_vector));
-	ret = ft_vector_init(p_names, 5, sizeof(char *), free_names);
+	ret = ft_vector_init(p_names, 5, sizeof(char *), free_command_content);
 	if (ret != 0)
 		return (ret);
 	dir = opendir(".");

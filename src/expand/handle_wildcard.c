@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:14:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 17:12:40 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 18:01:50 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 #include "ft_string.h"
 
 static int	init_replace(t_vector *p_splitted,
-				t_vector *p_copy, ssize_t vec_ind);
+				t_vector *p_copy, size_t vec_ind);
 static int	replace_wildcard(t_vector *p_splitted,
 				size_t *p_vec_ind, t_vector names);
 static int	end_replace(t_vector *p_splitted, t_vector copy, size_t vec_ind);
 
-int	handle_wildcard(t_vector *p_splitted, ssize_t *p_vec_ind, t_vector names)
+int	handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names)
 {
 	int			ret;
 	t_vector	copy;
@@ -47,10 +47,10 @@ int	handle_wildcard(t_vector *p_splitted, ssize_t *p_vec_ind, t_vector names)
 }
 
 static int	init_replace(t_vector *p_splitted,
-				t_vector *p_copy, ssize_t vec_ind)
+				t_vector *p_copy, size_t vec_ind)
 {
 	int		ret;
-	int		i;
+	size_t	i;
 
 	ft_vector_copy(p_copy, p_splitted);
 	ret = ft_vector_init(p_splitted, 5, p_copy->data_size, p_copy->del);

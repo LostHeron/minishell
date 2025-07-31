@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:27:31 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 16:52:10 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 18:00:50 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 #include "ft_memory.h"
 #include "ft_string.h"
 
-static int	expand_pattern(t_vector *p_splitted, ssize_t *p_vec_ind);
+static int	expand_pattern(t_vector *p_splitted, size_t *p_vec_ind);
 
 int	expand_wildcard(t_vector *p_splitted)
 {
 	int		ret;
-	ssize_t	i;
+	size_t	i;
 	size_t	j;
 
 	i = 0;
-	while ((size_t)i < p_splitted->size)
+	while (i < p_splitted->size)
 	{
 		j = 0;
 		while (j < ((t_vector *)p_splitted->data)[i].size)
@@ -60,6 +60,7 @@ static int	get_pattern(t_vector *p_pattern, t_vector word)
 	ret = ft_vector_init(p_pattern, 5, sizeof(t_pat), free_data);
 	if (ret != 0)
 		return (ret);
+	i = 0;
 	while (i < word.size)
 	{
 		j = 0;
@@ -77,7 +78,7 @@ static int	get_pattern(t_vector *p_pattern, t_vector word)
 	return (0);
 }
 
-static int	expand_pattern(t_vector *p_splitted, ssize_t *p_vec_ind)
+static int	expand_pattern(t_vector *p_splitted, size_t *p_vec_ind)
 {
 	int			ret;
 	t_vector	pattern;
