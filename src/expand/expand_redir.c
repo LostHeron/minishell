@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-25 15:24:05 by cviel             #+#    #+#             */
-/*   Updated: 2025-06-25 15:24:05 by cviel            ###   ########.fr       */
+/*   Created: 2025/06/25 15:24:05 by cviel             #+#    #+#             */
+/*   Updated: 2025/07/31 17:52:06 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	expand_filename(t_vector *dest, int ind,
 		ft_vector_free(&splitted);
 		return (ret);
 	}
-	ret = expand_both(&splitted, mini);
+	ret = expand_all(&splitted, mini);
 	if (ret != 0)
 	{
 		ft_vector_free(&splitted);

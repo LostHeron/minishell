@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   match_wildcard.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-03 13:00:35 by cviel             #+#    #+#             */
-/*   Updated: 2025-07-03 13:00:35 by cviel            ###   ########.fr       */
+/*   Created: 2025/07/03 13:00:35 by cviel             #+#    #+#             */
+/*   Updated: 2025/07/31 18:50:49 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,24 @@
 #include <errno.h>
 #include "minishell.h"
 #include "expand.h"
+#include "ast.h"
 #include "ft_vectors.h"
 #include "ft_string.h"
+#include "ft_memory.h"
 
-static int	match_and_join(char **replace, t_vector pattern, char *name);
+static int	match_and_link(t_vector *p_names, t_vector pattern, char *name);
 static int	get_next_dir(DIR *dir, struct dirent **elem);
 
-int	find_match(char **replace, t_vector pattern)
+int	find_match(t_vector *p_names, t_vector pattern)
 {
 	int				ret;
 	DIR				*dir;
 	struct dirent	*elem;
 
+	ft_bzero(p_names, sizeof(t_vector));
+	ret = ft_vector_init(p_names, 5, sizeof(char *), free_command_content);
+	if (ret != 0)
+		return (ret);
 	dir = opendir(".");
 	if (dir == NULL)
 	{
@@ -34,14 +40,12 @@ int	find_match(char **replace, t_vector pattern)
 		return (1);
 	}
 	ret = get_next_dir(dir, &elem);
-	while (elem != NULL)
+	while (ret == 0 && elem != NULL)
 	{
-		ret = match_and_join(replace, pattern, elem->d_name);
+		ret = match_and_link(p_names, pattern, elem->d_name);
 		if (ret != 0)
 			break ;
 		ret = get_next_dir(dir, &elem);
-		if (ret != 0)
-			break ;
 	}
 	if (closedir(dir) == -1)
 		perror("closedir");
@@ -60,26 +64,21 @@ static int	get_next_dir(DIR *dir, struct dirent **elem)
 	return (0);
 }
 
-static int	match_and_join(char **replace, t_vector pattern, char *name)
+static int	match_and_link(t_vector *p_names, t_vector pattern, char *name)
 {
-	int	ret;
-	int	match;
+	int		ret;
+	int		match;
+	char	*content;
 
 	match = TRUE;
 	ret = matching(pattern, name, &match);
-	if (ret != 0)
+	if (ret != 0 || match == FALSE)
 		return (ret);
-	if (match == TRUE)
-	{
-		if (*replace != NULL)
-		{
-			*replace = ft_strjoin_free_first(*replace, " ");
-			if (*replace == NULL)
-				return (ERROR_MALLOC);
-		}
-		*replace = ft_strjoin_free_first(*replace, name);
-		if (*replace == NULL)
-			return (ERROR_MALLOC);
-	}
-	return (0);
+	content = ft_strdup(name);
+	if (content == NULL)
+		return (ERROR_MALLOC);
+	ret = ft_vector_add_single(p_names, &content);
+	if (ret != 0)
+		free(content);
+	return (ret);
 }

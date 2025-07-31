@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-17 12:07:15 by cviel             #+#    #+#             */
-/*   Updated: 2025-07-17 12:07:15 by cviel            ###   ########.fr       */
+/*   Created: 2025/07/17 12:07:15 by cviel             #+#    #+#             */
+/*   Updated: 2025/07/31 18:54:06 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ void	free_data(t_vector *p_vector)
 	free(p_vector->data);
 }
 
-void	free_tab(char **arr)
+void	free_splitted(t_vector *p_word)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (arr[i] != NULL)
+	while (i < p_word->size)
 	{
-		free(arr[i]);
+		ft_vector_free(&(((t_vector *)p_word->data)[i]));
 		i++;
 	}
-	free(arr);
+	free(p_word->data);
 }

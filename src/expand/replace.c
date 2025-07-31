@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-26 15:41:09 by cviel             #+#    #+#             */
-/*   Updated: 2025-06-26 15:41:09 by cviel            ###   ########.fr       */
+/*   Created: 2025/06/26 15:41:09 by cviel             #+#    #+#             */
+/*   Updated: 2025/07/31 19:38:04 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "ft_char.h"
 #include "ft_string.h"
 #include "ft_standard.h"
-#include <stdio.h>
 
 int	remove_last(t_exp *p_exp_part, int p_ind)
 {

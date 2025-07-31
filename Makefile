@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
+#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/31 12:33:18 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/31 19:39:52 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -137,17 +137,16 @@ BUILTINS_FILES := builtin_cd.c \
 
 EXPAND_DIR := src/expand/
 EXPAND_FILES := expand.c \
+				split_elem.c \
 				expand_variables.c \
 				expand_redir.c \
-				expand_wildcard.c \
-				split_elem.c \
 				replace.c \
-				rebuild_elem.c \
-				rebuild_filename.c \
-				pattern.c \
+				word_split.c \
+				expand_wildcard.c \
 				match_wildcard.c \
-				matching.c \
 				handle_wildcard.c \
+				matching.c \
+				rebuild.c \
 				free.c \
 
 C_FILES := minishell.c \
