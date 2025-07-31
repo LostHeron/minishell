@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 19:09:17 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 23:13:38 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 23:59:05 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_vectors.h"
 #include "ft_string.h"
 #include "ft_memory.h"
-#include <stdio.h>
+
 static int	build_word(t_vector *p_splitted, t_vector copy,
 				size_t *p_vec_ind, size_t *p_ind);
 
@@ -101,22 +101,22 @@ static int	add_to_word(t_vector *p_word, t_vector copy,
 {
 	int	ret;
 
+	ret = 0;
 	while (*p_vec_ind < copy.size)	
 	{
 		if (((t_exp *)copy.data)[*p_vec_ind].quote == NONE)
 		{
 			ret = unquoted_split(p_word, copy, p_vec_ind, p_ind);
 			if (ret != 0 || *p_vec_ind >= copy.size
-				|| ft_strchr(WHITE_SPACES,
-				((t_exp *)copy.data)[*p_vec_ind].content[*p_ind]) != NULL)
-			{
+				|| (((t_exp *)copy.data)[*p_vec_ind].quote == NONE
+				&& ft_strchr(WHITE_SPACES,
+				((t_exp *)copy.data)[*p_vec_ind].content[*p_ind]) != NULL))
 				break ;
-			}
 		}
 		else
 		{
 			ret = ft_vector_add_single(p_word,
-					&((t_exp *)copy.data)[*p_vec_ind]);
+				&((t_exp *)copy.data)[*p_vec_ind]);
 			(*p_vec_ind)++;
 		}
 	}
