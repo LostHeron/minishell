@@ -18,16 +18,6 @@ int	builtin_pwd(t_vector args, t_minishell *p_mini)
 {
 	int	ret;
 
-	/*
-	if (args.size > 2)
-	{
-		ft_putstr_fd("pwd: too many arguments\n", 2);
-		return (1);
-	}
-	else
-	{
-	}
-	*/
 	(void) args;
 	ret = ft_printf_fd(1, "%s\n", p_mini->cwd_name);
 	if (ret < 0)
