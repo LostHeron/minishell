@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/31 12:33:18 by jweber           ###   ########.fr        #
+#    Updated: 2025/07/31 18:22:43 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ PARSING_FILES := tokenize.c \
 				 fill_file_expand.c \
 				 fill_file_no_expand.c \
 				 get_next_token.c \
+				 get_prompt.c \
 				 ft_split_args.c \
 				 ft_strstr_args.c \
 

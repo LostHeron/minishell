@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:04:27 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/23 17:37:45 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/31 18:22:29 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int		check_after_redir(t_vector tokens, size_t i);
 int		check_after(t_vector tokens, size_t i);
 int		count_here_doc(t_vector tokens);
 int		get_here_doc(t_minishell *p_mini, t_vector *p_tokens);
-int		write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i, \
-													int *p_hd_count);
+int		write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i,
+			int *p_hd_count);
 int		generate_hd_filename(char **p_filename, size_t	nb);
 char	*get_real_delimiter(char *delimiter);
 int		here_doc_delimited_by_end_of_file(char *delimiter);
@@ -41,6 +41,7 @@ int		here_doc_transform(t_list *env, char **p_line);
 char	*get_value(t_list *env, char *key);
 char	*get_key(char *line);
 int		ft_split_args(t_vector *p_tokens, char *line, char **args);
+char	*get_prompt(t_minishell *p_mini);
 int		get_next_token(char **p_token_i, char **p_line, char **args);
 size_t	ft_strstr_args(char *line, char **args);
 

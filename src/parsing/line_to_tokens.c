@@ -6,18 +6,16 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:58:31 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/18 11:05:17 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/31 18:22:55 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_memory.h"
-#include "ft_string.h"
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
 #include "ft_io.h"
 #include "handle_signal.h"
-#include "ft_standard.h"
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -27,9 +25,6 @@ static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret);
 static void	init_args(char **p_args);
 static void	restore_sigquit(void);
 static void	do_nothing(int sig);
-
-static char	*get_prompt(t_minishell *p_mini);
-static void	free_line(t_vector *ptr_vec);
 
 /* This fuction will readline with getline function
  * Then parse this line to transform it to tokens 
@@ -93,11 +88,6 @@ static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret)
 	else
 	{
 		free(prompt);
-		/*
-		char *line = get_next_line(0, p_ret);
-		*p_line = ft_strtrim(line, "\n");
-		free(line);
-		*/
 		*p_line = get_next_line(0, p_ret);
 		return ;
 	}
@@ -133,60 +123,3 @@ static void	do_nothing(int sig)
 	return ;
 }
 
-/* This function should return a pointer to the malloced
- * prompt. 
- *	In case of failure : it should have 
- *	freed all memory allocated in this function
- *	and return NULL
- *	In case of success : return a pointer to the malloced prompt 
-*/
-static char	*get_prompt(t_minishell *p_mini)
-{
-	int			ret;
-	t_vector	line;
-	char		*nb;
-
-	ret = ft_vector_init(&line, 20, sizeof(char), &free_line);
-	if (ret != 0)
-		return (NULL);
-	ret = ft_vector_add_multi(&line,
-			p_mini->cwd_name, ft_strlen(p_mini->cwd_name));
-	if (ret != 0)
-	{
-		ft_vector_free(&line);
-		return (NULL);
-	}
-	ret = ft_vector_add_multi(&line, " [ ", 3);
-	if (ret != 0)
-	{
-		ft_vector_free(&line);
-		return (NULL);
-	}
-	nb = ft_itoa(p_mini->last_error_code);
-	if (nb == NULL)
-	{
-		ft_vector_free(&line);
-		return (NULL);
-	}
-	ret = ft_vector_add_multi(&line, nb, ft_strlen(nb));
-	free(nb);
-	if (ret != 0)
-	{
-		ft_vector_free(&line);
-		return (NULL);
-	}
-	ret = ft_vector_add_multi(&line, " ]$ \0", 5);
-	if (ret != 0)
-	{
-		ft_vector_free(&line);
-		return (NULL);
-	}
-	return (line.data);
-}
-
-static void	free_line(t_vector *ptr_vec)
-{
-	ptr_vec->size = 0;
-	free(ptr_vec->data);
-	ptr_vec->data = NULL;
-}
