@@ -23,6 +23,8 @@ static int	change_existing_env(t_list *env, char *new_key, char *new_value);
  * starting by an alpha or an '_';
  * and next char being eith alnum or '_' until an '=' sign
  * then can have any kind of char 
+ * On success : return 0
+ * On failure : return ERROR_MALLOC
  * to check : 
  *	 -> get_new_key_value fail : DONE -> OK ;
  *	 -> change_existing_env : DONE -> OK ; (always succed)

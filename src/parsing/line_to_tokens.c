@@ -99,12 +99,13 @@ static void	init_args(char **p_args)
 	p_args[1] = "||";
 	p_args[2] = "<<";
 	p_args[3] = ">>";
-	p_args[4] = "|";
-	p_args[5] = ">";
-	p_args[6] = "<";
+	p_args[4] = ">";
+	p_args[5] = "<";
+	p_args[6] = "|";
 	p_args[7] = "(";
 	p_args[8] = ")";
-	p_args[9] = NULL;
+	p_args[9] = ";";
+	p_args[10] = NULL;
 }
 
 static void	restore_sigquit(void)
