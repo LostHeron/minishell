@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:07:15 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 17:32:31 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 18:54:06 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,6 @@ void	free_exp(t_vector *word)
 void	free_data(t_vector *p_vector)
 {
 	free(p_vector->data);
-}
-
-void	free_tab(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i] != NULL)
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
 }
 
 void	free_splitted(t_vector *p_word)

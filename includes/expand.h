@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 13:30:21 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 18:01:10 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 18:53:55 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int		handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names);
 int		remove_last(t_exp *p_exp_part, int p_ind);
 void	free_exp(t_vector *word);
 void	free_data(t_vector *p_vector);
-void	free_tab(char **arr);
 void 	free_splitted(t_vector *p_word);
 
 #endif

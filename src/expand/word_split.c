@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 19:09:17 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 17:58:08 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 18:35:13 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static int	build_word(t_vector *p_splitted, t_vector copy,
 	{
 		if (((t_exp *)copy.data)[*p_vec_ind].quote == NONE)
 		{
-			ret = unquoted_split(&word, copy, p_vec_ind, p_ind); 
+			ret = unquoted_split(&word, copy, p_vec_ind, p_ind);
 			if (ret == 0 && *p_vec_ind < copy.size && ft_strchr(WHITE_SPACES,
 					((t_exp *)copy.data)[*p_vec_ind].content[*p_ind]) != NULL)
 				break;

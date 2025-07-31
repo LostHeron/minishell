@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:27:31 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 18:00:50 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 18:43:35 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "ft_lists_single.h"
 #include "ft_memory.h"
 #include "ft_string.h"
-
+#include <stdio.h>
 static int	expand_pattern(t_vector *p_splitted, size_t *p_vec_ind);
 
 int	expand_wildcard(t_vector *p_splitted)

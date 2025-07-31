@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 13:00:35 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 17:58:59 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 18:50:49 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	find_match(t_vector *p_names, t_vector pattern)
 		return (1);
 	}
 	ret = get_next_dir(dir, &elem);
-	while (ret != 0 && elem != NULL)
+	while (ret == 0 && elem != NULL)
 	{
 		ret = match_and_link(p_names, pattern, elem->d_name);
 		if (ret != 0)
@@ -72,16 +72,13 @@ static int	match_and_link(t_vector *p_names, t_vector pattern, char *name)
 
 	match = TRUE;
 	ret = matching(pattern, name, &match);
-	if (ret != 0)
+	if (ret != 0 || match == FALSE)
 		return (ret);
-	if (match == TRUE)
-	{
-		content = ft_strdup(name);
-		if (content == NULL)
-			return (ERROR_MALLOC);
-		ret = ft_vector_add_single(p_names, content);
-		if (ret != 0)
-			free(content);
-	}
+	content = ft_strdup(name);
+	if (content == NULL)
+		return (ERROR_MALLOC);
+	ret = ft_vector_add_single(p_names, &content);
+	if (ret != 0)
+		free(content);
 	return (ret);
 }

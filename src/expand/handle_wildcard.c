@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:14:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 18:01:50 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 19:01:47 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names)
 		ft_vector_free(&copy);
 		return (ret);
 	}
-	copy_i = *p_vec_ind;
+	copy_i = *p_vec_ind + 1;
 	ret = replace_wildcard(p_splitted, p_vec_ind, names);
 	if (ret != 0)
 	{

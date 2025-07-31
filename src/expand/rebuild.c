@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:06:07 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 18:02:17 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 19:02:33 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 #include "ft_vectors.h"
 #include "ft_standard.h"
 #include "ft_string.h"
-
+#include <stdio.h>
 int	rebuild_exp(t_vector *dest, t_vector splitted, size_t ind);
 
 int	rebuild_elem(t_vector *dest, t_vector splitted)
 {
 	int		ret;
-	char	*null;
 	size_t	i;
 
 	i = 0;
@@ -33,8 +32,7 @@ int	rebuild_elem(t_vector *dest, t_vector splitted)
 			return (ret);
 		i++;
 	}
-	null = NULL;
-	return (ft_vector_add_single(dest, &null));
+	return (0);
 }
 
 int	rebuild_exp(t_vector *dest, t_vector splitted, size_t ind)
@@ -53,7 +51,7 @@ int	rebuild_exp(t_vector *dest, t_vector splitted, size_t ind)
 			return (ERROR_MALLOC);
 		i++;
 	}
-	ret = ft_vector_add_single(dest, content);
+	ret = ft_vector_add_single(dest, &content);
 	if (ret != 0)
 		free(content);
 	return (ret);

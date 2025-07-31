@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:53:34 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 17:56:51 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 18:55:12 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 #include "expand.h"
 #include "ft_vectors.h"
 #include "ft_memory.h"
-
+#include <stdio.h>
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini);
 
 int	expand(t_vector *p_args, t_minishell mini)
 {
 	int			ret;
 	t_vector	copy;
+	char		*null;
 	size_t		i;
 
 	ft_vector_copy(&copy, p_args);
@@ -44,7 +45,8 @@ int	expand(t_vector *p_args, t_minishell mini)
 		i++;
 	}
 	ft_vector_free(&copy);
-	return (0);
+	null = NULL;
+	return (ft_vector_add_single(p_args, &null));
 }
 
 int	expand_all(t_vector *p_splitted, t_minishell mini)
