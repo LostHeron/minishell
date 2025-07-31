@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
+#    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/07 13:42:30 by jweber            #+#    #+#              #
-#    Updated: 2025/07/31 19:39:52 by cviel            ###   ########.fr        #
+#    Created: 2025/07/31 20:28:42 by jweber            #+#    #+#              #
+#    Updated: 2025/07/31 20:28:43 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ PARSING_FILES := tokenize.c \
 				 fill_file_expand.c \
 				 fill_file_no_expand.c \
 				 get_next_token.c \
+				 get_prompt.c \
 				 ft_split_args.c \
 				 ft_strstr_args.c \
 
