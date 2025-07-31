@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
+#include "ft_io.h"
 
 int	builtin_export_no_args(t_minishell *p_mini)
 {
@@ -22,13 +22,13 @@ int	builtin_export_no_args(t_minishell *p_mini)
 	{
 		if (((t_env *)tmp->content)->value != NULL)
 		{
-			printf("export %s=\"%s\"\n", \
-					((t_env *)tmp->content)->key, \
-					((t_env *)tmp->content)->value);
+			ft_printf_fd(1, "export %s=\"%s\"\n",
+				((t_env *)tmp->content)->key,
+				((t_env *)tmp->content)->value);
 		}
 		else
 		{
-			printf("export %s\n", ((t_env *)tmp->content)->key);
+			ft_printf_fd(1, "export %s\n", ((t_env *)tmp->content)->key);
 		}
 		tmp = tmp->next;
 	}

@@ -17,6 +17,7 @@
 #include "handle_signal.h"
 #include "minishell.h"
 #include "parsing.h"
+#include "ft_io.h"
 #include <signal.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -59,10 +60,10 @@ int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 	{
 		ret = get_here_doc_i(p_mini, p_tokens, i, &hd_count);
 		if (g_my_signal == SIGINT)
-			printf("^C");
+			ft_printf_fd(2, "^C");
 		if (ret != 0)
 		{
-			if (isatty(0) == 1) 
+			if (isatty(0) == 1)
 			{
 				restore_term_attr(&old_t);
 				restore_sigquit(&old_s);
@@ -72,7 +73,7 @@ int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 		}
 		i++;
 	}
-	if (isatty(0) == 1) 
+	if (isatty(0) == 1)
 	{
 		restore_term_attr(&old_t);
 		restore_sigquit(&old_s);

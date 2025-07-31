@@ -79,10 +79,12 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 	if (ret != 0)
 		return (ret);
 	ft_strlcpy(p_mini->cwd_name, path_name, CWD_NAME_MAX_LENGTH);
+	/*
 	path_len = ft_strlen(place_to_go);
 	if (path_len != 1 && place_to_go[path_len - 1] == '/'
 		&& ft_strcmp(p_mini->cwd_name, "/") != 0)
 		ft_strlcat(p_mini->cwd_name, "/", CWD_NAME_MAX_LENGTH);
+		*/
 	free(place_to_go);
 	free(path_name);
 	ret = update_pwd_env_var(p_mini);

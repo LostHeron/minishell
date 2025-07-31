@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printing.h                                         :+:      :+:    :+:   */
+/*   print_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:39:58 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/31 12:33:06 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/31 12:31:10 by jweber            #+#    #+#             */
+/*   Updated: 2025/07/31 12:32:57 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTING_H
-# define PRINTING_H
+#include "ft_vectors.h"
+#include "ft_io.h"
 
-# include "minishell.h"
+void	print_tokens(t_vector tokens)
+{
+	size_t	i;
 
-void	print_error(int err_code);
-void	print_path(t_minishell *p_mini);
-void	print_env(t_minishell *p_mini);
-void	print_tokens_ast(t_ast *ast);
-void	print_tokens(t_vector tokens);
-
-#endif // !PRINTING_H
+	i = 0;
+	ft_printf_fd(2, "tokens : ");
+	while (i < tokens.size)
+	{
+		ft_printf_fd(2, "'%s', ", ((char **)tokens.data)[i]);
+		i++;
+	}
+	ft_printf_fd(2, "\n");
+}

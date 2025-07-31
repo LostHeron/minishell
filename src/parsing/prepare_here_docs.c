@@ -40,7 +40,7 @@ int	prepare_here_docs(t_minishell *p_mini, t_vector *p_tokens)
 	{
 		if (errno == EINTR)
 		{
-			printf("\n");
+			ft_printf_fd(2, "\n");
 			return (1);
 		}
 	}

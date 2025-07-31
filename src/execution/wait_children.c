@@ -15,6 +15,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <stdio.h>
+#include "ft_io.h"
 
 static void	get_child_return_value(t_minishell *p_mini,
 				int child_ret, int *p_ret);
@@ -69,8 +70,8 @@ static void	get_child_return_value(t_minishell *p_mini,
 	{
 		p_mini->last_error_code = WTERMSIG(child_ret);
 		if (p_mini->last_error_code == SIGQUIT)
-			printf("Quit (core dumped)");
-		printf("\n");
+			ft_printf_fd(1, "Quit (core dumped)");
+		ft_printf_fd(1, "\n");
 		p_mini->last_error_code += 128;
 		*p_ret = 0;
 	}

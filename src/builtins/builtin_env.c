@@ -14,7 +14,6 @@
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "ft_io.h"
-#include <stdio.h>
 
 int	builtin_env(t_vector args, t_minishell *p_mini)
 {
@@ -30,7 +29,7 @@ int	builtin_env(t_vector args, t_minishell *p_mini)
 	{
 		if (((t_env *)tmp->content)->value != NULL)
 		{
-			printf("%s=%s\n",
+			ft_printf_fd(1, "%s=%s\n",
 				((t_env *)tmp->content)->key,
 				((t_env *)tmp->content)->value);
 		}

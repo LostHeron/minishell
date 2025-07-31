@@ -6,26 +6,25 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 16:19:05 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/03 16:33:20 by jweber           ###   ########.fr       */
+/*   Updated: 2025/07/31 11:36:58 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "ft_lists_single.h"
 #include "minishell.h"
+#include "ft_io.h"
 
 void	print_env(t_minishell *p_mini)
 {
 	t_list	*tmp;
 
-	printf("in print_env !\n");
-	fflush(stdout);
+	ft_printf_fd(2, "in print_env !\n");
 	tmp = p_mini->env;
 	while (tmp != NULL)
 	{
-		printf("key = %s\n", ((t_env *)tmp->content)->key);
-		printf("value = %s\n", ((t_env *)tmp->content)->value);
-		printf("\n");
+		ft_printf_fd(2, "key = %s\n", ((t_env *)tmp->content)->key);
+		ft_printf_fd(2, "value = %s\n", ((t_env *)tmp->content)->value);
+		ft_printf_fd(2, "\n");
 		tmp = tmp->next;
 	}
 }

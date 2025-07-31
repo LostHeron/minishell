@@ -26,13 +26,9 @@ ls > log1 << eof1 | ls > log2 << eof2 | ls > log3 << eof3
 
 TODO:
 
-- 13) cat < coucou avec coucou qui est inexistant code erreur = 7 au lieu de 1, de même avec cat > coco sans permission sur coco
+- 13) modifier dans readline tous les \n par des ; comme ça les commandes s'executent toutes ?
 - 12) ; marche pas regarder pourquoi
-- 11) export code d'erreur pas bon quand fail 
 - 10) echo with -ne and - flag to try again behaviour
-- 9) segfault when entering empty line
-- 8) generate error message for ERROR_WRITE // DONE 
-- 7) generate error message for ERROR_READ // DONE 
 - 6) wrong error message in case of SIGINT in heredocuments (and maybe cat)
 - 5) gerer le shell qui se lance dans /home/jweber/goinfre/a/b/c après avoir supprimer a/b/c ? // work ok execpt for printing pwd just does not behave like bash but nvm;
 - 5) utiliser readline au lieu de get next line dans les here documents ?
@@ -65,6 +61,11 @@ que des redirections s'il y a autre chose ou des operateurs de commande
 \ /
 OLD stuff just in case for check : 
 
+- 13) cat < coucou avec coucou qui est inexistant code erreur = 7 au lieu de 1, de même avec cat > coco sans permission sur coco // DONE 
+- 11) export code d'erreur pas bon quand fail  // DONE 
+- 9) segfault when entering empty line // DONE 
+- 8) generate error message for ERROR_WRITE // DONE 
+- 7) generate error message for ERROR_READ // DONE 
 - 7) regler le probleme ou une commande se finit par ';' // DONE (execpt for print tree);
 - 8) MODIFIER wait_children en fonction d'un nombre d'enfant a wait
 pour pouvoir exec_background un nombre infini de command // DONE even if exec_background is suppressed
