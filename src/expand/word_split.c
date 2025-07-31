@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 19:09:17 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/30 20:19:24 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 16:05:33 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static int	unquoted_split(t_vector *p_word, t_vector copy,
 	exp.content = ft_strndup(&((t_exp *)copy.data)[*p_vec_ind].content[*p_ind], i);
 	if (exp.content == NULL)
 		return (ERROR_MALLOC);
-	if (((t_exp *)copy.data)[*p_vec_ind].content[*p_ind + i] != '\0')
+	(*p_ind) += i;
+	if (((t_exp *)copy.data)[*p_vec_ind].content[*p_ind] == '\0')
 	{
 		(*p_vec_ind)++;
 		(*p_ind) = 0;	

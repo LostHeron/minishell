@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:07:15 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/30 19:17:19 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 16:38:43 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	free_tab(char **arr)
 	free(arr);
 }
 
-void free_splitted(t_vector *p_word)
+void	free_splitted(t_vector *p_word)
 {
 	size_t	i;
 
@@ -56,4 +56,17 @@ void free_splitted(t_vector *p_word)
 		i++;
 	}
 	free(p_word->data);
+}
+
+void	free_names(t_vector *p_names)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < p_names->size)
+	{
+		free(((char **)p_names->data)[i]);
+		i++;
+	}
+	free(p_names->data);
 }

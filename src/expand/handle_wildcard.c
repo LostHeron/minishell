@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:14:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/30 19:19:56 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 17:12:40 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,15 @@
 
 static int	init_replace(t_vector *p_splitted,
 				t_vector *p_copy, ssize_t vec_ind);
-static int	replace_wildcard(t_vector *p_splitted, t_vector copy,
-				t_ind *p_ind, char *replace);
-static int	end_replace(t_vector *p_splitted, t_vector copy, ssize_t vec_ind);
+static int	replace_wildcard(t_vector *p_splitted,
+				size_t *p_vec_ind, t_vector names);
+static int	end_replace(t_vector *p_splitted, t_vector copy, size_t vec_ind);
 
-int	handle_wildcard(t_vector *p_splitted,
-			ssize_t *p_vec_ind, ssize_t *p_ind, char *replace)
+int	handle_wildcard(t_vector *p_splitted, ssize_t *p_vec_ind, t_vector names)
 {
 	int			ret;
 	t_vector	copy;
-	t_ind		ind;
+	size_t		copy_i;
 
 	ret = init_replace(p_splitted, &copy, *p_vec_ind);
 	if (ret != 0)
@@ -35,15 +34,14 @@ int	handle_wildcard(t_vector *p_splitted,
 		ft_vector_free(&copy);
 		return (ret);
 	}
-	ind.vec = p_vec_ind;
-	ind.elt = p_ind;
-	ret = replace_wildcard(p_splitted, copy, &ind, replace);
+	copy_i = *p_vec_ind;
+	ret = replace_wildcard(p_splitted, p_vec_ind, names);
 	if (ret != 0)
 	{
 		ft_vector_free(&copy);
 		return (ret);
 	}
-	ret = end_replace(p_splitted, copy, *p_vec_ind);
+	ret = end_replace(p_splitted, copy, copy_i);
 	ft_vector_free(&copy);
 	return (ret);
 }
@@ -61,7 +59,7 @@ static int	init_replace(t_vector *p_splitted,
 	i = 0;
 	while (i < vec_ind)
 	{
-		ret = ft_vector_add_single(p_splitted, &((t_exp *)p_copy->data)[i]);
+		ret = ft_vector_add_single(p_splitted, &((t_vector *)p_copy->data)[i]);
 		if (ret != 0)
 			return (ret);
 		i++;
@@ -69,68 +67,50 @@ static int	init_replace(t_vector *p_splitted,
 	return (0);
 }
 
-static int	join_end(t_exp *p_exp, t_vector copy, t_ind p_ind)
+static int	replace_wildcard(t_vector *p_splitted,
+					size_t *p_vec_ind, t_vector names)
 {
-	while ((size_t)(*(p_ind.vec)) < copy.size)
+	int			ret;
+	t_vector	word;
+	t_exp		exp;
+	size_t		i;
+
+	i = 0;
+	exp.quote = NONE;
+	while (i < names.size)
 	{
-		if (((t_exp *)copy.data)[*(p_ind.vec)].quote == NONE
-			&& ft_strchr(WHITE_SPACES,
-			((t_exp *)copy.data)[*(p_ind.vec)].content[*(p_ind.elt)]) != NULL)
+		ret = ft_vector_init(&word, 1, sizeof(t_exp), free_exp);
+		if (ret != 0)
+			return (ret);
+		exp.content = ft_strdup(((char **)names.data)[i]);
+		if (exp.content == NULL)
 		{
-			p_exp->content = ft_strjoin_free_first(p_exp->content,
-					&((t_exp *)copy.data)[*(p_ind.vec)].content[*(p_ind.elt)]);
-			if (p_exp->content == NULL)
-				return (ERROR_MALLOC);
-			return (0);
+			ft_vector_free(&word);
+			return (ERROR_MALLOC);
 		}
-		else
+		ret = ft_vector_add_single(&word, &exp);
+		if (ret != 0)
 		{
-			*(p_ind.elt) += 1;
-			if (((t_exp *)copy.data)[*(p_ind.vec)].content[*(p_ind.elt)]
-					== '\0')
-			{
-				*(p_ind.vec) += 1;
-				*(p_ind.elt) = 0;
-			}
+			free(exp.content);
+			ft_vector_free(&word);
+			return (ret);
 		}
+		ret = ft_vector_add_single(p_splitted, &word);
+		if (ret != 0)
+			ft_vector_free(&word);
+		(*p_vec_ind)++;
+		i++;
 	}
 	return (0);
 }
 
-static int	replace_wildcard(t_vector *p_splitted, t_vector copy,
-				t_ind *p_ind, char *replace)
-{
-	int		ret;
-	t_exp	exp;
-
-	exp.quote = NONE;
-	exp.content = NULL;
-	if (*(p_ind->elt) != 0)
-	{
-		exp.content = ft_strndup(((t_exp *)copy.data)[*(p_ind->vec)].content,
-				*(p_ind->elt) - 1);
-		if (exp.content == NULL)
-			return (ERROR_MALLOC);
-	}
-	exp.content = ft_strjoin_free_first(exp.content, replace);
-	if (exp.content == NULL)
-		return (ERROR_MALLOC);
-	ret = join_end(&exp, copy, *p_ind);
-	if (ret != 0)
-	{
-		free(exp.content);
-		return (ret);
-	}
-	return (ft_vector_add_single(p_splitted, &exp));
-}
-
-static int	end_replace(t_vector *p_splitted, t_vector copy, ssize_t vec_ind)
+static int	end_replace(t_vector *p_splitted, t_vector copy, size_t vec_ind)
 {
 	int	ret;
 
-	while ((size_t)vec_ind < copy.size)
+	while (vec_ind < copy.size)
 	{
-		ret = ft_vector_add_single(p_splitted, &((t_exp *)copy.data)[vec_ind]);
+		ret = ft_vector_add_single(p_splitted, &((t_vector *)copy.data)[vec_ind]);
 		if (ret != 0)
 			return (ret);
 		vec_ind++;

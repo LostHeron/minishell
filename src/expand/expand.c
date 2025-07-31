@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:53:34 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/30 19:19:26 by cviel            ###   ########.fr       */
+/*   Updated: 2025/07/31 16:51:19 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	expand(t_vector *p_args, t_minishell mini)
 		i++;
 	}
 	null = NULL;
-	ft_vector_add_single(p_args, &null);
+	ret = ft_vector_add_single(p_args, &null);
 	ft_vector_free(&copy);
-	return (0);
+	return (ret);
 }
 
 int	expand_all(t_vector *p_splitted, t_minishell mini)
@@ -58,7 +58,7 @@ int	expand_all(t_vector *p_splitted, t_minishell mini)
 	ret = word_split(p_splitted);
 	if (ret != 0)
 		return (ret);
-	return (expand_wildcard(*p_splitted));
+	return (expand_wildcard(p_splitted));
 }
 
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini)
