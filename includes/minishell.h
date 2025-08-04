@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/15 13:59:58 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/04 19:50:53 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 
 // error of define here should move something !
 // maybe allocate number of function later ?? who knows !
-#define NB_BUILTINS_HERE 7
-#define NB_MAX_HERE_DOC 16
+# define NB_BUILTINS_HERE 7
+# define NB_MAX_HERE_DOC 16
 
 typedef struct s_minishell
 {
@@ -48,7 +48,7 @@ typedef struct s_minishell
 	int			fd2[2];
 	t_list		*env;
 	char		*builtins_name[NB_BUILTINS_HERE + 1];
-	int			(*builtins_func[NB_BUILTINS_HERE])(t_vector args, \
+	int			(*builtins_func[NB_BUILTINS_HERE])(t_vector args,\
 											struct s_minishell *p_mini);
 	int			fds_here_doc[NB_MAX_HERE_DOC];
 	char		*cwd_name;
