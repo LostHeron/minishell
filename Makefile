@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
+#    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/07/31 20:28:42 by jweber            #+#    #+#              #
-#    Updated: 2025/08/04 14:08:22 by jweber           ###   ########.fr        #
+#    Created: 2025/08/04 18:16:59 by jweber            #+#    #+#              #
+#    Updated: 2025/08/04 18:17:00 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ PARSING_FILES := tokenize.c \
 				 check_errors.c \
 				 check_error_syntax.c \
 				 check_matching_parenthesis.c \
+				 check_around_parenthesis.c \
 				 check_around_opening_parenthesis.c \
 				 check_around_closing_parenthesis.c \
 				 check_after_closing_parenthesis.c \

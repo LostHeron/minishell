@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:37:03 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/24 13:39:03 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/04 18:07:37 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ static void	init_list_redir(char **list_redir);
  *	but, after those redirection
  *	there must be nothing (token_i == p_tokens.size - 1)
  *	or the token must be one of :
- *		"&&" "&" ";" "||" "|";
+ *		"&&" "&" ";" "||" "|" ")"
 */
 int	check_after_closing_parenthesis(t_vector *p_tokens, size_t token_i)
 {
-	char	*list_after_closing_parenthesis[9];
+	char	*list_after_closing_parenthesis[10];
 	size_t	list_i;
 	size_t	token_i_after_redir;
 
@@ -62,8 +62,9 @@ static void	init_list_after_closing_parenthesis(char **list_check)
 	list_check[4] = ">>";
 	list_check[5] = "<";
 	list_check[6] = "<<";
-	list_check[7] = "(";
-	list_check[8] = NULL;
+	list_check[7] = ")";
+	list_check[8] = ";";
+	list_check[9] = NULL;
 }
 
 static void	skip_redir_after_closing_parenthesis(

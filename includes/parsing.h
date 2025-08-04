@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:04:27 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/31 18:22:29 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/04 18:02:42 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int		check_errors(t_minishell *p_mini, t_vector *p_tokens);
 int		prepare_here_docs(t_minishell *p_mini, t_vector *p_tokens);
 int		check_matching_parenthesis(t_vector *p_tokens);
 int		check_error_syntax(t_vector tokens);
+int		check_around_parenthesis(t_vector *p_tokens);
 int		check_around_opening_parenthesis(t_vector *p_tokens, size_t	token_i);
 int		check_around_closing_parenthesis(t_vector *p_tokens, size_t	token_i);
 int		check_before_after(t_vector tokens, size_t i);

@@ -6,16 +6,13 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 16:00:16 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/23 17:51:52 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/04 18:03:10 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
-#include "ft_string.h"
-
-static int	check_around_parenthesis(t_vector *p_tokens);
 
 /* This function should check that there is no syntax
  * errors. It will return 0 if no syntax error are present
@@ -43,29 +40,5 @@ int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 	ret = prepare_here_docs(p_mini, p_tokens);
 	if (ret != 0)
 		return (ret);
-	return (0);
-}
-
-static int	check_around_parenthesis(t_vector *p_tokens)
-{
-	size_t	token_i;
-	int		ret;
-
-	token_i = 0;
-	while (token_i < p_tokens->size)
-	{
-		ret = 0;
-		if (ft_strcmp("(", ((char **)p_tokens->data)[token_i]) == 0)
-		{
-			ret = check_around_opening_parenthesis(p_tokens, token_i);
-		}
-		else if (ft_strcmp(")", ((char **)p_tokens->data)[token_i]) == 0)
-		{
-			ret = check_around_closing_parenthesis(p_tokens, token_i);
-		}
-		if (ret != 0)
-			return (ret);
-		token_i++;
-	}
 	return (0);
 }

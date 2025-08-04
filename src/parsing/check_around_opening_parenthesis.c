@@ -51,7 +51,7 @@ int	check_around_opening_parenthesis(t_vector *p_tokens, size_t	token_i)
 /* this function is called when tokens is "("
  *	it is only called if token_i > 0
  *	and this function must check that p_tokens[token_i - 1]
- *	is one of "&&", "&", "||", "|", ";"
+ *	is one of "&&", "||", "|", ";", "("
  *	return 1 (error) if it is none of previous quoted tokens
  *	return 0 if it is one of the previous quoted tokens
 */
@@ -78,7 +78,8 @@ static void	init_list_before_opening_parenthesis(char **list_check)
 	list_check[1] = "||";
 	list_check[2] = "|";
 	list_check[3] = ";";
-	list_check[4] = NULL;
+	list_check[4] = "(";
+	list_check[5] = NULL;
 }
 
 /* This function is called when token is "("
