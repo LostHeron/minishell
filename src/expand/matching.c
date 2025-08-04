@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matching.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-16 15:53:48 by cviel             #+#    #+#             */
-/*   Updated: 2025-07-16 15:53:48 by cviel            ###   ########.fr       */
+/*   Created: 2025/07/16 15:53:48 by cviel             #+#    #+#             */
+/*   Updated: 2025/08/04 17:41:41 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,34 @@ static int	build_segment(char **seg, t_vector pattern, int *ind);
 static int	matching_start(t_vector pattern, char **p_elem,
 				int *match, int *ind);
 static void	matching_segment(char **p_elem, char **seg, int *p_match);
+static void	matching_end(char *elem, char *seg, int *p_match);
 
 int	matching(t_vector pattern, char *elem, int *p_match)
 {
 	int		ret;
-	char	*s;
+	char	*seg;
 	int		i;
 
 	i = 0;
 	ret = matching_start(pattern, &elem, p_match, &i);
 	if (ret != 0 || *p_match == FALSE)
 		return (ret);
-	s = NULL;
+	seg = NULL;
 	while ((size_t)i < pattern.size)
 	{
-		ret = build_segment(&s, pattern, &i);
-		if (ret != 0 || s == NULL)
+		ret = build_segment(&seg, pattern, &i);
+		if (ret != 0 || seg == NULL)
 			return (ret);
 		if ((size_t)i < pattern.size)
 		{
-			matching_segment(&elem, &s, p_match);
+			matching_segment(&elem, &seg, p_match);
 			if (*p_match == FALSE)
 				return (0);
 		}
 	}
-	if (s != NULL && ft_strcmp(&elem[ft_strlen(elem) - ft_strlen(s)], s) != 0)
-		*p_match = FALSE;
-	free(s);
+	if (seg != NULL)
+		matching_end(elem, seg, p_match);
+	free(seg);
 	return (0);
 }
 
@@ -56,7 +57,7 @@ static int	build_segment(char **seg, t_vector pattern, int *ind)
 
 	while ((size_t)(*ind) < pattern.size
 		&& ((t_pat *)pattern.data)[*ind].wild == TRUE)
-		(*ind) += 1;
+		(*ind)++;
 	while ((size_t)(*ind) < pattern.size
 		&& ((t_pat *)pattern.data)[*ind].wild == FALSE)
 	{
@@ -69,7 +70,7 @@ static int	build_segment(char **seg, t_vector pattern, int *ind)
 		free(join);
 		if (*seg == NULL)
 			return (ERROR_MALLOC);
-		(*ind) += 1;
+		(*ind)++;
 	}
 	return (0);
 }
@@ -117,4 +118,15 @@ static void	matching_segment(char **p_elem, char **seg, int *p_match)
 	free(*seg);
 	*seg = NULL;
 	return ;
+}
+
+static void	matching_end(char *elem, char *seg, int *p_match)
+{
+	int	len_elem;
+	int	len_seg;
+
+	len_elem = ft_strlen(elem);
+	len_seg = ft_strlen(seg);
+	if (len_elem < len_seg || ft_strcmp(&elem[len_elem - len_seg], seg) != 0)
+		*p_match = FALSE;
 }
