@@ -22,8 +22,8 @@ typedef enum e_type
 	SUBSHELL,
 	COMMAND,
 	PIPE,
-	AND,
 	OR,
+	AND,
 	SEQUENCE,
 	END_SUBSHELL,
 	END_LINE
