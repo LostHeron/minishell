@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-19 16:40:04 by cviel             #+#    #+#             */
-/*   Updated: 2025-05-19 16:40:04 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/04 14:07:32 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	print_all_redir(t_vector dir_args)
 	while (i < dir_args.size)
 	{
 		ft_printf_fd(2, " REDIR %lu : %s %s", i + 1,
-			print_redir(((t_dirargs *)dir_args.data)[i].dir),
+			print_redir_in_out(((t_dirargs *)dir_args.data)[i].dir),
 			((t_dirargs *)dir_args.data)[i].filename);
 		if (i + 1 < dir_args.size)
 			ft_printf_fd(2, " ");

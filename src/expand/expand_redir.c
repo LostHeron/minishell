@@ -26,8 +26,10 @@ int	expand_redir(t_vector *p_redir, t_minishell mini)
 	i = 0;
 	while (i < p_redir->size)
 	{
-		ret = expand_filename(p_redir, i,
-				((t_dirargs *)p_redir->data)[i].filename, mini);
+		ret = 0;
+		if (((t_dirargs *)p_redir->data)[i].dir != HEREDOC)
+			ret = expand_filename(p_redir, i,
+					((t_dirargs *)p_redir->data)[i].filename, mini);
 		if (ret != 0)
 		{
 			return (ret);

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-05-23 13:46:41 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/01 14:56:16 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/04 14:07:47 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		fill_redir(t_vector *p_dir_args,
 			t_vector tokens, size_t *ind, t_dir dir);
 t_ast	*create_ast(t_vector tokens, t_type max_prio, size_t *ind);
 char	*print_type(t_type type);
-char	*print_redir(t_dir dir);
+char	*print_redir_in_out(t_dir dir);
 void	print_tree(t_ast *root, size_t depth);
 
 #endif

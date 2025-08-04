@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025-07-22 11:09:45 by cviel             #+#    #+#             */
-/*   Updated: 2025-07-22 11:09:45 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/04 14:09:04 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*print_type(t_type type)
 	return ("OTHER");
 }
 
-char	*print_redir(t_dir dir)
+char	*print_redir_in_out(t_dir dir)
 {
 	if (dir == IN)
 		return ("IN");

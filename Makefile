@@ -6,7 +6,7 @@
 #    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/31 20:28:42 by jweber            #+#    #+#              #
-#    Updated: 2025/08/01 00:34:16 by cviel            ###   ########.fr        #
+#    Updated: 2025/08/04 14:08:22 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ PRINTING_FILES := print_error.c \
 				  print_env.c \
 				  print_path.c \
 				  print_tokens.c \
+				  print_redir.c \
 				  print_tokens_ast.c \
 
 HANDLE_SIGNALS_DIR := src/handle_signals/
