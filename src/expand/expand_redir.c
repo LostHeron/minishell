@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:24:05 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 17:52:06 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:18:52 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ int	expand_redir(t_vector *p_redir, t_minishell mini)
 	size_t		i;
 
 	i = 0;
+	ret = 0;
 	while (i < p_redir->size)
 	{
-		ret = 0;
 		if (((t_dirargs *)p_redir->data)[i].dir != HEREDOC)
+		{
 			ret = expand_filename(p_redir, i,
 					((t_dirargs *)p_redir->data)[i].filename, mini);
-		if (ret != 0)
-		{
-			return (ret);
+			if (ret != 0)
+				return (ret);
 		}
 		i++;
 	}
