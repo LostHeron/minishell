@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:38:45 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/24 13:37:44 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/04 18:04:34 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	check_around_closing_parenthesis(t_vector *p_tokens, size_t	token_i)
 /* Function will check if parameters before a closing parenthesis are ok :
  *	following tokens are FORBIDDEN before a closing parenthesis: 
  *		- "&&", "||", "|", "(", ">", ">>", "<", "<<"
- *	but those one are ALLOWED :
- *		- "&", ";"
+ *	but this one is ALLOWED :
+ *		- ";"
  *	return 1 if token_i - 1 is one of forbidden token
  *	return 0 if token_i - 1 is none of forbidden token
 */

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ast.h"
-#include "builtins.h"
 #include "execution.h"
 #include "ft_vectors.h"
 #include "minishell.h"
@@ -22,7 +21,6 @@
 
 static int	expansion(t_ast *ast, t_minishell *p_mini);
 static int	get_cmd_type(char **builtins_name, t_vector cmd_args);
-static int	change_underscore_var(t_minishell *p_mini, t_vector args);
 
 /* to check :
  *	-> expand fail : DONE -> OK !
@@ -40,11 +38,6 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 		return (ret);
 	cmd_type = get_cmd_type(p_mini->builtins_name,
 			ast->arguments.com_args.content);
-	if (p_mini->previous_type != PIPE)
-	{
-		if (change_underscore_var(p_mini, ast->arguments.com_args.content) < 0)
-			return (ERROR_MALLOC);
-	}
 	if (p_mini->previous_type == PIPE || cmd_type == CMD_BINARY)
 	{
 		ret = case_forking(ast, p_mini, cmd_type);
@@ -74,25 +67,6 @@ static int	get_cmd_type(char **builtins_name, t_vector cmd_args)
 		i++;
 	}
 	return (CMD_BINARY);
-}
-
-static int	change_underscore_var(t_minishell *p_mini, t_vector args)
-{
-	char	*str;
-	int		ret;
-
-	if (args.size >= 2)
-	{
-		str = "_=";
-		str = ft_strjoin(str, ((char **)args.data)[args.size - 2]);
-		if (str == NULL)
-			return (ERROR_MALLOC);
-		ret = export_from_string(str, p_mini);
-		free(str);
-		return (ret);
-	}
-	else
-		return (0);
 }
 
 static int	expansion(t_ast *ast, t_minishell *p_mini)
