@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:24:05 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/04 15:18:52 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/04 17:07:33 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "expand.h"
 #include "ft_vectors.h"
 
-static int	expand_filename(t_vector *p_redir, int ind,
+static int	expand_filename(t_vector *p_redir, size_t ind,
 				char *src, t_minishell mini);
 
 int	expand_redir(t_vector *p_redir, t_minishell mini)
@@ -39,7 +39,7 @@ int	expand_redir(t_vector *p_redir, t_minishell mini)
 	return (0);
 }
 
-static int	expand_filename(t_vector *dest, int ind,
+static int	expand_filename(t_vector *dest, size_t ind,
 			char *src, t_minishell mini)
 {
 	int			ret;

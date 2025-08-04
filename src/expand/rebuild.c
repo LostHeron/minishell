@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:06:07 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 23:25:32 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/04 17:06:55 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	rebuild_exp(t_vector *dest, t_vector splitted, size_t ind)
 	return (ret);
 }
 
-int	rebuild_filename(t_vector *dest, int ind, t_vector splitted)
+int	rebuild_filename(t_vector *dest, size_t ind, t_vector splitted)
 {
 	char	*new_name;
 	size_t	i;
@@ -66,10 +66,10 @@ int	rebuild_filename(t_vector *dest, int ind, t_vector splitted)
 		return (ERROR_FILENAME);
 	new_name = NULL;
 	i = 0;
-	while (i < (((t_vector *)splitted.data)[ind].size))
+	while (i < ((*((t_vector *)splitted.data)).size))
 	{
 		new_name = ft_strjoin_free_first(new_name,
-				((t_exp *)((t_vector *)splitted.data)[ind].data)[i].content);
+				((t_exp *)(*((t_vector *)splitted.data)).data)[i].content);
 		if (new_name == NULL)
 			return (ERROR_MALLOC);
 		i++;
