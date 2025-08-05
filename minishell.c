@@ -153,10 +153,13 @@ static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 	ret_exec = exec_func(*p_ast, p_mini);
 	if (ret_exec != 0)
 		final_ret = ret_exec;
-	ret = close_fd1(p_mini);
 	if (ret != 0 && final_ret == 0)
 		final_ret = ret;
+	if (ret_exec == 0)
+		ret = close_fd1(p_mini);
 	wait_children(p_mini);
+	if (ret_exec != 0)
+		ret = close_fd1(p_mini);
 	free_tree(p_ast);
 	return (final_ret);
 }

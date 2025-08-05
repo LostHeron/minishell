@@ -67,19 +67,6 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	t_vector	new_env;
 	int			ret;
 
-	/*
-	first = ((char **)ast->arguments.com_args.content.data)[0];
-	if (ft_strncmp(first, "/", 1) == 0
-		|| ft_strncmp(first, "./", 2) == 0 || ft_strncmp(first, "../", 3) == 0
-		|| ft_strcmp(first, ".") == 0 || ft_strcmp(first, "..") == 0)
-		cmd = ((char **)ast->arguments.com_args.content.data)[0];
-	else
-	{
-		ret = case_find_command(ast, p_mini, &cmd);
-		if (ret != 0)
-			return (ret);
-	}
-	*/
 	ret = get_command(ast, p_mini, &cmd);
 	if (ret != 0)
 		return (ret);
@@ -115,6 +102,11 @@ static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 		ret = case_find_command(ast, p_mini, p_cmd);
 		if (ret != 0)
 			return (ret);
+	}
+	if (access(*p_cmd, F_OK) < 0)
+	{
+		perror(*p_cmd);
+		return (127);
 	}
 	ret = stat(*p_cmd, &f_stat);
 	if (ret != 0)
