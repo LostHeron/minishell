@@ -50,10 +50,13 @@ int	write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 		free(delimiter);
 		return (ret);
 	}
+	ret = fill_file(p_mini->env, fd_tmp_write, delimiter, expanding);
+	/*
 	if (expanding == 1)
 		ret = fill_file_expand(p_mini->env, fd_tmp_write, delimiter);
 	else
 		ret = fill_file_no_expand(fd_tmp_write, delimiter);
+	*/
 	free(delimiter);
 	if (close (fd_tmp_write) < 0)
 		perror(NULL);

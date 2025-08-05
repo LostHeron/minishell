@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fill_file_expand.c                                 :+:      :+:    :+:   */
+/*   fill_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 13:33:42 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/05 12:05:02 by jweber           ###   ########.fr       */
+/*   Created: 2025/08/05 13:36:16 by jweber            #+#    #+#             */
+/*   Updated: 2025/08/05 14:06:32 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,47 @@
 #include <unistd.h>
 #include <stdio.h>
 
-static int	rl_here_doc(t_list *env, int fd, char *delimiter, int *p_exiting);
+static int	rl_here_doc(char **p_line, char *delimiter, int *p_exiting);
 static int	compare_line(char *line, int *p_exiting, char *delimiter);
 static int	read_the_line(char **p_line, char *delimiter, int *p_exiting);
-static int	transform_write_line(int fd, t_list *env, char *line);
+//static int	transform_write_line(int fd, t_list *env, char *line);
+static int	write_line(int fd, char *line);
 static char	*get_prompt_hd(char *delimiter);
 
 /* to check
  *	-> gnl_here_doc fail : DONE -> OK!
 */
-int	fill_file_expand(t_list *env, int fd, char *delimiter)
+int	fill_file(t_list *env, int fd, char *delimiter, int expand)
 {
 	int		ret;
 	int		exiting;
+	char	*line;
+	char	*line_cpy;
 
 	exiting = 0;
 	while (exiting == 0)
 	{
-		ret = rl_here_doc(env, fd, delimiter, &exiting);
+		ret = rl_here_doc(&line, delimiter, &exiting);
+		if (exiting == 1)
+			return (ret);
+		if (expand == 1)
+		{
+			line_cpy = line;
+			ret = here_doc_transform(env, &line_cpy);
+			free(line);
+			if (ret != 0)
+			{
+				exiting = 1;
+				return (ret);
+			}
+			line = line_cpy;
+		}
+		ret = write_line(fd, line);
+		if (ret != 0)
+		{
+			exiting = 1;
+			return (ret);
+		}
 	}
 	return (ret);
 }
@@ -46,23 +69,16 @@ int	fill_file_expand(t_list *env, int fd, char *delimiter)
  *	-> compare_line fail : DONE -> OK !
  *	-> transform_write_line fail : DONE -> OK !
 */
-static int	rl_here_doc(t_list *env, int fd, char *delimiter, int *p_exiting)
+static int	rl_here_doc(char **p_line, char *delimiter, int *p_exiting)
 {
-	char	*line;
 	int		ret;
 
-	ret = read_the_line(&line, delimiter, p_exiting);
+	ret = read_the_line(p_line, delimiter, p_exiting);
 	if (*p_exiting == 1)
 		return (ret);
-	ret = compare_line(line, p_exiting, delimiter);
+	ret = compare_line(*p_line, p_exiting, delimiter);
 	if (*p_exiting == 1)
 		return (ret);
-	ret = transform_write_line(fd, env, line);
-	if (ret != 0)
-	{
-		*p_exiting = 1;
-		return (ret);
-	}
 	return (0);
 }
 
@@ -139,6 +155,7 @@ static int	compare_line(char *line, int *p_exiting, char *delimiter)
  *	-> here_doc_transform fail : DONE -> OK !
  *	-> write fail : DONE !
 */
+/*
 static int	transform_write_line(int fd, t_list *env, char *line)
 {
 	char	*line_cpy;
@@ -152,6 +169,21 @@ static int	transform_write_line(int fd, t_list *env, char *line)
 		return (ret);
 	nb_write = write(fd, line_cpy, ft_strlen(line_cpy));
 	free(line_cpy);
+	if (nb_write < 0)
+	{
+		perror("write");
+		return (ERROR_WRITE);
+	}
+	return (0);
+}
+*/
+
+static int	write_line(int fd, char *line)
+{
+	size_t	nb_write;
+
+	nb_write = write(fd, line, ft_strlen(line));
+	free(line);
 	if (nb_write < 0)
 	{
 		perror("write");

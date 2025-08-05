@@ -21,7 +21,7 @@
 static int	case_value_is_valid_file(t_minishell *p_mini, char *value);
 static int	cwd_and_pwd_env_match(char *value);
 static int	init_buf_getcwd(char **p_buf_getcwd);
-static int	init_statbufs(struct stat *p_statbuf_pwd, \
+static int	init_statbufs(struct stat *p_statbuf_pwd,
 				struct stat *p_statbuf_getcwd, char *buf_getcwd, char *value);
 
 /* to check : 
@@ -143,7 +143,7 @@ static int	init_buf_getcwd(char **p_buf_getcwd)
  *	-> first stat failure : DONE -> OK !
  *	-> second stat failure : DONE -> OK !
 */
-static int	init_statbufs(struct stat *p_statbuf_pwd, \
+static int	init_statbufs(struct stat *p_statbuf_pwd,
 			struct stat *p_statbuf_getcwd, char *buf_getcwd, char *value)
 {
 	int	ret;

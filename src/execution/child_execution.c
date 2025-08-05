@@ -103,7 +103,7 @@ static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 {
 	int			ret;
 	char		*first;
-	struct stat f_stat;
+	struct stat	f_stat;
 
 	first = ((char **)ast->arguments.com_args.content.data)[0];
 	if (ft_strncmp(first, "/", 1) == 0
@@ -119,7 +119,8 @@ static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 	ret = stat(*p_cmd, &f_stat);
 	if (ret != 0)
 	{
-		;// do stuff 
+		perror("stat");
+		return (ret);// do stuff 
 	}
 	if ((f_stat.st_mode & S_IFMT) == S_IFDIR)
 	{
