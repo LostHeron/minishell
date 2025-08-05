@@ -6,10 +6,12 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 19:47:39 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/04 19:47:41 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:23:56 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <stdlib.h>
 #include "minishell.h"
 #include "expand.h"
 #include "ft_vectors.h"

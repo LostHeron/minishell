@@ -6,13 +6,15 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 13:00:35 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 18:50:49 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:18:37 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <dirent.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include <dirent.h>
 #include "minishell.h"
 #include "expand.h"
 #include "ast.h"

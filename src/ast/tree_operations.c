@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tree_operations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-05-16 15:03:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/06/23 13:25:47 by jweber           ###   ########.fr       */
+/*   Created: 2025/05/16 15:03:09 by cviel             #+#    #+#             */
+/*   Updated: 2025/08/05 18:31:05 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include <stdlib.h>
 #include "ast.h"
 #include "ft_string.h"

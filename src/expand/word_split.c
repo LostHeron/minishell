@@ -6,14 +6,13 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 19:09:17 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/04 19:51:18 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:15:32 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "expand.h"
 #include "ft_vectors.h"
-#include "ft_string.h"
 #include "ft_memory.h"
 
 static int	fill_splitted(t_vector *p_splitted, t_vector copy);

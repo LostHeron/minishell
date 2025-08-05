@@ -6,15 +6,15 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:06:07 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/04 17:06:55 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:23:11 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <stdlib.h>
 #include "minishell.h"
 #include "expand.h"
-#include "ast.h"
 #include "ft_vectors.h"
-#include "ft_standard.h"
 #include "ft_string.h"
 
 int	rebuild_exp(t_vector *dest, t_vector splitted, size_t ind);

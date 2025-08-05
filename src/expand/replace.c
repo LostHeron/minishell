@@ -6,14 +6,14 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/07/31 22:07:31 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:28:39 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "minishell.h"
 #include "expand.h"
 #include "ft_vectors.h"
-#include "ft_char.h"
 #include "ft_string.h"
 #include "ft_standard.h"
 

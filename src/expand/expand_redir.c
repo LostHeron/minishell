@@ -6,10 +6,11 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:24:05 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/04 17:07:33 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:20:53 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "minishell.h"
 #include "ast.h"
 #include "expand.h"

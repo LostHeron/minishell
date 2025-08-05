@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   split_elem.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-06-23 12:59:18 by cviel             #+#    #+#             */
-/*   Updated: 2025/06/23 18:32:35 by jweber           ###   ########.fr       */
+/*   Created: 2025/06/23 12:59:18 by cviel             #+#    #+#             */
+/*   Updated: 2025/08/05 18:29:07 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <stdlib.h>
 #include "minishell.h"
 #include "expand.h"
 #include "ft_vectors.h"

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   create_ast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-21 13:10:14 by cviel             #+#    #+#             */
-/*   Updated: 2025-07-21 13:10:14 by cviel            ###   ########.fr       */
+/*   Created: 2025/07/21 13:10:14 by cviel             #+#    #+#             */
+/*   Updated: 2025/08/05 18:30:09 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include <stdlib.h>
 #include "ast.h"
-#include "ft_string.h"
-#include "ft_standard.h"
 #include "ft_memory.h"
 
 static t_ast	*create_leaf(t_type type);

@@ -6,25 +6,27 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 12:07:15 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/04 19:43:50 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:21:25 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include <stdlib.h>
 #include "minishell.h"
 #include "expand.h"
+#include "ft_vectors.h"
 
-void	free_exp(t_vector *word)
+void	free_exp(t_vector *p_word)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < word->size)
+	while (i < p_word->size)
 	{
-		free(((t_exp *)word->data)[i].content);
+		free(((t_exp *)p_word->data)[i].content);
 		i++;
 	}
-	free(word->data);
+	free(p_word->data);
 }
 
 void	free_data(t_vector *p_vector)
