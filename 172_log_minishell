@@ -1,0 +1,12 @@
+DOTNET_BUNDLE_EXTRACT_BASE_DIR=/home/cviel/.cache/dotnet_bundle_extract
+HOME=/home/cviel
+LOGNAME=cviel
+OLDPWD=/home/cviel/Documents/minishell/local/minishell
+PATH=/home/cviel/bin:/home/cviel/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/cviel/.dotnet/tools:/home/cviel/.config/Code/User/globalStorage/github.copilot-chat/debugCommand
+PWD=/home/cviel/Documents/minishell/local/minishell
+USER=cviel
+USER_ZDOTDIR=/home/cviel
+XAUTHORITY=/home/cviel/.Xauthority
+XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/cviel
+ZDOTDIR=/home/cviel
+ZSH=/home/cviel/.oh-my-zsh

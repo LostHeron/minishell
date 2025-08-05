@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 13:00:35 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:18:37 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:41:35 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ static int	get_next_dir(DIR *dir, struct dirent **elem)
 static int	match_and_link(t_vector *p_names, t_vector pattern, char *name)
 {
 	int		ret;
-	int		match;
 	char	*content;
+	char	match;
 
 	match = TRUE;
 	ret = matching(pattern, name, &match);

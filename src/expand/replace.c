@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:28:39 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:39:08 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "ft_string.h"
 #include "ft_standard.h"
 
-int	remove_last(t_exp *p_exp_part, int p_ind)
+int	remove_last(t_exp *p_exp_part, size_t p_ind)
 {
 	char	*replace;
 
@@ -31,11 +31,11 @@ int	remove_last(t_exp *p_exp_part, int p_ind)
 	return (0);
 }
 
-int	replace_key_value(t_exp *p_exp_part, int *p_ind, int len_key, t_env *p_env)
+int	replace_key_value(t_exp *p_exp_part, size_t *p_ind, size_t len_key, t_env *p_env)
 {
 	char	*replace;
-	int		len_replace;
-	int		len_val;
+	size_t	len_replace;
+	size_t	len_val;
 
 	if (p_env == NULL)
 		len_val = 0;
@@ -57,12 +57,12 @@ int	replace_key_value(t_exp *p_exp_part, int *p_ind, int len_key, t_env *p_env)
 	return (0);
 }
 
-int	replace_err_code(t_exp *p_exp_part, int *p_ind, t_minishell mini)
+int	replace_err_code(t_exp *p_exp_part, size_t *p_ind, t_minishell mini)
 {
 	char	*replace;
 	char	*err_code;
-	int		len_replace;
-	int		len_code;
+	size_t	len_replace;
+	size_t	len_code;
 
 	err_code = ft_itoa(mini.last_error_code);
 	if (err_code == NULL)

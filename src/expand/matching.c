@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 15:53:48 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:27:26 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:41:13 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 
 static int	build_segment(char **seg, t_vector pattern, size_t *ind);
 static int	matching_start(t_vector pattern, char **p_elem,
-				int *match, size_t *ind);
-static void	matching_segment(char **p_elem, char **seg, int *p_match);
-static void	matching_end(char *elem, char *seg, int *p_match);
+				char *match, size_t *ind);
+static void	matching_segment(char **p_elem, char **seg, char *p_match);
+static void	matching_end(char *elem, char *seg, char *p_match);
 
-int	matching(t_vector pattern, char *elem, int *p_match)
+int	matching(t_vector pattern, char *elem, char *p_match)
 {
 	int		ret;
 	char	*seg;
@@ -77,7 +77,7 @@ static int	build_segment(char **seg, t_vector pattern, size_t *ind)
 }
 
 static int	matching_start(t_vector pattern,
-				char **p_elem, int *match, size_t *ind)
+				char **p_elem, char *match, size_t *ind)
 {
 	int		ret;
 	char	*seg;
@@ -106,7 +106,7 @@ static int	matching_start(t_vector pattern,
 	return (0);
 }
 
-static void	matching_segment(char **p_elem, char **seg, int *p_match)
+static void	matching_segment(char **p_elem, char **seg, char *p_match)
 {
 	*p_elem = ft_strstr(*p_elem, *seg);
 	if (*p_elem == NULL)
@@ -121,7 +121,7 @@ static void	matching_segment(char **p_elem, char **seg, int *p_match)
 	return ;
 }
 
-static void	matching_end(char *elem, char *seg, int *p_match)
+static void	matching_end(char *elem, char *seg, char *p_match)
 {
 	int	len_elem;
 	int	len_seg;

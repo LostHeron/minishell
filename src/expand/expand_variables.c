@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:02:57 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:25:54 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:37:59 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 #include "ft_string.h"
 
 static int	expand_here(t_vector splitted, size_t vec_ind,
-				int *p_ind, t_minishell mini);
+				size_t *p_ind, t_minishell mini);
 
 int	expand_variables(t_vector splitted, t_minishell mini)
 {
 	int		ret;
 	size_t	i;
-	int		j;
+	size_t	j;
 
 	i = 0;
 	while (i < splitted.size)
@@ -50,7 +50,7 @@ int	expand_variables(t_vector splitted, t_minishell mini)
 	return (0);
 }
 
-static t_env	*get_env(char *str, int ind, int len_key, t_minishell mini)
+static t_env	*get_env(char *str, size_t ind, int len_key, t_minishell mini)
 {
 	t_list	*lst_i;
 
@@ -65,11 +65,11 @@ static t_env	*get_env(char *str, int ind, int len_key, t_minishell mini)
 }
 
 static int	expand_here(t_vector splitted, size_t vec_ind,
-				int *p_ind, t_minishell mini)
+				size_t *p_ind, t_minishell mini)
 {
 	t_exp	*p_exp_part;
 	t_env	*p_env;
-	int		len_key;
+	size_t	len_key;
 
 	p_exp_part = &((t_exp *)splitted.data)[vec_ind];
 	if (p_exp_part->quote == NONE && p_exp_part->content[*p_ind + 1] == '\0'
