@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
+#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/05 15:51:44 by jweber            #+#    #+#              #
-#    Updated: 2025/08/05 15:51:46 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/05 19:03:06 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -180,7 +180,7 @@ all: makelibft $(NAME)
 
 start: 
 	$(MAKE) debug
-	valgrind --trace-children=yes --track-fds=all -s --track-origins=yes --leak-check=full --show-leak-kinds=all --suppressions=/home/jweber/0_mes_fichiers/0_42_files/3_minishell/minishell/my_supp ./minishell ; echo "in here exit code = "$$?
+	valgrind --trace-children=yes --track-fds=all -s --track-origins=yes --leak-check=full --show-leak-kinds=all --suppressions=./my_supp ./minishell ; echo "in here exit code = "$$?
 
 makelibft:
 	$(MAKE) -C $(LIBFT_DIR)
