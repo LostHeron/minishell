@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:27:31 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:07:44 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 19:17:34 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ static int	expand_pattern(t_vector *p_splitted, size_t *p_vec_ind)
 		ft_vector_free(&pattern);
 		return (ret);
 	}
+	ft_vector_free(&pattern);
 	ret = handle_wildcard(p_splitted, p_vec_ind, names);
 	ft_vector_free(&names);
 	return (ret);
