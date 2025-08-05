@@ -76,6 +76,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	ret = free_minishell(&minishell);
 	rl_clear_history();
+	close_here_doc_fds(&minishell);
 	return (minishell.last_error_code);
 }
 
@@ -156,32 +157,13 @@ static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 	if (ret != 0 && final_ret == 0)
 		final_ret = ret;
 	wait_children(p_mini, p_mini->nb_child_to_wait - 1);
-	/*
-	if (ret_exec != 0)
-	{
-		ret = close_fd1(p_mini);
-		if (ret != 0)
-		{
-			// do stuff
-		}
-	}
-	*/
 	ret = close_fd1(p_mini);
 	if (ret != 0)
 	{
-		;// do stuff
+		if (final_ret == 0)
+			final_ret = ret;
 	}
 	wait_children(p_mini, p_mini->nb_child_to_wait);
-	/*
-	if (ret_exec == 0)
-	{
-		ret = close_fd1(p_mini);
-		if (ret != 0)
-		{
-			// do stuff
-		}
-	}
-	*/
 	free_tree(p_ast);
 	return (final_ret);
 }

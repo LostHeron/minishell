@@ -26,31 +26,18 @@ ls > log1 << eof1 | ls > log2 << eof2 | ls > log3 << eof3
 
 TODO:
 
-- 13) modifier dans readline tous les \n par des ; comme ça les commandes s'executent toutes ?
-- 12) ; marche pas regarder pourquoi
-- 10) echo with -ne and - flag to try again behaviour
-- 6) wrong error message in case of SIGINT in heredocuments (and maybe cat)
-- 5) gerer le shell qui se lance dans /home/jweber/goinfre/a/b/c après avoir supprimer a/b/c ? // work ok execpt for printing pwd just does not behave like bash but nvm;
-- 5) utiliser readline au lieu de get next line dans les here documents ?
+- 13) in rl_gnl remove last "\n"
 - 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas // and look how to make it work
-- 2) faire quand > vers un nom de fichier sans permission que ça arrete la commande 
-- 2) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2 // OU PAS ?
 - 3) Normage dans Execution
-- 3) Refaire error synthax au niveau des parenthese, apres des parenthese ou avant, il peu y avoir 
-que des redirections s'il y a autre chose ou des operateurs de commande 
 - 4) Leak et sortie en cas d'erreurs de partout ! 
         -> dans init
         -> dans parsing
         -> dans ast
         -> dans execution
 - 5) faire en sorte que lorsque l'on quitte minishell on close tous les fds restant des HERE-DOCS (ceux ouvert dans les subshells que je ne close pas de suite !
-- implementation of '&' and ';' // gave up
+- implementation of '&' // gave up
+- implementation of ';' 
 - implementation of subshell // quite good advanced ! even done ?? no must miss something
-- handle signal :
-    - Ctrl C
-    - Ctrl \
-- in env builtin, make "_" environment variable to be the last command executed ! // or just remove this environment variable
-- readline signal SIGINT interrupt (with something like readline hook smth)
 
 
  |
@@ -61,6 +48,17 @@ que des redirections s'il y a autre chose ou des operateurs de commande
 \ /
 OLD stuff just in case for check : 
 
+- handle signal :
+    - Ctrl C
+    - Ctrl \
+- readline signal SIGINT interrupt (with something like readline hook smth)
+- 3) Refaire error synthax au niveau des parenthese, apres des parenthese ou avant, il peu y avoir 
+que des redirections s'il y a autre chose ou des operateurs de commande 
+- 2) pouvoir executer des redirections uniques : $ > file2 ; << eof ; < file1 ; >> file2 // OU PAS ?
+- 2) faire quand > vers un nom de fichier sans permission que ça arrete la commande 
+- 5) utiliser readline au lieu de get next line dans les here documents ?
+- 5) gerer le shell qui se lance dans /home/jweber/goinfre/a/b/c après avoir supprimer a/b/c ? // work ok execpt for printing pwd just does not behave like bash but nvm;
+- 6) wrong error message in case of SIGINT in heredocuments (and maybe cat)
 - 13) cat < coucou avec coucou qui est inexistant code erreur = 7 au lieu de 1, de même avec cat > coco sans permission sur coco // DONE 
 - 11) export code d'erreur pas bon quand fail  // DONE 
 - 9) segfault when entering empty line // DONE 

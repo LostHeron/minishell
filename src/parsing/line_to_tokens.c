@@ -16,6 +16,7 @@
 #include "parsing.h"
 #include "ft_io.h"
 #include "handle_signal.h"
+#include "ft_string.h"
 #include "ft_input.h"
 #include <unistd.h>
 #include <readline/readline.h>
@@ -70,6 +71,7 @@ static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret)
 {
 	char	*prompt;
 	int		ret;
+	size_t	len;
 
 	*p_ret = 0;
 	if (isatty(0) == 1)
@@ -80,9 +82,10 @@ static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret)
 			*p_ret = ERROR_MALLOC;
 			return ;
 		}
-		//*p_line = readline(prompt);
 		ret = rl_gnl(p_line, prompt);
 		free(prompt);
+		if (*p_line == NULL)
+			return ;
 		if (ret != 0)
 		{
 			*p_ret = ret;
@@ -96,8 +99,11 @@ static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret)
 	else
 	{
 		*p_line = get_next_line(0, p_ret);
-		return ;
 	}
+	len = ft_strlen(*p_line);
+	if ((*p_line)[len - 1] == '\n')
+		(*p_line)[len - 1] = '\0';
+	return ;
 }
 
 static void	init_args(char **p_args)
