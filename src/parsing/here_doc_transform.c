@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 13:34:32 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/14 17:34:44 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/05 14:05:11 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 #include "ft_char.h"
 #include "parsing.h"
 
-static int	create_new_line(t_list *env, t_vector *p_vec, \
-								char **p_line, size_t *p_i);
-static int	key_is_valid(t_list *env, t_vector *p_vec, \
-								char **p_line, size_t *p_i);
+static int	create_new_line(t_list *env, t_vector *p_vec,
+				char **p_line, size_t *p_i);
+static int	key_is_valid(t_list *env, t_vector *p_vec,
+				char **p_line, size_t *p_i);
 static int	handle_value(t_list *env, t_vector *p_vec, char *key);
 static void	my_free(t_vector *ptr_vec);
 
@@ -59,7 +59,7 @@ sizeof(char), &my_free);
 /* to check
  *	-> key_is_valid fail : DONE -> OK !
 */
-static int	create_new_line(t_list *env, t_vector *p_vec, \
+static int	create_new_line(t_list *env, t_vector *p_vec,
 									char **p_line, size_t *p_i)
 {
 	int	ret;
@@ -88,7 +88,7 @@ static int	create_new_line(t_list *env, t_vector *p_vec, \
  *	-> get_key fail : DONE -> OK !
  *	-> handle_value : DONE -> OK !
 */
-static int	key_is_valid(t_list *env, t_vector *p_vec, \
+static int	key_is_valid(t_list *env, t_vector *p_vec,
 								char **p_line, size_t *p_i)
 {
 	int		ret;

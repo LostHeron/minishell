@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:14:56 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/30 12:58:35 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/05 15:19:59 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "minishell.h"
 #include "ast.h"
 #include "execution.h"
+#include "ft_init.h"
 #include <unistd.h>
 #include <stdio.h>
 
@@ -60,9 +61,26 @@ static int	subshell_execution(t_ast *ast, t_minishell *p_mini)
 	int	ret;
 
 	p_mini->last_child_id = 0;
+	ret = close_saved_tty(p_mini);
+	if (ret != 0)
+	{
+		// do stuff
+		return (ret);
+	}
 	ret = make_redirections(ast->arguments.sub_args.dir_args, p_mini);
 	if (ret != 0)
 	{
+		return (ret);
+	}
+	ret = init_saved_tty(p_mini);
+	if (ret != 0)
+	{
+		// do stuff ?
+		return (ret);
+	}
+	if (ret != 0)
+	{
+		// do stuff
 		return (ret);
 	}
 	p_mini->previous_side = PREV_NONE;
@@ -78,7 +96,7 @@ static int	subshell_execution(t_ast *ast, t_minishell *p_mini)
 	if (ret != 0)
 		return (ret);
 	close_fd1(p_mini);
-	wait_children(p_mini);
+	wait_children(p_mini, p_mini->nb_child_to_wait);
 	ret = close_saved_tty(p_mini);
 	return (ret);
 }

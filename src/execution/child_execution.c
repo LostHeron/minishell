@@ -25,7 +25,7 @@
 static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini);
 static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
 static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
-static int	errno_special_value(void);
+static int	errno_special_value(int execve_errno);
 
 /* at this point, we are already in the child process
  * of the command type node, 
@@ -66,20 +66,8 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	char		*cmd;
 	t_vector	new_env;
 	int			ret;
+	int			execve_errno;
 
-	/*
-	first = ((char **)ast->arguments.com_args.content.data)[0];
-	if (ft_strncmp(first, "/", 1) == 0
-		|| ft_strncmp(first, "./", 2) == 0 || ft_strncmp(first, "../", 3) == 0
-		|| ft_strcmp(first, ".") == 0 || ft_strcmp(first, "..") == 0)
-		cmd = ((char **)ast->arguments.com_args.content.data)[0];
-	else
-	{
-		ret = case_find_command(ast, p_mini, &cmd);
-		if (ret != 0)
-			return (ret);
-	}
-	*/
 	ret = get_command(ast, p_mini, &cmd);
 	if (ret != 0)
 		return (ret);
@@ -87,11 +75,12 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	if (ret != 0)
 		return (ret);
 	execve(cmd, ast->arguments.com_args.content.data, new_env.data);
+	execve_errno = errno;
 	ft_vector_free(&new_env);
 	perror(cmd);
-	if (errno == EACCES || errno == ENOENT)
-		return (errno_special_value());
-	return (ret);
+	if (execve_errno == EACCES || execve_errno == ENOENT)
+		return (errno_special_value(execve_errno));
+	return (execve_errno);
 }
 
 /* function will search for the command,
@@ -103,7 +92,7 @@ static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 {
 	int			ret;
 	char		*first;
-	struct stat f_stat;
+	struct stat	f_stat;
 
 	first = ((char **)ast->arguments.com_args.content.data)[0];
 	if (ft_strncmp(first, "/", 1) == 0
@@ -116,10 +105,16 @@ static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 		if (ret != 0)
 			return (ret);
 	}
+	if (access(*p_cmd, F_OK) < 0)
+	{
+		perror(*p_cmd);
+		return (127);
+	}
 	ret = stat(*p_cmd, &f_stat);
 	if (ret != 0)
 	{
-		;// do stuff 
+		perror("stat");
+		return (ret);// do stuff 
 	}
 	if ((f_stat.st_mode & S_IFMT) == S_IFDIR)
 	{
@@ -158,9 +153,9 @@ static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 	return (0);
 }
 
-static int	errno_special_value(void)
+static int	errno_special_value(int execve_errno)
 {
-	if (errno == EACCES)
+	if (execve_errno == EACCES)
 		return (126);
 	else
 		return (127);

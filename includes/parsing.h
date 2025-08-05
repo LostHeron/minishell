@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:04:27 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/31 18:22:29 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/05 13:45:35 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int		check_errors(t_minishell *p_mini, t_vector *p_tokens);
 int		prepare_here_docs(t_minishell *p_mini, t_vector *p_tokens);
 int		check_matching_parenthesis(t_vector *p_tokens);
 int		check_error_syntax(t_vector tokens);
+int		check_around_parenthesis(t_vector *p_tokens);
 int		check_around_opening_parenthesis(t_vector *p_tokens, size_t	token_i);
 int		check_around_closing_parenthesis(t_vector *p_tokens, size_t	token_i);
 int		check_before_after(t_vector tokens, size_t i);
@@ -37,6 +38,7 @@ char	*get_real_delimiter(char *delimiter);
 int		here_doc_delimited_by_end_of_file(char *delimiter);
 int		fill_file_no_expand(int fd, char *delimiter);
 int		fill_file_expand(t_list *env, int fd, char *delimiter);
+int		fill_file(t_list *env, int fd, char *delimiter, int expand);
 int		here_doc_transform(t_list *env, char **p_line);
 char	*get_value(t_list *env, char *key);
 char	*get_key(char *line);

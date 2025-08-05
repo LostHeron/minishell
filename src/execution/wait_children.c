@@ -22,19 +22,22 @@ static void	get_child_return_value(t_minishell *p_mini,
 static void	set_ign_sigint(struct sigaction *s);
 static void	un_set_ign_sigint(struct sigaction *s);
 
-int	wait_children(t_minishell *p_mini)
+int	wait_children(t_minishell *p_mini, int nb_wait)
 {
 	int					child_ret;
 	int					ret;
 	int					wait_id;
 	struct sigaction	s[2];
+	int					i;
 
 	ret = 0;
 	set_ign_sigint(s);
-	while (p_mini->nb_child_to_wait > 0)
+	i = 0;
+	while (i < nb_wait)
 	{
 		wait_id = wait(&child_ret);
 		p_mini->nb_child_to_wait--;
+		i++;
 		if (wait_id == p_mini->last_child_id)
 		{
 			get_child_return_value(p_mini, child_ret, &ret);

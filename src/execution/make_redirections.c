@@ -6,13 +6,14 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 10:43:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 15:20:13 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/05 14:19:57 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "execution.h"
+#include "ft_init.h"
 #include <unistd.h>
 
 /*		This function is called by exec_func->exec_command->case_forking->

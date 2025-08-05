@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:58:31 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/31 18:22:55 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/05 11:58:47 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parsing.h"
 #include "ft_io.h"
 #include "handle_signal.h"
+#include "ft_input.h"
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -68,18 +69,25 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret)
 {
 	char	*prompt;
+	int		ret;
 
 	*p_ret = 0;
-	prompt = get_prompt(p_mini);
-	if (prompt == NULL)
-	{
-		*p_ret = ERROR_MALLOC;
-		return ;
-	}
 	if (isatty(0) == 1)
 	{
-		*p_line = readline(prompt);
+		prompt = get_prompt(p_mini);
+		if (prompt == NULL)
+		{
+			*p_ret = ERROR_MALLOC;
+			return ;
+		}
+		//*p_line = readline(prompt);
+		ret = rl_gnl(p_line, prompt);
 		free(prompt);
+		if (ret != 0)
+		{
+			*p_ret = ret;
+			return ;
+		}
 		if (g_my_signal != 0)
 		{
 			return ;
@@ -87,7 +95,6 @@ static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret)
 	}
 	else
 	{
-		free(prompt);
 		*p_line = get_next_line(0, p_ret);
 		return ;
 	}

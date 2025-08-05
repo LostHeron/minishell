@@ -51,7 +51,7 @@ int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 
 	i = 0;
 	hd_count = 0;
-	if (isatty(0) == 1) 
+	if (isatty(0) == 1)
 	{
 		ignore_sigquit(&old_s);
 		change_term_attr(&old_t);

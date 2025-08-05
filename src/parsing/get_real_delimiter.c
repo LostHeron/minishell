@@ -18,12 +18,12 @@
 
 static int	handle_quote_i(char **p_delimiter, char **p_final_delimiter,
 				size_t *p_i);
-static int	concatenate_outside_quote(char **p_final_delimiter,	\
-								char **p_delimiter, size_t *p_i);
-static int	case_encounter_quote(char **p_final_delimiter,	\
-									char **p_delimiter, size_t *p_i);
-static int	case_not_empty_quote(char **p_final_delimiter,	\
-									char **p_delimiter, size_t *p_i);
+static int	concatenate_outside_quote(char **p_final_delimiter,
+				char **p_delimiter, size_t *p_i);
+static int	case_encounter_quote(char **p_final_delimiter,
+				char **p_delimiter, size_t *p_i);
+static int	case_not_empty_quote(char **p_final_delimiter,
+				char **p_delimiter, size_t *p_i);
 
 /* to check
  *	-> ft_calloc fail : DONE -> OK !
@@ -76,8 +76,8 @@ static int	handle_quote_i(char **p_delimiter, char **p_final_delimiter,
  *	-> ft_strndup fail : DONE -> OK !
  *	-> ft_strjoin_free_first : DONE -> OK !
 */
-static int	concatenate_outside_quote(char **p_final_delimiter,	\
-								char **p_delimiter, size_t *p_i)
+static int	concatenate_outside_quote(char **p_final_delimiter,
+				char **p_delimiter, size_t *p_i)
 {
 	char	*tmp_string;
 
@@ -100,8 +100,8 @@ tmp_string);
 /* to check
  *	-> case_not_empty fail : DONE -> OK !
 */
-static int	case_encounter_quote(char **p_final_delimiter, \
-									char **p_delimiter, size_t *p_i)
+static int	case_encounter_quote(char **p_final_delimiter,
+				char **p_delimiter, size_t *p_i)
 {
 	char	quote_type;
 	int		ret;
@@ -125,8 +125,8 @@ static int	case_encounter_quote(char **p_final_delimiter, \
  *	-> ft_strndup fail : DONE -> OK !
  *	-> ft_strjoin_free_first : DONE -> OK !
 */
-static int	case_not_empty_quote(char **p_final_delimiter, \
-									char **p_delimiter, size_t *p_i)
+static int	case_not_empty_quote(char **p_final_delimiter,
+				char **p_delimiter, size_t *p_i)
 {
 	char	*tmp_string;
 
