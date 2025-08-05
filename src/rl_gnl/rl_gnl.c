@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "handle_signal.h"
 #include "minishell.h"
 #include "ft_string.h"
 #include <errno.h>
@@ -45,6 +46,13 @@ int	rl_gnl(char **p_line, char *prompt)
 		line_cursor = line_head;
 		if (errno != 0)
 			return (1);
+		if (g_my_signal != 0)
+		{
+			free(line_head);
+			line_head = NULL;
+			line_cursor = NULL;
+			return (0);
+		}
 		if (line_head == NULL)
 		{
 			*p_line = NULL;

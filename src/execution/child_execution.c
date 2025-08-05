@@ -25,7 +25,7 @@
 static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini);
 static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
 static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
-static int	errno_special_value(void);
+static int	errno_special_value(int execve_errno);
 
 /* at this point, we are already in the child process
  * of the command type node, 
@@ -66,6 +66,7 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	char		*cmd;
 	t_vector	new_env;
 	int			ret;
+	int			execve_errno;
 
 	ret = get_command(ast, p_mini, &cmd);
 	if (ret != 0)
@@ -74,11 +75,12 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	if (ret != 0)
 		return (ret);
 	execve(cmd, ast->arguments.com_args.content.data, new_env.data);
+	execve_errno = errno;
 	ft_vector_free(&new_env);
 	perror(cmd);
-	if (errno == EACCES || errno == ENOENT)
-		return (errno_special_value());
-	return (ret);
+	if (execve_errno == EACCES || execve_errno == ENOENT)
+		return (errno_special_value(execve_errno));
+	return (execve_errno);
 }
 
 /* function will search for the command,
@@ -151,9 +153,9 @@ static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 	return (0);
 }
 
-static int	errno_special_value(void)
+static int	errno_special_value(int execve_errno)
 {
-	if (errno == EACCES)
+	if (execve_errno == EACCES)
 		return (126);
 	else
 		return (127);

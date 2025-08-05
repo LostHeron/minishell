@@ -37,7 +37,7 @@ int		exec_subshell(t_ast *ast, t_minishell *p_mini);
 int		exit_child(t_minishell *p_mini, int ret);
 int		swap_fds(t_minishell *p_mini);
 int		child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type);
-int		wait_children(t_minishell *p_mini);
+int		wait_children(t_minishell *p_mini, int nb_wait);
 int		call_builtins(t_minishell *p_mini, t_vector cmd_args);
 void	close_on_error(t_minishell *p_mini);
 int		close_case_no_pipe(t_minishell *p_mini);

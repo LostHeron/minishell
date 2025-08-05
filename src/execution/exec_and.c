@@ -33,7 +33,7 @@ int	exec_and(t_ast *ast, t_minishell *p_mini)
 	ret = swap_fds(p_mini);
 	if (ret != 0)
 		return (ret);
-	ret = wait_children(p_mini);
+	ret = wait_children(p_mini, p_mini->nb_child_to_wait);
 	if (ret != 0)
 		return (ret);
 	if (p_mini->last_error_code == 0)

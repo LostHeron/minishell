@@ -96,7 +96,7 @@ static int	subshell_execution(t_ast *ast, t_minishell *p_mini)
 	if (ret != 0)
 		return (ret);
 	close_fd1(p_mini);
-	wait_children(p_mini);
+	wait_children(p_mini, p_mini->nb_child_to_wait);
 	ret = close_saved_tty(p_mini);
 	return (ret);
 }

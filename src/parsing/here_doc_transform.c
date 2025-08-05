@@ -53,8 +53,6 @@ sizeof(char), &my_free);
 	}
 	((char *)vec.data)[vec.size] = '\0';
 	(*p_line) = vec.data;
-	#include <stdio.h>
-	printf("*p_line in func = '%s'\n", *p_line);
 	return (0);
 }
 

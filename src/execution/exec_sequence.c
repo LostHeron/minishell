@@ -33,7 +33,7 @@ int	exec_sequence(t_ast *ast, t_minishell *p_mini)
 	ret = swap_fds(p_mini);
 	if (ret != 0)
 		return (ret);
-	ret = wait_children(p_mini);
+	ret = wait_children(p_mini, p_mini->nb_child_to_wait);
 	if (ret != 0)
 		return (ret);
 	p_mini->previous_side = PREV_RIGHT;
