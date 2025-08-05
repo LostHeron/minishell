@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 19:09:17 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/01 00:33:37 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/04 19:51:18 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 #include "ft_string.h"
 #include "ft_memory.h"
 
+static int	fill_splitted(t_vector *p_splitted, t_vector copy);
+
 int	word_split(t_vector *p_splitted)
 {
 	int			ret;
 	t_vector	copy;
-	size_t		i;
-	size_t		j;
 
 	ft_vector_copy(&copy, p_splitted);
 	ft_bzero(p_splitted, sizeof(t_vector));
@@ -31,6 +31,38 @@ int	word_split(t_vector *p_splitted)
 		ft_vector_free(&copy);
 		return (ret);
 	}
+	ret = fill_splitted(p_splitted, copy);
+	ft_vector_free(&copy);
+	return (0);
+}
+
+static int	build_word(t_vector *p_splitted, t_vector copy,
+			size_t *p_vec_ind, size_t *p_ind)
+{
+	int			ret;
+	t_vector	word;
+
+	ret = ft_vector_init(&word, 5, copy.data_size, copy.del);
+	if (ret != 0)
+		return (ret);
+	ret = fill_word(&word, copy, p_vec_ind, p_ind);
+	if (ret != 0 || word.size == 0)
+	{
+		ft_vector_free(&word);
+		return (ret);
+	}
+	ret = ft_vector_add_single(p_splitted, &word);
+	if (ret != 0)
+		ft_vector_free(&word);
+	return (ret);
+}
+
+static int	fill_splitted(t_vector *p_splitted, t_vector copy)
+{
+	int		ret;
+	size_t	i;
+	size_t	j;
+
 	i = 0;
 	j = 0;
 	while (i < copy.size)

@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/08/04 18:16:59 by jweber            #+#    #+#              #
-#    Updated: 2025/08/05 13:46:08 by jweber           ###   ########.fr        #
+#    Created: 2025/08/05 15:51:44 by jweber            #+#    #+#              #
+#    Updated: 2025/08/05 15:51:46 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -149,7 +149,7 @@ EXPAND_FILES := expand.c \
 				expand_redir.c \
 				replace.c \
 				word_split.c \
-				build_word.c \
+				fill_word.c \
 				expand_wildcard.c \
 				match_wildcard.c \
 				handle_wildcard.c \
