@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:14:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:29:45 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:56:19 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names)
 }
 
 static int	init_replace(t_vector *p_splitted,
-				t_vector *p_copy, size_t vec_ind)
+	t_vector *p_copy, size_t vec_ind)
 {
 	int		ret;
 	size_t	i;
@@ -97,7 +97,7 @@ static int	add_name(t_vector *p_splitted, t_vector names, size_t name_ind)
 }
 
 static int	replace_wildcard(t_vector *p_splitted,
-					t_vector names, size_t *p_vec_ind)
+	t_vector names, size_t *p_vec_ind)
 {
 	int			ret;
 	t_exp		exp;

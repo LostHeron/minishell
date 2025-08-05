@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 19:47:39 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:23:56 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:56:08 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	add_unquoted(t_vector *p_word, t_vector copy,
 static int	add_quoted(t_vector *p_word, t_exp elem);
 
 int	fill_word(t_vector *p_word, t_vector copy,
-				size_t *p_vec_ind, size_t *p_ind)
+	size_t *p_vec_ind, size_t *p_ind)
 {
 	int	ret;
 
@@ -52,7 +52,7 @@ int	fill_word(t_vector *p_word, t_vector copy,
 }
 
 static void	skip_charset(char *charset, t_vector elem,
-				size_t *p_vec_ind, size_t *p_ind)
+	size_t *p_vec_ind, size_t *p_ind)
 {
 	while (((t_exp *)elem.data)[*p_vec_ind].content[*p_ind] != '\0'
 			&& ft_strchr(charset,
@@ -83,7 +83,7 @@ static int	fill_exp(t_exp *p_exp, char *content, size_t *p_ind)
 }
 
 static int	add_unquoted(t_vector *p_word, t_vector copy,
-				size_t *p_vec_ind, size_t *p_ind)
+	size_t *p_vec_ind, size_t *p_ind)
 {
 	int		ret;
 	t_exp	exp;

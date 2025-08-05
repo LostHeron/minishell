@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 19:09:17 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:15:32 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:57:47 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	word_split(t_vector *p_splitted)
 }
 
 static int	build_word(t_vector *p_splitted, t_vector copy,
-			size_t *p_vec_ind, size_t *p_ind)
+	size_t *p_vec_ind, size_t *p_ind)
 {
 	int			ret;
 	t_vector	word;

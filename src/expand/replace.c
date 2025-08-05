@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:39:08 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:54:49 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	remove_last(t_exp *p_exp_part, size_t p_ind)
 	return (0);
 }
 
-int	replace_key_value(t_exp *p_exp_part, size_t *p_ind, size_t len_key, t_env *p_env)
+int	replace_key_value(t_exp *p_exp_part, size_t *p_ind,
+	size_t len_key, t_env *p_env)
 {
 	char	*replace;
 	size_t	len_replace;

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:59:18 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:29:07 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:57:41 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 #include "ft_vectors.h"
 #include "ft_string.h"
 
-static int	fill_exp(t_exp *p_exp_part, char *src, int *p_ind);
+static int	fill_exp(t_exp *p_exp_part, char *src, size_t *p_ind);
 static int	fill_content(t_exp *p_exp_part, char *src,
-				int *p_ind, char *charset);
+				size_t *p_ind, char *charset);
 static int	is_charset(char c, char *set);
 
 int	split_elem(t_vector *splitted, char *src)
 {
 	int		ret;
 	t_exp	exp_part;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	while (src[i])
@@ -44,7 +44,7 @@ int	split_elem(t_vector *splitted, char *src)
 	return (0);
 }
 
-static int	fill_exp(t_exp *p_exp_part, char *src, int *p_ind)
+static int	fill_exp(t_exp *p_exp_part, char *src, size_t *p_ind)
 {
 	int	ret;
 
@@ -73,9 +73,9 @@ static int	fill_exp(t_exp *p_exp_part, char *src, int *p_ind)
 }
 
 static int	fill_content(t_exp *p_exp_part, char *src,
-				int *p_ind, char *charset)
+	size_t *p_ind, char *charset)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (src[*p_ind + i] && (is_charset(src[*p_ind + i], charset) == 0))
