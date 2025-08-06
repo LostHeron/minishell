@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
+#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 14:41:55 by jweber            #+#    #+#              #
-#    Updated: 2025/08/06 14:41:57 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/06 15:27:10 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ PARSING_FILES := tokenize.c \
 AST_DIR := src/ast/
 AST_FILES := tree_operations.c \
 			 free_everything.c \
+			 tree_utils.c \
 			 create_ast.c \
 			 print_utils.c \
 			 print_tree.c \

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:46:41 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/06 13:49:35 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/06 15:37:50 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,25 @@
 
 typedef enum e_type
 {
-	SUBSHELL,
 	COMMAND,
 	PIPE,
 	AND,
 	OR,
 	SEQUENCE,
+	SUBSHELL,
 	END_SUBSHELL,
 	END_LINE
 }	t_type;
+
+typedef enum e_prio
+{
+	COMMAND_PRIO,
+	PIPE_PRIO,
+	LOGICAL_PRIO,
+	SEQUENCE_PRIO,
+	SUBSHELL_PRIO,
+	END_LINE_PRIO
+}	t_prio;
 
 typedef enum e_dir
 {
@@ -81,10 +91,15 @@ void	free_command_content(t_vector *content_ptr);
 void	free_tree(t_ast **root);
 t_type	get_type(t_vector tokens, size_t ind);
 t_dir	get_dir(t_vector tokens, size_t ind);
+t_prio	get_prio(t_type type);
+t_ast	*create_leaf(t_type type);
 int		fill_command(t_comargs *p_com_args, t_vector tokens, size_t *ind);
 int		fill_redir(t_vector *p_dir_args,
 			t_vector tokens, size_t *ind, t_dir dir);
-t_ast	*create_ast(t_vector tokens, t_type max_prio, size_t *ind);
+int		create_subshell(t_subargs *p_sub_args, t_vector tokens, size_t *ind);
+int		create_operator(t_ast **p_root, t_type type,
+			t_vector tokens, size_t *ind);
+t_ast	*create_ast(t_vector tokens, t_prio max_prio, size_t *ind);
 char	*print_type(t_type type);
 char	*print_redir_in_out(t_dir dir);
 void	print_tree(t_ast *root, size_t depth);

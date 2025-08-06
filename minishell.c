@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/06 10:23:38 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 15:57:27 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 	size_t	i;	
 
 	i = 0;
-	*p_ast = create_ast(*p_tokens, END_LINE, &i);
+	*p_ast = create_ast(*p_tokens, END_LINE_PRIO, &i);
 	ft_vector_free(p_tokens);
 	if (*p_ast == NULL)
 		return (ERROR_MALLOC);

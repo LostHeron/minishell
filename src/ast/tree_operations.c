@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:03:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:31:05 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/06 15:38:27 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,45 +19,6 @@
 int			fill_redir(t_vector *p_dir_args, t_vector tokens,
 				size_t *ind, t_dir dir);
 static int	fill_content(t_vector *p_content, t_vector tokens, size_t ind);
-
-t_type	get_type(t_vector tokens, size_t ind)
-{
-	if (ind >= tokens.size)
-		return (END_LINE);
-	if (((char **)tokens.data)[ind][0] == '(')
-		return (SUBSHELL);
-	if (((char **)tokens.data)[ind][0] == ')')
-		return (END_SUBSHELL);
-	if (((char **)tokens.data)[ind][0] == ';')
-		return (SEQUENCE);
-	if (((char **)tokens.data)[ind][0] == '|')
-	{
-		if (!(((char **)tokens.data)[ind][1]))
-			return (PIPE);
-		return (OR);
-	}
-	if (((char **)tokens.data)[ind][0] == '&'
-		&& ((char **)tokens.data)[ind][0] == '&')
-		return (AND);
-	return (COMMAND);
-}
-
-t_dir	get_dir(t_vector tokens, size_t ind)
-{
-	if (((char **)tokens.data)[ind][0] == '<')
-	{
-		if (!(((char **)tokens.data)[ind][1]))
-			return (IN);
-		return (HEREDOC);
-	}
-	if (((char **)tokens.data)[ind][0] == '>')
-	{
-		if (!(((char **)tokens.data)[ind][1]))
-			return (OUT);
-		return (APPEND);
-	}
-	return (NOT_DIR);
-}
 
 int	fill_command(t_comargs *p_com_args, t_vector tokens, size_t *ind)
 {
@@ -81,6 +42,48 @@ int	fill_command(t_comargs *p_com_args, t_vector tokens, size_t *ind)
 	}
 	null_string = NULL;
 	if (ft_vector_add_single(&p_com_args->content, &null_string))
+		return (1);
+	return (0);
+}
+
+int	create_subshell(t_subargs *p_sub_args, t_vector tokens, size_t *ind)
+{
+	t_dir	dir;
+
+	(*ind)++;
+	p_sub_args->sub = create_ast(tokens, SUBSHELL_PRIO, ind);
+	if (!p_sub_args->sub)
+		return (1);
+	(*ind)++;
+	if (get_type(tokens, *ind) == COMMAND)
+	{
+		dir = get_dir(tokens, *ind);
+		while (dir != NOT_DIR)
+		{
+			if (fill_redir(&p_sub_args->dir_args, tokens, ind, dir))
+				return (1);
+			(*ind)++;
+			if (*ind >= tokens.size)
+				return (0);
+			dir = get_dir(tokens, *ind);
+		}
+	}
+	return (0);
+}
+
+int	create_operator(t_ast **p_root, t_type type, t_vector tokens, size_t *ind)
+{
+	t_ast	*tmp;
+
+	tmp = create_leaf(type);
+	if (!tmp)
+		return (1);
+	tmp->arguments.op_args.left = *p_root;
+	*p_root = tmp;
+	(*ind)++;
+	(*p_root)->arguments.op_args.right
+		= create_ast(tokens, get_prio(type), ind);
+	if (!(*p_root)->arguments.op_args.right)
 		return (1);
 	return (0);
 }
