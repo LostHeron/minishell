@@ -28,8 +28,7 @@ static int	should_expand(char *delimiter);
  * to check :
  *	-> get_real_delimiter fail : DONE -> OK !
  *	-> hd_fds_init fail : DONE -> OK !
- *	-> fill_file_expand fail : DONE -> OK !
- *	-> fill_file_no_expand fail : DONE -> OK !
+ *	-> fill_file fail : DONE -> OK !
 */
 int	write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 														int *p_hd_count)
@@ -51,12 +50,6 @@ int	write_to_here_doc(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 		return (ret);
 	}
 	ret = fill_file(p_mini, fd_tmp_write, delimiter, expanding);
-	/*
-	if (expanding == 1)
-		ret = fill_file_expand(p_mini->env, fd_tmp_write, delimiter);
-	else
-		ret = fill_file_no_expand(fd_tmp_write, delimiter);
-	*/
 	free(delimiter);
 	if (close (fd_tmp_write) < 0)
 		perror(NULL);

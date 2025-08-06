@@ -62,8 +62,6 @@ PARSING_FILES := tokenize.c \
 				 here_doc_delimited_by_end_of_file.c \
 				 here_doc_transform.c \
 				 fill_file.c \
-				 fill_file_expand.c \
-				 fill_file_no_expand.c \
 				 get_next_token.c \
 				 ft_split_args.c \
 				 ft_strstr_args.c \
