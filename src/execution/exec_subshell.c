@@ -95,7 +95,6 @@ static int	subshell_execution(t_ast *ast, t_minishell *p_mini)
 	ret = exec_func(ast->arguments.sub_args.sub, p_mini);
 	if (ret != 0)
 		return (ret);
-	printf("in exec subshell : p_mini->nb_child_to_wait = %i\n", p_mini->nb_child_to_wait);
 	wait_children(p_mini, p_mini->nb_child_to_wait - 1);
 	ret = close_fd1(p_mini);
 	if (ret != 0)

@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/24 13:43:11 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 10:23:38 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	main(int argc, char **argv, char **env)
 		rl_done = 0;
 		minishell.is_error_syntax = 0;
 		init_signals();
+		init_here_doc_fds(&minishell);
 		ret = start_minishell(&minishell);
 		if (isatty(0) == 0 && minishell.is_error_syntax == 1)
 			minishell.should_exit = TRUE;
@@ -92,10 +93,8 @@ static int	start_minishell(t_minishell *p_mini)
 	t_ast		*ast;
 
 	ret = tokenize(p_mini, &tokens);
-	if (ret != 0)
+	if (ret != 0 || g_my_signal != 0)
 		return (ret);
-	if (g_my_signal != 0)
-		return (0);
 	if (p_mini->should_exit == 1)
 		return (0);
 	if (tokens.size == 0)

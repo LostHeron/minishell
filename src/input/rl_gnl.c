@@ -16,6 +16,8 @@
 #include <errno.h>
 #include <readline/readline.h>
 
+static int	case_line_head_empty(char **p_line, char **p_line_head,
+				char **p_line_cursor, char *prompt);
 static int	retrieve_one_line(char **p_line, char **p_line_cursor);
 
 /* this function should :
@@ -41,23 +43,9 @@ int	rl_gnl(char **p_line, char *prompt)
 
 	if (line_head == NULL)
 	{
-		errno = 0;
-		line_head = readline(prompt);
-		line_cursor = line_head;
-		if (errno != 0)
-			return (1);
-		if (g_my_signal != 0)
-		{
-			free(line_head);
-			line_head = NULL;
-			line_cursor = NULL;
-			return (0);
-		}
-		if (line_head == NULL)
-		{
-			*p_line = NULL;
-			return (0);
-		}
+		ret = case_line_head_empty(p_line, &line_head, &line_cursor, prompt);
+		if (ret != 0 || g_my_signal != 0 || line_head == NULL)
+			return (ret);
 	}
 	ret = retrieve_one_line(p_line, &line_cursor);
 	if (ret != 0)
@@ -70,6 +58,29 @@ int	rl_gnl(char **p_line, char *prompt)
 		free(line_head);
 		line_head = NULL;
 		line_cursor = NULL;
+	}
+	return (0);
+}
+
+static int	case_line_head_empty(char **p_line, char **p_line_head,
+					char **p_line_cursor, char *prompt)
+{
+	errno = 0;
+	*p_line_head = readline(prompt);
+	*p_line_cursor = *p_line_head;
+	if (errno != 0)
+		return (ERROR_READLINE);
+	if (g_my_signal != 0)
+	{
+		free(*p_line_head);
+		*p_line_head = NULL;
+		*p_line_cursor = NULL;
+		return (0);
+	}
+	if (*p_line_head == NULL)
+	{
+		*p_line = NULL;
+		return (0);
 	}
 	return (0);
 }

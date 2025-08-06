@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
+#    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/08/05 15:51:44 by jweber            #+#    #+#              #
-#    Updated: 2025/08/05 19:03:06 by cviel            ###   ########.fr        #
+#    Created: 2025/08/06 14:41:55 by jweber            #+#    #+#              #
+#    Updated: 2025/08/06 14:41:57 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,10 @@ PRINTING_FILES := print_error.c \
 HANDLE_SIGNALS_DIR := src/handle_signals/
 HANDLE_SIGNALS_FILES := init_signals.c \
 
-RL_GNL_DIR := src/rl_gnl/
-RL_GNL_FILES := rl_gnl.c \
+INPUT_DIR := src/input/
+INPUT_FILES := rl_gnl.c \
+			   get_prompt.c \
+			   get_line.c \
 
 PARSING_DIR := src/parsing/
 PARSING_FILES := tokenize.c \
@@ -63,7 +65,6 @@ PARSING_FILES := tokenize.c \
 				 fill_file_expand.c \
 				 fill_file_no_expand.c \
 				 get_next_token.c \
-				 get_prompt.c \
 				 ft_split_args.c \
 				 ft_strstr_args.c \
 
@@ -81,6 +82,7 @@ INIT_FILES := init_minishell.c \
 			  init_builtins.c \
 			  init_cwd_name.c \
 			  init_saved_tty.c \
+			  init_here_doc_fds.c \
 			  case_pwd_env_not_null.c \
 			  case_pwd_env_null.c \
 			  case_value_not_null.c \
@@ -167,7 +169,7 @@ C_FILES := minishell.c \
 		   $(addprefix $(HANDLE_SIGNALS_DIR), $(HANDLE_SIGNALS_FILES)) \
 		   $(addprefix $(INIT_DIR), $(INIT_FILES)) \
 		   $(addprefix $(FREEING_DIR), $(FREEING_FILES)) \
-		   $(addprefix $(RL_GNL_DIR), $(RL_GNL_FILES)) \
+		   $(addprefix $(INPUT_DIR), $(INPUT_FILES)) \
 
 OBJ_DIR := .obj/
 OBJ_DIR_DEBUG = .obj_debug/
@@ -196,10 +198,10 @@ $(NAME): $(OBJ_FILES)
 
 -include $(D_FILES)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR) $(OBJ_DIR)$(INIT_DIR) $(OBJ_DIR)$(FREEING_DIR) $(OBJ_DIR)$(RL_GNL_DIR)
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR) $(OBJ_DIR)$(INIT_DIR) $(OBJ_DIR)$(FREEING_DIR) $(OBJ_DIR)$(INPUT_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJ_DIR)$(RL_GNL_DIR):
+$(OBJ_DIR)$(INPUT_DIR):
 	mkdir -p $@
 
 $(OBJ_DIR)$(FREEING_DIR):

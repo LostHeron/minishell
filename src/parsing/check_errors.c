@@ -13,6 +13,9 @@
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
+#include "ft_io.h"
+
+static int	check_here_doc_count(t_minishell *p_mini, t_vector *p_tokens);
 
 /* This function should check that there is no syntax
  * errors. It will return 0 if no syntax error are present
@@ -37,8 +40,27 @@ int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 	ret = check_around_parenthesis(p_tokens);
 	if (ret != 0)
 		return (ret);
+	ret = check_here_doc_count(p_mini, p_tokens);
+	if (ret != 0)
+		return (ret);
+	/*
 	ret = prepare_here_docs(p_mini, p_tokens);
 	if (ret != 0)
 		return (ret);
+	*/
+	return (0);
+}
+
+static int	check_here_doc_count(t_minishell *p_mini, t_vector *p_tokens)
+{
+	int	ret;
+
+	ret = count_here_doc(*p_tokens);
+	if (ret != 0)
+	{
+		ft_putstr_fd("maximum here-document count exceeded\n", 2);
+		p_mini->last_error_code = 2;
+		return (1);
+	}
 	return (0);
 }

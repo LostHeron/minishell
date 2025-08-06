@@ -28,14 +28,8 @@ int	prepare_here_docs(t_minishell *p_mini, t_vector *p_tokens)
 	int	ret;
 
 	init_here_doc_fds(p_mini->fds_here_doc);
-	ret = count_here_doc(*p_tokens);
-	if (ret != 0)
-	{
-		ft_putstr_fd("maximum here-document count exceeded\n", 2);
-		p_mini->last_error_code = 2;
-		return (1);
-	}
 	ret = get_here_doc(p_mini, p_tokens);
+	/*
 	if (ret == ERROR_READ)
 	{
 		if (errno == EINTR)
@@ -44,6 +38,7 @@ int	prepare_here_docs(t_minishell *p_mini, t_vector *p_tokens)
 			return (1);
 		}
 	}
+	*/
 	return (ret);
 }
 

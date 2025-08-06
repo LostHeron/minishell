@@ -16,7 +16,10 @@
 #include "ft_vectors.h"
 #include "parsing.h"
 
-/* to check
+/* This function should :
+ *	-> return a t_vector of char ** of the different argument of the command !
+ *
+ * to check
  *	-> line_to_tokens fail : DONE -> OK !
  *	-> check_errors fail : DONE -> OK !
 */
@@ -39,6 +42,12 @@ int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 			p_mini->is_error_syntax = 1;
 			p_mini->last_error_code = 2;
 		}
+		ft_vector_free(p_tokens);
+		return (ret);
+	}
+	ret = prepare_here_docs(p_mini, p_tokens);
+	if (ret != 0)
+	{
 		ft_vector_free(p_tokens);
 		return (ret);
 	}

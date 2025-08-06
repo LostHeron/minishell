@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:04:27 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/05 13:45:35 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 10:32:02 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,11 @@ char	*get_real_delimiter(char *delimiter);
 int		here_doc_delimited_by_end_of_file(char *delimiter);
 int		fill_file_no_expand(int fd, char *delimiter);
 int		fill_file_expand(t_list *env, int fd, char *delimiter);
-int		fill_file(t_list *env, int fd, char *delimiter, int expand);
+int		fill_file(t_minishell *p_mini, int fd, char *delimiter, int expand);
 int		here_doc_transform(t_list *env, char **p_line);
 char	*get_value(t_list *env, char *key);
 char	*get_key(char *line);
 int		ft_split_args(t_vector *p_tokens, char *line, char **args);
-char	*get_prompt(t_minishell *p_mini);
 int		get_next_token(char **p_token_i, char **p_line, char **args);
 size_t	ft_strstr_args(char *line, char **args);
 
