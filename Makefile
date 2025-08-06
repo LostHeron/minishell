@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/05 15:51:44 by jweber            #+#    #+#              #
-#    Updated: 2025/08/05 15:51:46 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/06 10:23:53 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ INIT_FILES := init_minishell.c \
 			  init_builtins.c \
 			  init_cwd_name.c \
 			  init_saved_tty.c \
+			  init_here_doc_fds.c \
 			  case_pwd_env_not_null.c \
 			  case_pwd_env_null.c \
 			  case_value_not_null.c \
