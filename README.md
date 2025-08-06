@@ -26,6 +26,9 @@ ls > log1 << eof1 | ls > log2 << eof2 | ls > log3 << eof3
 
 TODO:
 
+- 3) ls si dans deux PATH differents mais premier pas acces, va essayer d'executer le deuxième -> a voir si on fait
+- 2) CTRL-C dans here doc
+- 1) gerer les here doc pour eviter que le prompt aille dans le fichier log si on lance $ ./minishell > log
 - 13) in rl_gnl remove last "\n"
 - 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas // and look how to make it work
 - 3) Normage dans Execution

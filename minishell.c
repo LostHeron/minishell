@@ -93,10 +93,8 @@ static int	start_minishell(t_minishell *p_mini)
 	t_ast		*ast;
 
 	ret = tokenize(p_mini, &tokens);
-	if (ret != 0)
+	if (ret != 0 || g_my_signal != 0)
 		return (ret);
-	if (g_my_signal != 0)
-		return (0);
 	if (p_mini->should_exit == 1)
 		return (0);
 	if (tokens.size == 0)

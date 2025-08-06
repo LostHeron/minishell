@@ -60,7 +60,17 @@ int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 	{
 		ret = get_here_doc_i(p_mini, p_tokens, i, &hd_count);
 		if (g_my_signal == SIGINT)
-			ft_printf_fd(2, "^C");
+		{
+			ft_printf_fd(2, "^C\n");
+			if (isatty(0) == 1)
+			{
+				restore_term_attr(&old_t);
+				restore_sigquit(&old_s);
+			}
+			close_all_here_doc(p_mini);
+			ft_vector_free(p_tokens);
+			return (0);
+		}
 		if (ret != 0)
 		{
 			if (isatty(0) == 1)

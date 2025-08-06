@@ -16,6 +16,7 @@
 #include "parsing.h"
 #include "handle_signal.h"
 #include "ft_input.h"
+#include "ft_string.h"
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -36,19 +37,29 @@ static void	do_nothing(int sig);
 */
 int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 {
+	size_t	len;
 	char	*line;
 	int		ret;
 	char	*args[11];
+	char	*prompt;
 
-	get_line(p_mini, &line, &ret);
-	if (ret != 0)
+	prompt = get_prompt(p_mini);
+	if (prompt == NULL)
+		return (ERROR_MALLOC);
+	get_line(p_mini, &line, &ret, prompt);
+	free(prompt);
+	if (ret != 0 || g_my_signal != 0)
 		return (ret);
-	if (g_my_signal != 0)
-		return (0);
 	if (line == NULL)
 	{
 		p_mini->should_exit = TRUE;
 		return (0);
+	}
+	else
+	{
+		len = ft_strlen(line);
+		if (line[len - 1] == '\n')
+			line[len - 1] = '\0';
 	}
 	if (line && *line)
 		add_history(line);
@@ -58,6 +69,7 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	free(line);
 	return (ret);
 }
+
 static void	init_args(char **p_args)
 {
 	p_args[0] = "&&";

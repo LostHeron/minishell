@@ -13,10 +13,10 @@
 #ifndef FT_INPUT_H
 # define FT_INPUT_H
 
-#include "minishell.h"
+# include "minishell.h"
 
 int		rl_gnl(char **p_line, char *prompt);
 char	*get_prompt(t_minishell *p_mini);
-void	get_line(t_minishell *p_mini, char **p_line, int *p_ret);
+void	get_line(t_minishell *p_mini, char **p_line, int *p_ret, char *prompt);
 
 #endif
