@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 15:58:31 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/05 11:58:47 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 10:35:15 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,13 @@
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
-#include "ft_io.h"
 #include "handle_signal.h"
-#include "ft_string.h"
 #include "ft_input.h"
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
 
-static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret);
 static void	init_args(char **p_args);
 static void	restore_sigquit(void);
 static void	do_nothing(int sig);
@@ -61,51 +58,6 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	free(line);
 	return (ret);
 }
-
-/* to check
- *	-> get_prompt_fail : DONE -> OK ;
- *	-> *p_line = NULL and *p_ret != 0 : DONE -> OK !
- *	-> readline = NULL : DONE -> OK !
-*/
-static void	get_line(t_minishell *p_mini, char **p_line, int *p_ret)
-{
-	char	*prompt;
-	int		ret;
-	size_t	len;
-
-	*p_ret = 0;
-	if (isatty(0) == 1)
-	{
-		prompt = get_prompt(p_mini);
-		if (prompt == NULL)
-		{
-			*p_ret = ERROR_MALLOC;
-			return ;
-		}
-		ret = rl_gnl(p_line, prompt);
-		free(prompt);
-		if (*p_line == NULL)
-			return ;
-		if (ret != 0)
-		{
-			*p_ret = ret;
-			return ;
-		}
-		if (g_my_signal != 0)
-		{
-			return ;
-		}
-	}
-	else
-	{
-		*p_line = get_next_line(0, p_ret);
-	}
-	len = ft_strlen(*p_line);
-	if ((*p_line)[len - 1] == '\n')
-		(*p_line)[len - 1] = '\0';
-	return ;
-}
-
 static void	init_args(char **p_args)
 {
 	p_args[0] = "&&";

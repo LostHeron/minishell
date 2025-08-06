@@ -1,3 +1,8 @@
+.gitignore
+err_mini
+out_mini
+err_bash
+out_bash
 .cache
 .gdbinit
 .gdb*
