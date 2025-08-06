@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:24:04 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/23 15:00:02 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 14:57:35 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
+#include "check_errors.h"
 
 /* This function should :
  *	-> return a t_vector of char ** of the different argument of the command !

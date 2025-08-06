@@ -40,19 +40,7 @@ INPUT_FILES := rl_gnl.c \
 PARSING_DIR := src/parsing/
 PARSING_FILES := tokenize.c \
 				 line_to_tokens.c \
-				 check_errors.c \
-				 check_error_syntax.c \
-				 check_matching_parenthesis.c \
-				 check_around_parenthesis.c \
-				 check_around_opening_parenthesis.c \
-				 check_around_closing_parenthesis.c \
-				 check_after_closing_parenthesis.c \
-				 check_after.c \
-				 check_after_redir.c \
-				 check_before.c \
-				 check_before_after.c \
 				 prepare_here_docs.c \
-				 count_here_doc.c \
 				 generate_hd_filename.c \
 				 get_here_doc.c \
 				 write_to_here_doc.c \
@@ -65,6 +53,21 @@ PARSING_FILES := tokenize.c \
 				 get_next_token.c \
 				 ft_split_args.c \
 				 ft_strstr_args.c \
+
+
+CHECK_ERRORS_DIR := src/check_errors/
+CHECK_ERRORS_FILES := check_errors.c \
+					  check_error_syntax.c \
+					  check_matching_parenthesis.c \
+					  check_around_parenthesis.c \
+					  check_around_opening_parenthesis.c \
+					  check_around_closing_parenthesis.c \
+					  check_after_closing_parenthesis.c \
+					  check_after.c \
+					  check_after_redir.c \
+					  check_before.c \
+					  check_before_after.c \
+					  count_here_doc.c \
 
 AST_DIR := src/ast/
 AST_FILES := tree_operations.c \
@@ -168,6 +171,7 @@ C_FILES := minishell.c \
 		   $(addprefix $(INIT_DIR), $(INIT_FILES)) \
 		   $(addprefix $(FREEING_DIR), $(FREEING_FILES)) \
 		   $(addprefix $(INPUT_DIR), $(INPUT_FILES)) \
+		   $(addprefix $(CHECK_ERRORS_DIR), $(CHECK_ERRORS_FILES)) \
 
 OBJ_DIR := .obj/
 OBJ_DIR_DEBUG = .obj_debug/
@@ -196,8 +200,11 @@ $(NAME): $(OBJ_FILES)
 
 -include $(D_FILES)
 
-$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR) $(OBJ_DIR)$(INIT_DIR) $(OBJ_DIR)$(FREEING_DIR) $(OBJ_DIR)$(INPUT_DIR)
+$(OBJ_DIR)%.o : %.c | $(OBJ_DIR)$(PARSING_DIR) $(OBJ_DIR)$(PRINTING_DIR) $(OBJ_DIR)$(AST_DIR) $(OBJ_DIR)$(EXECUTION_DIR) $(OBJ_DIR)$(BUILTINS_DIR) $(OBJ_DIR)$(EXPAND_DIR) $(OBJ_DIR)$(HANDLE_SIGNALS_DIR) $(OBJ_DIR)$(INIT_DIR) $(OBJ_DIR)$(FREEING_DIR) $(OBJ_DIR)$(INPUT_DIR) $(OBJ_DIR)$(CHECK_ERRORS_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(OBJ_DIR)$(CHECK_ERRORS_DIR):
+	mkdir -p $@
 
 $(OBJ_DIR)$(INPUT_DIR):
 	mkdir -p $@
