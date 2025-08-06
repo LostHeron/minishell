@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:46:41 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:30:33 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/06 13:49:35 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ typedef enum e_type
 	SUBSHELL,
 	COMMAND,
 	PIPE,
-	OR,
 	AND,
+	OR,
 	SEQUENCE,
 	END_SUBSHELL,
 	END_LINE
