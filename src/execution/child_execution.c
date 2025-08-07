@@ -74,6 +74,11 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	ret = get_env_from_list(&new_env, p_mini->env);
 	if (ret != 0)
 		return (ret);
+	ret = close_here_doc_fds(p_mini);
+	if (ret != 0)
+	{
+		// do something
+	}
 	execve(cmd, ast->arguments.com_args.content.data, new_env.data);
 	execve_errno = errno;
 	ft_vector_free(&new_env);
