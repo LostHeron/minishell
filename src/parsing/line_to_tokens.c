@@ -61,7 +61,7 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 		if (line[len - 1] == '\n')
 			line[len - 1] = '\0';
 	}
-	if (line && *line)
+	if (line && *line && isatty(0) == 1)
 		add_history(line);
 	restore_sigquit();
 	init_args(args);

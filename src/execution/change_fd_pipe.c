@@ -30,10 +30,7 @@ int	change_fd_pipe(t_minishell *p_mini)
 	{
 		final_ret = dup2_case_prev_right(p_mini);
 	}
-	if (p_mini->previous_side == PREV_RIGHT)
-		return (close_case_prev_right(p_mini, final_ret));
-	else
-		return (close_case_prev_left(p_mini, final_ret));
+	return (close_case_pipe(p_mini, final_ret));
 }
 
 static int	dup2_case_prev_left(t_minishell *p_mini)

@@ -6,18 +6,18 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:38:45 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/04 18:04:34 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 15:00:49 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "ft_string.h"
+#include "check_errors.h"
 
 static int	check_before_closing_parenthesis(
 				t_vector *p_tokens, size_t token_i);
 static void	init_list_before_closing_parenthesis(char **list_check);
-int			check_after_closing_parenthesis(t_vector *p_tokens, size_t token_i);
 
 int	check_around_closing_parenthesis(t_vector *p_tokens, size_t	token_i)
 {

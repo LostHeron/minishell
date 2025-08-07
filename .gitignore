@@ -1,3 +1,4 @@
+log*
 .gitignore
 err_mini
 out_mini

@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:44:07 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/23 17:35:00 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 15:33:40 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,15 @@ int	parent_execution(t_vector dir_args, t_minishell *p_mini, int pid)
 		if (((t_dirargs *)dir_args.data)[i].dir == HEREDOC)
 		{
 			to_close = ((t_dirargs *)dir_args.data)[i].filename[0];
-			if (close(p_mini->fds_here_doc[to_close]) < 0)
+			if (p_mini->fds_here_doc[to_close] > 0)
 			{
-				perror("fn : parent_execution : close");
-				final_ret = ERROR_CLOSE;
+				if (close(p_mini->fds_here_doc[to_close]) < 0)
+				{
+					perror("fn : parent_execution : close");
+					final_ret = ERROR_CLOSE;
+				}
+				p_mini->fds_here_doc[to_close] = -1;
 			}
-			p_mini->fds_here_doc[to_close] = -1;
 		}
 		i++;
 	}

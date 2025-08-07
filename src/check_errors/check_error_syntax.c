@@ -6,14 +6,14 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:48:59 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/23 14:58:45 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 14:55:26 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "ft_string.h"
-#include "parsing.h"
+#include "check_errors.h"
 
 static void	init_smths(char **smth_before, char **smth_after,\
 										char **smth_before_after);

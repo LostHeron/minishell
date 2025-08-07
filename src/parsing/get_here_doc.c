@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:16:57 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/14 16:58:44 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 15:01:22 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,8 @@ static int	restore_term_attr(struct termios *p_old_t)
  *	-> write_to_here_doc fail : DONE -> OK !
  *	-> ft_malloc fail : DONE -> OK !
 */
-static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i,	\
-													int *p_hd_count)
+static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i,
+											int *p_hd_count)
 {
 	int	ret;
 

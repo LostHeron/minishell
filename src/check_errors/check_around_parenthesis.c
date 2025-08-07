@@ -1,42 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_after.c                                      :+:      :+:    :+:   */
+/*   check_around_parenthesis.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/04 16:24:15 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:25:04 by jweber           ###   ########.fr       */
+/*   Created: 2025/08/04 18:02:11 by jweber            #+#    #+#             */
+/*   Updated: 2025/08/06 14:55:51 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_vectors.h"
 #include "ft_string.h"
+#include "check_errors.h"
 
-int	check_after(t_vector tokens, size_t i)
+int	check_around_parenthesis(t_vector *p_tokens)
 {
-	char	*list_check[6];
-	size_t	j;
+	size_t	token_i;
+	int		ret;
 
-	list_check[0] = "&&";
-	list_check[1] = "||";
-	list_check[2] = "|";
-	list_check[3] = ";";
-	list_check[4] = ")";
-	list_check[5] = NULL;
-	if (i == tokens.size - 1)
+	token_i = 0;
+	while (token_i < p_tokens->size)
 	{
-		return (1);
-	}
-	else
-	{
-		j = 0;
-		while (list_check[j] != NULL)
+		ret = 0;
+		if (ft_strcmp("(", ((char **)p_tokens->data)[token_i]) == 0)
 		{
-			if (ft_strcmp(list_check[j], ((char **)tokens.data)[i + 1]) == 0)
-				return (1);
-			j++;
+			ret = check_around_opening_parenthesis(p_tokens, token_i);
 		}
+		else if (ft_strcmp(")", ((char **)p_tokens->data)[token_i]) == 0)
+		{
+			ret = check_around_closing_parenthesis(p_tokens, token_i);
+		}
+		if (ret != 0)
+			return (ret);
+		token_i++;
 	}
 	return (0);
 }

@@ -15,20 +15,24 @@
 #include <stdio.h>
 #include <unistd.h>
 
+static void	close_fd(int *p_fd);
+
 void	close_on_error(t_minishell *p_mini)
 {
-	if (p_mini->fd1[0] > 0)
-		if (close(p_mini->fd1[0]) < 0)
-			perror("fn: close_on_error: close(p_mini->fd1[0])");
-	if (p_mini->fd1[1] > 0)
-		if (close(p_mini->fd1[1]) < 0)
-			perror("fn: close_on_error: close(p_mini->fd1[1])");
-	if (p_mini->fd2[0] > 0)
-		if (close(p_mini->fd2[0]) < 0)
-			perror("fn: close_on_error: close(p_mini->fd2[0])");
-	if (p_mini->fd2[1] > 0)
-		if (close(p_mini->fd2[1]) < 0)
-			perror("fn: close_on_error: close(p_mini->fd2[1])");
+	close_fd(&(p_mini->fd1[0]));
+	close_fd(&(p_mini->fd1[1]));
+	close_fd(&(p_mini->fd2[0]));
+	close_fd(&(p_mini->fd2[1]));
 	close_here_doc_fds(p_mini);
 	return ;
+}
+
+static void	close_fd(int *p_fd)
+{
+	if (*p_fd > 0)
+	{
+		if (close(*p_fd) < 0)
+			perror("fn: close_on_error: close");
+		*p_fd = -1;
+	}
 }

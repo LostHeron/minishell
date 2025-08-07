@@ -6,13 +6,12 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 16:24:51 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/04 16:25:57 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 14:56:19 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_vectors.h"
-#include "parsing.h"
-
+#include "check_errors.h"
 
 /* This function is called when token is one of : "|" "&&" "||"
  * should check that ((char**)token.data)[i + 1] and ((char**)token.data)[i -1]
