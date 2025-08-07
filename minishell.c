@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:28:35 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/06 10:23:38 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/06 15:47:59 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ int	main(int argc, char **argv, char **env)
 					minishell.should_exit = TRUE;
 			}
 		}
+		close_here_doc_fds(&minishell);
 	}
 	ret = free_minishell(&minishell);
 	rl_clear_history();
-	close_here_doc_fds(&minishell);
 	return (minishell.last_error_code);
 }
 

@@ -16,27 +16,31 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+static void	close_fd(int *p_fd, int *p_final_ret);
+
 int	free_minishell(t_minishell *p_mini)
 {
 	int	final_ret;
 
 	final_ret = 0;
-	if (close(p_mini->fd_tty_in) < 0)
-	{
-		perror("fn : free_minishell : close(p_mini->fd_tty_copy)\n");
-		final_ret = ERROR_CLOSE;
-	}
-	if (close(p_mini->fd_tty_out) < 0)
-	{
-		perror("fn : free_minishell : close(p_mini->fd_tty_copy)\n");
-		final_ret = ERROR_CLOSE;
-	}
-	if (close(p_mini->fd_tty_err) < 0)
-	{
-		perror("fn : free_minishell : close(p_mini->fd_tty_copy)\n");
-		final_ret = ERROR_CLOSE;
-	}
+	close_fd(&p_mini->fd_tty_in, &final_ret);
+	close_fd(&p_mini->fd_tty_out, &final_ret);
+	close_fd(&p_mini->fd_tty_err, &final_ret);
 	free_env(p_mini->env);
 	free(p_mini->cwd_name);
 	return (final_ret);
+}
+
+static void	close_fd(int *p_fd, int *p_final_ret)
+{
+	if (*p_fd > 0)
+	{
+		if (close(*p_fd) < 0)
+		{
+			perror("close\n");
+			*p_final_ret = ERROR_CLOSE;
+		}
+		*p_fd = -1;
+	}
+	return ;
 }

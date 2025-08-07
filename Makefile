@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/05 15:51:44 by jweber            #+#    #+#              #
-#    Updated: 2025/08/06 10:33:49 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/07 15:06:41 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,8 +107,7 @@ EXECUTION_FILES := exec_func.c \
 				   get_env_from_list.c \
 				   add_slash_to_path.c \
 				   close_fd1.c \
-				   close_case_prev_left.c \
-				   close_case_prev_right.c \
+				   close_case_pipe.c \
 				   close_on_error.c \
 				   close_saved_tty.c \
 				   close_case_no_pipe.c \

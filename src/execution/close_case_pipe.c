@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_case_prev_right.c                            :+:      :+:    :+:   */
+/*   close_case_pipe.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/21 11:23:50 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 11:24:00 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/21 11:21:08 by jweber            #+#    #+#             */
+/*   Updated: 2025/08/07 15:13:56 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int	close_case_prev_right(t_minishell *p_mini, int final_ret)
+static void	close_fd(int *p_fd, int *p_final_ret);
+
+int	close_case_pipe(t_minishell *p_mini, int final_ret)
 {
-	if (p_mini->fd1[0] != -1)
-	{
-		if (close(p_mini->fd1[0]) == -1)
-		{
-			perror("close");
-			if (final_ret == 0)
-				final_ret = ERROR_CLOSE;
-		}
-	}
-	p_mini->fd1[0] = -1;
-	if (p_mini->fd1[1] != 0)
-	{
-		if (close(p_mini->fd1[1]) == -1)
-		{
-			perror("close");
-			if (final_ret == 0)
-				final_ret = ERROR_CLOSE;
-		}
-	}
-	p_mini->fd1[1] = -1;
+	close_fd(&(p_mini->fd1[0]), &final_ret);
+	close_fd(&(p_mini->fd1[1]), &final_ret);
+	close_fd(&(p_mini->fd2[0]), &final_ret);
+	close_fd(&(p_mini->fd2[1]), &final_ret);
 	return (final_ret);
+}
+
+static void	close_fd(int *p_fd, int *p_final_ret)
+{
+	if (*p_fd > 0)
+	{
+		if (close(*p_fd) == -1)
+		{
+			perror("fn: close_case_pipe: close");
+			*p_final_ret = ERROR_CLOSE;
+		}
+		*p_fd = -1;
+	}
 }

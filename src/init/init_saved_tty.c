@@ -54,8 +54,12 @@ static int	init_out(t_minishell *p_mini)
 	if (p_mini->fd_tty_out < 0)
 	{
 		perror("dup");
-		if (close(p_mini->fd_tty_in) < 0)
-			perror("close");
+		if (p_mini->fd_tty_in > 0)
+		{
+			if (close(p_mini->fd_tty_in) < 0)
+				perror("close");
+			p_mini->fd_tty_in = -1;
+		}
 		free_env(p_mini->env);
 		free(p_mini->cwd_name);
 		return (ERROR_DUP);
@@ -69,10 +73,18 @@ static int	init_err(t_minishell *p_mini)
 	if (p_mini->fd_tty_out < 0)
 	{
 		perror("dup");
-		if (close(p_mini->fd_tty_in) < 0)
-			perror("close");
-		if (close(p_mini->fd_tty_out) < 0)
-			perror("close");
+		if (p_mini->fd_tty_in > 0)
+		{
+			if (close(p_mini->fd_tty_in) < 0)
+				perror("close");
+			p_mini->fd_tty_in = -1;
+		}
+		if (p_mini->fd_tty_out > 0)
+		{
+			if (close(p_mini->fd_tty_out) < 0)
+				perror("close");
+			p_mini->fd_tty_out = -1;
+		}
 		free_env(p_mini->env);
 		free(p_mini->cwd_name);
 		return (ERROR_DUP);

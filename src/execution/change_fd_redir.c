@@ -50,6 +50,7 @@ int	change_fd_redir(t_minishell *p_mini, t_vector redir)
 
 	i = 0;
 	init_redir_table(redir_table);
+	ret = 0;
 	while (i < redir.size)
 	{
 		ret = perform_redir_i(p_mini,
@@ -61,7 +62,6 @@ int	change_fd_redir(t_minishell *p_mini, t_vector redir)
 		}
 		i++;
 	}
-	ret = close_here_doc_fds(p_mini);
 	return (ret);
 }
 
