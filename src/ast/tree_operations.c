@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:03:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/06 15:38:27 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/08 14:47:27 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,12 @@ int	create_operator(t_ast **p_root, t_type type, t_vector tokens, size_t *ind)
 	tmp->arguments.op_args.left = *p_root;
 	*p_root = tmp;
 	(*ind)++;
-	(*p_root)->arguments.op_args.right
-		= create_ast(tokens, get_prio(type), ind);
+	if (type == PIPE)
+		(*p_root)->arguments.op_args.right
+			= create_ast(tokens, get_prio(type) + 1, ind);
+	else
+		(*p_root)->arguments.op_args.right
+			= create_ast(tokens, get_prio(type), ind);
 	if (!(*p_root)->arguments.op_args.right)
 		return (1);
 	return (0);
