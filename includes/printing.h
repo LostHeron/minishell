@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:39:58 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/04 14:08:32 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/08 15:01:36 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ void	print_env(t_minishell *p_mini);
 void	print_tokens_ast(t_ast *ast);
 void	print_tokens(t_vector tokens);
 void	print_redir(t_vector redir_vec);
+int		ft_perror(char *begin, char *file, char *function, char *line);
 
 #endif // !PRINTING_H

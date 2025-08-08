@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:27:28 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 14:43:56 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/08 15:08:31 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	exec_func(t_ast *ast, t_minishell *p_mini)
 	int		(*exec_table[NB_T_TYPE])(t_ast *ast, t_minishell *p_mini);
 
 	init_exec_table(exec_table);
-	if (0 <= ast->type && ast->type <= 6)
+	if (0 <= ast->type && ast->type <= 5)
 	{
 		return (exec_table[ast->type](ast, p_mini));
 	}
@@ -62,11 +62,11 @@ int	exec_func(t_ast *ast, t_minishell *p_mini)
 static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,\
 														t_minishell *p_mini))
 {
-	exec_table[OR] = &exec_or;
-	exec_table[AND] = &exec_and;
+	exec_table[SUBSHELL] = &exec_subshell;
 	exec_table[COMMAND] = &exec_command;
 	exec_table[PIPE] = &exec_pipe;
+	exec_table[OR] = &exec_or;
+	exec_table[AND] = &exec_and;
 	exec_table[SEQUENCE] = &exec_sequence;
-	exec_table[SUBSHELL] = &exec_subshell;
 	return ;
 }
