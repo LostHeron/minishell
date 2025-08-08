@@ -6,32 +6,30 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:14:33 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/06 15:38:15 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/08 15:16:05 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "ast.h"
 #include "ft_vectors.h"
+#include "ft_string.h"
 
 t_type	get_type(t_vector tokens, size_t ind)
 {
 	if (ind >= tokens.size)
 		return (END_LINE);
-	if (((char **)tokens.data)[ind][0] == '(')
+	if (ft_strcmp(((char **)tokens.data)[ind], "(") == 0)
 		return (SUBSHELL);
-	if (((char **)tokens.data)[ind][0] == ')')
+	if (ft_strcmp(((char **)tokens.data)[ind], ")") == 0)
 		return (END_SUBSHELL);
-	if (((char **)tokens.data)[ind][0] == ';')
+	if (ft_strcmp(((char **)tokens.data)[ind], ";") == 0)
 		return (SEQUENCE);
-	if (((char **)tokens.data)[ind][0] == '|')
-	{
-		if (!(((char **)tokens.data)[ind][1]))
-			return (PIPE);
+	if (ft_strcmp(((char **)tokens.data)[ind], "|") == 0)
+		return (PIPE);
+	if (ft_strcmp(((char **)tokens.data)[ind], "||") == 0)
 		return (OR);
-	}
-	if (((char **)tokens.data)[ind][0] == '&'
-		&& ((char **)tokens.data)[ind][0] == '&')
+	if (ft_strcmp(((char **)tokens.data)[ind], "&&") == 0)
 		return (AND);
 	return (COMMAND);
 }
