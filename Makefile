@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/08/07 15:34:04 by jweber            #+#    #+#              #
-#    Updated: 2025/08/07 15:34:09 by jweber           ###   ########.fr        #
+#    Created: 2025/08/08 16:22:40 by jweber            #+#    #+#              #
+#    Updated: 2025/08/08 16:22:41 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ PRINTING_FILES := print_error.c \
 				  print_tokens.c \
 				  print_redir.c \
 				  print_tokens_ast.c \
+				  ft_perror.c \
 
 HANDLE_SIGNALS_DIR := src/handle_signals/
 HANDLE_SIGNALS_FILES := init_signals.c \
@@ -95,6 +96,8 @@ FREEING_FILES := free_minishell.c \
 
 EXECUTION_DIR := src/execution/
 EXECUTION_FILES := exec_func.c \
+				   exec_logical_left.c \
+				   exec_logical_right.c \
 				   exec_or.c \
 				   exec_and.c \
 				   exec_pipe.c \

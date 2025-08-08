@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 16:00:16 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/06 14:55:20 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/08 14:31:19 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ static int	check_here_doc_count(t_minishell *p_mini, t_vector *p_tokens)
 	ret = count_here_doc(*p_tokens);
 	if (ret != 0)
 	{
-		ft_putstr_fd("maximum here-document count exceeded\n", 2);
 		p_mini->last_error_code = 2;
-		return (1);
+		return (ERROR_HERE_DOC_COUNT);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:13:46 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/30 12:52:19 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/08 14:09:22 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int		parent_execution(t_vector dir_args, t_minishell *p_mini, int pid);
 int		case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type);
 int		case_no_forking(t_ast *ast, t_minishell *p_mini);
 int		exec_func(t_ast *ast, t_minishell *p_mini);
+int		exec_logical_left(t_ast *ast, t_minishell *p_mini);
+int		exec_logical_right(t_ast *ast, t_minishell *p_mini);
 int		exec_and(t_ast *ast, t_minishell *p_mini);
 int		exec_or(t_ast *ast, t_minishell *p_mini);
 int		exec_sequence(t_ast *ast, t_minishell *p_mini);

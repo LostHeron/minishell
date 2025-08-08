@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_sequence.c                                    :+:      :+:    :+:   */
+/*   exec_logical_right.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 10:40:37 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/08 14:25:48 by jweber           ###   ########.fr       */
+/*   Created: 2025/08/08 14:07:43 by jweber            #+#    #+#             */
+/*   Updated: 2025/08/08 14:08:48 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
 #include "minishell.h"
-#include "execution.h"
-#include <sys/wait.h>
-#include <unistd.h>
+#include <execution.h>
 
-int	exec_sequence(t_ast *ast, t_minishell *p_mini)
+int	exec_logical_right(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;
 
-	p_mini->previous_type = SEQUENCE;
-	ret = exec_logical_left(ast, p_mini);
-	if (ret != 0)
-		return (ret);
-	p_mini->previous_type = SEQUENCE;
-	ret = exec_logical_right(ast, p_mini);
+	p_mini->previous_side = PREV_RIGHT;
+	ret = exec_func(ast->arguments.op_args.right, p_mini);
 	if (ret != 0)
 		return (ret);
 	return (ret);

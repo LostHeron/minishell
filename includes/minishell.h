@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/04 19:50:53 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/08 14:31:34 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ enum e_error_cod
 	ERROR_AROUND_REDIR_HEREDOC,
 	ERROR_AROUND_REDIR_APPEND,
 	ERROR_READLINE,
+	ERROR_HERE_DOC_COUNT,
 	ERROR_UNKNOWN,
 };
 #endif

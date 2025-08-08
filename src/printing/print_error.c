@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:40:45 by jweber            #+#    #+#             */
-/*   Updated: 2025/06/25 16:26:34 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/08 14:35:15 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static void	print_other_errors(int err_code)
 	if (err_code == ERROR_HERE_DOC_FILENAME)
 		ft_printf_fd(2, \
 "too much filename beginning with \"/tmp/minishell_tmp_file_nb_\"\n");
+	else if (err_code == ERROR_HERE_DOC_COUNT)
+		ft_putstr_fd("maximum here-document count exceeded\n", 2);
 	else if (err_code == ERROR_OPEN)
 		return ;
 	else if (err_code == ERROR_AROUND_AND)

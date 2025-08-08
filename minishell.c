@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/07 15:34:22 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/07 15:34:30 by jweber           ###   ########.fr       */
+/*   Created: 2025/08/08 16:22:56 by jweber            #+#    #+#             */
+/*   Updated: 2025/08/08 16:22:56 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	main(int argc, char **argv, char **env)
 		rl_done = 0;
 		minishell.is_error_syntax = 0;
 		init_signals();
-		init_here_doc_fds(&minishell);
 		ret = start_minishell(&minishell);
 		if (isatty(0) == 0 && minishell.is_error_syntax == 1)
 			minishell.should_exit = TRUE;
