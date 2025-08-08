@@ -52,16 +52,6 @@ void	get_line(t_minishell *p_mini, char **p_line, int *p_ret, char *prompt)
 	{
 		*p_line = get_next_line(0, p_ret);
 	}
-	/*
-	size_t	len;
-
-	if (*p_line != NULL)
-	{
-		len = ft_strlen(*p_line);
-		if ((*p_line)[len - 1] == '\n')
-			(*p_line)[len - 1] = '\0';
-	}
-	*/
 }
 
 static void	case_only_zero_tty(t_minishell *p_mini, char **p_line, int *p_ret,

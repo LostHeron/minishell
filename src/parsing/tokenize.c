@@ -16,6 +16,11 @@
 #include "ft_vectors.h"
 #include "parsing.h"
 #include "check_errors.h"
+#include <signal.h>
+#include "ft_memory.h"
+
+static void	restore_sigquit(void);
+static void	do_nothing(int sig);
 
 /* This function should :
  *	-> return a t_vector of char ** of the different argument of the command !
@@ -52,5 +57,22 @@ int	tokenize(t_minishell *p_mini, t_vector *p_tokens)
 		ft_vector_free(p_tokens);
 		return (ret);
 	}
+	restore_sigquit();
 	return (0);
+}
+
+static void	restore_sigquit(void)
+{
+	struct sigaction	s;
+
+	ft_bzero(&s, sizeof(struct sigaction));
+	s.sa_handler = do_nothing;
+	s.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &s, NULL);
+}
+
+static void	do_nothing(int sig)
+{
+	(void) sig;
+	return ;
 }

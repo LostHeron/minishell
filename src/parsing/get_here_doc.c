@@ -10,14 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_memory.h"
 #include "ft_standard.h"
 #include "ft_string.h"
 #include "ft_vectors.h"
 #include "handle_signal.h"
 #include "minishell.h"
 #include "parsing.h"
-#include "ft_io.h"
 #include <signal.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -27,10 +25,6 @@
 static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i,	\
 															int *p_hd_count);
 static int	close_all_here_doc(t_minishell *p_mini);
-static void	ignore_sigquit(struct sigaction *p_old_s);
-static void	restore_sigquit(struct sigaction *p_old_s);
-static int	change_term_attr(struct termios *p_old_t);
-static int	restore_term_attr(struct termios *p_old_t);
 
 /* main function of here_doc
  * if an error occurs when calling get_here_doc_i,
@@ -46,98 +40,24 @@ int	get_here_doc(t_minishell *p_mini, t_vector *p_tokens)
 	size_t				i;
 	int					ret;
 	int					hd_count;
-	struct sigaction	old_s;
-	struct termios		old_t;
 
 	i = 0;
 	hd_count = 0;
-	if (isatty(0) == 1)
-	{
-		ignore_sigquit(&old_s);
-		change_term_attr(&old_t);
-	}
 	while (i < p_tokens->size)
 	{
 		ret = get_here_doc_i(p_mini, p_tokens, i, &hd_count);
 		if (g_my_signal == SIGINT)
 		{
-			ft_printf_fd(2, "^C\n");
-			if (isatty(0) == 1)
-			{
-				restore_term_attr(&old_t);
-				restore_sigquit(&old_s);
-			}
 			close_all_here_doc(p_mini);
 			ft_vector_free(p_tokens);
 			return (0);
 		}
 		if (ret != 0)
 		{
-			if (isatty(0) == 1)
-			{
-				restore_term_attr(&old_t);
-				restore_sigquit(&old_s);
-			}
 			close_all_here_doc(p_mini);
 			return (ret);
 		}
 		i++;
-	}
-	if (isatty(0) == 1)
-	{
-		restore_term_attr(&old_t);
-		restore_sigquit(&old_s);
-	}
-	return (0);
-}
-
-static void	ignore_sigquit(struct sigaction *p_old_s)
-{
-	struct sigaction	s;
-
-	ft_bzero(&s, sizeof(struct sigaction));
-	s.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &s, p_old_s);
-	return ;
-}
-
-static void	restore_sigquit(struct sigaction *p_old_s)
-{
-	sigaction(SIGQUIT, p_old_s, NULL);
-	return ;
-}
-
-static int	change_term_attr(struct termios *p_old_t)
-{
-	int				ret;
-	struct termios	changed_t;
-
-	ret = tcgetattr(0, p_old_t);
-	if (ret < 0)
-	{
-		perror("tcgetattr");
-		return (1);
-	}
-	changed_t = *p_old_t;
-	changed_t.c_lflag &= ~ECHOCTL;
-	ret = tcsetattr(0, 0, &changed_t);
-	if (ret < 0)
-	{
-		perror("tcsetattr");
-		return (1);
-	}
-	return (0);
-}
-
-static int	restore_term_attr(struct termios *p_old_t)
-{
-	int	ret;
-
-	ret = tcsetattr(0, 0, p_old_t);
-	if (ret < 0)
-	{
-		perror("tcsetattr");
-		return (1);
 	}
 	return (0);
 }
@@ -155,7 +75,7 @@ static int	get_here_doc_i(t_minishell *p_mini, t_vector *p_tokens, int i,
 	if (ft_strcmp(((char **)p_tokens->data)[i], "<<") == 0)
 	{
 		ret = write_to_here_doc(p_mini, p_tokens, i, p_hd_count);
-		if (ret != 0)
+		if (ret != 0 || g_my_signal != 0)
 			return (ret);
 		free(((char **)p_tokens->data)[i + 1]);
 		((char **)p_tokens->data)[i + 1] = ft_malloc(2 * sizeof(char));
@@ -184,6 +104,7 @@ static int	close_all_here_doc(t_minishell *p_mini)
 				perror("fn: close_all_here_doc: close");
 				final_ret = ERROR_CLOSE;
 			}
+			p_mini->fds_here_doc[i] = -1;
 		}
 		i++;
 	}

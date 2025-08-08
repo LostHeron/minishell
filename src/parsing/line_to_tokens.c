@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_memory.h"
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
@@ -20,11 +19,8 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <signal.h>
 
 static void	init_args(char **p_args);
-static void	restore_sigquit(void);
-static void	do_nothing(int sig);
 
 /* This fuction will readline with getline function
  * Then parse this line to transform it to tokens 
@@ -63,7 +59,6 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	}
 	if (line && *line && isatty(0) == 1)
 		add_history(line);
-	restore_sigquit();
 	init_args(args);
 	ret = ft_split_args(p_tokens, line, args);
 	free(line);
@@ -84,20 +79,3 @@ static void	init_args(char **p_args)
 	p_args[9] = ";";
 	p_args[10] = NULL;
 }
-
-static void	restore_sigquit(void)
-{
-	struct sigaction	s;
-
-	ft_bzero(&s, sizeof(struct sigaction));
-	s.sa_handler = do_nothing;
-	s.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &s, NULL);
-}
-
-static void	do_nothing(int sig)
-{
-	(void) sig;
-	return ;
-}
-
