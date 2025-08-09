@@ -229,7 +229,7 @@ static int	transform_write_line(int fd, t_list *env, char *line)
 
 static int	write_line(int fd, char *line)
 {
-	size_t	nb_write;
+	ssize_t	nb_write;
 
 	nb_write = write(fd, line, ft_strlen(line));
 	free(line);

@@ -100,11 +100,9 @@ static int	replace_wildcard(t_vector *p_splitted,
 	t_vector names, size_t *p_vec_ind)
 {
 	int			ret;
-	t_exp		exp;
 	size_t		i;
 
 	i = 0;
-	exp.quote = NONE;
 	while (i < names.size)
 	{
 		ret = add_name(p_splitted, names, i);
