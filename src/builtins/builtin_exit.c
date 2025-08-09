@@ -19,17 +19,15 @@ static int	arguments_is_numeric(char *str);
 static int	case_arguments_is_numeric(t_minishell *p_mini, t_vector args);
 static int	case_arguments_not_numeric(t_minishell *p_mini);
 
+/* to check:
+ *	-> argument_is_numeric -> can not fail only return 1 or 0 depending
+ *	on wether the arugments contains only numeric or also digits 
+*/
 int	builtin_exit(t_vector args, t_minishell *p_mini)
 {
 	int	ret;
 
-	if (args.size < 2)
-	{
-		ft_printf_fd(2, \
-"entered in builtin exit with no arguments, should never append, exiting");
-		exit(1);
-	}
-	else if (args.size == 2)
+	if (args.size == 2)
 	{
 		p_mini->should_exit = TRUE;
 		p_mini->print_error = 0;

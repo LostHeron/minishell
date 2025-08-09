@@ -100,9 +100,7 @@ static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 	struct stat	f_stat;
 
 	first = ((char **)ast->arguments.com_args.content.data)[0];
-	if (ft_strncmp(first, "/", 1) == 0
-		|| ft_strncmp(first, "./", 2) == 0 || ft_strncmp(first, "../", 3) == 0
-		|| ft_strcmp(first, ".") == 0 || ft_strcmp(first, "..") == 0)
+	if (ft_strchr(first, '/') != NULL)
 		*p_cmd = ((char **)ast->arguments.com_args.content.data)[0];
 	else
 	{
@@ -141,6 +139,22 @@ static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 	if (ret != 0)
 	{
 		return (ret);
+	}
+	if (ft_strcmp(((char **)ast->arguments.com_args.content.data)[0], "..") == 0
+		|| ft_strcmp(((char **)ast->arguments.com_args.content.data)[0], ".") == 0)
+	{
+		*p_cmd = ((char **)ast->arguments.com_args.content.data)[0];
+		if (path.size == 0)
+		{
+			ft_vector_free(&path);
+			return (0);
+		}
+		else
+		{
+			ft_vector_free(&path);
+			ft_printf_fd(2, "%s: command not found\n", *p_cmd);
+			return (127);
+		}
 	}
 	ret = find_command(ast->arguments.com_args.content.data, path);
 	*p_cmd = ((char **)ast->arguments.com_args.content.data)[0];

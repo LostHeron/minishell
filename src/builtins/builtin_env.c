@@ -14,10 +14,15 @@
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "ft_io.h"
+#include <stdio.h>
 
+/* to check
+ *	-> ft_printf_fd fail : DONE -> OK !
+*/
 int	builtin_env(t_vector args, t_minishell *p_mini)
 {
 	t_list	*tmp;
+	int		ret;
 
 	if (args.size > 2)
 	{
@@ -29,9 +34,14 @@ int	builtin_env(t_vector args, t_minishell *p_mini)
 	{
 		if (((t_env *)tmp->content)->value != NULL)
 		{
-			ft_printf_fd(1, "%s=%s\n",
-				((t_env *)tmp->content)->key,
-				((t_env *)tmp->content)->value);
+			ret = ft_printf_fd(1, "%s=%s\n",
+					((t_env *)tmp->content)->key,
+					((t_env *)tmp->content)->value);
+			if (ret < 0)
+			{
+				perror("ft_print_fd:");
+				return (ERROR_WRITE);
+			}
 		}
 		tmp = tmp->next;
 	}

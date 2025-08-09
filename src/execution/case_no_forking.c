@@ -56,7 +56,10 @@ int	case_no_forking(t_ast *ast, t_minishell *p_mini)
 	if (((char **)ast->arguments.com_args.content.data)[0] != NULL)
 	{
 		ret_builtin = call_builtins(p_mini, ast->arguments.com_args.content);
-		p_mini->last_error_code = ret_builtin;
+		if (ret_builtin >= 0)
+			p_mini->last_error_code = ret_builtin;
+		else
+			p_mini->last_error_code = 2;
 	}
 	else
 	{

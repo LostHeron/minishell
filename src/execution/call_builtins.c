@@ -18,10 +18,10 @@
  *	-> p_mini->builtins_func fail : DONE -> OK ! (exits well, just need to ensure
  *	that in builtins there is no leaks)
  *		-> builtin_echo fail : DONE -> OK !
- *		-> builtin_cd fail : TO DO ;
- *		-> builtin_env fail : TO DO;
+ *		-> builtin_cd fail : DONE -> OK !
+ *		-> builtin_env fail : DONE -> OK !
  *		-> builtin_exit fail : TO DO;
- *		-> builtin_pwd fail : TO DO;
+ *		-> builtin_pwd fail : DONE -> OK !
  *		-> builtin_export fail : TO DO;
  *		-> builtin_unset fail : TO DO;
 */

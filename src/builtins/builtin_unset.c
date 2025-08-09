@@ -27,7 +27,8 @@ int	builtin_unset(t_vector args, t_minishell *p_mini)
 	while (i < args.size - 1)
 	{
 		key_to_remove = ((char **)args.data)[i];
-		try_remove_key(key_to_remove, p_mini);
+		if (p_mini->env != NULL)
+			try_remove_key(key_to_remove, p_mini);
 		i++;
 	}
 	return (0);

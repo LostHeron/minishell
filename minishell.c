@@ -70,8 +70,10 @@ int	main(int argc, char **argv, char **env)
 			if (minishell.print_error == 1)
 			{
 				print_error(ret);
+				/*
 				if (ret < 0)
 					minishell.should_exit = TRUE;
+					*/
 			}
 		}
 		close_here_doc_fds(&minishell);
