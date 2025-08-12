@@ -14,6 +14,7 @@
 #include "ft_vectors.h"
 #include "ft_io.h"
 #include "ft_standard.h"
+#include <stdio.h>
 
 static int	arguments_is_numeric(char *str);
 static int	case_arguments_is_numeric(t_minishell *p_mini, t_vector args);
@@ -43,6 +44,10 @@ int	builtin_exit(t_vector args, t_minishell *p_mini)
 	}
 }
 
+/* check wether str is consided numeric
+ * return TRUE if it is a numeric argument
+ * return FALSE if it is not a numeric argument
+*/
 static int	arguments_is_numeric(char *str)
 {
 	int		is_numeric;
@@ -72,7 +77,11 @@ static int	case_arguments_is_numeric(t_minishell *p_mini, t_vector args)
 {
 	if (args.size > 3)
 	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
+		if (ft_putstr_fd("exit: too many arguments\n", 2) < 0)
+		{
+			perror("write");
+			return (ERROR_WRITE);
+		}
 		p_mini->last_error_code = 1;
 		return (1);
 	}
@@ -87,7 +96,11 @@ static int	case_arguments_is_numeric(t_minishell *p_mini, t_vector args)
 
 static int	case_arguments_not_numeric(t_minishell *p_mini)
 {
-	ft_putstr_fd("exit: numeric argument required\n", 2);
+	if (ft_putstr_fd("exit: numeric argument required\n", 2) < 0)
+	{
+		perror("write");
+		return (ERROR_WRITE);
+	}
 	p_mini->should_exit = TRUE;
 	p_mini->last_error_code = 2;
 	return (2);

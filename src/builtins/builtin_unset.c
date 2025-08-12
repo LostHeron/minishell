@@ -18,6 +18,9 @@ static t_list	*get_env_previous_free(char *str, t_list *tmp);
 static void		case_head(t_minishell *p_mini);
 static void		case_not_head(t_list *prev_env);
 
+/* to check
+ *	-> NOTHING : this builtin have not failure points
+*/
 int	builtin_unset(t_vector args, t_minishell *p_mini)
 {
 	size_t	i;

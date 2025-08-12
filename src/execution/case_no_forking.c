@@ -14,6 +14,7 @@
 #include "ast.h"
 #include "execution.h"
 #include "ft_io.h"
+#include "ft_string.h"
 
 /* this function is called when trying to exec a builtin or a command
  * which contains only redirections
@@ -56,7 +57,9 @@ int	case_no_forking(t_ast *ast, t_minishell *p_mini)
 	if (((char **)ast->arguments.com_args.content.data)[0] != NULL)
 	{
 		ret_builtin = call_builtins(p_mini, ast->arguments.com_args.content);
-		if (ret_builtin >= 0)
+		if (ret_builtin >= 0
+			|| ft_strcmp(((char **)ast->arguments.com_args.content.data)[0],
+			"exit") == 0)
 			p_mini->last_error_code = ret_builtin;
 		else
 			p_mini->last_error_code = 2;
@@ -74,7 +77,9 @@ int	case_no_forking(t_ast *ast, t_minishell *p_mini)
 			p_mini->fd_tty_err);
 		return (-10);
 	}
-	if (ret_builtin < 0)
+	if (ret_builtin < 0
+		&& ft_strcmp(((char **)ast->arguments.com_args.content.data)[0],
+		"exit") != 0)
 		return (ret_builtin);
 	return (0);
 }

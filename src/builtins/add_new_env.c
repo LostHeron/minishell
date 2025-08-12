@@ -17,7 +17,19 @@
 static void	add_node_lst(t_minishell *p_mini, t_list *new_node);
 static void	add_node_lst_after_head(t_minishell *p_mini, t_list *new_node);
 
-/* to check
+/* This function malloc a new structure t_env, and associates
+ * the new t_env, key argument to new_key and value argument to new_value
+ * it then creates a new_node (of type t_list) usgin ft_s_lstnew function
+ * and associat t_list ->content to be a pointer to the t_env structure 
+ * created just before
+ * It then add this new t_list to the already existing chained list
+ * int p_mini->env and at the right place (sorted with ASCII, using the 
+ * function add_node_lst)
+ * In case of failure : 
+ *	return (ERROR_MALLOC) and free memory allocated inside this function
+ * In case of success : 
+ *	return (0) and have the new t_list created and added to the list
+ * to check
  *	-> ft_malloc fail : DONE -> OK !
  *	-> ft_s_lstnew fail : DONE -> OK !
 */

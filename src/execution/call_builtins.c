@@ -20,10 +20,10 @@
  *		-> builtin_echo fail : DONE -> OK !
  *		-> builtin_cd fail : DONE -> OK !
  *		-> builtin_env fail : DONE -> OK !
- *		-> builtin_exit fail : TO DO;
+ *		-> builtin_exit fail : DONE -> OK !
  *		-> builtin_pwd fail : DONE -> OK !
- *		-> builtin_export fail : TO DO;
- *		-> builtin_unset fail : TO DO;
+ *		-> builtin_export fail : DONE -> OK !
+ *		-> builtin_unset fail : DONE -> OK !
 */
 int	call_builtins(t_minishell *p_mini, t_vector cmd_args)
 {

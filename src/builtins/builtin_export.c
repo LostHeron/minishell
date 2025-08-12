@@ -26,6 +26,9 @@ int			builtin_export_no_args(t_minishell *p_mini);
  *			-> negative integer
  *		if it is an error which (like bad env name)
  *			-> positive integer
+ * to check:
+ *	-> builtin_export_no_args fail : DONE -> OK !
+ *	-> builtin_export_with_args fail : DONE -> OK !
 */
 int	builtin_export(t_vector args, t_minishell *p_mini)
 {

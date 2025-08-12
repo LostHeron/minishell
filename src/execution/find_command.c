@@ -43,7 +43,7 @@ int	find_command(char **p_cmd, t_vector path)
 			ret = stat(new_cmd, &f_stat);
 			if (ret != 0)
 			{
-				;// do stuff 
+				(void) ret;// do stuff 
 			}
 			if ((f_stat.st_mode & S_IFMT) == S_IFREG)
 			{
