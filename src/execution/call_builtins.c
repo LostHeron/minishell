@@ -44,5 +44,5 @@ int	call_builtins(t_minishell *p_mini, t_vector cmd_args)
 		"could not find which builtin to call, should not happend\n");
 	ft_printf_fd(2,
 		"tried to call builtin name : %s\n", cmd_name);
-	return (-10);
+	return (-100);
 }

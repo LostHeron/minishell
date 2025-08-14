@@ -23,8 +23,7 @@ static int	expansion(t_ast *ast, t_minishell *p_mini);
 static int	get_cmd_type(char **builtins_name, t_vector cmd_args);
 
 /* to check :
- *	-> expand fail : DONE -> OK !
- *	-> expand_redir fail : DONE -> OK !
+ *	-> expansion fail : DONE -> OK !
  *	-> case_forking fail : DONE -> OK !
  *	-> case_no_forking fail : TO DO ;
 */
@@ -39,13 +38,10 @@ int	exec_command(t_ast *ast, t_minishell *p_mini)
 	cmd_type = get_cmd_type(p_mini->builtins_name,
 			ast->arguments.com_args.content);
 	if (p_mini->previous_type == PIPE || cmd_type == CMD_BINARY)
-	{
 		ret = case_forking(ast, p_mini, cmd_type);
-		if (ret != 0)
-			return (ret);
-	}
 	else
-		ret = case_no_forking(ast, p_mini);
+		ret = case_no_forking(ast->arguments.com_args.content,
+				ast->arguments.com_args.dir_args, p_mini);
 	if (p_mini->first_cmd == 1)
 		p_mini->first_cmd = 0;
 	return (ret);
@@ -69,6 +65,10 @@ static int	get_cmd_type(char **builtins_name, t_vector cmd_args)
 	return (CMD_BINARY);
 }
 
+/* to check : 
+ *	-> expand fail : DONE -> OK !
+ *	-> expand_redir fail : DONE -> OK !
+*/
 static int	expansion(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;

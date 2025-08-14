@@ -36,7 +36,7 @@ int		exec_subshell(t_ast *ast, t_minishell *p_mini);
 int		restore_fds(t_minishell *p_mini);
 int		parent_execution(t_vector dir_args, t_minishell *p_mini, int pid);
 int		case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type);
-int		case_no_forking(t_ast *ast, t_minishell *p_mini);
+int		case_no_forking(t_vector args, t_vector redir, t_minishell *p_mini);
 int		exit_child(t_minishell *p_mini, int ret);
 int		swap_fds(t_minishell *p_mini);
 int		child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type);

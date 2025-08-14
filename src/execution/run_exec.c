@@ -16,7 +16,7 @@
 #include <stdio.h>
 
 /* to check :
- *	-> pipe fail : TO DO ;
+ *	-> pipe fail : DONE -> OK !
  *	-> exec_func fail : TO DO ;
  *	-> close_fd1 fail : TO DO ;
  *	-> wait_children fail : to check even ??

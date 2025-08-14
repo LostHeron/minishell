@@ -14,21 +14,24 @@
 #include "minishell.h"
 #include "execution.h"
 #include "printing.h"
+#include "ft_string.h"
 #include <readline/readline.h>
 #include <unistd.h>
 #include <stdio.h>
+
+static void	child_case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type);
 
 /* to check : 
  *	-> fork fail : DONE ;
  *	-> child_execution fail : TO DO ; but what to do ?
  *	(will no change the result of main process out,
  *	because child will exit after child_execution ends);
+ *		-> so just check the in case child fails its execution
  *	-> parent_execution fail : DONE -> OK ;
 */
 int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
 	int					pid;
-	int					ret;
 
 	pid = fork();
 	if (pid == -1)
@@ -38,18 +41,28 @@ int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	}
 	if (pid == 0)
 	{
-		p_mini->last_child_id = 0;
-		ret = child_execution(ast, p_mini, cmd_type);
-		if (ret < 0)
-		{
-			print_error(ret);
-			exit(exit_child(p_mini, 2));
-		}
-		exit(exit_child(p_mini, ret));
+		child_case_forking(ast, p_mini, cmd_type);
 	}
 	else
 	{
 		return (
 			parent_execution(ast->arguments.com_args.dir_args, p_mini, pid));
 	}
+	return (0);
+}
+
+static void	child_case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
+{
+	int	ret;
+
+	p_mini->last_child_id = 0;
+	ret = child_execution(ast, p_mini, cmd_type);
+	if (ret < 0
+		&& ft_strcmp(((char **)ast->arguments.com_args.content.data)[0],
+		"exit") != 0)
+	{
+		print_error(ret);
+		exit(exit_child(p_mini, 2));
+	}
+	exit(exit_child(p_mini, ret));
 }

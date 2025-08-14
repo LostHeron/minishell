@@ -56,7 +56,9 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	if (((char **)ast->arguments.com_args.content.data)[0] == NULL)
 		return (0);
 	if (cmd_type == CMD_BUILTIN)
+	{
 		return (call_builtins(p_mini, ast->arguments.com_args.content));
+	}
 	else
 		return (case_cmd_type_binary(ast, p_mini));
 }
