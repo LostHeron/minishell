@@ -13,7 +13,6 @@
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "execution.h"
-#include "ft_init.h"
 #include <unistd.h>
 
 /*		This function is called by exec_func->exec_command->case_forking->
