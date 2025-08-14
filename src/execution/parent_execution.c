@@ -16,6 +16,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+static void	close_fd(int *p_fd, int *p_final_ret);
+
 /* This function will
  * increment the number of child to wait for (because we forked just before)
  * set p_mini->last_child_id to the pid of the process just created
@@ -38,17 +40,22 @@ int	parent_execution(t_vector dir_args, t_minishell *p_mini, int pid)
 		if (((t_dirargs *)dir_args.data)[i].dir == HEREDOC)
 		{
 			to_close = ((t_dirargs *)dir_args.data)[i].filename[0];
-			if (p_mini->fds_here_doc[to_close] > 0)
-			{
-				if (close(p_mini->fds_here_doc[to_close]) < 0)
-				{
-					perror("fn : parent_execution : close");
-					final_ret = ERROR_CLOSE;
-				}
-				p_mini->fds_here_doc[to_close] = -1;
-			}
+			close_fd(&p_mini->fds_here_doc[to_close], &final_ret);
 		}
 		i++;
 	}
 	return (final_ret);
+}
+
+static void	close_fd(int *p_fd, int *p_final_ret)
+{
+	if (*p_fd > 0)
+	{
+		if (close(*p_fd) < 0)
+		{
+			perror("fn : parent_execution : close");
+			*p_final_ret = ERROR_CLOSE;
+		}
+		*p_fd = -1;
+	}
 }
