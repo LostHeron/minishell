@@ -22,8 +22,8 @@ static void	get_child_return_value(t_minishell *p_mini,
 static void	set_ign_sigint(struct sigaction *s);
 static void	un_set_ign_sigint(struct sigaction *s);
 
-/* this function should wait for nb_wait children to finish their execution 
- * while retreiving exit code of the last process that as been started */
+/* this function should wait for nb_wait children to finish their execution */
+/* while retreiving exit code of the last process that as been started */
 int	wait_children(t_minishell *p_mini, int nb_wait)
 {
 	int					child_ret;

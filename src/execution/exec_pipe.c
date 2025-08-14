@@ -53,8 +53,12 @@ static int	launch_left(t_ast *ast, t_minishell *p_mini)
 	{
 		if (close(p_mini->fd2[0]) < 0)
 			perror("close");
+		else
+			p_mini->fd2[0] = -1;
 		if (close(p_mini->fd2[1]) < 0)
 			perror("close");
+		else
+			p_mini->fd2[1] = -1;
 		return (ret);
 	}
 	return (0);
@@ -62,19 +66,6 @@ static int	launch_left(t_ast *ast, t_minishell *p_mini)
 
 static int	launch_right(t_ast *ast, t_minishell *p_mini)
 {
-	int	ret;
-
 	p_mini->previous_side = PREV_RIGHT;
-	ret = exec_func(ast->arguments.op_args.right, p_mini);
-	if (ret != 0)
-	{
-		/*
-		if (close(p_mini->fd2[0]) < 0)
-			perror("close");
-		if (close(p_mini->fd2[1]) < 0)
-			perror("close");
-		*/
-		return (ret);
-	}
-	return (0);
+	return (exec_func(ast->arguments.op_args.right, p_mini));
 }

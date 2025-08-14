@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:13:46 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/14 10:55:29 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/14 13:36:39 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int		init_minishell(t_minishell *p_mini, char **env);
 void	init_builtins(t_minishell *p_mini);
 int		init_env(t_minishell *p_mini, char **env);
 int		init_path(t_minishell *p_mini);
+int		get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
 int		find_command(char **p_cmd, t_vector path);
+int		errno_special_value(int execve_errno);
 
 #endif

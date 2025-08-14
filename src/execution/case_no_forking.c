@@ -16,6 +16,10 @@
 #include "ft_io.h"
 #include "ft_string.h"
 
+static void	presence_of_commands(t_vector args, t_minishell *p_mini,
+				int *p_ret, int *p_ret_builtin);
+static int	case_change_fd_redir_fail(t_minishell *p_mini, int ret);
+
 /* this function is called when trying to exec a builtin or a command
  * which contains only redirections
  * it should : 
@@ -40,34 +44,8 @@ int	case_no_forking(t_vector args, t_vector redir, t_minishell *p_mini)
 	p_mini->last_child_id = 0;
 	ret = change_fd_redir(p_mini, redir);
 	if (ret != 0)
-	{
-		if (ret == ERROR_OPEN)
-		{
-			ret = restore_fds(p_mini);
-			if (ret != 0)
-			{
-				ft_putstr_fd(
-					"could not restore fds, stopping programme execution\n",
-					p_mini->fd_tty_err);
-				return (-100);
-			}
-			p_mini->last_error_code = 1;
-		}
-		return (ret);
-	}
-	if (((char **)args.data)[0] != NULL)
-	{
-		ret_builtin = call_builtins(p_mini, args);
-		if (ret_builtin >= 0 || ft_strcmp(((char **)args.data)[0], "exit") == 0)
-			p_mini->last_error_code = ret_builtin;
-		else
-			p_mini->last_error_code = 2;
-	}
-	else
-	{
-		ret_builtin = ret;
-		p_mini->last_error_code = ret;
-	}
+		return (case_change_fd_redir_fail(p_mini, ret));
+	presence_of_commands(args, p_mini, &ret, &ret_builtin);
 	ret = restore_fds(p_mini);
 	if (ret != 0)
 	{
@@ -80,4 +58,40 @@ int	case_no_forking(t_vector args, t_vector redir, t_minishell *p_mini)
 		"exit") != 0)
 		return (ret_builtin);
 	return (0);
+}
+
+static void	presence_of_commands(t_vector args, t_minishell *p_mini,
+						int *p_ret, int *p_ret_builtin)
+{
+	if (((char **)args.data)[0] != NULL)
+	{
+		*p_ret_builtin = call_builtins(p_mini, args);
+		if (*p_ret_builtin >= 0
+			|| ft_strcmp(((char **)args.data)[0], "exit") == 0)
+			p_mini->last_error_code = *p_ret_builtin;
+		else
+			p_mini->last_error_code = 2;
+	}
+	else
+	{
+		*p_ret_builtin = *p_ret;
+		p_mini->last_error_code = *p_ret;
+	}
+}
+
+static int	case_change_fd_redir_fail(t_minishell *p_mini, int ret)
+{
+	if (ret == ERROR_OPEN)
+	{
+		ret = restore_fds(p_mini);
+		if (ret != 0)
+		{
+			ft_putstr_fd(
+				"could not restore fds, stopping programme execution\n",
+				p_mini->fd_tty_err);
+			return (-100);
+		}
+		p_mini->last_error_code = 1;
+	}
+	return (ret);
 }

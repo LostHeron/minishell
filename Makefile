@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/08 16:22:40 by jweber            #+#    #+#              #
-#    Updated: 2025/08/14 10:55:55 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/14 13:39:15 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,6 +131,8 @@ EXECUTION_FILES := run_exec.c \
 				   close_here_doc_fds.c \
 				   swap_fds.c \
 				   find_command.c \
+				   get_command.c \
+				   errno_special_value.c \
 
 BUILTINS_DIR := src/builtins/
 BUILTINS_FILES := builtin_cd.c \

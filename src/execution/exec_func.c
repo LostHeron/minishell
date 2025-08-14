@@ -17,8 +17,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast, \
-														t_minishell *p_mini));
+static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,
+					t_minishell *p_mini));
 
 /*	This function is the entry point for executing command 
  *	it uses the data structure ast to know how to execute commands 

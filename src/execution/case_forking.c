@@ -26,7 +26,8 @@ static void	child_case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type);
  *	-> child_execution fail : TO DO ; but what to do ?
  *	(will no change the result of main process out,
  *	because child will exit after child_execution ends);
- *		-> so just check the in case child fails its execution
+ *		-> but we need to check that inside a child failure, everything is
+ *		correctly freed !
  *	-> parent_execution fail : DONE -> OK ;
 */
 int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
