@@ -20,6 +20,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+static int	say_exit_return(t_minishell *p_mini);
+static void	remove_newline_char(char *line);
 static void	init_args(char **p_args);
 
 /* This fuction will readline with getline function
@@ -33,7 +35,6 @@ static void	init_args(char **p_args);
 */
 int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 {
-	size_t	len;
 	char	*line;
 	int		ret;
 	char	*args[11];
@@ -47,22 +48,33 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	if (ret != 0 || g_my_signal != 0)
 		return (ret);
 	if (line == NULL)
-	{
-		p_mini->should_exit = TRUE;
-		return (0);
-	}
+		return (say_exit_return(p_mini));
 	else
-	{
-		len = ft_strlen(line);
-		if (line[len - 1] == '\n')
-			line[len - 1] = '\0';
-	}
+		remove_newline_char(line);
 	if (line && *line && isatty(0) == 1)
 		add_history(line);
 	init_args(args);
 	ret = ft_split_args(p_tokens, line, args);
 	free(line);
 	return (ret);
+}
+
+static int	say_exit_return(t_minishell *p_mini)
+{
+	p_mini->should_exit = TRUE;
+	return (0);
+}
+
+static void	remove_newline_char(char *line)
+{
+	size_t	len;
+
+	len = ft_strlen(line);
+	if (len > 0)
+	{
+		if (line[len - 1] == '\n')
+			line[len - 1] = '\0';
+	}
 }
 
 static void	init_args(char **p_args)
