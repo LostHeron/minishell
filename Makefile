@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/08 16:22:40 by jweber            #+#    #+#              #
-#    Updated: 2025/08/14 13:39:15 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/14 16:29:51 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,9 @@ PARSING_FILES := tokenize.c \
 				 line_to_tokens.c \
 				 prepare_here_docs.c \
 				 generate_hd_filename.c \
+				 get_prompt_hd.c \
 				 get_here_doc.c \
+				 rl_here_doc.c \
 				 write_to_here_doc.c \
 				 get_key.c \
 				 get_value.c \

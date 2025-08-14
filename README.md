@@ -1,3 +1,7 @@
+TESTS ETRANGES :
+
+(cat) | (cat) | ((cat)) -> is it a bug, -> bug report it ?
+
 chose a tester : 
 
 > file1 echo "coucou"
@@ -26,6 +30,7 @@ ls > log1 << eof1 | ls > log2 << eof2 | ls > log3 << eof3
 
 TODO:
 
+- 6) change get_line funciton to allow to call it to free it !
 - 5) rename start_minishell and run_minishell to some more specific names
 - 4) SEGFAULT IF : unset PATH; export PATH; echo $PATH 
 (must be because trying to dereference ((t_env*)tmp->content)->value which is NULL, just a verification to add i guess)
