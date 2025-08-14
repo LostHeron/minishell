@@ -38,7 +38,7 @@ void	get_line(t_minishell *p_mini, char **p_line, int *p_ret, char *prompt)
 	*p_ret = 0;
 	if (isatty(0) == 1 && isatty(1) == 1)
 	{
-		*p_ret = rl_gnl(p_line, prompt);
+		*p_ret = rl_gnl(p_line, prompt, RL_GNL_READ);
 		if (*p_ret != 0 || g_my_signal != 0 || *p_line == NULL)
 			return ;
 	}
@@ -63,7 +63,7 @@ static void	case_only_zero_tty(t_minishell *p_mini, char **p_line, int *p_ret,
 		*p_ret = ERROR_DUP2;
 		return ;
 	}
-	*p_ret = rl_gnl(p_line, prompt);
+	*p_ret = rl_gnl(p_line, prompt, RL_GNL_READ);
 	if (dup2(p_mini->fd_tty_out, 1) < 0)
 	{
 		perror("dup2");

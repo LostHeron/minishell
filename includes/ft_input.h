@@ -14,8 +14,10 @@
 # define FT_INPUT_H
 
 # include "minishell.h"
+# define RL_GNL_FREE 2
+# define RL_GNL_READ 1
 
-int		rl_gnl(char **p_line, char *prompt);
+int		rl_gnl(char **p_line, char *prompt, int type);
 char	*get_prompt(t_minishell *p_mini);
 void	get_line(t_minishell *p_mini, char **p_line, int *p_ret, char *prompt);
 
