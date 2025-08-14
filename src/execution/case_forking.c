@@ -52,6 +52,9 @@ int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	return (0);
 }
 
+/* to check :
+ *	-> child_execution fail : TO DO ;
+*/
 static void	child_case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
 	int	ret;

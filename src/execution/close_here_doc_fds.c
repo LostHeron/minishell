@@ -14,6 +14,9 @@
 #include <unistd.h>
 #include <stdio.h>
 
+/* to check
+ *	-> close fail 
+*/
 int	close_here_doc_fds(t_minishell *p_mini)
 {
 	size_t	fd_i;

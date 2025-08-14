@@ -18,29 +18,33 @@ static void	print_other_errors(int err_code);
 void	print_error(int err_code)
 {
 	if (err_code == ERROR_MALLOC)
-		ft_printf_fd(2, "ERROR due to memory allocation\n");
+		ft_printf_fd(2, "ERROR: memory allocation error\n");
+	else if (err_code == ERROR_DUP)
+		ft_printf_fd(2, "ERROR: dup error\n");
+	else if (err_code == ERROR_DUP2)
+		ft_printf_fd(2, "ERROR: dup2 error\n");
 	else if (err_code == ERROR_CLOSE)
-		ft_printf_fd(2, "ERROR : while trying to close\n");
+		ft_printf_fd(2, "ERROR: close error\n");
 	else if (err_code == ERROR_FORK)
-		ft_printf_fd(2, "ERROR : while trying to fork\n");
+		ft_printf_fd(2, "ERROR: fork error\n");
 	else if (err_code == ERROR_READ)
-		ft_printf_fd(2, "ERROR : read error\n");
+		ft_printf_fd(2, "ERROR: read error\n");
 	else if (err_code == ERROR_PIPE)
-		ft_printf_fd(2, "ERROR : while trying to create pipe\n");
+		ft_printf_fd(2, "ERROR: while trying to create pipe\n");
 	else if (err_code == ERROR_WRITE)
-		ft_printf_fd(2, "ERROR : write error\n");
+		ft_printf_fd(2, "ERROR: write error\n");
 	else if (err_code == ERROR_UNCLOSED_S_QUOTES)
-		ft_printf_fd(2, "syntax error : unclose single quotes\n");
+		ft_printf_fd(2, "syntax error: unclose single quotes\n");
 	else if (err_code == ERROR_UNCLOSED_D_QUOTES)
-		ft_printf_fd(2, "syntax error : unclosed double quotes\n");
+		ft_printf_fd(2, "syntax error: unclosed double quotes\n");
 	else if (err_code == ERROR_UNMATCHING_PARENTHESIS)
-		ft_printf_fd(2, "syntax error : unmatching parenthesis \n");
+		ft_printf_fd(2, "syntax error: unmatching parenthesis \n");
 	else if (err_code == ERROR_EMPTY_PARENTHESIS)
-		ft_printf_fd(2, "syntax error : empty parenthesis \n");
+		ft_printf_fd(2, "syntax error: empty parenthesis \n");
 	else if (err_code == ERROR_AROUND_CLOSING_PARENTHESIS)
-		ft_printf_fd(2, "syntax error : error around closing parenthesis\n");
+		ft_printf_fd(2, "syntax error: error around closing parenthesis\n");
 	else if (err_code == ERROR_AROUND_OPENING_PARENTHESIS)
-		ft_printf_fd(2, "syntax error : error around opening parenthesis\n");
+		ft_printf_fd(2, "syntax error: error around opening parenthesis\n");
 	else
 		print_other_errors(err_code);
 }
@@ -55,23 +59,23 @@ static void	print_other_errors(int err_code)
 	else if (err_code == ERROR_OPEN)
 		return ;
 	else if (err_code == ERROR_AROUND_AND)
-		ft_printf_fd(2, "syntax error : error around &&\n");
+		ft_printf_fd(2, "syntax error: error around &&\n");
 	else if (err_code == ERROR_AROUND_OR)
-		ft_printf_fd(2, "syntax error : error around ||\n");
+		ft_printf_fd(2, "syntax error: error around ||\n");
 	else if (err_code == ERROR_AROUND_PIPE)
-		ft_printf_fd(2, "syntax error : error around |\n");
+		ft_printf_fd(2, "syntax error: error around |\n");
 	else if (err_code == ERROR_AROUND_SEQUENCE)
-		ft_printf_fd(2, "syntax error : error around ;\n");
+		ft_printf_fd(2, "syntax error: error around ;\n");
 	else if (err_code == ERROR_AROUND_REDIR_OUT)
-		ft_printf_fd(2, "syntax error : error around >\n");
+		ft_printf_fd(2, "syntax error: error around >\n");
 	else if (err_code == ERROR_AROUND_REDIR_IN)
-		ft_printf_fd(2, "syntax error : error around <\n");
+		ft_printf_fd(2, "syntax error: error around <\n");
 	else if (err_code == ERROR_AROUND_REDIR_HEREDOC)
-		ft_printf_fd(2, "syntax error : error around <<\n");
+		ft_printf_fd(2, "syntax error: error around <<\n");
 	else if (err_code == ERROR_AROUND_REDIR_APPEND)
-		ft_printf_fd(2, "syntax error : error around >>\n");
+		ft_printf_fd(2, "syntax error: error around >>\n");
 	else if (err_code == ERROR_FILENAME)
-		ft_printf_fd(2, "ERROR : ambiguous redirect\n");
+		ft_printf_fd(2, "ERROR: ambiguous redirect\n");
 	else
-		ft_printf_fd(2, "syntax error : unknown error \n");
+		ft_printf_fd(2, "syntax error: unknown error \n");
 }

@@ -17,6 +17,11 @@
 
 static void	close_fd(int *p_fd, int *p_final_ret);
 
+/* to check
+ *	-> first close_fd fail : DONE -> OK !
+ *	-> second close_fd fail : DONE -> OK !
+ *	-> third close_fd fail : DONE -> OK !
+*/
 int	close_saved_tty(t_minishell *p_mini)
 {
 	int	final_ret;
@@ -28,6 +33,9 @@ int	close_saved_tty(t_minishell *p_mini)
 	return (final_ret);
 }
 
+/* to check
+ *	-> close fail : DONE -> OK !
+*/
 static void	close_fd(int *p_fd, int *p_final_ret)
 {
 	int	ret;

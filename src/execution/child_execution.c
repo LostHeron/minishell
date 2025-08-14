@@ -26,9 +26,9 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini);
  * of the command type node, 
  * we entered here from exec_command call !
  * to do :
- *	-> first close fail : DONE -> OK !
+ *	-> close_saved_tty fail : DONE -> OK !
  *	-> make_redirections fail : TO DO ;
- *	-> call_builtins fail : TO DO;
+ *	-> call_builtins fail : DONE -> OK !
  *	-> case_cmd_type_binary fail : TO DO;
 */
 int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
