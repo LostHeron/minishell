@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:13:46 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/08 14:09:22 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/14 10:55:29 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ enum	e_previous
 	PREV_LEFT,
 };
 
-int		restore_fds(t_minishell *p_mini);
-int		parent_execution(t_vector dir_args, t_minishell *p_mini, int pid);
-int		case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type);
-int		case_no_forking(t_ast *ast, t_minishell *p_mini);
+int		run_exec(t_minishell *p_mini, t_ast **p_ast);
 int		exec_func(t_ast *ast, t_minishell *p_mini);
 int		exec_logical_left(t_ast *ast, t_minishell *p_mini);
 int		exec_logical_right(t_ast *ast, t_minishell *p_mini);
@@ -36,6 +33,10 @@ int		exec_sequence(t_ast *ast, t_minishell *p_mini);
 int		exec_pipe(t_ast *ast, t_minishell *p_mini);
 int		exec_command(t_ast *ast, t_minishell *p_mini);
 int		exec_subshell(t_ast *ast, t_minishell *p_mini);
+int		restore_fds(t_minishell *p_mini);
+int		parent_execution(t_vector dir_args, t_minishell *p_mini, int pid);
+int		case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type);
+int		case_no_forking(t_ast *ast, t_minishell *p_mini);
 int		exit_child(t_minishell *p_mini, int ret);
 int		swap_fds(t_minishell *p_mini);
 int		child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type);

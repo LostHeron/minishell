@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:22:56 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/08 16:22:56 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/14 10:55:37 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+static void	run_minishell(t_minishell *p_mini);
 static int	start_minishell(t_minishell *p_mini);
 static int	ast_ize(t_ast **p_ast, t_vector *p_tokens);
-static int	run_exec(t_minishell *p_mini, t_ast **p_ast);
 
 int	g_my_signal;
 
@@ -53,34 +53,32 @@ int	main(int argc, char **argv, char **env)
 	}
 	while (minishell.should_exit == FALSE)
 	{
-		if (g_my_signal == SIGINT)
-			minishell.last_error_code = SIGINT + 128;
-		if (g_my_signal == SIGQUIT)
-			minishell.last_error_code = SIGQUIT + 128;
-		g_my_signal = 0;
-		rl_done = 0;
-		minishell.is_error_syntax = 0;
-		init_signals();
-		init_here_doc_fds(&minishell);
-		ret = start_minishell(&minishell);
-		if (isatty(0) == 0 && minishell.is_error_syntax == 1)
-			minishell.should_exit = TRUE;
-		if (ret != 0 && g_my_signal == 0)
-		{
-			if (minishell.print_error == 1)
-			{
-				print_error(ret);
-				/*
-				if (ret < 0)
-					minishell.should_exit = TRUE;
-					*/
-			}
-		}
-		close_here_doc_fds(&minishell);
+		run_minishell(&minishell);
 	}
 	ret = free_minishell(&minishell);
 	rl_clear_history();
 	return (minishell.last_error_code);
+}
+
+static void	run_minishell(t_minishell *p_mini)
+{
+	int	ret;
+
+	if (g_my_signal == SIGINT)
+		p_mini->last_error_code = SIGINT + 128;
+	if (g_my_signal == SIGQUIT)
+		p_mini->last_error_code = SIGQUIT + 128;
+	g_my_signal = 0;
+	rl_done = 0;
+	p_mini->is_error_syntax = 0;
+	init_signals();
+	init_here_doc_fds(p_mini);
+	ret = start_minishell(p_mini);
+	if (isatty(0) == 0 && p_mini->is_error_syntax == 1)
+		p_mini->should_exit = TRUE;
+	if (ret != 0 && g_my_signal == 0 && p_mini->print_error == 1)
+		print_error(ret);
+	close_here_doc_fds(p_mini);
 }
 
 /* to check
@@ -127,44 +125,4 @@ static int	ast_ize(t_ast **p_ast, t_vector *p_tokens)
 	if (*p_ast == NULL)
 		return (ERROR_MALLOC);
 	return (0);
-}
-
-/* to check :
- *	-> pipe fail : TO DO ;
- *	-> exec_func fail : TO DO ;
- *	-> close_fd1 fail : TO DO ;
- *	-> wait_children fail : to check even ??
-*/
-static int	run_exec(t_minishell *p_mini, t_ast **p_ast)
-{
-	int	ret_exec;
-	int	ret;
-	int	final_ret;
-
-	final_ret = 0;
-	p_mini->previous_side = PREV_NONE;
-	p_mini->previous_type = -1;
-	ret = pipe(p_mini->fd1);
-	if (ret == -1)
-	{
-		perror("pipe");
-		free_tree(p_ast);
-		return (ERROR_PIPE);
-	}
-	p_mini->first_cmd = 1;
-	ret_exec = exec_func(*p_ast, p_mini);
-	if (ret_exec != 0)
-		final_ret = ret_exec;
-	if (ret != 0 && final_ret == 0)
-		final_ret = ret;
-	wait_children(p_mini, p_mini->nb_child_to_wait - 1);
-	ret = close_fd1(p_mini);
-	if (ret != 0)
-	{
-		if (final_ret == 0)
-			final_ret = ret;
-	}
-	wait_children(p_mini, p_mini->nb_child_to_wait);
-	free_tree(p_ast);
-	return (final_ret);
 }

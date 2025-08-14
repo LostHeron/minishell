@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/08 16:22:40 by jweber            #+#    #+#              #
-#    Updated: 2025/08/08 16:22:41 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/14 10:55:55 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,8 @@ FREEING_FILES := free_minishell.c \
 				 free_env.c \
 
 EXECUTION_DIR := src/execution/
-EXECUTION_FILES := exec_func.c \
+EXECUTION_FILES := run_exec.c \
+				   exec_func.c \
 				   exec_logical_left.c \
 				   exec_logical_right.c \
 				   exec_or.c \
