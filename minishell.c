@@ -106,10 +106,7 @@ static int	start_minishell(t_minishell *p_mini)
 	if (ret != 0)
 		return (ret);
 	p_mini->head_ast = ast;
-	ret = run_exec(p_mini, &ast);
-	if (ret != 0)
-		return (ret);
-	return (0);
+	return (run_exec(p_mini, &ast));
 }
 
 /* to check :

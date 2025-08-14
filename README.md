@@ -26,10 +26,9 @@ ls > log1 << eof1 | ls > log2 << eof2 | ls > log3 << eof3
 
 TODO:
 
+- 5) rename start_minishell and run_minishell to some more specific names
 - 4) SEGFAULT IF : unset PATH; export PATH; echo $PATH 
 (must be because trying to dereference ((t_env*)tmp->content)->value which is NULL, just a verification to add i guess)
-- 3) ls si dans deux PATH differents mais premier pas acces, va essayer d'executer le deuxième -> a voir si on fait
-- 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas // and look how to make it work
 - 3) Normage dans Execution
 - 4) Leak et sortie en cas d'erreurs de partout ! 
         -> dans init
@@ -38,6 +37,7 @@ TODO:
         -> dans execution
 
 OPTIONAL BUT COOL:
+- 3) ls si dans deux PATH differents mais premier pas acces, va essayer d'executer le deuxième -> a voir si on fait
 - 5) change all bandage on the stuff in case_no_forking and return value with specific case if builtin is exit
 maybe solution is to change p_mini->err_code directly inside the builtins, so we can always return 0 if function performed well ! -> let's see later
 
@@ -49,6 +49,7 @@ maybe solution is to change p_mini->err_code directly inside the builtins, so we
 \ /
 OLD stuff just in case for check : 
 
+- 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas // and look how to make it work
 - implementation of '&' // -> gave up
 - implementation of subshell // quite good advanced ! even done ?? -> should be working well !
 - implementation of ';' // DONE
