@@ -1,3 +1,7 @@
+TESTS qui ne passent pas : 
+
+(ls | (cat | (cat | (cat))))
+
 TESTS ETRANGES :
 
 (cat) | (cat) | ((cat)) -> is it a bug, -> bug report it ?
