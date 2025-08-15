@@ -15,6 +15,8 @@
 
 /* add a slash to value from PATH
  * which do not have one at their end !
+ * to check
+ *	-> ft_strjoin_free_first fail : DONE -> OK !
 */
 int	add_slash_to_path(t_vector *p_path)
 {

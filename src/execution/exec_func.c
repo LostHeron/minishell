@@ -33,8 +33,8 @@ static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,
  *
  * to check :
  *	-> exec_table fail  : TO DO  ;
- *		-> check exec_command fail : TO DO ;
- *		-> check exec_pipe fail : TO DO ;
+ *		-> check exec_command fail : DONE -> OK !
+ *		-> check exec_pipe fail : DONE -> OK !
  *		-> check exec_subshell fail : TO DO ;
  *		-> check exec_sequence fail : TO DO ;
  *		-> check exec_and fail : TO DO ;
@@ -62,11 +62,11 @@ int	exec_func(t_ast *ast, t_minishell *p_mini)
 static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,\
 														t_minishell *p_mini))
 {
-	exec_table[SUBSHELL] = &exec_subshell;
 	exec_table[COMMAND] = &exec_command;
 	exec_table[PIPE] = &exec_pipe;
-	exec_table[OR] = &exec_or;
 	exec_table[AND] = &exec_and;
+	exec_table[OR] = &exec_or;
 	exec_table[SEQUENCE] = &exec_sequence;
+	exec_table[SUBSHELL] = &exec_subshell;
 	return ;
 }

@@ -32,8 +32,10 @@ static int	case_change_fd_redir_fail(t_minishell *p_mini, int ret);
  *		-> if builtin function return negative value, error inside builtin
  *		that must make us stop execution of the program 
  *	- then restore fd to its original !
- *	to check : 
- *	-> change_fd_redir fail : TO DO ;
+ * to check : 
+ *	-> change_fd_redir fail : DONE -> OK !
+ *	-> presence_of_commands fail : DONE -> OK !
+ *	-> restore_fds fail : DONE -> OK !
 */
 int	case_no_forking(t_vector args, t_vector redir, t_minishell *p_mini)
 {
@@ -53,7 +55,7 @@ int	case_no_forking(t_vector args, t_vector redir, t_minishell *p_mini)
 			"could not restore fds, stopping programme execution\n",
 			p_mini->fd_tty_err);
 		p_mini->should_exit = TRUE;
-		return (-100);
+		return (ret);
 	}
 	if (ret_builtin < 0 && ft_strcmp(((char **)args.data)[0],
 		"exit") != 0)
@@ -61,6 +63,9 @@ int	case_no_forking(t_vector args, t_vector redir, t_minishell *p_mini)
 	return (0);
 }
 
+/* to check
+ *	-> call_builtins fail : DONE -> OK !
+*/
 static void	presence_of_commands(t_vector args, t_minishell *p_mini,
 						int *p_ret, int *p_ret_builtin)
 {

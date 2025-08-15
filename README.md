@@ -34,7 +34,7 @@ TODO:
 - 5) rename start_minishell and run_minishell to some more specific names
 - 4) SEGFAULT IF : unset PATH; export PATH; echo $PATH 
 (must be because trying to dereference ((t_env*)tmp->content)->value which is NULL, just a verification to add i guess)
-- 4 ) SEGFAULT IF : ( (echo coucou < not_exitst ; ) )  et just  echo coucou < not_exitst ; enfaite
+- 4 ) SEGFAULT IF : ( (echo coucou < not_exitst ; ) )  et just  echo coucou < not_exitst ; enfaite -> Probleme au niveau du free_tree aussi i guess
 - 3) Normage dans Execution
 - 4) Leak et sortie en cas d'erreurs de partout ! 
         -> dans init

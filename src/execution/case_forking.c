@@ -23,7 +23,7 @@ static void	child_case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type);
 
 /* to check : 
  *	-> fork fail : DONE ;
- *	-> child_execution fail : TO DO ; but what to do ?
+ *	-> child_execution fail : DONE -> OK ! ; but what to do ?
  *	(will no change the result of main process out,
  *	because child will exit after child_execution ends);
  *		-> but we need to check that inside a child failure, everything is
@@ -53,7 +53,7 @@ int	case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 }
 
 /* to check :
- *	-> child_execution fail : TO DO ;
+ *	-> child_execution fail : DONE -> OK !
 */
 static void	child_case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {

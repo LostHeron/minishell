@@ -19,7 +19,6 @@
  *	-> pipe fail : DONE -> OK !
  *	-> exec_func fail : TO DO ;
  *	-> close_fd1 fail : TO DO ;
- *	-> wait_children fail : to check even ??
 */
 int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 {

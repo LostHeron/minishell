@@ -29,7 +29,7 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini);
  *	-> close_saved_tty fail : DONE -> OK !
  *	-> make_redirections fail : DONE -> OK !
  *	-> call_builtins fail : DONE -> OK !
- *	-> case_cmd_type_binary fail : TO DO;
+ *	-> case_cmd_type_binary fail : DONE -> OK !
 */
 int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
@@ -58,6 +58,11 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 		return (case_cmd_type_binary(ast, p_mini));
 }
 
+/* to check 
+ *	-> get_command fail : DONE -> OK !
+ *	-> get_env_from_list fail : DONE -> OK !
+ *	-> close_here_doc_fds fail : DONE -> OK !
+*/
 static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 {
 	char		*cmd;
@@ -74,7 +79,8 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	ret = close_here_doc_fds(p_mini);
 	if (ret != 0)
 	{
-		(void) ret;// do something
+		ft_vector_free(&new_env);
+		return (ret);
 	}
 	execve(cmd, ast->arguments.com_args.content.data, new_env.data);
 	execve_errno = errno;

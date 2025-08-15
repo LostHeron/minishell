@@ -18,7 +18,13 @@
 
 static int	launch_left(t_ast *ast, t_minishell *p_mini);
 static int	launch_right(t_ast *ast, t_minishell *p_mini);
+static void	close_fd(int *p_fd);
 
+/* to check :
+ *	-> launch_left fail : DONE -> OK !
+ *	-> swap_fds fail : DONE -> OK !
+ *	-> launch_right fail : DONE -> OK !
+*/
 int	exec_pipe(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;
@@ -38,34 +44,47 @@ int	exec_pipe(t_ast *ast, t_minishell *p_mini)
 	return (0);
 }
 
+/* to check
+ *	-> pipe fail : DONE -> OK !
+ *	-> exec_func fail : DONE -> OK !
+*/
 static int	launch_left(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;
 
-	if (pipe(p_mini->fd2) == -1)
+	ret = pipe(p_mini->fd2);
+	if (ret < 0)
 	{
-		perror("fn: exec_pipe: pipe");
+		perror("pipe");
 		return (ERROR_PIPE);
 	}
 	p_mini->previous_side = PREV_LEFT;
 	ret = exec_func(ast->arguments.op_args.left, p_mini);
 	if (ret != 0)
 	{
-		if (close(p_mini->fd2[0]) < 0)
-			perror("close");
-		else
-			p_mini->fd2[0] = -1;
-		if (close(p_mini->fd2[1]) < 0)
-			perror("close");
-		else
-			p_mini->fd2[1] = -1;
-		return (ret);
+		close_fd(&(p_mini->fd2[0]));
+		close_fd(&(p_mini->fd2[1]));
 	}
-	return (0);
+	return (ret);
 }
 
+/* to check: 
+ *	-> exec_func fail : DONE -> OK !
+*/
 static int	launch_right(t_ast *ast, t_minishell *p_mini)
 {
 	p_mini->previous_side = PREV_RIGHT;
 	return (exec_func(ast->arguments.op_args.right, p_mini));
+}
+
+static void	close_fd(int *p_fd)
+{
+	if (*p_fd > 0)
+	{
+		if (*p_fd < 0)
+		{
+			perror("close");
+		}
+		*p_fd = -1;
+	}
 }

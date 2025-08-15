@@ -18,6 +18,11 @@ static int	add_next_env(t_vector *p_new_env, t_list *env);
 static int	case_value_not_null_env(t_list *env, char **p_str);
 static void	my_free(t_vector *ptr_vec);
 
+/* to check
+ *	-> ft_vector_init fail : DONE -> OK !
+ *	-> add_next_env fail : DONE -> OK !
+ *	-> ft_vector_add_single fail : DONE -> OK !
+*/
 int	get_env_from_list(t_vector *p_new_env, t_list *env)
 {
 	int			ret;
@@ -46,6 +51,10 @@ int	get_env_from_list(t_vector *p_new_env, t_list *env)
 	return (0);
 }
 
+/* to check
+ *	-> case_value_not_null_env fail : DONE -> OK !
+ *	-> ft_vector_add_single fail : DONE -> OK ! (forgot to free str if failed)
+*/
 static int	add_next_env(t_vector *p_new_env, t_list *env)
 {
 	int		ret;
@@ -58,11 +67,18 @@ static int	add_next_env(t_vector *p_new_env, t_list *env)
 			return (ret);
 		ret = ft_vector_add_single(p_new_env, &str);
 		if (ret != 0)
+		{
+			free(str);
 			return (ret);
+		}
 	}
 	return (0);
 }
 
+/* to check
+ *	-> ft_strjoin fail : DONE -> OK !
+ *	-> ft_strjoin_free_first fail : DONE -> OK !
+*/
 static int	case_value_not_null_env(t_list *env, char **p_str)
 {
 	*p_str = ft_strjoin(((t_env *)env->content)->key, "=");

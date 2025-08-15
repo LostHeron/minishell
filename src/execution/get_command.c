@@ -15,6 +15,7 @@
 #include "ft_string.h"
 #include "minishell.h"
 #include "ft_io.h"
+#include <asm-generic/errno.h>
 #include <errno.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -30,6 +31,9 @@ static int	check_cmd(char **p_cmd);
  *		-> return 127 or 126 depending on why no command could be found
  * In case of FAILURE :
  *		-> return negative integer and stop execution
+ * to check 
+ *	-> case_find_command fail : DONE -> OK !
+ *	-> check_cmd fail : DONE -> OK !
 */
 int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 {
@@ -48,6 +52,10 @@ int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 	return (check_cmd(p_cmd));
 }
 
+/* to check
+ *	-> get_path fail : DONE -> OK !
+ *	-> find_command fail : DONE -> OK !
+*/
 static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 {
 	int			ret;
@@ -74,6 +82,10 @@ static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
 	return (0);
 }
 
+/* check if cmd is directory or not
+ * to check :
+ *	-> stat fail : DONE -> OK !
+*/
 static int	check_cmd(char **p_cmd)
 {
 	struct stat	f_stat;
@@ -90,7 +102,7 @@ static int	check_cmd(char **p_cmd)
 	if (ret != 0)
 	{
 		perror("stat");
-		return (ret);
+		return (ERROR_STAT);
 	}
 	if ((f_stat.st_mode & S_IFMT) == S_IFDIR)
 	{

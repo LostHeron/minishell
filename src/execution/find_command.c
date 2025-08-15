@@ -13,6 +13,7 @@
 #include "minishell.h"
 #include "ft_string.h"
 #include "ft_vectors.h"
+#include <asm-generic/errno.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <stdio.h>
@@ -27,11 +28,15 @@ static int	case_file_exists(char *new_cmd, char **p_cmd, int *p_should_return);
  * it will return that file, if that file is a directory, it continue searching
  * if that file exist and is not a directory, it return (0) and set *p_cmd to 
  * that file !
+ * If path is empty (meaning there is no value in it
+ *	it just check if the raw command send by the user exist
  * in case of SUCCESS : 
  *		-> if it finds a file : return 0
  *		-> if it do not finds file : return 127
  * in case of FAILURE : 
  *		-> return a negative integer
+ * to check :
+ *	-> try_find_cmd fail : DONE -> OK !
 */
 int	find_command(char **p_cmd, t_vector path)
 {
@@ -54,6 +59,10 @@ int	find_command(char **p_cmd, t_vector path)
 	return (127);
 }
 
+/* to check
+ *	-> ft_strjoin fail : DONE -> OK !
+ *	-> case_file_exists fail : DONE -> OK !
+*/
 static int	try_find_cmd(char *path_i, char **p_cmd, int *p_should_return)
 {
 	int			ret;
@@ -75,6 +84,9 @@ static int	try_find_cmd(char *path_i, char **p_cmd, int *p_should_return)
 	return (0);
 }
 
+/* to check
+ *	-> stat fail : DONE -> OK !
+*/
 static int	case_file_exists(char *new_cmd, char **p_cmd, int *p_should_return)
 {
 	int			ret;
@@ -86,7 +98,7 @@ static int	case_file_exists(char *new_cmd, char **p_cmd, int *p_should_return)
 		perror("stat");
 		*p_should_return = TRUE;
 		free(new_cmd);
-		return (ret);
+		return (ERROR_STAT);
 	}
 	if ((f_stat.st_mode & S_IFMT) == S_IFREG)
 	{

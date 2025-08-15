@@ -29,6 +29,8 @@ void	print_error(int err_code)
 		ft_printf_fd(2, "ERROR: fork error\n");
 	else if (err_code == ERROR_READ)
 		ft_printf_fd(2, "ERROR: read error\n");
+	else if (err_code == ERROR_STAT)
+		ft_printf_fd(2, "ERROR: stat error\n");
 	else if (err_code == ERROR_PIPE)
 		ft_printf_fd(2, "ERROR: while trying to create pipe\n");
 	else if (err_code == ERROR_WRITE)
