@@ -22,11 +22,9 @@ int	exec_sequence(t_ast *ast, t_minishell *p_mini)
 
 	p_mini->previous_type = SEQUENCE;
 	ret = exec_logical_left(ast, p_mini);
-	if (ret != 0)
+	if (ret != 0 && ret != ERROR_OPEN)
 		return (ret);
 	p_mini->previous_type = SEQUENCE;
 	ret = exec_logical_right(ast, p_mini);
-	if (ret != 0)
-		return (ret);
 	return (ret);
 }

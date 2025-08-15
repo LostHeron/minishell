@@ -52,7 +52,8 @@ int	case_no_forking(t_vector args, t_vector redir, t_minishell *p_mini)
 		ft_putstr_fd(
 			"could not restore fds, stopping programme execution\n",
 			p_mini->fd_tty_err);
-		return (-10);
+		p_mini->should_exit = TRUE;
+		return (-100);
 	}
 	if (ret_builtin < 0 && ft_strcmp(((char **)args.data)[0],
 		"exit") != 0)
@@ -81,17 +82,20 @@ static void	presence_of_commands(t_vector args, t_minishell *p_mini,
 
 static int	case_change_fd_redir_fail(t_minishell *p_mini, int ret)
 {
+	int	tmp_ret;
+
 	if (ret == ERROR_OPEN)
 	{
-		ret = restore_fds(p_mini);
-		if (ret != 0)
-		{
-			ft_putstr_fd(
-				"could not restore fds, stopping programme execution\n",
-				p_mini->fd_tty_err);
-			return (-100);
-		}
 		p_mini->last_error_code = 1;
+	}
+	tmp_ret = restore_fds(p_mini);
+	if (tmp_ret != 0)
+	{
+		ft_putstr_fd(
+			"could not restore fds, stopping programme execution\n",
+			p_mini->fd_tty_err);
+		p_mini->should_exit = TRUE;
+		return (-100);
 	}
 	return (ret);
 }

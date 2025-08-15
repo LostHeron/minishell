@@ -15,6 +15,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
+/* same stuff as redir_in function
+ * so should behave same way 
+*/
 int	redir_append(char *filename)
 {
 	int	fd;
@@ -27,14 +30,14 @@ int	redir_append(char *filename)
 	}
 	if (dup2(fd, 1) == -1)
 	{
-		perror("fn: redir_append: dup2(fd, 1)");
+		perror("dup2");
 		if (close(fd) < 0)
-			perror("fn: redir_append: close(fd)");
+			perror("close");
 		return (ERROR_DUP2);
 	}
 	if (close(fd) == -1)
 	{
-		perror("fn: redir_append: close(fd)");
+		perror("close");
 		return (ERROR_CLOSE);
 	}
 	return (0);

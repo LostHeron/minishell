@@ -27,7 +27,7 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini);
  * we entered here from exec_command call !
  * to do :
  *	-> close_saved_tty fail : DONE -> OK !
- *	-> make_redirections fail : TO DO ;
+ *	-> make_redirections fail : DONE -> OK !
  *	-> call_builtins fail : DONE -> OK !
  *	-> case_cmd_type_binary fail : TO DO;
 */

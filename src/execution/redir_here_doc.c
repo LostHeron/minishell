@@ -13,14 +13,21 @@
 #include "minishell.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
 
+/* to check
+ *	-> dup2 fail : DONE -> OK !
+*/
 int	redir_here_doc(t_minishell *p_mini, t_dirargs redir)
 {
 	int		fd_to_chose;
+	int		ret;
 
 	fd_to_chose = redir.filename[0];
-	if (dup2(p_mini->fds_here_doc[fd_to_chose], 0) < 0)
+	ret = dup2(p_mini->fds_here_doc[fd_to_chose], 0);
+	if (ret < 0)
 	{
+		perror("dup2");
 		return (ERROR_DUP2);
 	}
 	return (0);
