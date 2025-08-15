@@ -72,7 +72,6 @@ static int	subshell_execution(t_ast *ast, t_minishell *p_mini)
 	ret = exec_func(ast->arguments.sub_args.sub, p_mini);
 	if (ret != 0)
 		final_ret = ret;
-	wait_children(p_mini, p_mini->nb_child_to_wait - 1);
 	ret = close_fd1(p_mini);
 	if (ret != 0 && final_ret == 0)
 	{
@@ -83,6 +82,9 @@ static int	subshell_execution(t_ast *ast, t_minishell *p_mini)
 	return (final_ret);
 }
 
+/*		This function, will set where a subshell as to write to, read from,
+ *	and also closes every fd of pipe before opening new one
+*/
 static int	setup_subshell(t_ast *ast, t_minishell *p_mini, int *p_final_ret)
 {
 	int	ret;
@@ -102,7 +104,7 @@ static int	setup_subshell(t_ast *ast, t_minishell *p_mini, int *p_final_ret)
 	p_mini->previous_type = -1;
 	if (pipe(p_mini->fd1) == -1)
 	{
-		perror("fn : run_exec : pipe(p_mini->fd1)");
+		perror("pipe");
 		free_tree(&p_mini->head_ast);
 		return (ERROR_PIPE);
 	}
