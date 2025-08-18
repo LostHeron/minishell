@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:14:56 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/18 09:44:13 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/18 10:37:03 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 #include <unistd.h>
 #include <stdio.h>
 
-static void	parent_subshell(t_minishell *p_mini, int pid);
+static int	expand_redir_fail(t_minishell *p_mini, int ret);
 static void	print_error_exit(t_minishell *p_mini, int ret_exec);
+static void	parent_subshell(t_minishell *p_mini, int pid);
 
 /*	This function should set up, then fork, then execute subshell
  * 	In case of success :
@@ -36,7 +37,7 @@ int	exec_subshell(t_ast *ast, t_minishell *p_mini)
 
 	ret = expand_redir(&ast->arguments.sub_args.dir_args, *p_mini);
 	if (ret != 0)
-		return (ret);
+		return (expand_redir_fail(p_mini, ret));
 	pid = fork();
 	if (pid < 0)
 	{
@@ -56,17 +57,23 @@ int	exec_subshell(t_ast *ast, t_minishell *p_mini)
 	return (0);
 }
 
-static void	parent_subshell(t_minishell *p_mini, int pid)
+static int	expand_redir_fail(t_minishell *p_mini, int ret)
 {
-	p_mini->last_child_id = pid;
-	p_mini->nb_child_to_wait++;
+	p_mini->last_error_code = 1;
+	return (ret);
 }
 
 static void	print_error_exit(t_minishell *p_mini, int err_code)
 {
 	print_error(err_code);
-	if (err_code == ERROR_OPEN)
+	if (err_code == ERROR_OPEN || err_code == ERROR_FILENAME)
 		exit(exit_child(p_mini, 1));
 	else
 		exit(exit_child(p_mini, 2));
+}
+
+static void	parent_subshell(t_minishell *p_mini, int pid)
+{
+	p_mini->last_child_id = pid;
+	p_mini->nb_child_to_wait++;
 }

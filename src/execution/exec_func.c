@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:27:28 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/08 15:08:31 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/18 09:51:14 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	exec_func(t_ast *ast, t_minishell *p_mini)
 	}
 }
 
-static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,\
-														t_minishell *p_mini))
+static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,
+				t_minishell *p_mini))
 {
 	exec_table[COMMAND] = &exec_command;
 	exec_table[PIPE] = &exec_pipe;
