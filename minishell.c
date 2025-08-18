@@ -31,7 +31,6 @@ static int	ast_ize(t_ast **p_ast, t_vector *p_tokens);
 
 int	g_my_signal;
 
-/* test */
 int	main(int argc, char **argv, char **env)
 {
 	int			ret;
@@ -79,7 +78,7 @@ static void	run_minishell(t_minishell *p_mini)
 /* to check
  *	-> tokenize fail : DONE -> OK !
  *	-> ast_ize fail : DONE -> OK !
- *	-> run_exec fail : TO DO ;
+ *	-> run_exec fail : DONE -> OK !
 */
 static int	start_minishell(t_minishell *p_mini)
 {

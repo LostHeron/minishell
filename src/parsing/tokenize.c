@@ -24,9 +24,8 @@ static void	check_error_failure(t_minishell *p_mini, t_vector *p_tokens,
 static void	restore_sigquit(void);
 static void	do_nothing(int sig);
 
-/* This function should :
- *	-> return a t_vector of char ** of the different argument of the command !
- *
+/*		This function should: 
+ *	return a t_vector of char ** of the different argument of the command !
  * to check
  *	-> line_to_tokens fail : DONE -> OK !
  *	-> check_errors fail : DONE -> OK !
