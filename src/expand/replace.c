@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:54:49 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/18 13:17:36 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	replace_key_value(t_exp *p_exp_part, size_t *p_ind,
 	size_t	len_replace;
 	size_t	len_val;
 
-	if (p_env == NULL)
+	if (p_env == NULL || p_env->value == NULL)
 		len_val = 0;
 	else
 		len_val = ft_strlen(p_env->value);
@@ -48,7 +48,7 @@ int	replace_key_value(t_exp *p_exp_part, size_t *p_ind,
 		return (ERROR_MALLOC);
 	*replace = '\0';
 	ft_strncat(replace, p_exp_part->content, *p_ind);
-	if (p_env != NULL)
+	if (p_env != NULL && p_env->value != NULL)
 		ft_strlcat(replace, p_env->value, len_replace);
 	ft_strlcat(replace, p_exp_part->content + *p_ind + len_key + 1,
 		len_replace);

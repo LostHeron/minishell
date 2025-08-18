@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                #+#  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-22 11:09:45 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/04 14:09:04 by jweber           ###   ########.fr       */
+/*   Created: 2025/07/22 11:09:45 by cviel             #+#    #+#             */
+/*   Updated: 2025/08/18 13:12:56 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*print_type(t_type type)
 		return ("OR");
 	if (type == SEQUENCE)
 		return ("SEQUENCE");
-	return ("OTHER");
+	return ("END LINE");
 }
 
 char	*print_redir_in_out(t_dir dir)
