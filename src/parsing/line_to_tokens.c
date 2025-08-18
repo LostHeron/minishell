@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_memory.h"
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
@@ -20,11 +19,10 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <signal.h>
 
+static int	say_exit_return(t_minishell *p_mini);
+static void	remove_newline_char(char *line);
 static void	init_args(char **p_args);
-static void	restore_sigquit(void);
-static void	do_nothing(int sig);
 
 /* This fuction will readline with getline function
  * Then parse this line to transform it to tokens 
@@ -37,7 +35,6 @@ static void	do_nothing(int sig);
 */
 int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 {
-	size_t	len;
 	char	*line;
 	int		ret;
 	char	*args[11];
@@ -51,23 +48,35 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	if (ret != 0 || g_my_signal != 0)
 		return (ret);
 	if (line == NULL)
-	{
-		p_mini->should_exit = TRUE;
-		return (0);
-	}
+		return (say_exit_return(p_mini));
 	else
+		remove_newline_char(line);
+	if (line && *line && isatty(0) == 1)
+		add_history(line);
+	init_args(args);
+	ret = ft_split_args(p_tokens, line, args);
+	if (ret == ERROR_UNCLOSED_D_QUOTES || ret == ERROR_UNCLOSED_S_QUOTES)
+		p_mini->is_error_syntax = TRUE;
+	free(line);
+	return (ret);
+}
+
+static int	say_exit_return(t_minishell *p_mini)
+{
+	p_mini->should_exit = TRUE;
+	return (0);
+}
+
+static void	remove_newline_char(char *line)
+{
+	size_t	len;
+
+	len = ft_strlen(line);
+	if (len > 0)
 	{
-		len = ft_strlen(line);
 		if (line[len - 1] == '\n')
 			line[len - 1] = '\0';
 	}
-	if (line && *line && isatty(0) == 1)
-		add_history(line);
-	restore_sigquit();
-	init_args(args);
-	ret = ft_split_args(p_tokens, line, args);
-	free(line);
-	return (ret);
 }
 
 static void	init_args(char **p_args)
@@ -84,20 +93,3 @@ static void	init_args(char **p_args)
 	p_args[9] = ";";
 	p_args[10] = NULL;
 }
-
-static void	restore_sigquit(void)
-{
-	struct sigaction	s;
-
-	ft_bzero(&s, sizeof(struct sigaction));
-	s.sa_handler = do_nothing;
-	s.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &s, NULL);
-}
-
-static void	do_nothing(int sig)
-{
-	(void) sig;
-	return ;
-}
-

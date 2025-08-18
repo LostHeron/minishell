@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <errno.h>
 
 static int	with_path_given(t_vector args, t_minishell *p_mini);
 static int	get_path_name(t_minishell *p_mini, char **p_place_to_go,
@@ -27,12 +28,10 @@ static int	call_to_chdir(char **p_place_to_go, char *path_name);
 
 /* to check :
  *	-> builtin_cd_without_path_given fail : DONE -> OK !
- *	-> with_path_given fail : TO DO ;
+ *	-> with_path_given fail : DONE -> OK !
 */
 int	builtin_cd(t_vector args, t_minishell *p_mini)
 {
-	int			ret;
-
 	if (args.size > 3)
 	{
 		if (ft_putstr_fd("cd: too many arguments\n", 2) < 0)
@@ -41,13 +40,11 @@ int	builtin_cd(t_vector args, t_minishell *p_mini)
 	}
 	else if (args.size == 2)
 	{
-		ret = builtin_cd_without_path_given(p_mini);
-		return (ret);
+		return (builtin_cd_without_path_given(p_mini));
 	}
 	else if (args.size == 3)
 	{
-		ret = with_path_given(args, p_mini);
-		return (ret);
+		return (with_path_given(args, p_mini));
 	}
 	else
 	{
@@ -58,9 +55,9 @@ int	builtin_cd(t_vector args, t_minishell *p_mini)
 
 /* to check : 
  *	-> ft_strdup fail : DONE -> OK !
- *	-> get_path_name fail : TO DO ;
- *	-> call_to_chdir fail : TO DO ;
- *	-> update_pwd_env_var fail : TO DO ;
+ *	-> get_path_name fail : DONE -> OK !
+ *	-> call_to_chdir fail : DONE -> OK !
+ *	-> update_pwd_env_var fail : DONE -> OK !
 */
 static int	with_path_given(t_vector args, t_minishell *p_mini)
 {
@@ -69,6 +66,7 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 	size_t		path_len;
 	char		*path_name;
 
+	(void) args;
 	place_to_go = ft_strdup(((char **)args.data)[1]);
 	if (place_to_go == NULL)
 		return (ERROR_MALLOC);
@@ -79,12 +77,6 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 	if (ret != 0)
 		return (ret);
 	ft_strlcpy(p_mini->cwd_name, path_name, CWD_NAME_MAX_LENGTH);
-	/*
-	path_len = ft_strlen(place_to_go);
-	if (path_len != 1 && place_to_go[path_len - 1] == '/'
-		&& ft_strcmp(p_mini->cwd_name, "/") != 0)
-		ft_strlcat(p_mini->cwd_name, "/", CWD_NAME_MAX_LENGTH);
-		*/
 	free(place_to_go);
 	free(path_name);
 	ret = update_pwd_env_var(p_mini);
@@ -95,7 +87,7 @@ static int	with_path_given(t_vector args, t_minishell *p_mini)
 
 /* to check 
  *	-> new_place_to_go fail : DONE -> OK !
- *	-> get_path_len_name : TO DO ;
+ *	-> get_path_len_name : DONE -> OK !
 */
 static int	get_path_name(t_minishell *p_mini, char **p_place_to_go,
 						char **p_path_name, size_t	*p_path_len)
@@ -144,19 +136,26 @@ static char	*new_place_to_go(char *place_to_go, char *old_path)
 	return (new_place_2);
 }
 
+/* to do : 
+ *	-> check chdir fail : DONE -> OK !
+ *	-> ft_strjoin_free_second fail : DONE -> OK !
+*/
 static int	call_to_chdir(char **p_place_to_go, char *path_name)
 {
 	int	ret;
+	int	old_errno;
 
 	ret = chdir(path_name);
 	if (ret == -1)
 	{
+		old_errno = errno;
 		free(path_name);
 		*p_place_to_go = ft_strjoin_free_second("cd: ", *p_place_to_go);
 		if (*p_place_to_go == NULL)
 		{
 			return (ERROR_MALLOC);
 		}
+		errno = old_errno;
 		perror(*p_place_to_go);
 		free(*p_place_to_go);
 		return (1);

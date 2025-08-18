@@ -14,10 +14,14 @@
 #include <unistd.h>
 #include <stdio.h>
 
+/* to check
+ *	-> close fail : DONE -> OK !
+*/
 int	close_here_doc_fds(t_minishell *p_mini)
 {
 	size_t	fd_i;
 	int		final_ret;
+	int		ret;
 
 	fd_i = 0;
 	final_ret = 0;
@@ -25,7 +29,8 @@ int	close_here_doc_fds(t_minishell *p_mini)
 	{
 		if (p_mini->fds_here_doc[fd_i] > 0)
 		{
-			if (close(p_mini->fds_here_doc[fd_i]) < 0)
+			ret = close(p_mini->fds_here_doc[fd_i]);
+			if (ret < 0)
 			{
 				perror("close");
 				final_ret = ERROR_CLOSE;

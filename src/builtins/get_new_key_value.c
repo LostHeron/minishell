@@ -13,7 +13,17 @@
 #include "minishell.h"
 #include "ft_string.h"
 
-/* to check :
+/* This function take as input:
+ *	-> str : which is a string given by the user,
+ *	-> and try to duplicate this string into two parts : 
+ *		-> *p_new_key is the key (the part before the first '=' sign)
+ *		-> *p_new_value is the value (the part after the first '=' sign)
+ *		(if there is no equal sign *p_new_value is NULL,
+ *		and *p_new_key is the ducplication of str)
+ *	-> in case of success return (0) and have the two part correctly duplicated
+ *	-> in case of failure return a non null integer 
+ *	and have already malloced part freed
+ * to check :
  *	-> first ft_strdup() fail : DONE -> OK !
  *	-> second ft_strdup() fail : DONE -> OK !
  *	-> third ft_strdup()fial : DONE -> OK !

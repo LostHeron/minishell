@@ -14,20 +14,34 @@
 #include <stdio.h>
 #include <unistd.h>
 
+static void	close_fd(int *p_fd, int *p_final_ret);
+
+/* to check
+ *	-> first close fail : DONE -> OK !
+ *	-> second close fail :  DONE -> OK !
+*/
 int	close_case_no_pipe(t_minishell *p_mini)
 {
 	int	ret;
 
 	ret = 0;
-	if (close(p_mini->fd1[0]) == -1)
-	{
-		perror("fn: child_execution: child left: close(p_mini->fd1[0]");
-		ret = ERROR_CLOSE;
-	}
-	if (close(p_mini->fd1[1]) == -1)
-	{
-		perror("fn: child_execution: child left: close(p_mini->fd1[1]");
-		ret = ERROR_CLOSE;
-	}
+	close_fd(&(p_mini->fd1[0]), &ret);
+	close_fd(&(p_mini->fd1[1]), &ret);
 	return (ret);
+}
+
+static void	close_fd(int *p_fd, int *p_final_ret)
+{
+	int	ret;
+
+	if (*p_fd > 0)
+	{
+		ret = close(*p_fd);
+		if (ret < 0)
+		{
+			perror("close");
+			*p_final_ret = ERROR_CLOSE;
+		}
+		*p_fd = -1;
+	}
 }

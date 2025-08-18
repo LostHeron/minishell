@@ -13,9 +13,12 @@
 #include "handle_signal.h"
 #include "minishell.h"
 #include "ft_string.h"
+#include "ft_input.h"
 #include <errno.h>
 #include <readline/readline.h>
 
+static int	rl_gnl_read(char **p_line, char *prompt, char **p_line_head,
+				char **p_line_cursor);
 static int	case_line_head_empty(char **p_line, char **p_line_head,
 				char **p_line_cursor, char *prompt);
 static int	retrieve_one_line(char **p_line, char **p_line_cursor);
@@ -35,29 +38,44 @@ static int	retrieve_one_line(char **p_line, char **p_line_cursor);
  *		readline_fail : TO DO ;
  *		retrieve_one_line faile : TO DO ;
 */
-int	rl_gnl(char **p_line, char *prompt)
+int	rl_gnl(char **p_line, char *prompt, int type)
 {
 	static char	*line_head;
 	static char	*line_cursor;
-	int			ret;
 
-	if (line_head == NULL)
+	if (type == RL_GNL_FREE)
 	{
-		ret = case_line_head_empty(p_line, &line_head, &line_cursor, prompt);
-		if (ret != 0 || g_my_signal != 0 || line_head == NULL)
+		free(line_head);
+		return (0);
+	}
+	else
+	{
+		return (rl_gnl_read(p_line, prompt, &line_head, &line_cursor));
+	}
+}
+
+static int	rl_gnl_read(char **p_line, char *prompt, char **p_line_head,
+					char **p_line_cursor)
+{
+	int	ret;
+
+	if (*p_line_head == NULL)
+	{
+		ret = case_line_head_empty(p_line, p_line_head, p_line_cursor, prompt);
+		if (ret != 0 || g_my_signal != 0 || *p_line_head == NULL)
 			return (ret);
 	}
-	ret = retrieve_one_line(p_line, &line_cursor);
+	ret = retrieve_one_line(p_line, p_line_cursor);
 	if (ret != 0)
 	{
-		free(line_head);
+		free(*p_line_head);
 		return (ret);
 	}
-	if (line_cursor[0] == '\0')
+	if ((*p_line_cursor)[0] == '\0')
 	{
-		free(line_head);
-		line_head = NULL;
-		line_cursor = NULL;
+		free(*p_line_head);
+		*p_line_head = NULL;
+		*p_line_cursor = NULL;
 	}
 	return (0);
 }

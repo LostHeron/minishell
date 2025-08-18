@@ -21,17 +21,17 @@ int	restore_fds(t_minishell *p_mini)
 	ret = 0;
 	if (dup2(p_mini->fd_tty_err, STDERR_FILENO) < 0)
 	{
-		perror(NULL);
+		perror("dup2");
 		ret = ERROR_DUP2;
 	}
 	if (dup2(p_mini->fd_tty_in, STDIN_FILENO) < 0)
 	{
-		perror("fn: restore_fd : dup2");
+		perror("dup2");
 		ret = ERROR_DUP2;
 	}
 	if (dup2(p_mini->fd_tty_out, STDOUT_FILENO) < 0)
 	{
-		perror("in restore_fd : dup2(p_mini->fd_stderr, 2)");
+		perror("dup2");
 		ret = ERROR_DUP2;
 	}
 	return (ret);

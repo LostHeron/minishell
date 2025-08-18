@@ -39,8 +39,7 @@ static int	redir_heredoc(t_ast *ast, size_t i);
  *		the following redir
  *
  * to check :
- *	-> perform_redir_i fail : TO DO;
- *	-> close_here_doc_fds fail : TO DO ;
+ *	-> perform_redir_i fail : DONE -> OK !
 */
 int	change_fd_redir(t_minishell *p_mini, t_vector redir)
 {
@@ -57,7 +56,6 @@ int	change_fd_redir(t_minishell *p_mini, t_vector redir)
 				((t_dirargs *)redir.data)[i], redir_table);
 		if (ret != 0)
 		{
-			close_here_doc_fds(p_mini);
 			return (ret);
 		}
 		i++;
@@ -66,8 +64,11 @@ int	change_fd_redir(t_minishell *p_mini, t_vector redir)
 }
 
 /* to check :
- *	-> redir_table fail : TO DO ;
- *	-> redir_here_doc fail : TO DO;
+ *	-> redir_table fail : DONE -> OK !
+ *		-> redir_in fail : DONE -> OK !
+ *		-> redir_out fail : DONE -> OK !
+ *		-> redir_append fail : DONE -> OK !
+ *	-> redir_here_doc fail : DONE -> OK !
 */
 static int	perform_redir_i(t_minishell *p_mini, t_dirargs redir,
 			int (*redir_table[3])(char *filename))

@@ -15,9 +15,16 @@
 #include <stdio.h>
 #include <unistd.h>
 
+/* to check 
+ *	-> open fail : DONE -> OK !
+ *	-> dup2 fail : DONE -> OK !
+ *	-> close -> not checking cuz closing the fd opened just before
+ *	so Do no see the case in which it can fail -> but should be ok !
+*/
 int	redir_in(char *filename)
 {
 	int		fd;
+	int		ret;
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
@@ -25,16 +32,17 @@ int	redir_in(char *filename)
 		perror(filename);
 		return (ERROR_OPEN);
 	}
-	if (dup2(fd, 0) == -1)
+	ret = dup2(fd, 0);
+	if (ret == -1)
 	{
-		perror("fn: redir_in: dup2(fd, 0)");
+		perror("dup2");
 		if (close(fd) < 0)
-			perror("fn: redir_in: close(fd)");
+			perror("close");
 		return (ERROR_DUP2);
 	}
 	if (close(fd) == -1)
 	{
-		perror("fn: redir_in: close(fd)");
+		perror("close");
 		return (ERROR_CLOSE);
 	}
 	return (0);

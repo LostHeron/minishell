@@ -6,35 +6,30 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 18:02:33 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/30 13:14:47 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/14 13:37:27 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_io.h"
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "ast.h"
 #include "execution.h"
-#include "ft_string.h"
+#include <asm-generic/errno-base.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <errno.h>
-#include <sys/stat.h>
 
 static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini);
-static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
-static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd);
-static int	errno_special_value(int execve_errno);
 
 /* at this point, we are already in the child process
  * of the command type node, 
  * we entered here from exec_command call !
  * to do :
- *	-> first close fail : DONE -> OK !
- *	-> make_redirections fail : TO DO ;
- *	-> call_builtins fail : TO DO;
- *	-> case_cmd_type_binary fail : TO DO;
+ *	-> close_saved_tty fail : DONE -> OK !
+ *	-> make_redirections fail : DONE -> OK !
+ *	-> call_builtins fail : DONE -> OK !
+ *	-> case_cmd_type_binary fail : DONE -> OK !
 */
 int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 {
@@ -56,11 +51,18 @@ int	child_execution(t_ast *ast, t_minishell *p_mini, int cmd_type)
 	if (((char **)ast->arguments.com_args.content.data)[0] == NULL)
 		return (0);
 	if (cmd_type == CMD_BUILTIN)
+	{
 		return (call_builtins(p_mini, ast->arguments.com_args.content));
+	}
 	else
 		return (case_cmd_type_binary(ast, p_mini));
 }
 
+/* to check 
+ *	-> get_command fail : DONE -> OK !
+ *	-> get_env_from_list fail : DONE -> OK !
+ *	-> close_here_doc_fds fail : DONE -> OK !
+*/
 static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 {
 	char		*cmd;
@@ -77,91 +79,15 @@ static int	case_cmd_type_binary(t_ast *ast, t_minishell *p_mini)
 	ret = close_here_doc_fds(p_mini);
 	if (ret != 0)
 	{
-		// do something
+		ft_vector_free(&new_env);
+		return (ret);
 	}
 	execve(cmd, ast->arguments.com_args.content.data, new_env.data);
 	execve_errno = errno;
-	ft_vector_free(&new_env);
 	perror(cmd);
-	if (execve_errno == EACCES || execve_errno == ENOENT)
+	ft_vector_free(&new_env);
+	if (execve_errno == EACCES || execve_errno == ENOENT
+		|| execve_errno == ENOTDIR)
 		return (errno_special_value(execve_errno));
 	return (execve_errno);
-}
-
-/* function will search for the command,
- * if command start with "/" or "./" or "../" or is equal to ".."
- * or is equal to ".", the command will return error and print to the user
- * that the command is a directory !
-*/
-static int	get_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
-{
-	int			ret;
-	char		*first;
-	struct stat	f_stat;
-
-	first = ((char **)ast->arguments.com_args.content.data)[0];
-	if (ft_strncmp(first, "/", 1) == 0
-		|| ft_strncmp(first, "./", 2) == 0 || ft_strncmp(first, "../", 3) == 0
-		|| ft_strcmp(first, ".") == 0 || ft_strcmp(first, "..") == 0)
-		*p_cmd = ((char **)ast->arguments.com_args.content.data)[0];
-	else
-	{
-		ret = case_find_command(ast, p_mini, p_cmd);
-		if (ret != 0)
-			return (ret);
-	}
-	if (access(*p_cmd, F_OK) < 0)
-	{
-		perror(*p_cmd);
-		return (127);
-	}
-	ret = stat(*p_cmd, &f_stat);
-	if (ret != 0)
-	{
-		perror("stat");
-		return (ret);// do stuff 
-	}
-	if ((f_stat.st_mode & S_IFMT) == S_IFDIR)
-	{
-		errno = EISDIR;
-		perror(*p_cmd);
-		return (126);
-	}
-	// check if  *p_cmd is a directory with stat,
-	// if it is, then perror is a directory and return 126
-	return (0);
-}
-
-static int	case_find_command(t_ast *ast, t_minishell *p_mini, char **p_cmd)
-{
-	int			ret;
-	t_vector	path;
-
-	ret = get_path(p_mini, &path);
-	if (ret != 0)
-	{
-		return (ret);
-	}
-	ret = find_command(ast->arguments.com_args.content.data, path);
-	*p_cmd = ((char **)ast->arguments.com_args.content.data)[0];
-	ft_vector_free(&path);
-	if (ret != 0)
-	{
-		if (ret < 0)
-			return (ret);
-		else
-		{
-			ft_printf_fd(2, "%s: command not found\n", *p_cmd);
-			return (127);
-		}
-	}
-	return (0);
-}
-
-static int	errno_special_value(int execve_errno)
-{
-	if (execve_errno == EACCES)
-		return (126);
-	else
-		return (127);
 }

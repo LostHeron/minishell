@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:27:28 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/08 15:08:31 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/18 09:51:14 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast, \
-														t_minishell *p_mini));
+static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,
+					t_minishell *p_mini));
 
 /*	This function is the entry point for executing command 
  *	it uses the data structure ast to know how to execute commands 
@@ -33,8 +33,8 @@ static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast, \
  *
  * to check :
  *	-> exec_table fail  : TO DO  ;
- *		-> check exec_command fail : TO DO ;
- *		-> check exec_pipe fail : TO DO ;
+ *		-> check exec_command fail : DONE -> OK !
+ *		-> check exec_pipe fail : DONE -> OK !
  *		-> check exec_subshell fail : TO DO ;
  *		-> check exec_sequence fail : TO DO ;
  *		-> check exec_and fail : TO DO ;
@@ -59,14 +59,14 @@ int	exec_func(t_ast *ast, t_minishell *p_mini)
 	}
 }
 
-static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,\
-														t_minishell *p_mini))
+static void	init_exec_table(int (*exec_table[NB_T_TYPE])(t_ast *ast,
+				t_minishell *p_mini))
 {
-	exec_table[SUBSHELL] = &exec_subshell;
 	exec_table[COMMAND] = &exec_command;
 	exec_table[PIPE] = &exec_pipe;
-	exec_table[OR] = &exec_or;
 	exec_table[AND] = &exec_and;
+	exec_table[OR] = &exec_or;
 	exec_table[SEQUENCE] = &exec_sequence;
+	exec_table[SUBSHELL] = &exec_subshell;
 	return ;
 }

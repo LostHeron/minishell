@@ -23,7 +23,7 @@ int	close_fd1(t_minishell *p_mini)
 	{
 		if (close(p_mini->fd1[0]) == -1)
 		{
-			perror("fnh: close_fd1: (close(p_mini->fd1[0])");
+			perror("close");
 			ret = ERROR_CLOSE;
 		}
 	}
@@ -32,7 +32,7 @@ int	close_fd1(t_minishell *p_mini)
 	{
 		if (close(p_mini->fd1[1]) == -1)
 		{
-			perror("fnh: close_fd1: (close(p_mini->fd1[1])");
+			perror("close");
 			ret = ERROR_CLOSE;
 		}
 	}

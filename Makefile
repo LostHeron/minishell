@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/08 16:22:40 by jweber            #+#    #+#              #
-#    Updated: 2025/08/08 16:22:41 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/18 09:43:10 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,9 @@ PARSING_FILES := tokenize.c \
 				 line_to_tokens.c \
 				 prepare_here_docs.c \
 				 generate_hd_filename.c \
+				 get_prompt_hd.c \
 				 get_here_doc.c \
+				 rl_here_doc.c \
 				 write_to_here_doc.c \
 				 get_key.c \
 				 get_value.c \
@@ -95,7 +97,8 @@ FREEING_FILES := free_minishell.c \
 				 free_env.c \
 
 EXECUTION_DIR := src/execution/
-EXECUTION_FILES := exec_func.c \
+EXECUTION_FILES := run_exec.c \
+				   exec_func.c \
 				   exec_logical_left.c \
 				   exec_logical_right.c \
 				   exec_or.c \
@@ -104,6 +107,7 @@ EXECUTION_FILES := exec_func.c \
 				   exec_command.c \
 				   exec_sequence.c \
 				   exec_subshell.c \
+				   subshell_execution.c \
 				   exit_child.c \
 				   child_execution.c \
 				   parent_execution.c \
@@ -130,6 +134,8 @@ EXECUTION_FILES := exec_func.c \
 				   close_here_doc_fds.c \
 				   swap_fds.c \
 				   find_command.c \
+				   get_command.c \
+				   errno_special_value.c \
 
 BUILTINS_DIR := src/builtins/
 BUILTINS_FILES := builtin_cd.c \

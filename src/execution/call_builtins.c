@@ -18,12 +18,12 @@
  *	-> p_mini->builtins_func fail : DONE -> OK ! (exits well, just need to ensure
  *	that in builtins there is no leaks)
  *		-> builtin_echo fail : DONE -> OK !
- *		-> builtin_cd fail : TO DO ;
- *		-> builtin_env fail : TO DO;
- *		-> builtin_exit fail : TO DO;
- *		-> builtin_pwd fail : TO DO;
- *		-> builtin_export fail : TO DO;
- *		-> builtin_unset fail : TO DO;
+ *		-> builtin_cd fail : DONE -> OK !
+ *		-> builtin_env fail : DONE -> OK !
+ *		-> builtin_exit fail : DONE -> OK !
+ *		-> builtin_pwd fail : DONE -> OK !
+ *		-> builtin_export fail : DONE -> OK !
+ *		-> builtin_unset fail : DONE -> OK !
 */
 int	call_builtins(t_minishell *p_mini, t_vector cmd_args)
 {
@@ -44,5 +44,5 @@ int	call_builtins(t_minishell *p_mini, t_vector cmd_args)
 		"could not find which builtin to call, should not happend\n");
 	ft_printf_fd(2,
 		"tried to call builtin name : %s\n", cmd_name);
-	return (-10);
+	return (-100);
 }

@@ -12,7 +12,14 @@
 
 #include "minishell.h"
 #include "ft_io.h"
+#include <stdio.h>
 
+static int	perror_return(void);
+
+/* to check
+ *	-> first ft_print_fd fail : DONE -> OK !
+ *	-> second ft_printf_fd fail : DONE -> OK !
+*/
 int	builtin_export_no_args(t_minishell *p_mini)
 {
 	t_list	*tmp;
@@ -22,15 +29,24 @@ int	builtin_export_no_args(t_minishell *p_mini)
 	{
 		if (((t_env *)tmp->content)->value != NULL)
 		{
-			ft_printf_fd(1, "export %s=\"%s\"\n",
-				((t_env *)tmp->content)->key,
-				((t_env *)tmp->content)->value);
+			if (ft_printf_fd(1, "export %s=\"%s\"\n",
+					((t_env *)tmp->content)->key,
+					((t_env *)tmp->content)->value) < 0)
+				return (perror_return());
 		}
 		else
 		{
-			ft_printf_fd(1, "export %s\n", ((t_env *)tmp->content)->key);
+			if (ft_printf_fd(1,
+					"export %s\n", ((t_env *)tmp->content)->key) < 0)
+				return (perror_return());
 		}
 		tmp = tmp->next;
 	}
 	return (0);
+}
+
+static int	perror_return(void)
+{
+	perror("write");
+	return (ERROR_WRITE);
 }

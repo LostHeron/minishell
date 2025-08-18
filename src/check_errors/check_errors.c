@@ -13,7 +13,6 @@
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "check_errors.h"
-#include "ft_io.h"
 
 static int	check_here_doc_count(t_minishell *p_mini, t_vector *p_tokens);
 
@@ -43,11 +42,6 @@ int	check_errors(t_minishell *p_mini, t_vector *p_tokens)
 	ret = check_here_doc_count(p_mini, p_tokens);
 	if (ret != 0)
 		return (ret);
-	/*
-	ret = prepare_here_docs(p_mini, p_tokens);
-	if (ret != 0)
-		return (ret);
-	*/
 	return (0);
 }
 

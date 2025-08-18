@@ -13,8 +13,6 @@
 #include "minishell.h"
 #include "ft_vectors.h"
 #include "parsing.h"
-#include "ft_io.h"
-#include <errno.h>
 #include <readline/readline.h>
 
 static void	init_here_doc_fds(int fds[NB_MAX_HERE_DOC]);
@@ -29,16 +27,6 @@ int	prepare_here_docs(t_minishell *p_mini, t_vector *p_tokens)
 
 	init_here_doc_fds(p_mini->fds_here_doc);
 	ret = get_here_doc(p_mini, p_tokens);
-	/*
-	if (ret == ERROR_READ)
-	{
-		if (errno == EINTR)
-		{
-			ft_printf_fd(2, "\n");
-			return (1);
-		}
-	}
-	*/
 	return (ret);
 }
 

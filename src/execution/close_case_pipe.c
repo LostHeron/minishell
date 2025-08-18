@@ -16,6 +16,12 @@
 
 static void	close_fd(int *p_fd, int *p_final_ret);
 
+/* to check
+ * -> first close_fd fail : DONE -> OK;
+ * -> second close_fd fail : DONE -> OK;
+ * -> third close_fd fail : DONE -> OK;
+ * -> forth close_fd fail : DONE -> OK;
+*/
 int	close_case_pipe(t_minishell *p_mini, int final_ret)
 {
 	close_fd(&(p_mini->fd1[0]), &final_ret);
@@ -27,12 +33,16 @@ int	close_case_pipe(t_minishell *p_mini, int final_ret)
 
 static void	close_fd(int *p_fd, int *p_final_ret)
 {
+	int	ret;
+
 	if (*p_fd > 0)
 	{
-		if (close(*p_fd) == -1)
+		ret = close(*p_fd);
+		if (ret < 0)
 		{
-			perror("fn: close_case_pipe: close");
-			*p_final_ret = ERROR_CLOSE;
+			perror("close");
+			if (*p_final_ret == 0)
+				*p_final_ret = ERROR_CLOSE;
 		}
 		*p_fd = -1;
 	}

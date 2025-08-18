@@ -22,7 +22,7 @@ int	exec_and(t_ast *ast, t_minishell *p_mini)
 
 	p_mini->previous_type = AND;
 	ret = exec_logical_left(ast, p_mini);
-	if (ret != 0)
+	if (ret != 0 && ret != ERROR_OPEN)
 		return (ret);
 	if (p_mini->last_error_code == 0)
 	{

@@ -13,7 +13,6 @@
 #include "ft_vectors.h"
 #include "minishell.h"
 #include "execution.h"
-#include "ft_init.h"
 #include <unistd.h>
 
 /*		This function is called by exec_func->exec_command->case_forking->
@@ -33,9 +32,9 @@
  *		Then the function should perform < << > >> redirections
  *	and close the fd opened after each performed redirection.
  * to check : 
- *	-> change_fd_pipe fail : TO DO ;
- *	-> close_case_no_pipe fail : TO DO ;
- *	-> change_fd_redir : TO DO ;
+ *	-> change_fd_pipe fail : DONE -> OK !
+ *	-> close_case_no_pipe fail : DONE -> OK!
+ *	-> change_fd_redir : DONE -> OK !
 */
 int	make_redirections(t_vector redir, t_minishell *p_mini)
 {
@@ -45,19 +44,13 @@ int	make_redirections(t_vector redir, t_minishell *p_mini)
 	{
 		ret = change_fd_pipe(p_mini);
 		if (ret != 0)
-		{
-			close_here_doc_fds(p_mini);
 			return (ret);
-		}
 	}
 	else
 	{
 		ret = close_case_no_pipe(p_mini);
 		if (ret != 0)
-		{
 			return (ret);
-			close_here_doc_fds(p_mini);
-		}
 	}
 	ret = change_fd_redir(p_mini, redir);
 	return (ret);

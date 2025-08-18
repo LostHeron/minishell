@@ -18,6 +18,11 @@
 static int	dup2_case_prev_left(t_minishell *p_mini);
 static int	dup2_case_prev_right(t_minishell *p_mini);
 
+/* to check
+ *	-> dup2_case_prev_left fail : DONE -> OK !
+ *	-> dup2_case_prev_right fail : DONE -> OK !
+ *	-> close_case_pipe fail : DONE -> OK !
+*/
 int	change_fd_pipe(t_minishell *p_mini)
 {
 	int	final_ret;
@@ -33,20 +38,25 @@ int	change_fd_pipe(t_minishell *p_mini)
 	return (close_case_pipe(p_mini, final_ret));
 }
 
+/* to check
+ *	-> first dup2 fail : DONE -> OK !
+ *	-> second dup2 fail : DONE -> OK !
+*/
 static int	dup2_case_prev_left(t_minishell *p_mini)
 {
 	int	ret;
 
 	if (p_mini->first_cmd != 1)
 	{
-		ret = dup2(p_mini->fd1[0], 0);
-		if (ret == -1)
+		ret = dup2(p_mini->fd1[0], STDIN_FILENO);
+		if (ret < 0)
 		{
 			perror("dup2");
 			return (ERROR_DUP2);
 		}
 	}
-	if (dup2(p_mini->fd2[1], 1) == -1)
+	ret = dup2(p_mini->fd2[1], STDOUT_FILENO);
+	if (ret < 0)
 	{
 		perror("dup2");
 		return (ERROR_DUP2);
@@ -54,11 +64,17 @@ static int	dup2_case_prev_left(t_minishell *p_mini)
 	return (0);
 }
 
+/* to check 
+ *	-> dup2 fail : DONE -> OK !
+*/
 static int	dup2_case_prev_right(t_minishell *p_mini)
 {
-	if (dup2(p_mini->fd1[0], 0) == -1)
+	int	ret;
+
+	ret = dup2(p_mini->fd1[0], STDIN_FILENO);
+	if (ret < 0)
 	{
-		perror("fn: dup2_case_prev_right: dup2(p_mini->fd1[0], 0)");
+		perror("dup2");
 		return (ERROR_DUP2);
 	}
 	return (0);

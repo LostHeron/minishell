@@ -16,6 +16,15 @@
 
 static t_env	*get_pwd_env(t_list *env);
 
+/* to check :
+ * to do :
+ *	-> get_pwd_env fail : can not fail just return
+ *	the address of the environment variable PWD if it exists
+ *	or return NULL otherwise
+ *	-> ft_strjoin fail : DONE -> OK ! (but if it fails here, 
+ *	PWD env variable will no more be equal to the real value of pwd
+ *	-> export_from_string fail : DONE -> OK !
+*/
 int	update_pwd_env_var(t_minishell *p_mini)
 {
 	int		ret;

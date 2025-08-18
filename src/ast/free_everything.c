@@ -55,7 +55,7 @@ void	free_tree(t_ast **root)
 		ft_vector_free(&(*root)->arguments.sub_args.dir_args);
 		free_tree(&(*root)->arguments.sub_args.sub);
 	}
-	else if ((*root)->type != END_LINE)
+	else if ((*root)->type < NB_T_TYPE)
 	{
 		free_tree(&(*root)->arguments.op_args.left);
 		free_tree(&(*root)->arguments.op_args.right);

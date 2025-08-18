@@ -22,16 +22,18 @@ static void	get_child_return_value(t_minishell *p_mini,
 static void	set_ign_sigint(struct sigaction *s);
 static void	un_set_ign_sigint(struct sigaction *s);
 
+/* this function should wait for nb_wait children to finish their execution */
+/* while retreiving exit code of the last process that as been started */
 int	wait_children(t_minishell *p_mini, int nb_wait)
 {
 	int					child_ret;
 	int					ret;
 	int					wait_id;
-	struct sigaction	s[2];
+	struct sigaction	old_s;
 	int					i;
 
 	ret = 0;
-	set_ign_sigint(s);
+	set_ign_sigint(&old_s);
 	i = 0;
 	while (i < nb_wait)
 	{
@@ -43,21 +45,23 @@ int	wait_children(t_minishell *p_mini, int nb_wait)
 			get_child_return_value(p_mini, child_ret, &ret);
 		}
 	}
-	un_set_ign_sigint(s);
+	un_set_ign_sigint(&old_s);
 	return (ret);
 }
 
-static void	set_ign_sigint(struct sigaction *s)
+static void	set_ign_sigint(struct sigaction *p_old_s)
 {
-	ft_bzero(s + 0, sizeof(struct sigaction));
-	s[0].sa_handler = SIG_IGN;
-	sigaction(SIGINT, s + 0, s + 1);
+	struct sigaction	new_s;
+
+	ft_bzero(&new_s, sizeof(struct sigaction));
+	new_s.sa_handler = SIG_IGN;
+	sigaction(SIGINT, &new_s, p_old_s);
 	return ;
 }
 
-static void	un_set_ign_sigint(struct sigaction *s)
+static void	un_set_ign_sigint(struct sigaction *p_old_s)
 {
-	sigaction(SIGINT, s + 1, NULL);
+	sigaction(SIGINT, p_old_s, NULL);
 	return ;
 }
 

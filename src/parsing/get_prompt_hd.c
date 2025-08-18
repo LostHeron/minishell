@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_here_doc.c                                   :+:      :+:    :+:   */
+/*   get_prompt_hd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/21 09:08:05 by jweber            #+#    #+#             */
-/*   Updated: 2025/07/21 09:08:12 by jweber           ###   ########.fr       */
+/*   Created: 2025/08/14 16:11:13 by jweber            #+#    #+#             */
+/*   Updated: 2025/08/14 16:11:45 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
+#include "ft_string.h"
 
-/* to check
- *	-> dup2 fail : DONE -> OK !
-*/
-int	redir_here_doc(t_minishell *p_mini, t_dirargs redir)
+char	*get_prompt_hd(char *delimiter)
 {
-	int		fd_to_chose;
-	int		ret;
+	char	*new_line;
 
-	fd_to_chose = redir.filename[0];
-	ret = dup2(p_mini->fds_here_doc[fd_to_chose], 0);
-	if (ret < 0)
-	{
-		perror("dup2");
-		return (ERROR_DUP2);
-	}
-	return (0);
+	new_line = ft_strjoin("hd (", delimiter);
+	if (new_line == NULL)
+		return (new_line);
+	new_line = ft_strjoin_free_first(new_line, ") >");
+	if (new_line == NULL)
+		return (new_line);
+	return (new_line);
 }

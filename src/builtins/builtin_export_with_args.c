@@ -16,6 +16,7 @@
 #include "ft_string.h"
 #include "ft_io.h"
 #include "builtins.h"
+#include <asm-generic/errno-base.h>
 #include <stdlib.h>
 
 static int		check_key(char *str);
@@ -23,6 +24,9 @@ static int		valid_key(char *new_key, char *new_value, t_minishell *p_mini);
 static t_env	*key_already_exists(char *new_key, t_minishell *p_mini);
 static int		export_each_entry(t_minishell *p_mini, char *arg_i);
 
+/* to check
+ *	-> export_each_entry fail : DONE -> OK !
+ */
 int	builtin_export_with_args(t_vector args, t_minishell *p_mini)
 {
 	size_t	i;
@@ -47,34 +51,62 @@ int	builtin_export_with_args(t_vector args, t_minishell *p_mini)
 	return (final_ret);
 }
 
+/*	->This function should extract key and value from the user Nth input :
+ * $ export user="yo man" age=25
+ * 'user="yo man"' -> first input
+ * 'age=25' -> secon input
+ *	-> It then searches for the equal sign, left part of equal sign 
+ *	is the key (or all if no equal sign), and right part is the value 
+ *	(or NULL if no equal sign) 
+ *	It then checks if the key is a valid identifier
+ *		-> If it is it updates the environment value corresponding to that key
+ *			-> If environment variable do not exists :
+ *				create a new node containing the key and its associated value
+ *			-> If it already exists:
+ *				If value is not NULL it changes the value associated to the key
+ *				else it does nothing
+ *		-> If it is not a valid identifer it print a message saying so
+ *		and return (1);
+ * In case of failure function return a Negative integer
+ * In case of sucess : 
+ *	-> return (0) if key is valid identifier
+ *	-> return (1) if key is not valid identifier
+ * to check :
+ *	-> get_new_key_value fail : DONE -> OK !
+ *	-> ft_printf_fd fail : DONE -> OK !
+ *	-> valid_key fail : DONE -> OK !
+*/
 static int	export_each_entry(t_minishell *p_mini, char *arg_i)
 {
 	int		ret;
-	int		final_ret;
 	char	*new_key;
 	char	*new_value;
 
-	final_ret = 0;
 	ret = get_new_key_value(arg_i, &new_key, &new_value);
 	if (ret != 0)
 		return (ret);
 	if (check_key(new_key) != 0)
 	{
-		ft_printf_fd(2, "export: `%s': not a valid identifier\n",
-			arg_i);
 		free(new_key);
 		free(new_value);
-		final_ret = 1;
+		ret = ft_printf_fd(2, "export: `%s': not a valid identifier\n",
+				arg_i);
+		if (ret < 0)
+			return (ERROR_WRITE);
+		return (1);
 	}
 	else
 	{
-		ret = valid_key(new_key, new_value, p_mini);
-		if (ret != 0)
-			return (ret);
+		return (valid_key(new_key, new_value, p_mini));
 	}
-	return (final_ret);
 }
 
+/* This function check wether the key is a valid key
+ * meaning the key begin either with an alpha of '_'
+ * and contains only alnum or '_' char
+ * return (1) if it is not a valid identifer
+ * return (0) otherwise
+*/
 static int	check_key(char *str)
 {
 	size_t	i;
@@ -103,6 +135,11 @@ static int	check_key(char *str)
  *		return a negative integer a malloc error, 
  *		program should must make the error go up and 
  *		exit the shell !
+ * to check :
+ *	-> key_already_exists can not fail : only return non NULL address
+ *	if it finds an already existing structure whose key argument 
+ *	is the same as new_key, else return NULL
+ *	-> add_new_env fail : DONE -> OK !
 */
 static int	valid_key(char *new_key, char *new_value, t_minishell *p_mini)
 {
@@ -133,6 +170,10 @@ static int	valid_key(char *new_key, char *new_value, t_minishell *p_mini)
 	return (0);
 }
 
+/* function return a pointer to the t_env structure whose key is equal
+ * to the new_key if it finds one,
+ * or return NULL if no struct has a key which is equal to new_key
+*/
 static t_env	*key_already_exists(char *new_key, t_minishell *p_mini)
 {
 	t_list	*tmp;

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/08 14:31:34 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/18 09:50:35 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct s_minishell
 	int			fd2[2];
 	t_list		*env;
 	char		*builtins_name[NB_BUILTINS_HERE + 1];
-	int			(*builtins_func[NB_BUILTINS_HERE])(t_vector args,\
-											struct s_minishell *p_mini);
+	int			(*builtins_func[NB_BUILTINS_HERE])(t_vector args,
+			struct s_minishell *p_mini);
 	int			fds_here_doc[NB_MAX_HERE_DOC];
 	char		*cwd_name;
 }			t_minishell;
@@ -69,12 +69,13 @@ enum e_error_cod
 	ERROR_CLOSE = -2,
 	ERROR_WRITE = -4,
 	ERROR_DUP = -6,
+	ERROR_DUP2 = -7,
+	ERROR_FORK = -8,
+	ERROR_STAT = -9,
 	ERROR_PIPE = 4,
 	ERROR_HERE_DOC_FILENAME,
 	ERROR_UNLINK,
 	ERROR_OPEN,
-	ERROR_DUP2,
-	ERROR_FORK,
 	ERROR_UNCLOSED_S_QUOTES,
 	ERROR_UNCLOSED_D_QUOTES,
 	ERROR_UNMATCHING_PARENTHESIS,

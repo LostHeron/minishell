@@ -1,3 +1,11 @@
+TESTS qui ne passent pas : 
+
+(ls | (cat | (cat | (cat))))
+
+TESTS ETRANGES :
+
+(cat) | (cat) | ((cat)) -> is it a bug, -> bug report it ?
+
 chose a tester : 
 
 > file1 echo "coucou"
@@ -26,22 +34,22 @@ ls > log1 << eof1 | ls > log2 << eof2 | ls > log3 << eof3
 
 TODO:
 
-- 3) ls si dans deux PATH differents mais premier pas acces, va essayer d'executer le deuxième -> a voir si on fait
-- 2) CTRL-C dans here doc
-- 1) gerer les here doc pour eviter que le prompt aille dans le fichier log si on lance $ ./minishell > log
-- 13) in rl_gnl remove last "\n"
-- 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas // and look how to make it work
+- 6) change get_line funciton to allow to call it to free it !
+- 5) rename start_minishell and run_minishell to some more specific names
+- 4) SEGFAULT IF : unset PATH; export PATH; echo $PATH 
+(must be because trying to dereference ((t_env*)tmp->content)->value which is NULL, just a verification to add i guess)
+- 4 ) SEGFAULT IF : ( (echo coucou < not_exitst ; ) )  et just  echo coucou < not_exitst ; enfaite -> Probleme au niveau du free_tree aussi i guess
 - 3) Normage dans Execution
 - 4) Leak et sortie en cas d'erreurs de partout ! 
         -> dans init
         -> dans parsing
         -> dans ast
         -> dans execution
-- 5) faire en sorte que lorsque l'on quitte minishell on close tous les fds restant des HERE-DOCS (ceux ouvert dans les subshells que je ne close pas de suite !
-- implementation of '&' // gave up
-- implementation of ';' 
-- implementation of subshell // quite good advanced ! even done ?? no must miss something
 
+OPTIONAL BUT COOL:
+- 3) ls si dans deux PATH differents mais premier pas acces, va essayer d'executer le deuxième -> a voir si on fait
+- 5) change all bandage on the stuff in case_no_forking and return value with specific case if builtin is exit
+maybe solution is to change p_mini->err_code directly inside the builtins, so we can always return 0 if function performed well ! -> let's see later
 
  |
  |
@@ -51,6 +59,14 @@ TODO:
 \ /
 OLD stuff just in case for check : 
 
+- 4) regarder pourquoi ./minishell | ./minishell ne fonctionne pas // and look how to make it work
+- implementation of '&' // -> gave up
+- implementation of subshell // quite good advanced ! even done ?? -> should be working well !
+- implementation of ';' // DONE
+- 5) faire en sorte que lorsque l'on quitte minishell on close tous les fds restant des HERE-DOCS (ceux ouvert dans les subshells que je ne close pas de suite ! // logiquement c'est fait mais peut être quelque cas ou ça ne marche pas 
+- 13) in rl_gnl remove last "\n"
+- 1) gerer les here doc pour eviter que le prompt aille dans le fichier log si on lance $ ./minishell > log
+- 2) CTRL-C dans here doc
 - 4) create error ERROR_MAX_HERE_DOC_COUNT_EXCEEDED et afficher dans print error 
 - handle signal :
     - Ctrl C

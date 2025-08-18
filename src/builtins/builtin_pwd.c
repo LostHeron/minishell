@@ -14,6 +14,9 @@
 #include "ft_io.h"
 #include <stdio.h>
 
+/* to check :
+ *	-> ft_printf_fd fail : DONE -> OK !
+*/
 int	builtin_pwd(t_vector args, t_minishell *p_mini)
 {
 	int	ret;
@@ -22,7 +25,7 @@ int	builtin_pwd(t_vector args, t_minishell *p_mini)
 	ret = ft_printf_fd(1, "%s\n", p_mini->cwd_name);
 	if (ret < 0)
 	{
-		perror("printf: ");
+		perror("ft_printf_fd: ");
 		return (ERROR_WRITE);
 	}
 	else

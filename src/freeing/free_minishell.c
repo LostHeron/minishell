@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "freeing.h"
+#include "ft_input.h"
 #include "minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +24,7 @@ int	free_minishell(t_minishell *p_mini)
 	int	final_ret;
 
 	final_ret = 0;
+	rl_gnl(NULL, NULL, RL_GNL_FREE);
 	close_fd(&p_mini->fd_tty_in, &final_ret);
 	close_fd(&p_mini->fd_tty_out, &final_ret);
 	close_fd(&p_mini->fd_tty_err, &final_ret);

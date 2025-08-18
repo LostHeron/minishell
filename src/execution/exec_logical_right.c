@@ -13,13 +13,10 @@
 #include "minishell.h"
 #include <execution.h>
 
+/* exec_func fail : TO DO ;
+*/
 int	exec_logical_right(t_ast *ast, t_minishell *p_mini)
 {
-	int	ret;
-
 	p_mini->previous_side = PREV_RIGHT;
-	ret = exec_func(ast->arguments.op_args.right, p_mini);
-	if (ret != 0)
-		return (ret);
-	return (ret);
+	return (exec_func(ast->arguments.op_args.right, p_mini));
 }

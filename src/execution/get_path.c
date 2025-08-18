@@ -14,6 +14,7 @@
 #include "ft_string.h"
 #include "ft_vectors.h"
 #include "minishell.h"
+#include <stdio.h>
 
 static int	fill_vector_with_paths(t_vector *p_path, t_list *tmp);
 static int	add_path_to_path(t_vector *p_path, char *path_string);
@@ -29,6 +30,9 @@ int			add_slash_to_path(t_vector *p_path);
  * in case of failure:
  *  -> return the corresponding error code and free
  *     everything that has been allocated
+ * to check
+ *	-> ft_vector_init_fail : DONE -> OK !
+ *	-> fill_vector_with_paths fail : DONE -> OK !
 */
 int	get_path(t_minishell *p_mini, t_vector *p_path)
 {
@@ -57,6 +61,10 @@ int	get_path(t_minishell *p_mini, t_vector *p_path)
 	}
 }
 
+/* to check
+ *	-> add_path_to_path fail : DONE -> OK !
+ *	-> add_slash_to_path fail : DONE -> OK !
+*/
 static int	fill_vector_with_paths(t_vector *p_path, t_list *tmp)
 {
 	int	ret;
@@ -74,6 +82,10 @@ static int	fill_vector_with_paths(t_vector *p_path, t_list *tmp)
 	return (0);
 }
 
+/* to check
+ *	-> ft_split fail : DONE -> OK !
+ *	-> ft_vector_add_single fail : DONE -> OK !
+*/
 static int	add_path_to_path(t_vector *p_path, char *path_string)
 {
 	size_t	i;
