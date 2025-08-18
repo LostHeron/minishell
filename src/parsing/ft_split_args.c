@@ -16,8 +16,8 @@
 #include "parsing.h"
 #include <stdlib.h>
 
-static int	extract_tokens(t_vector *p_tokens, char **p_token_i,\
-								char **p_line, char **args);
+static int	extract_tokens(t_vector *p_tokens, char **p_token_i,
+				char **p_line, char **args);
 void		my_free(t_vector *p_vec);
 
 /*
@@ -54,8 +54,8 @@ int	ft_split_args(t_vector *p_tokens, char *line, char **args)
  * get_next_token fail : DONE -> OK !
  * ft_vector_add_single fail : DONE -> OK !
 */
-static int	extract_tokens(t_vector *p_tokens, char **p_token_i,\
-								char **p_line, char **args)
+static int	extract_tokens(t_vector *p_tokens, char **p_token_i,
+				char **p_line, char **args)
 {
 	int	ret;
 

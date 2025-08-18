@@ -16,10 +16,10 @@
 #include <stdio.h>
 #include <sys/types.h>
 
-static int		case_not_an_args(ssize_t *p_token_size,\
-									char **p_line, char **args);
-static int		dup_new_token(char **p_token_i, char **p_line,\
-									size_t token_size);
+static int		case_not_an_args(ssize_t *p_token_size,
+					char **p_line, char **args);
+static int		dup_new_token(char **p_token_i, char **p_line,
+					size_t token_size);
 static ssize_t	get_bloc_size(char *line, int *p_err_code);
 static ssize_t	get_end(char *line, char c);
 
@@ -52,8 +52,8 @@ int	get_next_token(char **p_token_i, char **p_line, char **args)
 /* to check
  *	-> get_block_size return ERROR : DONE -> OK !
 */
-static int	case_not_an_args(ssize_t *p_token_size,\
-									char **p_line, char **args)
+static int	case_not_an_args(ssize_t *p_token_size,
+					char **p_line, char **args)
 {
 	ssize_t	quote_size;
 	int		err_code;
