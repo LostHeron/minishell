@@ -44,8 +44,8 @@ int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 	if (ret_exec != 0)
 		final_ret = ret_exec;
 	close_fd(&(p_mini->fd1[1]), &final_ret);
-	wait_children(p_mini, p_mini->nb_child_to_wait);
 	close_fd(&(p_mini->fd1[0]), &final_ret);
+	wait_children(p_mini, p_mini->nb_child_to_wait);
 	free_tree(p_ast);
 	return (final_ret);
 }
