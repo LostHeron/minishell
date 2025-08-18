@@ -23,4 +23,4 @@ void	print_tokens(t_vector tokens);
 void	print_redir(t_vector redir_vec);
 int		ft_perror(char *begin, char *file, char *function, char *line);
 
-#endif // !PRINTING_H
+#endif
