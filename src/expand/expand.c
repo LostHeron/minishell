@@ -21,15 +21,24 @@ static int	expand_everything(t_vector *p_args,
 				t_vector copy, t_minishell mini);
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini);
 
+/* ft_vector_init fail : TO DO ;
+ * expand_everything fail : TO DO ;
+ * ft_vector_add_single : TO DO ;
+*/
 int	expand(t_vector *p_args, t_minishell mini)
 {
 	int			ret;
 	t_vector	copy;
 	char		*null;
+	static int a;
 
+	//printf("a = %i\n", a);
+	a++;
 	ft_vector_copy(&copy, p_args);
 	ft_bzero(p_args, sizeof(t_vector));
-	ret = ft_vector_init(p_args, copy.capacity, copy.data_size, copy.del);
+	ret = ERROR_MALLOC;
+	if (a < 2)
+		ret = ft_vector_init(p_args, copy.capacity, copy.data_size, copy.del);
 	if (ret != 0)
 	{
 		ft_vector_free(&copy);

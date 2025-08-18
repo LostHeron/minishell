@@ -60,6 +60,13 @@ static int	launch_left(t_ast *ast, t_minishell *p_mini)
 	}
 	p_mini->previous_side = PREV_LEFT;
 	ret = exec_func(ast->arguments.op_args.left, p_mini);
+	/*
+	if (ret != 0)
+	{
+		close_fd(&(p_mini->fd2[0]));
+		close_fd(&(p_mini->fd2[1]));
+	}
+	*/
 	return (ret);
 }
 
