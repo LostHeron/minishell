@@ -15,6 +15,8 @@
 #include "execution.h"
 #include <stdio.h>
 
+static void	close_fd(int *p_fd, int *p_ret);
+
 /* to check :
  *	-> pipe fail : DONE -> OK !
  *	-> exec_func fail : TO DO ;
@@ -40,11 +42,25 @@ int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 	ret_exec = exec_func(*p_ast, p_mini);
 	if (ret_exec != 0)
 		final_ret = ret_exec;
-	wait_children(p_mini, p_mini->nb_child_to_wait - 1);
-	ret = close_fd1(p_mini);
-	if (ret != 0 && final_ret == 0)
-		final_ret = ret;
+	close_fd(&(p_mini->fd1[1]), &final_ret);
 	wait_children(p_mini, p_mini->nb_child_to_wait);
+	close_fd(&(p_mini->fd1[0]), &final_ret);
 	free_tree(p_ast);
 	return (final_ret);
+}
+
+static void	close_fd(int *p_fd, int *p_ret)
+{
+	int	close_ret;
+
+	if (*p_fd > 0)
+	{
+		close_ret = close(*p_fd);
+		if (close_ret < 0)
+		{
+			perror("close");
+			if (*p_ret == 0)
+				*p_ret = ERROR_CLOSE;
+		}
+	}
 }

@@ -21,9 +21,8 @@
 #include "parsing.h"
 #include "printing.h"
 #include <readline/readline.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <sys/wait.h>
+#include <signal.h>
 #include <unistd.h>
 
 static void	run_minishell(t_minishell *p_mini);

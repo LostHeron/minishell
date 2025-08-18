@@ -6,7 +6,7 @@
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:13:46 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/14 13:36:39 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/18 09:42:52 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		exec_sequence(t_ast *ast, t_minishell *p_mini);
 int		exec_pipe(t_ast *ast, t_minishell *p_mini);
 int		exec_command(t_ast *ast, t_minishell *p_mini);
 int		exec_subshell(t_ast *ast, t_minishell *p_mini);
+int		subshell_execution(t_ast *ast, t_minishell *p_mini);
 int		restore_fds(t_minishell *p_mini);
 int		parent_execution(t_vector dir_args, t_minishell *p_mini, int pid);
 int		case_forking(t_ast *ast, t_minishell *p_mini, int cmd_type);

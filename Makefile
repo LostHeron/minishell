@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/08 16:22:40 by jweber            #+#    #+#              #
-#    Updated: 2025/08/14 16:29:51 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/18 09:43:10 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,6 +107,7 @@ EXECUTION_FILES := run_exec.c \
 				   exec_command.c \
 				   exec_sequence.c \
 				   exec_subshell.c \
+				   subshell_execution.c \
 				   exit_child.c \
 				   child_execution.c \
 				   parent_execution.c \
