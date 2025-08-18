@@ -19,9 +19,9 @@ static void	close_fd(int *p_fd, int *p_ret);
 
 /* to check :
  *	-> pipe fail : DONE -> OK !
- *	-> exec_func fail : TO DO ;
- *	-> first close_fd fail : TO DO ;
- *	-> second close_fd fail : TO DO ;
+ *	-> exec_func fail : DONE -> OK !
+ *	-> first close_fd fail : DONE -> OK !
+ *	-> second close_fd fail : DONE -> OK !
 */
 int	run_exec(t_minishell *p_mini, t_ast **p_ast)
 {
