@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <unistd.h>
 #include "minishell.h"
 #include "expand.h"
@@ -66,7 +67,6 @@ static int	expand_everything(t_vector *p_args, t_vector copy, t_minishell mini)
 		ret = expand_elem(p_args, ((char **)copy.data)[i], mini);
 		if (ret != 0)
 		{
-			ft_vector_free(&copy);
 			return (ret);
 		}
 		i++;
@@ -74,6 +74,7 @@ static int	expand_everything(t_vector *p_args, t_vector copy, t_minishell mini)
 	return (0);
 }
 
+/* ft_vector_init fail : OK !*/
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini)
 {
 	int			ret;
