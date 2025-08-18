@@ -28,6 +28,7 @@ static void	close_fd(int *p_fd);
 int	exec_pipe(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;
+
 	p_mini->previous_type = PIPE;
 	ret = launch_left(ast, p_mini);
 	if (ret != 0)

@@ -73,7 +73,7 @@ static int	expansion(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;
 
-	ret = expand(&ast->arguments.com_args.content, *p_mini); // crash if trying to expand a value from env whose key is not NULL but value is !
+	ret = expand(&ast->arguments.com_args.content, *p_mini);
 	if (ret != 0)
 		return (ret);
 	ret = expand_redir(&ast->arguments.com_args.dir_args, *p_mini);

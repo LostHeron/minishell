@@ -22,6 +22,7 @@
 
 static int	say_exit_return(t_minishell *p_mini);
 static void	remove_newline_char(char *line);
+static void	case_error_quotes(t_minishell *p_mini);
 static void	init_args(char **p_args);
 
 /* This fuction will readline with getline function
@@ -56,7 +57,7 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 	init_args(args);
 	ret = ft_split_args(p_tokens, line, args);
 	if (ret == ERROR_UNCLOSED_D_QUOTES || ret == ERROR_UNCLOSED_S_QUOTES)
-		p_mini->is_error_syntax = TRUE;
+		case_error_quotes(p_mini);
 	free(line);
 	return (ret);
 }
@@ -92,4 +93,10 @@ static void	init_args(char **p_args)
 	p_args[8] = ")";
 	p_args[9] = ";";
 	p_args[10] = NULL;
+}
+
+static void	case_error_quotes(t_minishell *p_mini)
+{
+	p_mini->last_error_code = 2;
+	p_mini->is_error_syntax = TRUE;
 }
