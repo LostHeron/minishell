@@ -74,7 +74,7 @@ static void	run_minishell(t_minishell *p_mini)
 	init_signals();
 	init_here_doc_fds(p_mini);
 	ret = start_minishell(p_mini);
-	if (isatty(0) == 0 && p_mini->is_error_syntax == 1)
+	if (isatty(0) == 0 && p_mini->is_error_syntax == TRUE)
 		p_mini->should_exit = TRUE;
 	if (ret != 0 && g_my_signal == 0 && p_mini->print_error == 1)
 		print_error(ret);

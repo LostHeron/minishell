@@ -55,6 +55,8 @@ int	line_to_tokens(t_minishell *p_mini, t_vector *p_tokens)
 		add_history(line);
 	init_args(args);
 	ret = ft_split_args(p_tokens, line, args);
+	if (ret == ERROR_UNCLOSED_D_QUOTES || ret == ERROR_UNCLOSED_S_QUOTES)
+		p_mini->is_error_syntax = TRUE;
 	free(line);
 	return (ret);
 }
