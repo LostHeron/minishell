@@ -29,6 +29,8 @@ int	exec_sequence(t_ast *ast, t_minishell *p_mini)
 	if (ret != 0 && ret != ERROR_OPEN)
 		return (ret);
 	p_mini->previous_type = SEQUENCE;
-	ret = exec_logical_right(ast, p_mini);
+	if (0 <= ast->arguments.op_args.right->type
+		&& ast->arguments.op_args.right->type < NB_T_TYPE)
+		ret = exec_logical_right(ast, p_mini);
 	return (ret);
 }

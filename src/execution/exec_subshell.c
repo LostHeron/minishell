@@ -23,11 +23,11 @@ static int	expand_redir_fail(t_minishell *p_mini, int ret);
 static void	print_error_exit(t_minishell *p_mini, int ret_exec);
 static void	parent_subshell(t_minishell *p_mini, int pid);
 
-/*	This function should set up, then fork, then execute subshell
- * 	In case of success :
- *		...
- *	In case of failure : 
- *		...
+/* This function should set up, then fork, then execute subshell
+ * to check:
+ *	-> expand_redir fail : DONE -> OK !
+ *	-> fork fail : DONE -> OK !
+ *	-> subshell_execution fail : DONE -> OK !
 */
 int	exec_subshell(t_ast *ast, t_minishell *p_mini)
 {

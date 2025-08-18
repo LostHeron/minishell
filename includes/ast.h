@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include "ft_vectors.h"
 
-# define NB_T_TYPE 7
+# define NB_T_TYPE 6
 
 typedef enum e_type
 {
