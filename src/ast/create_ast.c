@@ -13,10 +13,16 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "ast.h"
-#include "ft_memory.h"
+#include "ft_vectors.h"
 
 t_ast	*create_leaf(t_type type);
 
+/* to check
+ *	-> create_leaf : DONE -> OK !
+ *	-> create_subshell : DONE -> OK !
+ *	-> fill_command : DONE -> OK !
+ *	-> create_operator : DONE -> OK !
+*/
 t_ast	*create_ast(t_vector tokens, t_prio max_prio, size_t *ind)
 {
 	int		ret;
@@ -45,17 +51,30 @@ t_ast	*create_ast(t_vector tokens, t_prio max_prio, size_t *ind)
 	return (root);
 }
 
+/* to check
+ *	-> first ft_vector_init -> OK !
+ *	-> second ft_vector_init -> OK !
+*/
 static int	init_vectors(t_vector *dir_args, t_vector *content)
 {
 	int	ret;
 
-	ft_bzero(dir_args, sizeof(t_vector));
 	ret = ft_vector_init(dir_args, 5, sizeof(t_dirargs), free_dirargs);
 	if (ret != 0)
 		return (ret);
-	return (ft_vector_init(content, 5, sizeof(char *), free_command_content));
+	ret = ft_vector_init(content, 5, sizeof(char *), free_command_content);
+	if (ret != 0)
+	{
+		ft_vector_free(dir_args);
+	}
+	return (ret);
 }
 
+/* to check
+ *	-> first malloc fail : DONE -> OK !
+ *	-> init_vector fail : DONE -> OK !
+ *	-> ft_vector_init : DONE -> OK !
+*/
 t_ast	*create_leaf(t_type type)
 {
 	t_ast	*leaf;
@@ -69,7 +88,7 @@ t_ast	*create_leaf(t_type type)
 		if (init_vectors(&leaf->arguments.com_args.dir_args,
 				&leaf->arguments.com_args.content))
 		{
-			ft_vector_free(&leaf->arguments.com_args.dir_args);
+			free(leaf);
 			return (NULL);
 		}
 	}

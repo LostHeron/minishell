@@ -14,12 +14,17 @@
 #include <stdlib.h>
 #include "ast.h"
 #include "ft_string.h"
-#include "ft_standard.h"
+#include "ft_vectors.h"
+#include "minishell.h"
 
 int			fill_redir(t_vector *p_dir_args, t_vector tokens,
 				size_t *ind, t_dir dir);
 static int	fill_content(t_vector *p_content, t_vector tokens, size_t ind);
 
+/* fill_content : DONE ->OK !
+ * fill_redir : DONE -> OK !
+ * ft_vector_add_single : DONE -> OK !
+*/
 int	fill_command(t_comargs *p_com_args, t_vector tokens, size_t *ind)
 {
 	t_dir	dir;
@@ -46,6 +51,9 @@ int	fill_command(t_comargs *p_com_args, t_vector tokens, size_t *ind)
 	return (0);
 }
 
+/* create_ast : DONE -> OK !
+ * fill_redir : DONE -> OK !
+*/
 int	create_subshell(t_subargs *p_sub_args, t_vector tokens, size_t *ind)
 {
 	t_dir	dir;
@@ -71,6 +79,10 @@ int	create_subshell(t_subargs *p_sub_args, t_vector tokens, size_t *ind)
 	return (0);
 }
 
+/* create_leaf fail : OK
+ * first create_ast : OK
+ * second create_ast : OK
+*/
 int	create_operator(t_ast **p_root, t_type type, t_vector tokens, size_t *ind)
 {
 	t_ast	*tmp;
@@ -92,9 +104,13 @@ int	create_operator(t_ast **p_root, t_type type, t_vector tokens, size_t *ind)
 	return (0);
 }
 
+/* ft_strdup fail : OK !
+ * ft_vector_add_single : OK !
+*/
 int	fill_redir(t_vector *p_dir_args, t_vector tokens, size_t *ind, t_dir dir)
 {
 	t_dirargs	redir;
+	int			ret;
 
 	redir.dir = dir;
 	(*ind)++;
@@ -103,7 +119,8 @@ int	fill_redir(t_vector *p_dir_args, t_vector tokens, size_t *ind, t_dir dir)
 	redir.filename = ft_strdup(((char **)tokens.data)[*ind]);
 	if (!redir.filename)
 		return (1);
-	if (ft_vector_add_single(p_dir_args, &redir))
+	ret = ft_vector_add_single(p_dir_args, &redir);
+	if (ret != 0)
 	{
 		free(redir.filename);
 		return (1);
@@ -111,14 +128,19 @@ int	fill_redir(t_vector *p_dir_args, t_vector tokens, size_t *ind, t_dir dir)
 	return (0);
 }
 
+/* ft_strdup : DONE -> OK !
+ * ft_vector_add_single : DONE -> OK !
+*/
 static int	fill_content(t_vector *p_content, t_vector tokens, size_t ind)
 {
 	char	*content;
+	int		ret;
 
 	content = ft_strdup(((char **)tokens.data)[ind]);
 	if (!content)
 		return (1);
-	if (ft_vector_add_single(p_content, &content))
+	ret = ft_vector_add_single(p_content, &content);
+	if (ret != 0)
 	{
 		free(content);
 		return (1);
