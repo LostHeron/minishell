@@ -16,6 +16,10 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+/* to check
+ *	-> exec_logical_left fail : TO DO ;
+ *	-> exec_logical_right fail : TO DO ;
+*/
 int	exec_sequence(t_ast *ast, t_minishell *p_mini)
 {
 	int	ret;

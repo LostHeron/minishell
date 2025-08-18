@@ -31,11 +31,6 @@ static int	ast_ize(t_ast **p_ast, t_vector *p_tokens);
 
 int	g_my_signal;
 
-/* to check :
- *	- init_minishell : DONE -> OK !
- *	- start_minishell failure : TO DO !
- *	- 
-*/
 int	main(int argc, char **argv, char **env)
 {
 	int			ret;
