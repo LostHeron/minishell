@@ -59,7 +59,10 @@ int	exec_subshell(t_ast *ast, t_minishell *p_mini)
 
 static int	expand_redir_fail(t_minishell *p_mini, int ret)
 {
-	p_mini->last_error_code = 1;
+	if (ret > 0)
+		p_mini->last_error_code = 1;
+	else
+		p_mini->last_error_code = 2;
 	return (ret);
 }
 

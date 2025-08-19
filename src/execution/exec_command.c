@@ -75,11 +75,17 @@ static int	expansion(t_ast *ast, t_minishell *p_mini)
 
 	ret = expand(&ast->arguments.com_args.content, *p_mini);
 	if (ret != 0)
+	{
+		p_mini->last_error_code = 2;
 		return (ret);
+	}
 	ret = expand_redir(&ast->arguments.com_args.dir_args, *p_mini);
 	if (ret != 0)
 	{
-		p_mini->last_error_code = 1;
+		if (ret > 0)
+			p_mini->last_error_code = 1;
+		else
+			p_mini->last_error_code = 2;
 		return (ret);
 	}
 	return (0);
