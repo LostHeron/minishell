@@ -84,7 +84,7 @@ static void	close_fd(int *p_fd)
 {
 	if (*p_fd > 0)
 	{
-		if (*p_fd < 0)
+		if (close(*p_fd) < 0)
 		{
 			perror("close");
 		}
