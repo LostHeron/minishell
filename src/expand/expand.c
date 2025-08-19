@@ -30,15 +30,17 @@ int	expand(t_vector *p_args, t_minishell mini)
 	int			ret;
 	t_vector	copy;
 	char		*null;
-	static int a;
+	//static int a;
 
 	//printf("a = %i\n", a);
-	a++;
+	//a++;
 	ft_vector_copy(&copy, p_args);
 	ft_bzero(p_args, sizeof(t_vector));
+	/*
 	ret = ERROR_MALLOC;
-	if (a < 2)
-		ret = ft_vector_init(p_args, copy.capacity, copy.data_size, copy.del);
+	if (a < 3)
+	*/
+	ret = ft_vector_init(p_args, copy.capacity, copy.data_size, copy.del);
 	if (ret != 0)
 	{
 		ft_vector_free(&copy);
