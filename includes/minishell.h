@@ -24,8 +24,6 @@
 
 # define CWD_NAME_MAX_LENGTH 4096
 
-// error of define here should move something !
-// maybe allocate number of function later ?? who knows !
 # define NB_BUILTINS_HERE 7
 # define NB_MAX_HERE_DOC 16
 

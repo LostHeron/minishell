@@ -114,7 +114,6 @@ EXECUTION_FILES := run_exec.c \
 				   change_fd_pipe.c \
 				   get_env_from_list.c \
 				   add_slash_to_path.c \
-				   close_fd1.c \
 				   close_case_pipe.c \
 				   close_on_error.c \
 				   close_saved_tty.c \
