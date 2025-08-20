@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:14:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:56:19 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 13:55:47 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "expand.h"
 #include "ft_vectors.h"
 #include "ft_string.h"
+#include "ft_memory.h"
 
 static int	init_replace(t_vector *p_splitted,
 				t_vector *p_copy, size_t vec_ind);
@@ -47,20 +48,30 @@ int	handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names)
 	return (ret);
 }
 
+/*	ft_vector_init -> OK
+	ft_vector_add_single ->*/
 static int	init_replace(t_vector *p_splitted,
 	t_vector *p_copy, size_t vec_ind)
 {
 	int		ret;
 	size_t	i;
+	static int a;
 
+	#include <stdio.h>
+	printf("vec_ind = %zu\n", vec_ind);
+	a++;
 	ft_vector_copy(p_copy, p_splitted);
+	ft_bzero(p_splitted, sizeof(t_vector));
 	ret = ft_vector_init(p_splitted, 5, p_copy->data_size, p_copy->del);
 	if (ret != 0)
 		return (ret);
 	i = 0;
 	while (i < vec_ind)
 	{
-		ret = ft_vector_add_single(p_splitted, &((t_vector *)p_copy->data)[i]);
+		if (a >= 0)
+			ret = ERROR_MALLOC;
+		else
+			ret = ft_vector_add_single(p_splitted, &((t_vector *)p_copy->data)[i]);
 		if (ret != 0)
 			return (ret);
 		i++;

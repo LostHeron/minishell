@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 15:53:48 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:56:29 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 13:40:43 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static int	matching_start(t_vector pattern, char **p_elem,
 static void	matching_segment(char **p_elem, char **seg, char *p_match);
 static void	matching_end(char *elem, char *seg, char *p_match);
 
+/*	matching_start -> OK
+	build_segment -> OK */
 int	matching(t_vector pattern, char *elem, char *p_match)
 {
 	int		ret;
@@ -52,6 +54,8 @@ int	matching(t_vector pattern, char *elem, char *p_match)
 	return (0);
 }
 
+/*	malloc -> OK
+	ft_strjoin_free_first -> OK */
 static int	build_segment(char **seg, t_vector pattern, size_t *ind)
 {
 	char	*join;
@@ -76,6 +80,7 @@ static int	build_segment(char **seg, t_vector pattern, size_t *ind)
 	return (0);
 }
 
+/*	build_segment -> OK */
 static int	matching_start(t_vector pattern,
 	char **p_elem, char *match, size_t *ind)
 {
