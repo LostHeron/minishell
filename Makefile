@@ -6,7 +6,7 @@
 #    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/08 16:22:40 by jweber            #+#    #+#              #
-#    Updated: 2025/08/18 09:43:10 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/20 14:21:13 by jweber           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ PRINTING_FILES := print_error.c \
 				  print_tokens.c \
 				  print_redir.c \
 				  print_tokens_ast.c \
+				  print_words.c \
 				  ft_perror.c \
 
 HANDLE_SIGNALS_DIR := src/handle_signals/
