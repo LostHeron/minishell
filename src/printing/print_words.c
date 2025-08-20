@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printing.h                                         :+:      :+:    :+:   */
+/*   print_words.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:39:58 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/20 14:21:29 by jweber           ###   ########.fr       */
+/*   Created: 2025/08/20 14:17:50 by jweber            #+#    #+#             */
+/*   Updated: 2025/08/20 14:21:04 by jweber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTING_H
-# define PRINTING_H
+#include "ft_vectors.h"
+#include "expand.h"
+#include <stdio.h>
 
-# include "minishell.h"
+void	print_word(t_vector vec)
+{
+	size_t	i;
+	size_t	j;
 
-void	print_error(int err_code);
-void	print_path(t_minishell *p_mini);
-void	print_env(t_minishell *p_mini);
-void	print_tokens_ast(t_ast *ast);
-void	print_tokens(t_vector tokens);
-void	print_redir(t_vector redir_vec);
-void	print_word(t_vector vec);
-int		ft_perror(char *begin, char *file, char *function, char *line);
-
-#endif
+	i = 0;
+	while (i < vec.size)
+	{
+		j = 0;
+		while (j < ((t_vector *)vec.data)[i].size)
+		{
+			printf("%s, ",
+				((t_exp *)((t_vector *)vec.data)[i].data)[j].content);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}

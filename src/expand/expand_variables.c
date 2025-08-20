@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 13:02:57 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:37:59 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:14:19 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 static int	expand_here(t_vector splitted, size_t vec_ind,
 				size_t *p_ind, t_minishell mini);
 
+/*	expand_here -> OK
+*/
 int	expand_variables(t_vector splitted, t_minishell mini)
 {
 	int		ret;
@@ -64,6 +66,10 @@ static t_env	*get_env(char *str, size_t ind, int len_key, t_minishell mini)
 	return (lst_i->content);
 }
 
+/*	remove_last -> OK
+	replace_err_code -> OK
+	replace_key_value -> OK
+*/
 static int	expand_here(t_vector splitted, size_t vec_ind,
 				size_t *p_ind, t_minishell mini)
 {

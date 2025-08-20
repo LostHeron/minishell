@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:53:34 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/04 19:44:07 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:26:08 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,18 @@ static int	expand_everything(t_vector *p_args,
 				t_vector copy, t_minishell mini);
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini);
 
-/* ft_vector_init fail : TO DO ;
- * expand_everything fail : TO DO ;
- * ft_vector_add_single : TO DO ;
+/* ft_vector_init -> OK
+ * expand_everything -> OK
+ * ft_vector_add_single -> OK
 */
 int	expand(t_vector *p_args, t_minishell mini)
 {
 	int			ret;
 	t_vector	copy;
 	char		*null;
-	//static int a;
 
-	//printf("a = %i\n", a);
-	//a++;
 	ft_vector_copy(&copy, p_args);
 	ft_bzero(p_args, sizeof(t_vector));
-	/*
-	ret = ERROR_MALLOC;
-	if (a < 3)
-	*/
 	ret = ft_vector_init(p_args, copy.capacity, copy.data_size, copy.del);
 	if (ret != 0)
 	{
@@ -54,6 +47,10 @@ int	expand(t_vector *p_args, t_minishell mini)
 	return (ft_vector_add_single(p_args, &null));
 }
 
+/*	expand_variables -> OK
+	word_split -> OK
+	expand_wildcard -> OK
+*/
 int	expand_all(t_vector *p_splitted, t_minishell mini)
 {
 	int	ret;
@@ -67,6 +64,8 @@ int	expand_all(t_vector *p_splitted, t_minishell mini)
 	return (expand_wildcard(p_splitted));
 }
 
+/*	expand_elem -> OK
+*/
 static int	expand_everything(t_vector *p_args, t_vector copy, t_minishell mini)
 {
 	int		ret;
@@ -85,7 +84,10 @@ static int	expand_everything(t_vector *p_args, t_vector copy, t_minishell mini)
 	return (0);
 }
 
-/* ft_vector_init fail : OK !*/
+/*	ft_vector_init -> OK
+	expand_all-> OK
+	rebuild_elem -> OK
+*/
 static int	expand_elem(t_vector *dest, char *src, t_minishell mini)
 {
 	int			ret;

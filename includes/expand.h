@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 13:30:21 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:41:45 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 17:26:51 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		expand_variables(t_vector splitted, t_minishell mini);
 int		word_split(t_vector *p_splitted);
 int		fill_word(t_vector *p_word, t_vector copy,
 			size_t *p_vec_ind, size_t *p_ind);
+int		duplicate_splitted(t_vector *p_dest, t_vector src);
 int		expand_wildcard(t_vector *p_splitted);
 int		replace_key_value(t_exp *p_exp_part,
 			size_t *p_ind, size_t len_key, t_env *p_env);

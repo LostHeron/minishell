@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:24:05 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:55:39 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:25:33 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@
 static int	expand_filename(t_vector *p_redir, size_t ind,
 				char *src, t_minishell mini);
 
+/*	expand_filename -> OK
+*/
 int	expand_redir(t_vector *p_redir, t_minishell mini)
 {
 	int		ret;
 	size_t	i;
 
 	i = 0;
-	ret = 0;
 	while (i < p_redir->size)
 	{
 		if (((t_dirargs *)p_redir->data)[i].dir != HEREDOC)
@@ -40,12 +41,19 @@ int	expand_redir(t_vector *p_redir, t_minishell mini)
 	return (0);
 }
 
+/*	ft_vector_init fail -> OK 
+	split_elem -> OK
+	expand_all -> OK
+	rebuild_filename -> OK
+*/
 static int	expand_filename(t_vector *dest, size_t ind,
 	char *src, t_minishell mini)
 {
 	int			ret;
 	t_vector	splitted;
+	static int	a;
 
+	a++;
 	ret = ft_vector_init(&splitted, 5, sizeof(t_exp), free_exp);
 	if (ret != 0)
 		return (ret);

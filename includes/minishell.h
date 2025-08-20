@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/18 09:50:35 by jweber           ###   ########.fr       */
+/*   Updated: 2025/08/19 20:06:22 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,13 @@ enum e_error_cod
 	ERROR_DUP2 = -7,
 	ERROR_FORK = -8,
 	ERROR_STAT = -9,
+	ERROR_READDIR = -10,
+	ERROR_CLOSEDIR = -11,
 	ERROR_PIPE = 4,
 	ERROR_HERE_DOC_FILENAME,
 	ERROR_UNLINK,
 	ERROR_OPEN,
+	ERROR_OPENDIR,
 	ERROR_UNCLOSED_S_QUOTES,
 	ERROR_UNCLOSED_D_QUOTES,
 	ERROR_UNMATCHING_PARENTHESIS,

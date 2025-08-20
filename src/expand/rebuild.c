@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 14:06:07 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:23:11 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:25:53 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 int	rebuild_exp(t_vector *dest, t_vector splitted, size_t ind);
 
+/*	rebuild_exp -> OK
+*/
 int	rebuild_elem(t_vector *dest, t_vector splitted)
 {
 	int		ret;
@@ -35,6 +37,9 @@ int	rebuild_elem(t_vector *dest, t_vector splitted)
 	return (0);
 }
 
+/*	ft_strjoin_free_first -> OK
+	ft_vector_add_single -> OK
+*/
 int	rebuild_exp(t_vector *dest, t_vector splitted, size_t ind)
 {
 	int		ret;
@@ -57,6 +62,8 @@ int	rebuild_exp(t_vector *dest, t_vector splitted, size_t ind)
 	return (ret);
 }
 
+/*	ft_strjoin_free_first -> OK
+*/
 int	rebuild_filename(t_vector *dest, size_t ind, t_vector splitted)
 {
 	char	*new_name;

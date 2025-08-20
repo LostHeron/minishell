@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 13:00:35 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:41:35 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:15:11 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 static int	match_and_link(t_vector *p_names, t_vector pattern, char *name);
 static int	get_next_dir(DIR *dir, struct dirent **elem);
 
+/*	ft_vector_init -> OK
+	opendir -> OK
+	get_next_dir -> OK
+	match_and_link -> OK
+*/
 int	find_match(t_vector *p_names, t_vector pattern)
 {
 	int				ret;
@@ -39,7 +44,7 @@ int	find_match(t_vector *p_names, t_vector pattern)
 	if (dir == NULL)
 	{
 		perror("opendir");
-		return (1);
+		return (ERROR_OPENDIR);
 	}
 	ret = get_next_dir(dir, &elem);
 	while (ret == 0 && elem != NULL)
@@ -50,10 +55,15 @@ int	find_match(t_vector *p_names, t_vector pattern)
 		ret = get_next_dir(dir, &elem);
 	}
 	if (closedir(dir) == -1)
+	{
 		perror("closedir");
+		return (ERROR_CLOSEDIR);
+	}
 	return (ret);
 }
 
+/* readdir -> OK
+*/
 static int	get_next_dir(DIR *dir, struct dirent **elem)
 {
 	errno = 0;
@@ -61,11 +71,15 @@ static int	get_next_dir(DIR *dir, struct dirent **elem)
 	if (errno != 0)
 	{
 		perror("readdir");
-		return (1);
+		return (ERROR_READDIR);
 	}
 	return (0);
 }
 
+/*	matching -> OK
+	ft_strdup -> OK
+	ft_vector_add_single -> OK
+*/
 static int	match_and_link(t_vector *p_names, t_vector pattern, char *name)
 {
 	int		ret;

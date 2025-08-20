@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:59:18 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:57:41 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:16:40 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ static int	fill_content(t_exp *p_exp_part, char *src,
 				size_t *p_ind, char *charset);
 static int	is_charset(char c, char *set);
 
-/* fill_exp fail OK ! */
-/* ft_vector_add_single fail OK ! */
+/*	fill_exp -> OK
+	ft_vector_add_single -> OK
+*/
 int	split_elem(t_vector *splitted, char *src)
 {
 	int		ret;
@@ -47,7 +48,8 @@ int	split_elem(t_vector *splitted, char *src)
 	return (0);
 }
 
-/* fill_content OK ! */
+/* fill_content -> OK
+*/
 static int	fill_exp(t_exp *p_exp_part, char *src, size_t *p_ind)
 {
 	int	ret;
@@ -76,7 +78,8 @@ static int	fill_exp(t_exp *p_exp_part, char *src, size_t *p_ind)
 	return (ret);
 }
 
-/* ft_strndup fail : OK ! */
+/* ft_strndup -> OK
+*/
 static int	fill_content(t_exp *p_exp_part, char *src,
 	size_t *p_ind, char *charset)
 {

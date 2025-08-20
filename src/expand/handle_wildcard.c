@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:14:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/05 18:56:19 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:14:52 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "expand.h"
 #include "ft_vectors.h"
 #include "ft_string.h"
+#include "ft_memory.h"
 
 static int	init_replace(t_vector *p_splitted,
 				t_vector *p_copy, size_t vec_ind);
@@ -23,6 +24,10 @@ static int	replace_wildcard(t_vector *p_splitted,
 				t_vector names, size_t *p_vec_ind);
 static int	end_replace(t_vector *p_splitted, t_vector copy, size_t vec_ind);
 
+/*	init_replace -> OK
+	replace_wildcard -> OK
+	end_replace -> OK
+*/
 int	handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names)
 {
 	int			ret;
@@ -47,6 +52,11 @@ int	handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names)
 	return (ret);
 }
 
+/*	while loop used when smthg like
+	echo $var"name"* where var="hey how are file"
+	ft_vector_init -> OK
+	duplicate_splitted -> OK
+*/
 static int	init_replace(t_vector *p_splitted,
 	t_vector *p_copy, size_t vec_ind)
 {
@@ -54,13 +64,14 @@ static int	init_replace(t_vector *p_splitted,
 	size_t	i;
 
 	ft_vector_copy(p_copy, p_splitted);
+	ft_bzero(p_splitted, sizeof(t_vector));
 	ret = ft_vector_init(p_splitted, 5, p_copy->data_size, p_copy->del);
 	if (ret != 0)
 		return (ret);
 	i = 0;
 	while (i < vec_ind)
 	{
-		ret = ft_vector_add_single(p_splitted, &((t_vector *)p_copy->data)[i]);
+		ret = duplicate_splitted(p_splitted, ((t_vector *)p_copy->data)[i]);
 		if (ret != 0)
 			return (ret);
 		i++;
@@ -68,6 +79,11 @@ static int	init_replace(t_vector *p_splitted,
 	return (0);
 }
 
+/*	ft_vector_init -> OK
+	ft_strdup -> OK
+	ft_vector_add_single -> OK
+	ft_vector_add_single -> OK
+*/
 static int	add_name(t_vector *p_splitted, t_vector names, size_t name_ind)
 {
 	int			ret;
@@ -96,6 +112,8 @@ static int	add_name(t_vector *p_splitted, t_vector names, size_t name_ind)
 	return (ret);
 }
 
+/*	add_name -> OK
+*/
 static int	replace_wildcard(t_vector *p_splitted,
 	t_vector names, size_t *p_vec_ind)
 {
@@ -114,14 +132,15 @@ static int	replace_wildcard(t_vector *p_splitted,
 	return (0);
 }
 
+/*	duplicate_splitted -> OK
+*/
 static int	end_replace(t_vector *p_splitted, t_vector copy, size_t vec_ind)
 {
 	int	ret;
 
 	while (vec_ind < copy.size)
 	{
-		ret = ft_vector_add_single(p_splitted,
-				&((t_vector *)copy.data)[vec_ind]);
+		ret = duplicate_splitted(p_splitted, ((t_vector *)copy.data)[vec_ind]);
 		if (ret != 0)
 			return (ret);
 		vec_ind++;

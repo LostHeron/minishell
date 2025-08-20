@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:41:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/18 13:17:36 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:15:56 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "ft_string.h"
 #include "ft_standard.h"
 
+/* malloc -> OK
+*/
 int	remove_last(t_exp *p_exp_part, size_t p_ind)
 {
 	char	*replace;
@@ -31,6 +33,8 @@ int	remove_last(t_exp *p_exp_part, size_t p_ind)
 	return (0);
 }
 
+/*	malloc -> OK
+*/
 int	replace_key_value(t_exp *p_exp_part, size_t *p_ind,
 	size_t len_key, t_env *p_env)
 {
@@ -58,6 +62,9 @@ int	replace_key_value(t_exp *p_exp_part, size_t *p_ind,
 	return (0);
 }
 
+/*	ft_itoa -> OK
+	malloc -> OK
+*/
 int	replace_err_code(t_exp *p_exp_part, size_t *p_ind, t_minishell mini)
 {
 	char	*replace;
