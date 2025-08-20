@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jweber <jweber@student.42Lyon.fr>          +#+  +:+       +#+         #
+#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/08 16:22:40 by jweber            #+#    #+#              #
-#    Updated: 2025/08/20 14:21:13 by jweber           ###   ########.fr        #
+#    Updated: 2025/08/20 16:50:04 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -167,6 +167,7 @@ EXPAND_FILES := expand.c \
 				match_wildcard.c \
 				handle_wildcard.c \
 				matching.c \
+				duplicate_splitted.c \
 				rebuild.c \
 				free.c \
 

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 14:14:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/20 14:46:46 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 17:31:25 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	handle_wildcard(t_vector *p_splitted, size_t *p_vec_ind, t_vector names)
 	return (ret);
 }
 
-/*	while loop used when smthg like echo $var"lude"* where var="hey how are inc"
+/*	while loop used when smthg like
+	echo $var"name"* where var="hey how are file"
 	ft_vector_init -> OK
 	ft_vector_add_single ->*/
 static int	init_replace(t_vector *p_splitted,
@@ -56,9 +57,7 @@ static int	init_replace(t_vector *p_splitted,
 {
 	int		ret;
 	size_t	i;
-	static int a;
 
-	a++;
 	ft_vector_copy(p_copy, p_splitted);
 	ft_bzero(p_splitted, sizeof(t_vector));
 	ret = ft_vector_init(p_splitted, 5, p_copy->data_size, p_copy->del);
@@ -67,10 +66,7 @@ static int	init_replace(t_vector *p_splitted,
 	i = 0;
 	while (i < vec_ind)
 	{
-		if (a >= 3)
-			ret = ERROR_MALLOC;
-		else
-			ret = ft_vector_add_single(p_splitted, &((t_vector *)p_copy->data)[i]);
+		ret = duplicate_splitted(p_splitted, ((t_vector *)p_copy->data)[i]);
 		if (ret != 0)
 			return (ret);
 		i++;
