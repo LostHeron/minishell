@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:27:31 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/20 14:29:35 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:13:54 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 
 static int	expand_pattern(t_vector *p_splitted, size_t *p_vec_ind);
 
-/*	expand_pattern ->*/
+/*	expand_pattern -> OK
+*/
 int	expand_wildcard(t_vector *p_splitted)
 {
 	int		ret;
@@ -49,7 +50,8 @@ int	expand_wildcard(t_vector *p_splitted)
 	return (0);
 }
 
-/*	ft_vector_add_single -> OK */
+/*	ft_vector_add_single -> OK
+*/
 static int	fill_info(t_vector *p_pattern, t_vector word, size_t vec_ind)
 {
 	int		ret;
@@ -71,7 +73,8 @@ static int	fill_info(t_vector *p_pattern, t_vector word, size_t vec_ind)
 }
 
 /*	ft_vector_init -> OK
-	fill_info -> OK */
+	fill_info -> OK
+*/
 static int	get_pattern(t_vector *p_pattern, t_vector word)
 {
 	int		ret;
@@ -94,7 +97,8 @@ static int	get_pattern(t_vector *p_pattern, t_vector word)
 
 /*	get_pattern -> OK
 	find_match -> OK
-	handle_wildcard ->*/
+	handle_wildcard -> OK
+*/
 static int	expand_pattern(t_vector *p_splitted, size_t *p_vec_ind)
 {
 	int			ret;

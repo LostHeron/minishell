@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 19:09:17 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/19 18:49:35 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:16:49 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 static int	fill_splitted(t_vector *p_splitted, t_vector copy);
 
 /*	ft_vector_init -> OK
-	fill_splitted -> OK */
+	fill_splitted -> OK
+*/
 int	word_split(t_vector *p_splitted)
 {
 	int			ret;
@@ -39,7 +40,8 @@ int	word_split(t_vector *p_splitted)
 
 /*	ft_vector_init -> OK
 	fill_word -> OK
-	ft_vector_add_single -> OK*/
+	ft_vector_add_single -> OK
+*/
 static int	build_word(t_vector *p_splitted, t_vector copy,
 	size_t *p_vec_ind, size_t *p_ind)
 {
@@ -61,7 +63,8 @@ static int	build_word(t_vector *p_splitted, t_vector copy,
 	return (ret);
 }
 
-/*	build_word -> OK */
+/*	build_word -> OK
+*/
 static int	fill_splitted(t_vector *p_splitted, t_vector copy)
 {
 	int		ret;

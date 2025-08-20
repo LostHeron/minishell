@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 19:47:39 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/19 18:40:19 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:14:36 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	add_unquoted(t_vector *p_word, t_vector copy,
 static int	add_quoted(t_vector *p_word, t_exp elem);
 
 /*	add_unquoted -> OK
-	add_quoted -> OK */
+	add_quoted -> OK
+*/
 int	fill_word(t_vector *p_word, t_vector copy,
 	size_t *p_vec_ind, size_t *p_ind)
 {
@@ -67,7 +68,8 @@ static void	skip_charset(char *charset, t_vector elem,
 	}
 }
 
-/*	ft_strndup -> OK */
+/*	ft_strndup -> OK
+*/
 static int	fill_exp(t_exp *p_exp, char *content, size_t *p_ind)
 {
 	size_t	i;
@@ -86,7 +88,8 @@ static int	fill_exp(t_exp *p_exp, char *content, size_t *p_ind)
 }
 
 /*	fill_exp -> OK
-	ft_vector_add_single -> OK */
+	ft_vector_add_single -> OK
+*/
 static int	add_unquoted(t_vector *p_word, t_vector copy,
 	size_t *p_vec_ind, size_t *p_ind)
 {
@@ -106,7 +109,8 @@ static int	add_unquoted(t_vector *p_word, t_vector copy,
 }
 
 /*	ft_strndup -> OK
-	ft_vector_add_single -> OK */
+	ft_vector_add_single -> OK
+*/
 static int	add_quoted(t_vector *p_word, t_exp elem)
 {
 	int		ret;

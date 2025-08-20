@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:17:58 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/20 17:29:36 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 19:26:17 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 
 static int	duplicate_word(t_vector *p_word_dest, t_vector word_src);
 
+/*	ft_vector_init -> OK
+	duplicate_word -> OK
+	ft_vector_add_single -> OK
+*/
 int	duplicate_splitted(t_vector *p_dest, t_vector src)
 {
 	t_vector	word;
@@ -39,6 +43,9 @@ int	duplicate_splitted(t_vector *p_dest, t_vector src)
 	return (0);
 }
 
+/*	ft_strdup -> OK
+	ft_vector_add_single -> OK
+*/
 static int	duplicate_word(t_vector *p_word_dest, t_vector word_src)
 {
 	t_exp	exp;
