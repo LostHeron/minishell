@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 13:27:31 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/20 14:08:30 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 14:29:35 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ int	expand_wildcard(t_vector *p_splitted)
 		j = 0;
 		while (j < ((t_vector *)p_splitted->data)[i].size)
 		{
-			#include <stdio.h>
-			printf("vec_ind = %zu, content[%zu] = %s\n", i, j, ((t_exp *)((t_vector *)
-					p_splitted->data)[i].data)[j].content);
 			if (((t_exp *)((t_vector *)
 					p_splitted->data)[i].data)[j].quote == NONE
 				&& ft_strchr(((t_exp *)((t_vector *)

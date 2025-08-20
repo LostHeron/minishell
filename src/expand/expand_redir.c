@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:24:05 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/19 18:06:15 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/20 14:48:40 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	expand_redir(t_vector *p_redir, t_minishell mini)
 
 /*	ft_vector_init fail -> OK 
 	split_elem -> OK
-	expand_all -> OK
-	rebuild_filename -> OK*/
+	expand_all ->
+	rebuild_filename ->*/
 static int	expand_filename(t_vector *dest, size_t ind,
 	char *src, t_minishell mini)
 {
