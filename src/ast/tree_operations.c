@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:03:09 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/18 13:09:41 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/21 14:40:49 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "ast.h"
 #include "ft_string.h"
 #include "ft_vectors.h"
-#include "minishell.h"
 
 int			fill_redir(t_vector *p_dir_args, t_vector tokens,
 				size_t *ind, t_dir dir);
