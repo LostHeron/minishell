@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 17:39:55 by jweber            #+#    #+#             */
-/*   Updated: 2025/08/19 20:06:22 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/21 14:14:45 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ enum e_error_cod
 	ERROR_HERE_DOC_FILENAME,
 	ERROR_UNLINK,
 	ERROR_OPEN,
-	ERROR_OPENDIR,
 	ERROR_UNCLOSED_S_QUOTES,
 	ERROR_UNCLOSED_D_QUOTES,
 	ERROR_UNMATCHING_PARENTHESIS,

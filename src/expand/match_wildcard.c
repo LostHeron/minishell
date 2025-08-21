@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 13:00:35 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/20 19:15:11 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/21 14:20:34 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ int	find_match(t_vector *p_names, t_vector pattern)
 		return (ret);
 	dir = opendir(".");
 	if (dir == NULL)
-	{
-		perror("opendir");
-		return (ERROR_OPENDIR);
-	}
+		return (0);
 	ret = get_next_dir(dir, &elem);
 	while (ret == 0 && elem != NULL)
 	{
@@ -57,7 +54,7 @@ int	find_match(t_vector *p_names, t_vector pattern)
 	if (closedir(dir) == -1)
 	{
 		perror("closedir");
-		return (ERROR_CLOSEDIR);
+		return (ret + (ret == 0) * ERROR_CLOSEDIR);
 	}
 	return (ret);
 }
