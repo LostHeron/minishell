@@ -6,7 +6,7 @@
 #    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/08 16:22:40 by jweber            #+#    #+#              #
-#    Updated: 2025/08/20 16:50:04 by cviel            ###   ########.fr        #
+#    Updated: 2025/08/21 14:36:18 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ PRINTING_FILES := print_error.c \
 				  print_env.c \
 				  print_path.c \
 				  print_tokens.c \
+				  print_tree_utils.c \
+			 	  print_tree.c \
 				  print_redir.c \
 				  print_tokens_ast.c \
 				  print_words.c \
@@ -78,8 +80,6 @@ AST_FILES := tree_operations.c \
 			 free_everything.c \
 			 tree_utils.c \
 			 create_ast.c \
-			 print_utils.c \
-			 print_tree.c \
 
 INIT_DIR := src/init/
 INIT_FILES := init_minishell.c \

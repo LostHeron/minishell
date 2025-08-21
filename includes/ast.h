@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:46:41 by cviel             #+#    #+#             */
-/*   Updated: 2025/08/07 17:49:19 by cviel            ###   ########.fr       */
+/*   Updated: 2025/08/21 14:35:21 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,5 @@ int		create_subshell(t_subargs *p_sub_args, t_vector tokens, size_t *ind);
 int		create_operator(t_ast **p_root, t_type type,
 			t_vector tokens, size_t *ind);
 t_ast	*create_ast(t_vector tokens, t_prio max_prio, size_t *ind);
-char	*print_type(t_type type);
-char	*print_redir_in_out(t_dir dir);
-void	print_tree(t_ast *root, size_t depth);
 
 #endif
